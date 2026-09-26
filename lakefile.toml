@@ -1,0 +1,37 @@
+name = "sphere-topology"
+version = "0.1.0"
+defaultTargets = ["SphereTopology", "SphereTopologyTest"]
+
+[[lean_lib]]
+name = "SphereTopology"
+
+[[lean_lib]]
+name = "SphereTopologyTest"
+roots = [
+  "SphereTopologyTest.AugmentationSimp",
+  "SphereTopologyTest.Axioms",
+  "SphereTopologyTest.Circle",
+  "SphereTopologyTest.CircleModuleAxioms",
+  "SphereTopologyTest.Clients",
+  "SphereTopologyTest.HairyBallSphere2",
+  "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
+  "SphereTopologyTest.HairyBallSphere2Root",
+  "SphereTopologyTest.MayerVietoris",
+  "SphereTopologyTest.PublicAPIClient",
+  "SphereTopologyTest.Reduced",
+  "SphereTopologyTest.ReducedAxioms",
+  "SphereTopologyTest.ReducedMayerVietoris",
+  "SphereTopologyTest.ReducedMayerVietorisModuleAxioms",
+  "SphereTopologyTest.ReducedModuleAxioms",
+  "SphereTopologyTest.SmallChains",
+  "SphereTopologyTest.Sphere",
+  "SphereTopologyTest.SphereAntipodal",
+  "SphereTopologyTest.SphereAntipodalModuleAxioms",
+  "SphereTopologyTest.SphereAntipodalRoot",
+  "SphereTopologyTest.SphereModuleAxioms"
+]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "83abb3e776bdefcbc447a1e44d0debe4010039e5"

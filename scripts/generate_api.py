@@ -1,0 +1,275 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Authors: Formal Frontier Agents
+"""Generate this library's Markdown API from pinned native doc-gen4 records.
+
+Adapted by Prism from Anchor's algebraic-direct-limits adapter at
+bbdcf43d28dd92312484adba53fe20b5b35a2f75. See docs/CREDITS.md.
+This is a deliberately fixed-library adapter, not a general documentation
+certifier, a Lean parser, or a proof check. Native generation receipts remain
+separate review evidence. See docs/README.md for the reproduction contract.
+"""
+import argparse
+import hashlib
+from html.parser import HTMLParser
+import json
+from pathlib import Path
+import re
+import subprocess
+
+TOOL = "97d4ecdfc8e09e7f511724c25e303d448de6a3db"
+MODULE_PATHS = {
+    "SphereTopology": "SphereTopology.lean",
+    **{"SphereTopology.Homology.Singular." + name:
+       "SphereTopology/Homology/Singular/" + name + ".lean"
+       for name in ("Circle", "MayerVietoris", "Reduced", "ReducedMayerVietoris",
+                    "SmallChains", "Sphere", "SphereAntipodal", "Subdivision")},
+    **{"SphereTopology.Homotopy." + name: "SphereTopology/Homotopy/" + name + ".lean"
+       for name in ("HairyBallSphere2", "TangentField")},
+    **{"SphereTopologyTest." + name: "SphereTopologyTest/" + name + ".lean"
+       for name in ("AugmentationSimp", "Axioms", "Circle", "CircleModuleAxioms",
+                    "Clients", "HairyBallSphere2", "HairyBallSphere2ModuleAxioms",
+                    "HairyBallSphere2Root", "MayerVietoris", "PublicAPIClient", "Reduced",
+                    "ReducedAxioms", "ReducedMayerVietoris", "ReducedMayerVietorisModuleAxioms",
+                    "ReducedModuleAxioms", "SmallChains", "Sphere", "SphereAntipodal",
+                    "SphereAntipodalModuleAxioms", "SphereAntipodalRoot", "SphereModuleAxioms")},
+}
+MODULES = tuple(MODULE_PATHS)
+INPUTS = tuple(MODULE_PATHS.values()) + (
+    "lean-toolchain", "lakefile.toml", "lake-manifest.json")
+HERE = Path(__file__).resolve().parent
+EXPECTED = json.loads((HERE / "api_inventory.json").read_bytes())
+NOTES = json.loads((HERE / "api_notes.json").read_bytes())
+SOURCE_PREFIX = "source-snapshot:"
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def source_site(info, revision, path, sources):
+    """Validate the actual native source-snapshot identifier, not a remote URL."""
+    line_count = len(sources[path].splitlines())
+    require(type(info["line"]) is int and 0 < info["line"] <= line_count,
+            "invalid native source line")
+    expected = SOURCE_PREFIX + revision + "/" + path
+    require(info["sourceLink"] == expected, "native source-snapshot identifier differs")
+    require(info["line"] == EXPECTED[info["name"]]["line"], "native source line differs")
+
+
+def manifest_source_binding(manifest, revision, sources):
+    """Reproduction without development ancestry; metadata is not an attestation."""
+    require(type(manifest.get("format")) is int and manifest["format"] == 1
+            and manifest.get("docgen_revision") == TOOL,
+            "unsupported provenance manifest")
+    require(manifest.get("analyzed_source_revision") == revision and
+            manifest.get("modules") == list(MODULES) and
+            manifest.get("module_paths") == MODULE_PATHS and
+            manifest.get("native_source_prefix") == SOURCE_PREFIX,
+            "manifest source selection differs")
+    require(manifest.get("inputs") == {p: digest(sources[p]) for p in sorted(INPUTS)},
+            "source/pin drift from recorded manifest")
+
+
+def git_source_available(root, revision):
+    """Only a source-only tree or Git's explicit missing result permits fallback."""
+    marker = root / ".git"
+    if not marker.exists() and not marker.is_symlink():
+        return False
+    probe = subprocess.run(["git", "--no-replace-objects", "cat-file", "--batch-check"],
+                           input=(revision + "\n").encode(), cwd=root,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    require(probe.returncode == 0, "cannot inspect selected Git object; refusing fallback")
+    line = probe.stdout.decode().strip()
+    if line == revision + " missing":
+        return False
+    require(re.fullmatch(re.escape(revision) + r" commit [0-9]+", line) is not None,
+            "selected Git object is not a commit")
+    return True
+
+
+class Header(HTMLParser):
+    """Keep all visible text, including every implicit argument; discard markup."""
+
+    def __init__(self, value):
+        super().__init__(convert_charrefs=True)
+        self.stack = []
+        self.text = []
+        self.kinds = []
+        self.names = []
+        self.feed(value)
+        self.close()
+        require(not self.stack, "unclosed native header")
+
+    def handle_starttag(self, tag, attrs):
+        require(tag in {"div", "span", "a"}, "unexpected native header tag")
+        attrs = dict(attrs)
+        require(not any(k.startswith("on") for k in attrs), "active header attribute")
+        if tag == "div" and "decl_type" in attrs.get("class", "").split():
+            self.text.append(" ")
+        self.stack.append((tag, set(attrs.get("class", "").split())))
+
+    def handle_endtag(self, tag):
+        require(bool(self.stack) and self.stack[-1][0] == tag, "unbalanced native header")
+        self.stack.pop()
+
+    def handle_data(self, value):
+        require(bool(self.stack) or not value.strip(), "text outside native header")
+        self.text.append(value)
+        if any("decl_kind" in classes for _, classes in self.stack):
+            self.kinds.append(value)
+        if any("decl_name" in classes for _, classes in self.stack):
+            self.names.append(value)
+
+    def handle_comment(self, _):
+        raise ValueError("unexpected header comment")
+
+    def handle_decl(self, _):
+        raise ValueError("unexpected header declaration")
+
+    def rendered(self):
+        # Whitespace alone is normalized; all tokens and implicit binders remain.
+        return " ".join("".join(self.text).split())
+
+
+def render(records, revision, sources):
+    require(re.fullmatch(r"[0-9a-f]{40}", revision) is not None, "full source revision required")
+    require(set(records) == set(MODULES), "shipped module records differ")
+    require(set(sources) == set(INPUTS), "source/pin inventory differs")
+    require(len(EXPECTED) == 567 and len(NOTES) == 268 and set(NOTES) <= set(EXPECTED),
+            "bounded documentation inventory differs")
+    rows = []
+    found = {}
+    for module in MODULES:
+        record = records[module]
+        require(record["name"] == module, "native module name differs")
+        for row in record["declarations"]:
+            info = row["info"]
+            name, kind = info["name"], info["kind"]
+            require(name in EXPECTED and EXPECTED[name]["kind"] == kind
+                    and EXPECTED[name]["module"] == module, "unexpected public name/kind/module")
+            require(name not in found, "duplicate public declaration")
+            path = MODULE_PATHS[module]
+            source_site(info, revision, path, sources)
+            require(info["docLink"] == "./" + module.replace(".", "/") + ".html#" + name,
+                    "native self link differs")
+            header = Header(row["header"])
+            require("".join(header.names) == name
+                    and "".join(header.kinds) == EXPECTED[name]["display_kind"],
+                    "native header identity differs")
+            text = header.rendered()
+            require(digest(text.encode()) == EXPECTED[name]["header_sha256"],
+                    "native display signature differs, including implicit parameters")
+            require("```" not in text and "```" not in info["doc"], "unsupported Markdown fence")
+            require(bool(info["doc"].strip()) == (name not in NOTES),
+                    "native docstring presence differs from source inventory")
+            require(info["doc"] == EXPECTED[name]["native_doc"] and
+                    digest(info["doc"].encode()) == EXPECTED[name]["native_doc_sha256"],
+                    "native docstring content differs")
+            found[name] = EXPECTED[name]
+            rows.append(dict(name=name, kind=kind, header=text, module=module,
+                             doc=info["doc"].strip(), path=path, line=info["line"]))
+    require(found == EXPECTED, "missing public declaration")
+    rows.sort(key=lambda row: (MODULES.index(row["module"]), row["line"], row["name"]))
+    lines = ["# Generated API reference", "",
+             "This reference contains 567 native display sites in ten mathematical library leaves.",
+             "Import `SphereTopology` for the library; the 21 test/audit modules are separate.",
+             "All 32 shipped module records are retained, including 22 empty display records.",
+             "Private/generated proof declarations still require the separate complete audit.",
+             "Native display-site counts are not a complete kernel-declaration census.", "",
+             "Headers below are native doc-gen4 display signatures, not complete declarations",
+             "with proof bodies. All native visible tokens, including implicit parameters and",
+             "noncomputable/abbrev modifiers, are retained; whitespace alone is normalized.",
+             "Native pretty-printing uses each source namespace, notation and type inference;",
+             "consult the linked source for suppressed inferred types and universe conventions.",
+             "These displayed fragments are not promised to elaborate alone in a fresh namespace.",
+             "Source links are relative to this same checkout.", "",
+             "The source/pin hashes and generation provenance are in [api-manifest.json](api-manifest.json).",
+             "See [generation instructions](README.md) and the [library overview](../README.md).",
+             "Where no source docstring exists, a separately authored **API note** is labeled explicitly.", ""]
+    previous = None
+    for row in rows:
+        if row["module"] != previous:
+            previous = row["module"]
+            lines += ["## " + previous, "", "Scope: mathematical library leaf.", ""]
+        lines += ["### " + row["name"], "", "```lean", row["header"], "```", ""]
+        if row["doc"]:
+            lines += [row["doc"], ""]
+        else:
+            note = NOTES[row["name"]]
+            require(isinstance(note, str) and bool(note.strip()) and "```" not in note,
+                    "invalid authored API note")
+            lines += ["**API note (not a source docstring):** " + note, ""]
+        meta = EXPECTED[row["name"]]
+        if meta["generated_owner"]:
+            lines += ["Generated `" + meta["generated_attribute"] + "` declaration from `"
+                      + meta["generated_owner"] + "`; the source link locates its owner.", ""]
+        if meta["local_instance"]:
+            lines += ["Source registration: **local instance**, not a globally registered instance.", ""]
+        if row["name"] == "TopCat.isOpenCover_twoOpenCover":
+            lines += ["Formal boundary: the displayed theorem supplies the stated implication;"
+                      " the retained native prose above is not evidence of a separate converse.", ""]
+        lines += [f"[Source](../{row['path']}#L{row['line']}) (native source site: line {row['line']}).", ""]
+    markdown = "\n".join(lines).encode()
+    manifest = dict(format=1, generator="scripts/generate_api.py", docgen_revision=TOOL,
+                    analyzed_source_revision=revision, modules=list(MODULES),
+                    module_paths=MODULE_PATHS, native_source_prefix=SOURCE_PREFIX,
+                    library_display_sites=567, boundary_client_display_sites=0,
+                    existing_native_docs=299, authored_api_notes=268,
+                    explicitly_bound_generated_sites=43, named_local_instances=2,
+                    documentation_inputs={str(p.relative_to(HERE.parent)): digest(p.read_bytes())
+                        for p in (HERE / "generate_api.py", HERE / "api_inventory.json", HERE / "api_notes.json")},
+                    inputs={p: digest(sources[p]) for p in sorted(sources)},
+                    public_declarations=[r["name"] for r in rows],
+                    native_record_sha256={m: digest(json.dumps(records[m], sort_keys=True).encode())
+                                          for m in MODULES},
+                    api_sha256=digest(markdown), proof_certification=False)
+    return markdown, (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--native-data", type=Path, required=True,
+                   help="native fromDb output doc-data directory")
+    p.add_argument("--source-revision", required=True)
+    p.add_argument("--check", action="store_true", help="compare, never write")
+    args = p.parse_args()
+    require(re.fullmatch(r"[0-9a-f]{40}", args.source_revision) is not None,
+            "full source revision required")
+    root = Path(__file__).resolve().parent.parent
+    sources = {path: (root / path).read_bytes() for path in INPUTS}
+    # A public release has independent ancestry: its analyzed development commit
+    # need not be present. Prefer the exact Git object when available, otherwise
+    # require the already committed complete source/pin manifest. Neither branch
+    # attests that supplied JSON was genuinely produced by the native tool.
+    if git_source_available(root, args.source_revision):
+        for path, raw in sources.items():
+            old = subprocess.check_output(["git", "--no-replace-objects", "show",
+                                           args.source_revision + ":" + path], cwd=root)
+            require(old == raw, "source/pin drift from analyzed revision: " + path)
+        binding = "git-object"
+    else:
+        manifest = json.loads((root / "docs/api-manifest.json").read_bytes())
+        manifest_source_binding(manifest, args.source_revision, sources)
+        binding = "committed-source-hashes"
+    records = {m: json.loads((args.native_data / ("declaration-data-" + m + ".bmp")).read_bytes())
+               for m in MODULES}
+    api, manifest = render(records, args.source_revision, sources)
+    for name, raw in [("API.md", api), ("api-manifest.json", manifest)]:
+        target = root / "docs" / name
+        if args.check:
+            require(target.read_bytes() == raw, "generated file differs: " + name)
+        else:
+            target.write_bytes(raw)
+    print(json.dumps(dict(status="matched" if args.check else "generated",
+                          declarations=len(EXPECTED), api_sha256=digest(api),
+                          source_binding=binding, release_acceptance=False)))
+
+
+if __name__ == "__main__":
+    main()
