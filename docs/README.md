@@ -1,104 +1,93 @@
-# API reference and retained native provenance
+# API reference and historical native provenance
 
-[API.md](API.md) contains all 567 retained native display sites from this
-library's ten mathematical leaves. The root and 21 private test/audit modules
-have no public display sites but remain in the retained 32-module generation
-record. Five headers and shifted source links have been corrected by lightweight
-inspection of `f66621f5ff0d90bad849d4f7fcef3c7b96720d55`; this is not a new
-native generation. Import `SphereTopology` for the library; its root imports no tests.
-Read the [library overview](../README.md) for mathematics, conventions, clients,
-pins, resource expectations and the dated pre-acceptance authoring checkpoint.
+[API.md](API.md) displays 567 named sites from ten mathematical leaves:
+299 retained native docstrings and 268 separately labeled, AI-authored API
+notes. The production root and 21 test/audit modules have no public display
+sites but occur in the historical 32-module record. Import `SphereTopology`
+for the aggregate library; it imports no tests. The [overview](../README.md)
+explains the mathematics, client imports, limitations and pinned build.
 
-This is not a full raw/kernel declaration census. A complete actual transitive-
-axiom audit must include private declarations and reached dependencies. The
-ordinary successful build checks proofs; separate stored-proof replay is not a
-release prerequisite. An API display is neither an axiom audit nor a guarantee
-of global typeclass registration.
+An API display is not a complete generated, public/exported, private or kernel
+declaration census, a typeclass-registration promise, or an axiom audit. The
+previous accepted mathematical release had a successful build and complete
+transitive standard-axiom audit including private declarations. Separate
+stored-proof replay is not a release requirement.
 
-## What is preserved
+## Display and source contract
 
-The historical adapter retained all native visible header tokens, including implicit
-arguments and literal `noncomputable`/`abbrev` modifiers, normalizing whitespace
-only. Its exact module/name/kind, displayed-signature hash, native source line,
-native docstring bytes and source identifier remain in the original inventory.
-Current source inspection adds four `noncomputable` modifiers and removes the
-obsolete `[DecidableEq α]` binder from
-`Convexity.StdSimplex.exists_mem_support_of_mem_support_sum`. Those five headers
-are explicitly labeled. Source links target the current declaration lines;
-the separately labeled retained native line is historical. All other header
-tokens and all 299 native docstrings remain unchanged. Pretty-printing uses each source namespace, notation and type
-inference; displayed fragments are not promised to elaborate alone in a fresh
-namespace. Linked source is authoritative for suppressed inferred types.
+The historical native inventory retains original visible header tokens, kind,
+module, signature hash, native source line, exact native docstring bytes and
+source identifier. Of the 567 displays, **five** headers were subsequently
+corrected by source inspection: four definitions gained explicit
+`noncomputable`, and
+`Convexity.StdSimplex.exists_mem_support_of_mem_support_sum` lost the unused
+`[DecidableEq α]` binder. The remaining header tokens and all 299 original
+native docstrings are unchanged. Current source links point at the amended
+source; retained native-site annotations identify older lines. This is
+inspection, not a new native generation or a claim that historical raw records
+match the later source verbatim.
 
-There are 299 nonempty native docstrings. The other 268 entries have separate
-AI-assisted prose in `scripts/api_notes.json`, explicitly labeled **API note
-(not a source docstring)**. Missing native docs are not fabricated or filtered
-out. The inventory preserves native docs separately from the notes. Both
-source documentation and authored API prose require semantic review.
+Pretty-printing depends on source namespaces, notation and type inference;
+displayed fragments need not elaborate alone in a new namespace. Linked source
+is authoritative for omitted inferred types. The 268 notes reside in
+`scripts/api_notes.json` and are visibly labeled **API note (not a source
+docstring)**, never silently substituted for missing native documentation.
+Their authorship and the native mathematical expressions are distinct; see
+[CREDITS.md](CREDITS.md).
 
-The reference identifies 43 explicitly reconciled generated-owner relationships
-(41 `reassoc`, two `simps`). These are not a census of all generated declarations.
-The two named standard-simplex metric/convex-distance instances are locally
-registered in their source: their native `def`/`theorem` displays do not assert
-global instance registration. The `isOpenCover_twoOpenCover` native prose is
-retained while the API calls out the displayed implication's formal boundary.
-No theorem, proof, import, visibility, local option or simplifier attribute is
-changed by this documentation adapter.
+The adapter explicitly records **43** generated-owner relationships (41
+`reassoc`, two `simps`), not all generated declarations. Two named
+standard-simplex metric/convex-distance instances are **locally** registered;
+the native `def`/`theorem` displays do not imply global instance status.
+The `isOpenCover_twoOpenCover` prose is historically retained while the API
+explains its displayed formal implication boundary. This reference changes
+no theorem, proof, local option or simplifier registration.
 
-Only this project's own signatures, docstrings and new API notes are shipped.
-No third-party documentation website, assets, styles, fonts, JavaScript or
-interactive search are bundled. See [CREDITS.md](CREDITS.md).
+## Historical reproduction and limits
 
-## Optional historical native reproduction
+The original native generation used source
+`19926ec8e295231297edb086107c7b444fcabf80` and a separate doc-gen4
+checkout `97d4ecdfc8e09e7f511724c25e303d448de6a3db`, under Lean
+`v4.34.0-rc2`. `docs/api-manifest.json` retains **35** source/pin input hashes
+(32 Lean files and three pinned configuration files), **three** adapter,
+inventory and note input hashes, all **32** native-record hashes and the
+original native Markdown hash. Its distinct `source_inspection` binds the
+later `f66621f5ff0d90bad849d4f7fcef3c7b96720d55` source, five amended
+headers, 328 shifted links and current API SHA-256
+`fc758327c811e4c2b5c2e36f0115fdc5d089652037a0a52dfa510ffb84f62be0`.
+Neither manifest layer is silently rebound to this reader update.
 
-Use an unchanged, separate doc-gen4 checkout at
-`97d4ecdfc8e09e7f511724c25e303d448de6a3db`, its committed manifest and Lean
-`v4.34.0-rc2`. No fresh docgen build or generation is required for release.
-The existing generator and fixed inventory are retained as historical tooling,
-bound to analyzed source `19926ec8e295231297edb086107c7b444fcabf80` and the
-original documentation inputs in the manifest. They are not a current-source
-validator: running their strict `--check` on this manually corrected reference
-is not expected to reproduce it. Do not replace the source-inspected corrections
-with the older generated text.
+The historical generator's strict `--check` validates its matching *original*
+source/native inputs. It is **not** a current-page validator: the corrected
+current API is intentionally different. Reproducing that historical check
+requires access to the original source and corresponding native records;
+merely possessing official published history does not supply those inputs.
+Never overwrite source-inspected corrections with the older native output.
 
-For a deliberate future native refresh, use a separately built pinned doc-gen4,
-the library's actual pinned `lake env`, and its built modules. The native workflow
-is `single` per selected module, then `bibPrepass` and `fromDb`; the existing
-`scripts/generate_api.py --help` documents the adapter inputs. Such maintenance
-must distinguish newly generated records from retained records and renew any
-stale fixed inventory. Do not change mathematical pins to install docgen.
-Any mathlib-dependent build still requires successful matching-cache acquisition.
+For an intentional future native refresh, use a separate pinned doc-gen4,
+built repository modules in pinned `lake env` and the generator's documented
+`single`, `bibPrepass`, `fromDb` workflow; read
+`scripts/generate_api.py --help` for the adapter interface. Fetch the matching
+precompiled mathlib cache successfully before **any** mathlib-dependent build.
+Do not change mathematical pins simply to install doc-gen4. A refresh needs
+new input/record provenance rather than replacing original hashes in place.
 
-The actual native source identifiers are
-`source-snapshot:<full-40-character-commit>/<module-specific-path>`, without a
-line-range suffix. They are identifiers, not resolvable web URLs. The adapter
-requires exact equality, validates the separate native line against source
-bounds and inventory, and refuses invented GitHub ranges, paths or revisions.
-Shipped Markdown uses relative links into this checkout; it does not require
-an unpublished internal development object to exist on a public host.
+Native source identifiers have the exact form
+`source-snapshot:<40-character-commit>/<module-specific-path>` with no line
+range. They are identifiers, not resolvable public URLs. The adapter checks
+exact equality, source line bounds and inventory, and refuses invented paths,
+URLs, revisions or ranges. When the analyzed Git commit exists, source/pin
+payloads must equal its bytes. A source-only tree or Git's explicit `missing`
+result permits fallback to the shipped exact source/pin hashes and complete
+module/path/tool selection; damaged Git, a non-commit object or a conflicting
+source does **not** permit fallback. Current Markdown links are relative to
+this checkout, without requiring the older internal commit on a public host.
 
-## Provenance without development history
-
-`api-manifest.json` records the analyzed full source commit, exact 32-module/path
-selection, doc-gen revision, all 35 Lean/source-and-pin hashes, three adapter/
-inventory/note hashes, canonical hashes of all 32 native records and the Markdown
-hash for the historical native baseline. `source_inspection` separately records
-the actual source revision, five source-inspected header corrections, current
-relative links and the current Markdown hash. The original native hashes are
-not rewritten as though this inspection had generated new native records.
-Later documentation-only commits reuse an applicable build and axiom audit.
-
-When the source Git object exists, every source/pin payload must equal that
-commit's bytes. Independent public ancestry may omit this development object:
-only Git's explicit `missing` response or a source-only tree without `.git`
-permits fallback to the shipped manifest's exact source/pin hashes and full
-source/module/path/tool tuple. Broken Git, a damaged repository or a non-commit
-object refuses fallback. These historical generator checks do not certify the
-later source-inspected amendment.
-
-The data tests use synthetic header markup reconstructed from the shipped API
-and retained doc text. They test the adapter, not native record authenticity.
-Neither the manifest nor the adapter certifies axioms, copyright clearance,
-independent review or release acceptance. The present documentation update uses
-source inspection, not synthetic data as native evidence, and claims no new
-native run or proof audit.
+`scripts/test_generate_api.py` reconstructs synthetic headers from the shipped
+API, verifying the exact five source amendments before restoring matching
+historical fixture headers. Native docstring bytes still come from the fixed
+inventory. These controls test bounded parser/inventory/refusal behavior;
+they are not native record authentication, native regeneration, Lean proof
+checking, independent review, copyright clearance or release acceptance.
+No third-party documentation site, book excerpt, asset, font, script or
+implementation is bundled in the reference.

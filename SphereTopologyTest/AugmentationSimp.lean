@@ -3,7 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Formal Frontier Agents
 -/
--- Contributors: Prism. New bounded simp compatibility clients; see issue 14.
+-- Contributor: Prism; bounded simp clients. See docs/CREDITS.md.
 module
 
 import SphereTopology.Homology.Singular.Subdivision

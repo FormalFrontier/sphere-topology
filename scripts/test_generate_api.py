@@ -2,7 +2,8 @@
 # Authors: Formal Frontier Agents
 """Data-only adapter controls, not native doc-gen, Lean or proof verification.
 
-Synthetic markup is reconstructed from the shipped display signatures. This
+Synthetic markup uses the shipped display signatures, restoring exactly five
+historical headers after verifying their current source-inspected forms. This
 tests the bounded parser/inventory/refusal contract, not whether native records
 are genuine; actual native generation and source binding are separate evidence.
 """
@@ -21,6 +22,32 @@ ROOT = Path(__file__).resolve().parent.parent
 REV = "a" * 40
 FIRST = "SphereTopology.Homology.Singular.Circle"
 SECOND = "SphereTopology.Homology.Singular.MayerVietoris"
+AMENDED_HEADERS = {
+    "Convexity.StdSimplex.subdivideSimplex":
+        "230cf8de085d574947da6e8eecb78f9b8f1fa3c508e6fddf6058ac71f1eb9872",
+    "Convexity.StdSimplex.homotopySimplex":
+        "39db32281cc5f75d390e7ffc2fcf95f86d781b92a6d17b8de11a064646106902",
+    "AlgebraicTopology.singularSubdivisionIterate":
+        "408e7aa73f3029d0379996b8b6b09b06d4d68bd69ab569aa8af949112e5c56c5",
+    "AlgebraicTopology.singularHomotopyIterate":
+        "ece9c77f31f68f103183d40dc83493f94eaa56551073b0b7a3094feb9021f0a2",
+    "Convexity.StdSimplex.exists_mem_support_of_mem_support_sum":
+        "236791556533e06fc6b9709f11ff5c6860cb700b79535af085f771796cf00075",
+}
+
+
+def historical_header(name, header):
+    api.require(api.digest(header.encode()) == AMENDED_HEADERS[name],
+                "unexpected amended header")
+    if name == "Convexity.StdSimplex.exists_mem_support_of_mem_support_sum":
+        api.require(header.count(" [Fintype β] ") == 1, "unexpected class position")
+        restored = header.replace(" [Fintype β] ", " [Fintype β] [DecidableEq α] ", 1)
+    else:
+        api.require(header.startswith("noncomputable def "), "unexpected modifier")
+        restored = header.removeprefix("noncomputable ")
+    api.require(api.digest(restored.encode()) == api.EXPECTED[name]["header_sha256"],
+                "historical header differs")
+    return restored
 
 
 def fixture():
@@ -33,8 +60,9 @@ def fixture():
     sources = {p: (ROOT / p).read_bytes() for p in api.INPUTS}
     for name, meta in api.EXPECTED.items():
         prefix = meta["display_kind"] + " " + name
-        api.require(headers[name].startswith(prefix), "fixture identity")
-        tail = headers[name][len(prefix):]
+        displayed = historical_header(name, headers[name]) if name in AMENDED_HEADERS else headers[name]
+        api.require(displayed.startswith(prefix), "fixture identity")
+        tail = displayed[len(prefix):]
         header = ('<div class="decl_header"><span class="decl_kind">'
                   + escape(meta["display_kind"]) + '</span> '
                   + '<span class="decl_name">' + escape(name) + '</span>'
@@ -54,6 +82,20 @@ def first(records):
 
 
 class Controls(unittest.TestCase):
+    def test_five_source_amendments_are_exact_and_unexpected_inputs_refused(self):
+        pairs = dict(re.findall(r"^### ([^\n]+)\n\n```lean\n([^\n]+)\n```",
+                                (ROOT / "docs/API.md").read_text(), re.M))
+        self.assertEqual(len(AMENDED_HEADERS), 5)
+        for name in AMENDED_HEADERS:
+            with self.subTest(name=name):
+                header = pairs[name]
+                restored = historical_header(name, header)
+                self.assertEqual(api.digest(restored.encode()), api.EXPECTED[name]["header_sha256"])
+                with self.assertRaisesRegex(ValueError, "unexpected amended header"):
+                    historical_header(name, restored)
+                with self.assertRaisesRegex(ValueError, "unexpected amended header"):
+                    historical_header(name, header + " [unexpected]")
+
     def test_complete_display_inventory(self):
         records, sources = fixture()
         raw, manifest = api.render(records, REV, sources)

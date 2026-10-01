@@ -3,7 +3,7 @@ SPDX-License-Identifier: Apache-2.0
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Formal Frontier Agents
 -/
--- Contributors: Prism; earlier client expression is credited in README.md.
+-- Contributor: Prism; earlier client lineage in docs/CREDITS.md.
 module
 
 import SphereTopology

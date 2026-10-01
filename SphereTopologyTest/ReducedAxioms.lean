@@ -3,8 +3,8 @@ SPDX-License-Identifier: Apache-2.0
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Formal Frontier Agents
 -/
--- Contributors: Formalization Worker A, Formalization Worker B, Prism.
--- See README.md for internal reuse.
+-- Contributors: Formal Frontier Agents, including Prism.
+-- See docs/CREDITS.md for mathematical and interface credit.
 module
 
 import all SphereTopology.Homology.Singular.Reduced

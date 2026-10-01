@@ -12,9 +12,7 @@ project:
     continuous orthogonal-field hairy-ball theorem.
   authors:
     - "Formal Frontier Agents"
-    - "Prism (AI agent; setup, source research coordination, integration, native interfaces, documentation, tests and metadata)"
-    - "formalization-worker-a (AI agent; six historical production Tasks, later release repairs and predecessor work identified below)"
-    - "formalization-worker-b (AI agent; four production Tasks and predecessor work identified below)"
+    - "Prism (AI agent; integration, native interfaces, documentation, tests and metadata)"
   responsible_maintainers:
     - "Prism (on behalf of the source-maintainer team)"
   license: "Apache-2.0"
@@ -36,32 +34,11 @@ sources:
       source adapter are separate statements, not consequences certified by
       this metadata. No full example, chapter or book coverage is claimed.
       Bibliographic authorship is distinct from Lean expression provenance.
-      The canonical private-project asset is library
-      s-a1e29c47d014454b97d2ecbaef6b4282/v001, 4,958,181 bytes, SHA-256
-      a04f53c9393b20672fab2a6818279b2f9996dbc7cf74735789ed13804b058845.
-      The author-hosted source was supplied for the private project library;
-      no explicit license or broader redistribution grant was established.
-      Pagination differs from the AMS print edition. The selection-time errata
-      URL returned HTTP 404; no errata original is included or claimed. No book
-      PDF, scan or quoted passage is shipped in this repository.
-  - title: "Hairy-ball theorem on the two-sphere: project proof exposition"
-    authors:
-      - "Formal Frontier Agents"
-    id: "FormalFrontier/source-weibel-k-book@21da829968a3fa4055df276db98f7611a4af36a6:expositions/hairy-ball-sphere2.md"
-    type: "project-proof-exposition"
-    relationship: "adapts"
-    author_endorsement: "n/a"
-    note: >-
-      Internal mathematical predecessor, not a claim to have invented the
-      classical theorem. It gives the normalization/cosine-sine homotopy and
-      integral homology obstruction, followed here through explicit small-chain,
-      Mayer-Vietoris, circle and two-sphere constructions. Original exposition
-      Task hive-request-9ed2ddb74e1b0fe15858420f010c884adbe3b1fc,
-      UID 39d11a4d-3d99-48ba-b877-2eaa0536e10d; repair Task
-      hive-request-ad8216181333e7ae601b6f1a6a87594c1ef3a71f,
-      UID 164a3e69-0683-4343-9334-dac00cea61f4. Source issue13/29784
-      records acceptance, retained in merge3a79ebc871dd81ac0b9526542a1244f3beafa518.
-      A reviewed Markdown proof is not itself a Lean or source-coverage verdict.
+      The private project library holds the reference asset, but no book PDF,
+      scan, figure or quoted passage is shipped here. No redistribution grant
+      for the book or endorsement by its author is asserted. Internal project
+      proof exposition is separately credited in docs/CREDITS.md, not represented
+      as a publicly accessible bibliographic source.
 
 related_formalizations:
   - id: "https://github.com/leanprover-community/mathlib4/tree/83abb3e776bdefcbc447a1e44d0debe4010039e5"
@@ -73,77 +50,23 @@ related_formalizations:
       category-theoretic kernels, stereographic projection and contractibility.
       Dependency implementation is not vendored; upstream authorship and notices
       remain upstream. The generated Lake manifest records the resolved graph,
-      not original dependency implementation. No GLG, stable-range, projective-
-      modules or other deliverable pin is declared by this repository.
-  - id: "FormalFrontier/sphere-topology@def7d11e8e1fc55fece64b1f24fb120ec54cf46d"
-    relationship: "adapts"
-    note: >-
-      Original universe-zero Mayer-Vietoris research, receipt31002, Task
-      hive-request-285c5fd62b9860cf532bfb98ea652bc03e848f7f,
-      UID 755016fa-bbd7-469e-993c-53d3e406cd4f. The production PR6
-      reconciliation reuses and generalizes this expression to arbitrary
-      universes; its proof text is not wholly new. The research predecessor
-      itself was unaccepted and is not substituted for production review.
-  - id: "FormalFrontier/sphere-topology@83f7535abc578a76a0dbfb3905d67c681a9588ae"
-    relationship: "adapts"
-    note: >-
-      Original reduced-homology research, receipt30943, Task
-      hive-request-8c6f5fc5cb9f76ccc19513449c73465b94d8449d,
-      UID ab7c870e-e374-4c43-9e0d-4e52cc1a3788. Production PR7
-      reconciles retained expression against accepted arbitrary-universe
-      Mayer-Vietoris. Credit includes both original and reconciliation work;
-      the original unaccepted branch does not become a separate accepted premise.
-  - id: "FormalFrontier/source-weibel-k-book:issue13/comment29883"
-    relationship: "other"
-    note: >-
-      Internal topology/API planning predecessor, Task
-      hive-request-16e9f178fd486b361a3e33d26d5a1f23ce63b23b,
-      UID efc3df49-a2ea-43e9-9ab6-04abcbe9d88b. The receipt retains
-      a scratch digest, but those scratch bytes were unavailable for this
-      metadata inspection; no byte-copy comparison or proof acceptance follows.
+      not original dependency implementation. Earlier project mathematical
+      expression, topology planning, and subsequent production reconciliations
+      are credited separately in docs/CREDITS.md; they are not extra dependency
+      pins or independently accepted reusable libraries.
 
 status:
   scope: >-
-    Historical authoring checkpoint dated 2026-09-26 19:10 UTC, before final
-    independent acceptance, at
-    f66621f5ff0d90bad849d4f7fcef3c7b96720d55, repairing the later build failure
-    of 0878090c2903928822d263dce8fa360bed3e5ce7, following modifier-only source
-    47c239ba164c05e63e9d4955887b4ef252fd1a79. It includes the earlier unaccepted
-    ordinary/documentation and metadata assembly on accepted development
-    mathematics at 850c2a1712660fe9d725dcd49b31a2e077eda517. No author input is
-    treated as an accepted dependency. The 0878090 build failed on three unused
-    simp arguments and a nonprogressing all-goals simplification with kernel
-    metavariables in the reduced swap proof. The five-line f66621f5 repair removes
-    those arguments and supplies existing cover proofs explicitly before focused
-    sign simplification. The ordinary pinned warning-fatal build passed on
-    2026-09-26 at 18:48:26 UTC, exit zero with 3029 jobs and no warning/error
-    lines. The complete standard-axiom audit passed for all 32 modules and
-    1083 logical declarations, including private/test declarations and their
-    reached dependencies: only propext, Classical.choice and Quot.sound occur.
-    Exact completed output covers 27 modules/1041 declarations; ordinary
-    Lean.collectAxioms covers the remaining five modules/42 declarations.
-    Evidence is sphere-topology@f413ddc3451439d9fc089f85a2537c2082d77230,
-    release-checks/f666-build-axioms/REPORT.md. Lightweight final inspection
-    and consolidated independent review were pending at this checkpoint. Existing
-    native documentation is reused with separately labeled source-inspected
-    header and line corrections; no new native generation is claimed or required.
-    There are ten mathematical leaves and an aggregate root, with twenty-one
-    SphereTopologyTest client/audit files. The principal summaries below cover
-    those ten mathematical subjects, not every public, private, generated,
-    helper or example declaration. Tests exercise empty and degenerate covers,
-    degree zero, arbitrary and lifted universes, transported intersection maps,
-    ordered-cover signs, fixed coordinates and direct/root hairy-ball imports.
-    The assembly's default targets are SphereTopology and SphereTopologyTest;
-    all twenty-one client/audit files are explicit test roots. The accepted base
-    had only the production default target. The earlier modifier-only source has
-    completed 32-module/1083-stored-body checking with seven controls; that result
-    does not certify changed successor artifacts. Separate stored-proof replay
-    is no longer a release prerequisite; the ordinary build checks proof terms.
-    The complete actual transitive-axiom audit covers private declarations
-    and permits only propext, Classical.choice and Quot.sound. No official release or source-coverage
-    decision is claimed. Pins remain Lean v4.34.0-rc2 and mathlib
-    83abb3e776bdefcbc447a1e44d0debe4010039e5, with the unchanged Lake manifest
-    SHA-256 c645fccec306d39db44e866e1bf8a6df7aa906fa39b516ac1626211e44249ea2.
+    Reusable integral singular homology and topology with the literal S2
+    continuous orthogonal-field zero theorem. Ten mathematical leaves, one
+    aggregate root and twenty-one test/audit roots share pinned Lean, mathlib
+    and the committed manifest. The previous independently agent-reviewed
+    release established the mathematical content under standard-axiom checks;
+    this field is not a new certification of later reader changes or a claim
+    of complete coverage of Weibel or any other source. The native API
+    reference retains explicitly labeled historical versus source-inspected
+    inputs. See README.md for exact interfaces and docs/CREDITS.md for
+    project expression origins and the distinct research predecessors.
   main_results:
     - declaration: "ContinuousMap.normalizeOfNoZero"
       file: "SphereTopology/Homotopy/TangentField.lean"
@@ -253,86 +176,29 @@ automation:
     - method: "agent"
       framework: "Hive-managed AI agents using Lean and Lake"
       tool_setup: >-
-        Prism established and coordinated the shared repository, source proof
-        route, integrations and this metadata. Initial setup is commit
-        1fc17c7d6a0833b135ebaad02bda21122b229bc0. The mathematical
-        implementation contributions below belong to the actual pooled worker
-        executions, not wholly to Prism. They used native mathlib/project APIs,
-        compiler feedback and Lean tactics. Research predecessors and planning
-        are credited separately above, including expression reused by PR6/PR7.
-        Prism's later ordinary-readiness work supplies native public imports,
-        private-named preserved examples, aggregate clients, two no_expose
-        decisions, one exposed generic theorem, the pre-simp augmentation
-        proposal and its ten regression clients. Prism then added sixty-nine
-        definition docstrings from the actual native definitions, not copied
-        source exposition. These API/convention decisions awaited fresh
-        complete-assembly review at this authoring checkpoint. Later worker-a contributions make
-        four recursion definitions explicitly noncomputable and supply bounded
-        proof/style repairs, including one unused class binder removal. These
-        changed sources passed the build and axiom checks above; pins remain unchanged.
-        Prism subsequently authored the three-path, five-line f66621f5 repair
-        of actual build diagnostics and the documentation update, not a new
-        native-generation or verified scientific result.
+        Formal Frontier AI agents developed and reviewed the mathematics using
+        pinned Lean/mathlib APIs, compiler feedback and Lean tactics. Distinct
+        pooled worker executions supplied mathematical leaves, clients and
+        subsequent noncomputable-modifier and proof/style repairs. Earlier
+        project exposition, topology planning, universe-zero Mayer-Vietoris
+        and reduced-homology research supplied distinct expression later
+        reconciled in production; these are not newly authored by Prism.
+        Prism coordinated integration and authored public native interfaces,
+        aggregate and compatibility clients, 69 definition docstrings,
+        268 separate API notes, metadata and the later build-diagnostic repair.
+        The documentation generator and test adapter adapt earlier project
+        work led by Anchor, not wholly new Prism expression. See
+        docs/CREDITS.md for contributor and source-origin mapping.
       prompting_notes: >-
-        Bounded assignments required native reusable interfaces, literal
-        geometric maps, exact universe/coefficient/sign hypotheses, boundary
-        clients, pinned reproduction and fresh independent candidate review.
-  contributions:
-    - artifact: "a87944c82a61204d9a75d42982adf208ac707611 (PR2: tangent-field homotopy)"
-      author: "formalization-worker-a"
-      task: "hive-request-83373b8f024deaf204e9dcdb7f59b0128d9d633d"
-      uid: "93e80f57-d0f7-41b9-a9c9-26d6e9521943"
-    - artifact: "b264a1af67286b2994856e2f7f4279d51fa3bb40 (PR4: subdivision and small chains)"
-      author: "formalization-worker-a"
-      task: "hive-request-088da1d0f13ac2b1de063395fa3cccca591063ae"
-      uid: "92961137-a60d-46d2-888a-ce6f39f139e0"
-    - artifact: "0cde77e84b857ba0e8fce5ddd9c42d0f1a13ca4d (PR5: small-chain bounding-chain repair)"
-      author: "formalization-worker-b"
-      task: "hive-request-54dad80088cdd83e472329033993f82425e1022d"
-      uid: "3cf82639-d896-4a43-bb96-434ac055ab27"
-    - artifact: "acc454826bda895f23826897dafc36e7d3958ddc (PR6: arbitrary-universe Mayer-Vietoris reconciliation)"
-      author: "formalization-worker-a"
-      task: "hive-request-dab629a6bb674f70f049d05651d744319b292498"
-      uid: "b6e6e332-c729-4e16-a3fb-69fc6db11620"
-    - artifact: "ec3462a79dd7be69c8372d2db7849bea14171438 (PR7: reduced-homology reconciliation)"
-      author: "formalization-worker-b"
-      task: "hive-request-92e7fe6262d80e1d3282cb97edecb887cb30564e"
-      uid: "d74c5fa3-0058-4f70-bb6d-8e2735f6454a"
-    - artifact: "d67c9375d5916b818453ad5617f16f4048f04b2e (PR9: reduced Mayer-Vietoris)"
-      author: "formalization-worker-a"
-      task: "hive-request-ab8796ba9f8d012d4d91bb3d09e183cef8eb1a74"
-      uid: "d8154601-e3ed-488e-9d2c-c4003dad5e59"
-    - artifact: "d07c3607d9a4a5686edfae0e58887c3866e179a0 (PR10: literal circle)"
-      author: "formalization-worker-a"
-      task: "hive-request-8853f4165360f6e99c094bf8a3fb0db73b99f33a"
-      uid: "b20d68b5-58fa-4cd4-921c-498f68dd4135"
-    - artifact: "f721342e224a1b44528e936eb38d415920648836 (PR11: literal two-sphere)"
-      author: "formalization-worker-b"
-      task: "hive-request-ea00a44d9bc9890d347761dcfc81c64f243f2fc3"
-      uid: "ca9bfdd2-d68c-4dc2-90de-c688f9c4ea16"
-    - artifact: "a6a4b75e668702003c9497471f80ace24192d05a (PR12: antipodal action and obstruction)"
-      author: "formalization-worker-a"
-      task: "hive-request-ebe368b2b0b2e7fc271db91d9a90e2f5b391a9ee"
-      uid: "18ca59c8-b9ee-4641-969d-ba7b263988de"
-    - artifact: "7f0cc9ae84633ef9480cd9a952c85709dfbdb806 (PR13: literal two-sphere hairy-ball endpoint)"
-      author: "formalization-worker-b"
-      task: "hive-request-9534d78526f5d8202f10cc18557e85e3d228d194"
-      uid: "1d7f3e31-6525-4bbe-8ec1-7c87ea1191ab"
-    - artifact: "47c239ba164c05e63e9d4955887b4ef252fd1a79 (four explicit noncomputable modifiers)"
-      author: "formalization-worker-a"
-      task: "hive-request-b1ef582e12614263e68cf1d230d8f72d72c445cb"
-      uid: "e3108e5b-bf55-4dcc-ac42-a7f9d23d9e58"
-    - artifact: "0878090c2903928822d263dce8fa360bed3e5ce7 (eight-path proof/style successor; subsequent build NONPASS)"
-      author: "formalization-worker-a"
-      task: "hive-request-b0cd676c347172b3e355daab0d3b6a8d17c60087"
-      uid: "325e4219-46cf-4839-b93d-c6162e4f15f2"
-    - artifact: "f66621f5ff0d90bad849d4f7fcef3c7b96720d55 (three-path repair; build and axioms passed, final review pending at authoring checkpoint)"
-      author: "Prism (persistent source maintainer, AI agent)"
+        Bounded assignments required reusable interfaces, literal geometric
+        maps, exact universe/coefficient/sign hypotheses, pinned reproduction
+        and independent review of the mathematical release.
   notes: >-
-    Code, proofs, documentation and this metadata are AI-agent contributions.
-    No human mathematical review, source-author endorsement or complete model,
-    runtime or spending measurement is asserted. AI generation does not establish
-    correctness, originality, copyright ownership or redistribution clearance.
+    Project code, proofs, documentation and metadata were authored by AI
+    agents. Historical mathematical release review was by other project
+    agents, not a human or the cited book author. AI authorship does not
+    establish correctness, ownership or redistribution rights; third-party
+    implementation and source assets are not redistributed here.
 
 fidelity:
   divergences: >-
@@ -359,42 +225,16 @@ fidelity:
     explicit positional or named-class applications in external clients.
 
 review:
-  status: "unchecked"
+  status: "agent-reviewed"
   notes: >-
-    The unchecked field records the historical authoring checkpoint
-    2026-09-26 19:10 UTC, not the status of later release decisions. This metadata
-    and final assembly awaited fresh independent review then; subsequent exact
-    review, protected-branch and publication records determine acceptance.
-    The 0878090 build NONPASS is preserved; f66621f5 passed the actual ordinary
-    build and complete current standard-axiom audit, but final independent
-    candidate review and release acceptance remain pending at metadata authoring.
-    Accepted development reviews are revision-specific. In particular PR13
-    review2587 approved 7f0cc9ae84633ef9480cd9a952c85709dfbdb806,
-    whose complete tree matches accepted main 850c2a1712660fe9d725dcd49b31a2e077eda517.
-    Reviewer worker-a Task hive-request-6c959887db530e477641f4270b790dac711dcdd7,
-    UID d9d12893-6a33-41e3-8859-7eeb3e08affc, reviewed the seven-file
-    hairy-ball delta and its one new theorem, with bounded build/client,
-    actual external-checker and axiom evidence. This is not a fresh whole-library
-    axiom census. PR12's aggregate checker
-    memory failure remains a nonresult; focused successes do not replace it.
-    Separate external stored-proof rechecking is not a current release gate.
-    PR15/PR17 ordinary-readiness changes and PR16 metadata are now
-    incorporated as explicitly unaccepted author inputs with rework risk, not
-    as approved premises. The canonical root LICENSE is present. Truthful
-    collective/SPDX headers in nine leaves, thirteen private regression modules
-    and eight command-only audit roots have a bounded independent convention
-    disposition (review d2730c0d5dc7d08c9c2d6db4e9feefda3e0ff79f;
-    owner d012926a39a2e3977c8e51293fe4ffcc04c7a28b). This does not turn literal
-    lint nonpasses into successes. The successful ordinary successor build,
-    native helper visibility and simp-phase/API compatibility remain part of
-    complete exact-candidate review. Proof-owner
-    b026b6ebcd05d2552222e1d57871998e1c65edc5 applies only to the earlier
-    modifier-only source and its bound artifacts; the original 673-prefix run
-    with zero controls remains incomplete. Imported declaration-lint success
-    is not a complete transitive-axiom audit.
-    Independent rights clearance must
-    cover final files, generated docs/assets and proposed public history.
-    Metadata license selection and schema validity certify none of these matters.
+    The earlier released mathematical content received independent project-agent
+    review of its exact candidate and owner acceptance, backed by an applicable
+    successful pinned build and complete private-inclusive transitive audit
+    allowing only propext, Classical.choice and Quot.sound. This describes
+    the released mathematics, not independent review of subsequent changes,
+    a human endorsement or a completed source-coverage decision. Original
+    mathematical expression and later interface/repair credits remain distinct
+    in docs/CREDITS.md.
 
 acknowledgements: >-
   The mathlib community supplies the underlying formal mathematics; its authorship
