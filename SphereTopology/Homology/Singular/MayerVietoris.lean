@@ -893,6 +893,71 @@ noncomputable def twoOpenMayerVietorisFromBiprod {X : TopCat.{u}}
   (twoOpenMiddleHomologyIso U V n).inv ≫
     twoOpenMayerVietorisToSpace U V hUV n
 
+private theorem twoOpenSmallShortComplex_g_comp_inclusion {X : TopCat.{u}}
+    (U V : Opens X) :
+    (twoOpenSmallShortComplex U V).g ≫
+        smallSingularChainInclusion (TopCat.twoOpenCover U V) =
+      twoOpenSumChainMap U V := by
+  let F := (SSet.chainComplexFunctor (ModuleCat.{u} ℤ)).obj
+    integerCoefficients.{u}
+  change (biprod.map
+      (F.map (TopCat.openSingularSetIso U).hom)
+      (F.map (TopCat.openSingularSetIso V).hom) ≫
+      biprod.desc
+        (F.map (SSet.Subcomplex.homOfLE
+          (le_sup_left : TopCat.openSingularSet U ≤
+            TopCat.openSingularSet U ⊔ TopCat.openSingularSet V)))
+        (F.map (SSet.Subcomplex.homOfLE
+          (le_sup_right : TopCat.openSingularSet V ≤
+            TopCat.openSingularSet U ⊔ TopCat.openSingularSet V))) ≫
+      F.map (SSet.Subcomplex.eqToIso
+        (TopCat.openSingularSet_sup U V)).hom) ≫
+      F.map (TopCat.smallSingularSet (TopCat.twoOpenCover U V)).ι =
+    twoOpenSumChainMap U V
+  apply biprod.hom_ext'
+  · simp only [Category.assoc, biprod.inl_map_assoc,
+      biprod.inl_desc_assoc, twoOpenSumChainMap]
+    erw [biprod.inl_desc]
+    change F.map (TopCat.openSingularSetIso U).hom ≫
+        F.map (SSet.Subcomplex.homOfLE le_sup_left) ≫
+        F.map (SSet.Subcomplex.eqToIso
+          (TopCat.openSingularSet_sup U V)).hom ≫
+        F.map (TopCat.smallSingularSet (TopCat.twoOpenCover U V)).ι =
+      F.map (TopCat.toSSet.map U.inclusion')
+    simp only [← Functor.map_comp]
+    congr 1
+  · simp only [Category.assoc, biprod.inr_map_assoc,
+      biprod.inr_desc_assoc, twoOpenSumChainMap]
+    erw [biprod.inr_desc]
+    change F.map (TopCat.openSingularSetIso V).hom ≫
+        F.map (SSet.Subcomplex.homOfLE le_sup_right) ≫
+        F.map (SSet.Subcomplex.eqToIso
+          (TopCat.openSingularSet_sup U V)).hom ≫
+        F.map (TopCat.smallSingularSet (TopCat.twoOpenCover U V)).ι =
+      F.map (TopCat.toSSet.map V.inclusion')
+    simp only [← Functor.map_comp]
+    congr 1
+
+/-- The displayed ordinary Mayer--Vietoris sum is induced by the two open
+inclusions, with a positive sign on each summand. -/
+theorem twoOpenMayerVietorisFromBiprod_eq {X : TopCat.{u}}
+    (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
+    twoOpenMayerVietorisFromBiprod U V hUV n =
+      biprod.desc
+        (HomologicalComplex.homologyMap (integralSingularChainMap U.inclusion') n)
+        (HomologicalComplex.homologyMap (integralSingularChainMap V.inclusion') n) := by
+  simp only [twoOpenMayerVietorisFromBiprod, twoOpenMayerVietorisToSpace,
+    twoOpenSpaceHomologyIso, smallSingularHomologyIso, isoOfQuasiIsoAt_hom]
+  erw [← HomologicalComplex.homologyMap_comp,
+    twoOpenSmallShortComplex_g_comp_inclusion]
+  let F := HomologicalComplex.homologyFunctor (ModuleCat.{u} ℤ)
+    (ComplexShape.down ℕ) n
+  have : PreservesBinaryBiproducts F :=
+    preservesBinaryBiproducts_of_preservesBiproducts F
+  exact biprod.mapBiprod_inv_map_desc F _ _
+    (integralSingularChainMap U.inclusion')
+    (integralSingularChainMap V.inclusion')
+
 @[reassoc]
 theorem twoOpenMayerVietorisδ_comp {X : TopCat.{u}} (U V : Opens X)
     (hUV : U ⊔ V = ⊤) (n : ℕ) :
@@ -912,6 +977,17 @@ theorem twoOpenMayerVietoris_comp_toSpace {X : TopCat.{u}} (U V : Opens X)
   rw [← Category.assoc, ← HomologicalComplex.homologyMap_comp,
     (twoOpenSmallShortComplex U V).zero,
     HomologicalComplex.homologyMap_zero, zero_comp]
+
+/-- The displayed ordinary difference is followed by zero under the
+Mayer--Vietoris sum. -/
+@[reassoc (attr := simp)]
+theorem twoOpenMayerVietorisFromIntersection_comp_fromBiprod {X : TopCat.{u}}
+    (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
+    twoOpenMayerVietorisFromIntersection U V n ≫
+      twoOpenMayerVietorisFromBiprod U V hUV n = 0 := by
+  simp only [twoOpenMayerVietorisFromIntersection,
+    twoOpenMayerVietorisFromBiprod, Category.assoc, Iso.hom_inv_id_assoc]
+  exact twoOpenMayerVietoris_comp_toSpace U V hUV n
 
 @[reassoc]
 theorem twoOpenMayerVietoris_toSpace_comp_δ {X : TopCat.{u}}

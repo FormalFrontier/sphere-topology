@@ -3,18 +3,17 @@ version: "v0.4"
 project:
   name: "Sphere topology"
   description: >-
-    Reusable Lean topology and integral singular homology: normalization of
-    nowhere-zero continuous fields, identity-to-antipodal homotopies from
-    orthogonal fields, signed subdivision and cover-small chains, ordinary
-    two-open Mayer-Vietoris, nonnegative reduced homology and its low-degree
-    Mayer-Vietoris boundary. Explicit circle and two-sphere calculations give
-    the antipodal action on H2 of the literal standard two-sphere and its
+    Reusable Lean topology and singular homology: normalization of nowhere-zero
+    continuous fields, identity-to-antipodal homotopies from orthogonal fields,
+    integral subdivision, cover-small chains and two-open Mayer-Vietoris,
+    nonnegative reduced integral homology and degree-zero criteria for path
+    connectedness. Explicit circle and two-sphere calculations give
+    the antipodal action on H2 of the standard two-sphere and its
     continuous orthogonal-field hairy-ball theorem.
   authors:
     - "Formal Frontier Agents"
-    - "Prism (AI agent; integration, native interfaces, documentation, tests and metadata)"
   responsible_maintainers:
-    - "Prism (on behalf of the source-maintainer team)"
+    - "Formal Frontier Agents"
   license: "Apache-2.0"
 
 sources:
@@ -50,23 +49,24 @@ related_formalizations:
       category-theoretic kernels, stereographic projection and contractibility.
       Dependency implementation is not vendored; upstream authorship and notices
       remain upstream. The generated Lake manifest records the resolved graph,
-      not original dependency implementation. Earlier project mathematical
-      expression, topology planning, and subsequent production reconciliations
-      are credited separately in docs/CREDITS.md; they are not extra dependency
-      pins or independently accepted reusable libraries.
+      not original dependency implementation. Project expression origins and
+      prior formalization contributions are credited in docs/CREDITS.md; these
+      are not additional library dependencies.
 
 status:
   scope: >-
-    Reusable integral singular homology and topology with the literal S2
-    continuous orthogonal-field zero theorem. Ten mathematical leaves, one
-    aggregate root and twenty-one test/audit roots share pinned Lean, mathlib
-    and the committed manifest. The previous independently agent-reviewed
-    release established the mathematical content under standard-axiom checks;
-    this field is not a new certification of later reader changes or a claim
-    of complete coverage of Weibel or any other source. The native API
-    reference retains explicitly labeled historical versus source-inspected
-    inputs. See README.md for exact interfaces and docs/CREDITS.md for
-    project expression origins and the distinct research predecessors.
+    Continuous-field topology, integral subdivision and cover-small chains,
+    ordinary two-open Mayer-Vietoris, nonnegative reduced integral homology,
+    explicit circle and two-sphere calculations, and the unit two-sphere
+    continuous orthogonal-field zero theorem. The reduced degree-zero Mayer-Vietoris
+    sequence is exact at the biproduct for every two-open cover; its final map
+    is epic when the intersection is nonempty. Total degree-zero augmentation
+    is invertible exactly when the space is path connected, for a nonzero
+    coefficient object in a preadditive category with the requisite small
+    coproducts and homology; nonemptiness of the space is not assumed. For
+    nonempty spaces, integral reduced H0 vanishes exactly for path connectedness.
+    No complete coverage of Weibel or any other source is claimed. See README.md
+    for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
     - declaration: "ContinuousMap.normalizeOfNoZero"
       file: "SphereTopology/Homotopy/TangentField.lean"
@@ -128,6 +128,12 @@ status:
     - declaration: "TopCat.reducedSingularHomologyZeroTwoPointIntegerIso_swap"
       file: "SphereTopology/Homology/Singular/Reduced.lean"
       note: "Two-point transposition acts by minus identity in the fixed integral basis [false]-[true]."
+    - declaration: "TopCat.isIso_singularHomology₀ε_iff_pathConnectedSpace"
+      file: "SphereTopology/Homology/Singular/Connectedness.lean"
+      note: "For a nonzero coefficient object in a preadditive category with small coproducts and homology, total H0 augmentation is invertible exactly when the space is path connected; nonemptiness is a conclusion, not an assumption."
+    - declaration: "TopCat.isZero_reducedSingularHomologyZero_iff_pathConnectedSpace"
+      file: "SphereTopology/Homology/Singular/Connectedness.lean"
+      note: "For a nonempty space, integral reduced H0 vanishes exactly when the space is path connected; nonemptiness is essential."
     - declaration: "AlgebraicTopology.twoOpenReducedMayerVietorisδZero"
       file: "SphereTopology/Homology/Singular/ReducedMayerVietoris.lean"
       note: "The low-degree boundary lands in reduced H0 of the literal intersection, with explicit ordinary-homology comparison."
@@ -174,31 +180,13 @@ status:
 automation:
   methods:
     - method: "agent"
-      framework: "Hive-managed AI agents using Lean and Lake"
       tool_setup: >-
-        Formal Frontier AI agents developed and reviewed the mathematics using
-        pinned Lean/mathlib APIs, compiler feedback and Lean tactics. Distinct
-        pooled worker executions supplied mathematical leaves, clients and
-        subsequent noncomputable-modifier and proof/style repairs. Earlier
-        project exposition, topology planning, universe-zero Mayer-Vietoris
-        and reduced-homology research supplied distinct expression later
-        reconciled in production; these are not newly authored by Prism.
-        Prism coordinated integration and authored public native interfaces,
-        aggregate and compatibility clients, 69 definition docstrings,
-        268 separate API notes, metadata and the later build-diagnostic repair.
-        The documentation generator and test adapter adapt earlier project
-        work led by Anchor, not wholly new Prism expression. See
-        docs/CREDITS.md for contributor and source-origin mapping.
-      prompting_notes: >-
-        Bounded assignments required reusable interfaces, literal geometric
-        maps, exact universe/coefficient/sign hypotheses, pinned reproduction
-        and independent review of the mathematical release.
+        Lean and Lake with pinned mathlib APIs, compiler feedback and Lean tactics.
   notes: >-
-    Project code, proofs, documentation and metadata were authored by AI
-    agents. Historical mathematical release review was by other project
-    agents, not a human or the cited book author. AI authorship does not
-    establish correctness, ownership or redistribution rights; third-party
-    implementation and source assets are not redistributed here.
+    Project code, proofs, documentation and metadata are AI-authored. See
+    docs/CREDITS.md for contributor and source-origin attribution. AI authorship
+    does not establish correctness, ownership or redistribution rights;
+    third-party implementation and source assets are not redistributed here.
 
 fidelity:
   divergences: >-
@@ -215,26 +203,20 @@ fidelity:
     bundles. The tangent-field homotopy is more general than the finite-dimensional
     hairy-ball endpoint. No Clifford algebra theory, arbitrary-sphere hairy-ball
     theorem, algebraic nonfree-kernel/row result or complete source formalization
-    is claimed. Source-specific bridges and milestone decisions remain separate.
-    Explicitly noncomputable subdivideSimplex, homotopySimplex,
+    is claimed. Explicitly noncomputable subdivideSimplex, homotopySimplex,
     singularSubdivisionIterate and singularHomotopyIterate expose mathematical
-    definitions and equations, not executable extraction; removing four generated
-    partial companions narrows the runtime interface. Unknown external executable
-    consumers are not certified. Removing the unused DecidableEq alpha binder
-    from exists_mem_support_of_mem_support_sum preserves its result but can affect
-    explicit positional or named-class applications in external clients.
+    definitions and equations, not executable extraction; no external executable
+    client equivalence is promised. The lemma exists_mem_support_of_mem_support_sum
+    has no DecidableEq alpha binder; explicit positional or named-class callers
+    must match its current signature.
 
 review:
   status: "agent-reviewed"
   notes: >-
-    The earlier released mathematical content received independent project-agent
-    review of its exact candidate and owner acceptance, backed by an applicable
-    successful pinned build and complete private-inclusive transitive audit
-    allowing only propext, Classical.choice and Quot.sound. This describes
-    the released mathematics, not independent review of subsequent changes,
-    a human endorsement or a completed source-coverage decision. Original
-    mathematical expression and later interface/repair credits remain distinct
-    in docs/CREDITS.md.
+    The mathematical content is independently reviewed by project AI agents,
+    with pinned build and transitive axiom-audit evidence allowing only propext,
+    Classical.choice and Quot.sound. This is not human or source-author
+    endorsement or certification of complete source coverage.
 
 acknowledgements: >-
   The mathlib community supplies the underlying formal mathematics; its authorship

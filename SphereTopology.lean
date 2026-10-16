@@ -11,6 +11,7 @@ public import SphereTopology.Homotopy.TangentField
 public import SphereTopology.Homology.Singular.SmallChains
 public import SphereTopology.Homology.Singular.MayerVietoris
 public import SphereTopology.Homology.Singular.Reduced
+public import SphereTopology.Homology.Singular.Connectedness
 public import SphereTopology.Homology.Singular.ReducedMayerVietoris
 public import SphereTopology.Homology.Singular.Circle
 public import SphereTopology.Homology.Singular.Sphere

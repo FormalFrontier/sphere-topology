@@ -13,6 +13,7 @@ roots = [
   "SphereTopologyTest.Circle",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
+  "SphereTopologyTest.Connectedness",
   "SphereTopologyTest.HairyBallSphere2",
   "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
   "SphereTopologyTest.HairyBallSphere2Root",

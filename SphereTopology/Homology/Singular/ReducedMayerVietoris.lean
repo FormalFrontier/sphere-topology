@@ -9,12 +9,30 @@ module
 public import SphereTopology.Homology.Singular.Reduced
 
 /-!
-# Reduced degree-zero Mayer--Vietoris for two open sets
+# Reduced Mayer--Vietoris in degrees one and zero for two open sets
 
-This file restricts the accepted integral two-open Mayer--Vietoris sequence to
+This file restricts the integral two-open Mayer--Vietoris sequence to
 the augmentation kernels in degree zero. The ordered convention remains
 `c ↦ (c,-c)`, so reversing the cover negates the connecting morphism after
-the sign-free swap of the literal intersection.
+the sign-free swap of the intersection.
+
+## Implementation notes
+
+Coefficients are integral, and degrees are nonnegative: reduced degree-zero
+homology is the augmentation kernel. The sum from the reduced homology of the
+opens to that of the ambient space is epic when the intersection is nonempty.
+Without that hypothesis, a disjoint cover by two nonempty opens can have zero
+reduced degree-zero homology on each open but nonzero reduced degree-zero
+homology on the ambient space. Exactness at the reduced biproduct does not
+require a nonempty intersection. These are two-open singular-homology statements,
+not statements about arbitrary coefficients or axiomatic homology theories.
+May's reduced theory is based-relative, uses compactly generated constructions,
+and displays diagonal/difference maps. Identifying it with this augmentation-kernel
+theory requires the corresponding basepoint, topology and sign comparisons.
+
+## References
+
+* J. P. May, *A concise course in algebraic topology*, Chapter 14, §§1 and 5.
 -/
 
 @[expose] public section
@@ -212,6 +230,335 @@ private theorem twoOpenReducedMayerVietorisFromIntersectionZero_ordinary
     simp only [Category.assoc]
     rw [twoOpenMayerVietorisFromIntersection_snd]
     simp only [Iso.hom_inv_id_assoc, Preadditive.comp_neg]
+
+/-- The sum on reduced degree-zero homology induced by the inclusions of
+`U` and `V` in the ambient space, with a positive sign on each summand. -/
+noncomputable def twoOpenReducedMayerVietorisFromBiprodZero
+    {X : TopCat.{u}} (U V : Opens X) :
+    TopCat.reducedSingularHomology ((Opens.toTopCat X).obj U) 0 ⊞
+        TopCat.reducedSingularHomology ((Opens.toTopCat X).obj V) 0 ⟶
+      TopCat.reducedSingularHomology X 0 :=
+  biprod.desc
+    (TopCat.reducedSingularHomologyMap U.inclusion' 0)
+    (TopCat.reducedSingularHomologyMap V.inclusion' 0)
+
+/-- The first component of the reduced sum is induced by the inclusion of `U`. -/
+@[reassoc (attr := simp)]
+theorem twoOpenReducedMayerVietorisFromBiprodZero_inl
+    {X : TopCat.{u}} (U V : Opens X) :
+    biprod.inl ≫ twoOpenReducedMayerVietorisFromBiprodZero U V =
+      TopCat.reducedSingularHomologyMap U.inclusion' 0 := by
+  exact biprod.inl_desc _ _
+
+/-- The second component of the reduced sum is induced by the inclusion of `V`,
+also with a positive sign. -/
+@[reassoc (attr := simp)]
+theorem twoOpenReducedMayerVietorisFromBiprodZero_inr
+    {X : TopCat.{u}} (U V : Opens X) :
+    biprod.inr ≫ twoOpenReducedMayerVietorisFromBiprodZero U V =
+      TopCat.reducedSingularHomologyMap V.inclusion' 0 := by
+  exact biprod.inr_desc _ _
+
+/-- The reduced sum agrees with the ordinary Mayer--Vietoris sum after the
+augmentation-kernel inclusions. -/
+@[reassoc]
+theorem twoOpenReducedMayerVietorisFromBiprodZero_ordinary
+    {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) :
+    twoOpenReducedMayerVietorisFromBiprodZero U V ≫
+        TopCat.reducedSingularHomologyZeroToOrdinary X =
+      biprod.map
+          (TopCat.reducedSingularHomologyZeroToOrdinary
+            ((Opens.toTopCat X).obj U))
+          (TopCat.reducedSingularHomologyZeroToOrdinary
+            ((Opens.toTopCat X).obj V)) ≫
+        twoOpenMayerVietorisFromBiprod U V hUV 0 := by
+  rw [twoOpenMayerVietorisFromBiprod_eq]
+  apply biprod.hom_ext'
+  · simpa only [twoOpenReducedMayerVietorisFromBiprodZero_inl_assoc,
+      biprod.inl_map_assoc, biprod.inl_desc] using
+        TopCat.reducedSingularHomologyZeroToOrdinary_naturality U.inclusion'
+  · simpa only [twoOpenReducedMayerVietorisFromBiprodZero_inr_assoc,
+      biprod.inr_map_assoc, biprod.inr_desc] using
+        TopCat.reducedSingularHomologyZeroToOrdinary_naturality V.inclusion'
+
+/-- Naturality of the reduced sum for a continuous map respecting the ordered
+pair of open subsets. Neither ordered pair needs to cover its ambient space. -/
+@[reassoc]
+theorem twoOpenReducedMayerVietorisFromBiprodZero_naturality
+    {X Y : TopCat.{u}} (f : X ⟶ Y)
+    (U V : Opens X) (U' V' : Opens Y)
+    (hU : Set.MapsTo f U U') (hV : Set.MapsTo f V V') :
+    twoOpenReducedMayerVietorisFromBiprodZero U V ≫
+        TopCat.reducedSingularHomologyMap f 0 =
+      biprod.map
+          (TopCat.reducedSingularHomologyMap (TopCat.openMap f U U' hU) 0)
+          (TopCat.reducedSingularHomologyMap (TopCat.openMap f V V' hV) 0) ≫
+        twoOpenReducedMayerVietorisFromBiprodZero U' V' := by
+  apply biprod.hom_ext'
+  · simp only [twoOpenReducedMayerVietorisFromBiprodZero_inl_assoc,
+      biprod.inl_map_assoc, twoOpenReducedMayerVietorisFromBiprodZero_inl]
+    rw [← Functor.map_comp, ← Functor.map_comp, TopCat.openMap_comp_inclusion]
+  · simp only [twoOpenReducedMayerVietorisFromBiprodZero_inr_assoc,
+      biprod.inr_map_assoc, twoOpenReducedMayerVietorisFromBiprodZero_inr]
+    rw [← Functor.map_comp, ← Functor.map_comp, TopCat.openMap_comp_inclusion]
+
+/-- The ordered reduced difference followed by the reduced sum is zero. -/
+@[reassoc (attr := simp)]
+theorem twoOpenReducedMayerVietorisFromIntersectionZero_comp_fromBiprod
+    {X : TopCat.{u}} (U V : Opens X) :
+    twoOpenReducedMayerVietorisFromIntersectionZero U V ≫
+      twoOpenReducedMayerVietorisFromBiprodZero U V = 0 := by
+  simp only [twoOpenReducedMayerVietorisFromIntersectionZero,
+    twoOpenReducedMayerVietorisFromBiprodZero, biprod.lift_desc,
+    Preadditive.neg_comp, ← Functor.map_comp]
+  rw [twoOpenIntersectionToLeft_comp, twoOpenIntersectionToRight_comp]
+  exact add_neg_cancel _
+
+/-- The integral reduced Mayer--Vietoris sequence of a two-open cover is exact
+at `H̃₀(U) ⊕ H̃₀(V)`, even when the intersection is empty.
+
+This is the reduced degree-zero counterpart of the ordinary Mayer--Vietoris
+sequence in May, *A concise course in algebraic topology*, Chapter 14, §5. -/
+theorem twoOpenReducedMayerVietoris_exact_biprodZero
+    {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) :
+    (ShortComplex.mk
+      (twoOpenReducedMayerVietorisFromIntersectionZero U V)
+      (twoOpenReducedMayerVietorisFromBiprodZero U V)
+      (twoOpenReducedMayerVietorisFromIntersectionZero_comp_fromBiprod U V)).Exact := by
+  let S := ShortComplex.mk
+    (twoOpenReducedMayerVietorisFromIntersectionZero U V)
+    (twoOpenReducedMayerVietorisFromBiprodZero U V)
+    (twoOpenReducedMayerVietorisFromIntersectionZero_comp_fromBiprod U V)
+  apply (ShortComplex.moduleCat_exact_iff S).2
+  intro x hx
+  let j := biprod.map
+    (TopCat.reducedSingularHomologyZeroToOrdinary ((Opens.toTopCat X).obj U))
+    (TopCat.reducedSingularHomologyZeroToOrdinary ((Opens.toTopCat X).obj V))
+  let T := ShortComplex.mk
+    (twoOpenMayerVietorisFromIntersection U V 0)
+    (twoOpenMayerVietorisFromBiprod U V hUV 0)
+    (twoOpenMayerVietorisFromIntersection_comp_fromBiprod U V hUV 0)
+  have hT : T.Exact := twoOpenMayerVietoris_exact_at_biprod U V hUV 0
+  let π : S.X₂ ⟶ TopCat.reducedSingularHomology ((Opens.toTopCat X).obj U) 0 := biprod.fst
+  let πOrd : T.X₂ ⟶ integralSingularHomology ((Opens.toTopCat X).obj U) 0 := biprod.fst
+  have hxOrd : T.g (j x) = 0 := by
+    have h := congrArg (fun q ↦ q x)
+      (twoOpenReducedMayerVietorisFromBiprodZero_ordinary U V hUV)
+    change TopCat.reducedSingularHomologyZeroToOrdinary X (S.g x) = T.g (j x) at h
+    rw [hx, map_zero] at h
+    exact h.symm
+  obtain ⟨y, hy⟩ := (ShortComplex.moduleCat_exact_iff T).1 hT _ hxOrd
+  let Q := (Opens.toTopCat X).obj (U ⊓ V)
+  let e := twoOpenIntersectionHomologyIso U V 0
+  let y₀ := e.inv y
+  let l := HomologicalComplex.homologyMap
+    (integralSingularChainMap (twoOpenIntersectionToLeft U V)) 0
+  have hyLeft : l y₀ =
+      TopCat.reducedSingularHomologyZeroToOrdinary
+        ((Opens.toTopCat X).obj U) (π x) := by
+    have h := congrArg (fun q ↦ q y)
+      (twoOpenMayerVietorisFromIntersection_fst U V 0)
+    change πOrd (T.f y) = l y₀ at h
+    rw [hy] at h
+    have hj := congrArg (fun q ↦ q x) (biprod.map_fst
+      (TopCat.reducedSingularHomologyZeroToOrdinary ((Opens.toTopCat X).obj U))
+      (TopCat.reducedSingularHomologyZeroToOrdinary ((Opens.toTopCat X).obj V)))
+    change πOrd (j x) =
+      TopCat.reducedSingularHomologyZeroToOrdinary
+        ((Opens.toTopCat X).obj U) (π x) at hj
+    exact h.symm.trans hj
+  -- The first coordinate of the ordinary preimage forces its augmentation to vanish.
+  have hyAug : Q.singularHomology₀ε TopCat.singularHomologyIntegerCoefficients y₀ = 0 := by
+    have hAug := TopCat.singularHomologyZeroAugmentation_naturality
+      (twoOpenIntersectionToLeft U V)
+    rw [integralSingularHomologyFunctor_map] at hAug
+    have h := congrArg (fun q ↦ q y₀) hAug
+    change ((Opens.toTopCat X).obj U).singularHomology₀ε
+        TopCat.singularHomologyIntegerCoefficients (l y₀) =
+      Q.singularHomology₀ε TopCat.singularHomologyIntegerCoefficients y₀ at h
+    rw [hyLeft] at h
+    have hk := congrArg (fun q ↦ q (π x))
+      (TopCat.reducedSingularHomologyZeroToOrdinary_augmentation
+        ((Opens.toTopCat X).obj U))
+    exact h.symm.trans hk
+  let C := ShortComplex.mk (TopCat.reducedSingularHomologyZeroToOrdinary Q)
+    (Q.singularHomology₀ε TopCat.singularHomologyIntegerCoefficients)
+    (TopCat.reducedSingularHomologyZeroToOrdinary_augmentation Q)
+  have hC : C.Exact := ShortComplex.exact_of_f_is_kernel C
+    (TopCat.reducedSingularHomologyZeroToOrdinaryIsKernel Q)
+  obtain ⟨z, hz⟩ := (ShortComplex.moduleCat_exact_iff C).1 hC _ hyAug
+  refine ⟨z, ?_⟩
+  apply (ModuleCat.mono_iff_injective j).1 inferInstance
+  have h := congrArg (fun q ↦ q z)
+    (twoOpenReducedMayerVietorisFromIntersectionZero_ordinary U V)
+  change j (S.f z) = T.f (e.hom (C.f z)) at h
+  rw [hz] at h
+  have he : e.hom y₀ = y := Iso.inv_hom_id_apply e y
+  rw [he] at h
+  exact h.trans hy
+
+/-- The reduced degree-zero Mayer--Vietoris sum of a two-open cover is epic
+when the intersection is nonempty. A common point makes the intersection's
+augmentation epic. For the nonnegative reduced convention used here, disjoint
+nonempty opens can instead leave a nonzero ambient reduced degree-zero group.
+
+This is an integral two-open consequence of the reduced homology and
+Mayer--Vietoris constructions in May, *A concise course in algebraic topology*,
+Chapter 14, §§1 and 5, not the arbitrary-coefficient axiomatic theorem. -/
+theorem twoOpenReducedMayerVietorisFromBiprodZero_epi
+    {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤)
+    (hC : Nonempty ((Opens.toTopCat X).obj (U ⊓ V))) :
+    Epi (twoOpenReducedMayerVietorisFromBiprodZero U V) := by
+  classical
+  let A := (Opens.toTopCat X).obj U
+  let B := (Opens.toTopCat X).obj V
+  let Q := (Opens.toTopCat X).obj (U ⊓ V)
+  let ε (Y : TopCat.{u}) : integralSingularHomology Y 0 ⟶
+      TopCat.singularHomologyIntegerCoefficients :=
+    Y.singularHomology₀ε TopCat.singularHomologyIntegerCoefficients
+  let ι (Y : TopCat.{u}) := TopCat.reducedSingularHomologyZeroToOrdinary Y
+  let K (Y : TopCat.{u}) := ShortComplex.mk (ι Y) (ε Y)
+    (TopCat.reducedSingularHomologyZeroToOrdinary_augmentation Y)
+  have hK (Y : TopCat.{u}) : (K Y).Exact :=
+    ShortComplex.exact_of_f_is_kernel _
+      (TopCat.reducedSingularHomologyZeroToOrdinaryIsKernel Y)
+  let f := twoOpenMayerVietorisFromIntersection U V 0
+  let g := twoOpenMayerVietorisFromBiprod U V hUV 0
+  let e := twoOpenIntersectionHomologyIso U V 0
+  let P : ModuleCat.{u} ℤ :=
+    integralSingularHomology A 0 ⊞ integralSingularHomology B 0
+  let R : ModuleCat.{u} ℤ :=
+    TopCat.reducedSingularHomology A 0 ⊞ TopCat.reducedSingularHomology B 0
+  let πA : P ⟶ integralSingularHomology A 0 := biprod.fst
+  let πB : P ⟶ integralSingularHomology B 0 := biprod.snd
+  let iA : TopCat.reducedSingularHomology A 0 ⟶ R := biprod.inl
+  let iB : TopCat.reducedSingularHomology B 0 ⟶ R := biprod.inr
+  let kA : integralSingularHomology A 0 ⟶ P := biprod.inl
+  let kB : integralSingularHomology B 0 ⟶ P := biprod.inr
+  let j : R ⟶ P := biprod.map (ι A) (ι B)
+  let : Epi g := by
+    let : Epi (twoOpenSmallShortComplex U V).g :=
+      (twoOpenSmallShortExact U V).epi_g
+    let : Epi (HomologicalComplex.homologyMap
+        (twoOpenSmallShortComplex U V).g 0) :=
+      HomologicalComplex.epi_homologyMap_of_epi_of_not_rel _ _ (by simp)
+    dsimp only [g, twoOpenMayerVietorisFromBiprod, twoOpenMayerVietorisToSpace]
+    infer_instance
+  have hfg : f ≫ g = 0 :=
+    twoOpenMayerVietorisFromIntersection_comp_fromBiprod U V hUV 0
+  have hAU : HomologicalComplex.homologyMap
+      (integralSingularChainMap U.inclusion') 0 ≫ ε X = ε A := by
+    have h := TopCat.singularHomologyZeroAugmentation_naturality U.inclusion'
+    rw [integralSingularHomologyFunctor_map] at h
+    exact h
+  have hAV : HomologicalComplex.homologyMap
+      (integralSingularChainMap V.inclusion') 0 ≫ ε X = ε B := by
+    have h := TopCat.singularHomologyZeroAugmentation_naturality V.inclusion'
+    rw [integralSingularHomologyFunctor_map] at h
+    exact h
+  have hsum : g ≫ ε X = biprod.desc (ε A) (ε B) := by
+    dsimp only [g]
+    rw [twoOpenMayerVietorisFromBiprod_eq]
+    apply biprod.hom_ext'
+    · simpa only [biprod.inl_desc_assoc, biprod.inl_desc] using hAU
+    · simpa only [biprod.inr_desc_assoc, biprod.inr_desc] using hAV
+  let l : integralSingularHomology Q 0 ⟶ integralSingularHomology A 0 :=
+    HomologicalComplex.homologyMap
+      (integralSingularChainMap (twoOpenIntersectionToLeft U V)) 0
+  let r : integralSingularHomology Q 0 ⟶ integralSingularHomology B 0 :=
+    HomologicalComplex.homologyMap
+      (integralSingularChainMap (twoOpenIntersectionToRight U V)) 0
+  have hAIntersection : l ≫ ε A = ε Q := by
+    have h := TopCat.singularHomologyZeroAugmentation_naturality
+      (twoOpenIntersectionToLeft U V)
+    rw [integralSingularHomologyFunctor_map] at h
+    exact h
+  have hBIntersection : r ≫ ε B = ε Q := by
+    have h := TopCat.singularHomologyZeroAugmentation_naturality
+      (twoOpenIntersectionToRight U V)
+    rw [integralSingularHomologyFunctor_map] at h
+    exact h
+  have hfst : (f ≫ πA) ≫ ε A = e.inv ≫ ε Q := by
+    calc
+      (f ≫ πA) ≫ ε A = (e.inv ≫ l) ≫ ε A :=
+        congrArg (· ≫ ε A) (twoOpenMayerVietorisFromIntersection_fst U V 0)
+      _ = e.inv ≫ (l ≫ ε A) := Category.assoc _ _ _
+      _ = e.inv ≫ ε Q := congrArg (e.inv ≫ ·) hAIntersection
+  have hsnd : (f ≫ πB) ≫ ε B = -(e.inv ≫ ε Q) := by
+    calc
+      (f ≫ πB) ≫ ε B = (e.inv ≫ (-r)) ≫ ε B :=
+        congrArg (· ≫ ε B) (twoOpenMayerVietorisFromIntersection_snd U V 0)
+      _ = e.inv ≫ ((-r) ≫ ε B) := Category.assoc _ _ _
+      _ = e.inv ≫ (-(r ≫ ε B)) :=
+        congrArg (e.inv ≫ ·) (Preadditive.neg_comp r (ε B))
+      _ = e.inv ≫ (-(ε Q)) := congrArg (fun k ↦ e.inv ≫ (-k)) hBIntersection
+      _ = -(e.inv ≫ ε Q) := Preadditive.comp_neg _ _
+  apply (ModuleCat.epi_iff_surjective _).2
+  intro x
+  obtain ⟨y, hy⟩ := (ModuleCat.epi_iff_surjective g).1 inferInstance (ι X x)
+  have haug : ε A (πA y) + ε B (πB y) = 0 := by
+    have h := congrArg (fun q ↦ q y) hsum
+    rw [biprod.desc_eq] at h
+    change ε X (g y) = ε A (πA y) + ε B (πB y) at h
+    rw [hy] at h
+    have hx := congrArg (fun q ↦ q x)
+      (TopCat.reducedSingularHomologyZeroToOrdinary_augmentation X)
+    change ε X (ι X x) = 0 at hx
+    exact h.symm.trans hx
+  -- Remove the augmentation pair `(t,-t)` using a point of the intersection.
+  let t := ε A (πA y)
+  let p : Q := Classical.choice hC
+  let q : integralSingularHomology Q 0 := TopCat.singularHomologyZeroPoint Q p t
+  let c := e.hom q
+  have hpt : ε Q q = t :=
+    congrArg (fun k ↦ k t) (TopCat.singularHomologyZeroPoint_augmentation Q p)
+  have he : e.inv c = q := Iso.hom_inv_id_apply e q
+  have hcQ : ε Q (e.inv c) = t :=
+    (congrArg (fun v ↦ ε Q v) he).trans hpt
+  have hcA : ε A (πA (f c)) = t := by
+    have h := congrArg (fun k ↦ k c) hfst
+    change ε A (πA (f c)) = ε Q (e.inv c) at h
+    exact h.trans hcQ
+  have hcB : ε B (πB (f c)) = -t := by
+    have h := congrArg (fun k ↦ k c) hsnd
+    change ε B (πB (f c)) = -(ε Q (e.inv c)) at h
+    exact h.trans (congrArg Neg.neg hcQ)
+  let z := y - f c
+  have hzA : ε A (πA z) = 0 := by
+    dsimp only [z]
+    rw [map_sub, map_sub, hcA]
+    exact sub_self _
+  have hzB : ε B (πB z) = 0 := by
+    dsimp only [z]
+    rw [map_sub, map_sub, hcB]
+    have hB : ε B (πB y) = -t := eq_neg_of_add_eq_zero_right haug
+    rw [hB, sub_self]
+  obtain ⟨a, ha⟩ := (ShortComplex.moduleCat_exact_iff (K A)).1 (hK A) _ hzA
+  obtain ⟨b, hb⟩ := (ShortComplex.moduleCat_exact_iff (K B)).1 (hK B) _ hzB
+  change ι A a = πA z at ha
+  change ι B b = πB z at hb
+  let w : R := iA a + iB b
+  have hjw : j w = z := by
+    have hja := congrArg (fun k ↦ k a) (biprod.inl_map (ι A) (ι B))
+    have hjb := congrArg (fun k ↦ k b) (biprod.inr_map (ι A) (ι B))
+    change j (iA a) = kA (ι A a) at hja
+    change j (iB b) = kB (ι B b) at hjb
+    change j (iA a + iB b) = z
+    rw [map_add, hja, hjb, ha, hb]
+    exact congrArg (fun k ↦ k z)
+      (biprod.total : πA ≫ kA + πB ≫ kB = 𝟙 P)
+  refine ⟨w, ?_⟩
+  apply (ModuleCat.mono_iff_injective (ι X)).1 inferInstance
+  have h := congrArg (fun q ↦ q w)
+    (twoOpenReducedMayerVietorisFromBiprodZero_ordinary U V hUV)
+  change ι X (twoOpenReducedMayerVietorisFromBiprodZero U V w) = g (j w) at h
+  rw [h, hjw]
+  change g (y - f c) = ι X x
+  have hfc : g (f c) = 0 := by
+    change (f ≫ g) c = 0
+    rw [hfg]
+    rfl
+  rw [map_sub, hy, hfc, sub_zero]
 
 /-- The reduced connecting morphism is followed by zero in the reduced
 degree-zero Mayer--Vietoris sequence. -/

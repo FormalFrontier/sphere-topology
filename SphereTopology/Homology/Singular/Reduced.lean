@@ -297,6 +297,19 @@ instance reducedSingularHomologyZeroToOrdinary_mono (X : TopCat.{u}) :
   change Mono (reducedSingularHomologyZeroInclusion X)
   infer_instance
 
+/-- The reduced degree-zero inclusion is annihilated by augmentation. -/
+@[reassoc (attr := simp)]
+theorem reducedSingularHomologyZeroToOrdinary_augmentation (X : TopCat.{u}) :
+    reducedSingularHomologyZeroToOrdinary X ≫
+      X.singularHomology₀ε singularHomologyIntegerCoefficients = 0 := by
+  exact kernel.condition _
+
+/-- The reduced degree-zero inclusion is the kernel of augmentation. -/
+noncomputable def reducedSingularHomologyZeroToOrdinaryIsKernel (X : TopCat.{u}) :
+    IsLimit (KernelFork.ofι (reducedSingularHomologyZeroToOrdinary X)
+      (reducedSingularHomologyZeroToOrdinary_augmentation X)) := by
+  exact kernelIsKernel _
+
 /-- Naturality of the degree-zero reduced inclusion, with ordinary homology
 displayed explicitly. -/
 @[reassoc]
