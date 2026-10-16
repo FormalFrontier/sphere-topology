@@ -2,9 +2,9 @@
 
 A reusable Lean library for circle fundamental groups, continuous fields on
 spheres, covering spaces, and integral singular homology. Its covering-space
-interfaces give based lifting, deck actions on fibers, monodromy and based
-equivalences, and lifts of singular simplices. It develops finite-support
-subdivision and cover-small chains, ordinary and nonnegative reduced
+interfaces give based lifting, deck actions on fibers, monodromy-centralizer
+comparisons, based equivalences, and lifts of singular simplices. It develops
+finite-support subdivision and cover-small chains, ordinary and nonnegative reduced
 Mayer–Vietoris sequences, and explicit circle and standard two-sphere
 computations. Their antipodal sign obstruction gives a continuous-field
 hairy-ball theorem for the unit two-sphere. Import the aggregate
@@ -91,6 +91,22 @@ additive circle and complex unit circle.
   transitivity of the deck action is assumed. General lift uniqueness is reused
   from Mathlib's `IsSeparatedMap.eq_of_comp_eq` and `IsCoveringMap.eq_of_comp_eq`,
   not redefined.
+- **Deck groups as monodromy centralizers.** For any covering `p : E → B`,
+  restriction to the point fiber gives
+  [`IsCoveringMap.deckMonodromyHom`](SphereTopology/Topology/DeckMonodromy.lean),
+  a homomorphism into the centralizer of the monodromy image in
+  `Equiv.Perm (p ⁻¹' {b})`. With path-connected base it is faithful, without
+  local path connectedness or total-space connectedness. If in addition `E`
+  is locally path connected, `IsCoveringMap.deckMonodromyEquiv` is a
+  multiplicative equivalence for every `b : B`; disconnected and empty total
+  spaces are allowed, with no nonemptiness or surjectivity premise.
+  Alternatively, with path-connected, locally path-connected `E` and a
+  specified `e : E`, `IsCoveringMap.deckMonodromyEquivOfPathConnected` uses the
+  fiber over `p e` without connectedness or local path connectedness of `B`.
+  Both constructions restrict the original deck action, their inverse extends
+  the permutation on the whole fiber, and they agree wherever both apply.
+  The centralizer is a subgroup of the fiber's permutation group, distinct
+  from a point stabilizer or the monodromy kernel in the fundamental group.
 - **Covering-space monodromy and based equivalences.** For any covering map,
   the stabilizer of a point in a fiber is the image of the fundamental group
   based at that point, and two fiber points share a monodromy orbit exactly
@@ -183,8 +199,9 @@ additive circle and complex unit circle.
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
-| `Topology.CoveringMonodromy` | Arbitrary-cover point stabilizers and path-component orbits; quotient-cover permutation-kernel bridge. |
+| `Topology.CoveringMonodromy` | Point stabilizers, path-component orbits, naturality for continuous maps of covers and whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
+| `Topology.DeckMonodromy` | Restriction to the monodromy centralizer; whole-fiber faithfulness for path-connected base; equivalences with locally path-connected total space and either path-connected base or path-connected total space at a specified point. |
 | `Topology.DeckGroup` | Point-fiber deck actions, evaluation embeddings and fixed-point rigidity for separated, locally injective maps with preconnected total space. |
 | `Homology.Singular.Subdivision`, `SmallChains` | Integral subdivision, prism equations, small-chain quasi-isomorphism, maps and refinements. |
 | `Homology.Singular.MayerVietoris` | Ordinary ordered two-open sequence, comparison, exactness and naturality. |
@@ -295,7 +312,9 @@ there, printed p. 29 (PDF p. 37), by comparing a deck transformation with the
 identity. The deck interfaces reuse Mathlib's deck group formalized by Kim
 Morrison and sharp separated-map uniqueness formalized by Junyan Xu. This is
 not a claim of a separately stated fixed-point theorem or complete coverage of
-May's text.
+May's text. The restriction-to-fiber comparison with the monodromy centralizer
+follows the deck-automorphism comparison in the same section, using based
+lifting and open path components to allow disconnected or empty total spaces.
 
 No book assets, third-party source excerpts or mathlib implementation are
 bundled; dependency and book authors retain their own rights and notices.

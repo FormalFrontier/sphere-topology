@@ -11,6 +11,7 @@ public import SphereTopology.Homotopy.TangentField
 public import SphereTopology.Topology.CoveringLifting
 public import SphereTopology.Topology.SingularLifts
 public import SphereTopology.Topology.DeckGroup
+public import SphereTopology.Topology.DeckMonodromy
 public import SphereTopology.Topology.CoveringMonodromy
 public import SphereTopology.Topology.CoveringEquivalence
 public import SphereTopology.Homotopy.Circle

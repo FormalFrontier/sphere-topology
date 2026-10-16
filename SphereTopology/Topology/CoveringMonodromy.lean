@@ -23,10 +23,19 @@ is not the kernel of the permutation representation for a general covering map. 
 coverings, Mathlib's `IsQuotientCoveringMap.monodromy_eq_id_iff` identifies these conditions,
 and `IsQuotientCoveringMap.ker_monodromyPerm` already computes that kernel.
 
+Continuous maps over a common base intertwine monodromy. The proof generalizes the
+lifted-path-class argument of Mathlib's `IsQuotientCoveringMap.monodromy_toPermFiber`;
+`IsQuotientCoveringMap.monodromy_naturality_toPermFiber` recovers its quotient-action
+formula. Over a path-connected base, continuous maps out of a covering space are determined
+by their values on one whole fiber when the target projection is separated and locally
+injective. This uniqueness requires no local path connectedness.
+
 ## References
 
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3, §§2–4,
   especially the monodromy discussion on p. 25.
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3, §7, p. 29,
+  for uniqueness of maps of covering spaces from their restrictions to a fiber.
 * Junyan Xu, `Mathlib.Topology.Homotopy.Lifting`, for covering-space monodromy and lifting.
 -/
 
@@ -74,9 +83,68 @@ theorem exists_monodromy_eq_iff_joined (e e' : p ⁻¹' {x}) :
 
 end IsCoveringMap
 
+section Maps
+
+universe u v w
+
+variable {E : Type u} {E' : Type v} {B : Type w}
+  [TopologicalSpace E] [TopologicalSpace E'] [TopologicalSpace B]
+  {p : E → B} {q : E' → B}
+
+namespace IsCoveringMap
+
+/-- Monodromy is natural for continuous maps between covering spaces over the same base.
+This uses the lifted homotopy class of a path, without connectivity hypotheses. -/
+theorem monodromy_naturality (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (f : C(E, E')) (hf : q ∘ f = p) {x y : B}
+    (γ : Path.Homotopic.Quotient x y) (e : p ⁻¹' {x}) :
+    covq.monodromy γ ⟨f e, (congr_fun hf e).trans e.2⟩ =
+      ⟨f (covp.monodromy γ e),
+        (congr_fun hf (covp.monodromy γ e)).trans (covp.monodromy γ e).2⟩ := by
+  let Γ := covp.liftPathQuotient γ e
+  let p' : C(E, B) := ⟨p, covp.continuous⟩
+  let q' : C(E', B) := ⟨q, covq.continuous⟩
+  have hcomp : q'.comp f = p' := ContinuousMap.ext fun z ↦ congr_fun hf z
+  apply covq.monodromy_eq_of_map_eq (Γ.map f)
+  rw [← Path.Homotopic.Quotient.map_comp]
+  convert covp.map_liftPathQuotient γ e using 2
+  · exact congr_fun hf e
+  · exact congr_fun hf (covp.monodromy γ e)
+  · grind
+
+/-- Continuous maps over a path-connected base from a covering space to a separated,
+locally injective map agree everywhere if they agree on one whole fiber. Every path component
+of the source meets that fiber, and uniqueness of lifts applies on each component. No local
+path connectedness, total-space connectedness, nonemptiness, or surjectivity is required. -/
+theorem eq_of_comp_eq_of_eqOn_fiber (covp : IsCoveringMap p) (hsep : IsSeparatedMap q)
+    (hinj : IsLocallyInjective q) [PathConnectedSpace B] (f g : C(E, E'))
+    (hf : q ∘ f = p) (hg : q ∘ g = p) (b : B)
+    (h : ∀ e : p ⁻¹' {b}, f e = g e) : f = g := by
+  ext e
+  obtain ⟨a, ha⟩ := covp.comp_subtypeVal_pathComponent_surjective e b
+  exact hsep.eqOn_of_comp_eqOn hinj isPathConnected_pathComponent.isConnected.isPreconnected
+    f.continuous.continuousOn g.continuous.continuousOn
+    (fun z _ ↦ congr_fun (hf.trans hg.symm) z) a.property (h ⟨a, ha⟩)
+    (mem_pathComponent_self e)
+
+end IsCoveringMap
+
+end Maps
+
 namespace IsQuotientCoveringMap
 
 variable {G : Type*} [Group G] [MulAction G E] (hp : IsQuotientCoveringMap p G) {x : X}
+
+/-- Naturality for the continuous action defining a quotient covering recovers the
+`IsQuotientCoveringMap.monodromy_toPermFiber` formula. Thus the naturality statement for
+arbitrary covering maps specializes to the quotient-covering commutation law. -/
+theorem monodromy_naturality_toPermFiber {y : X} (γ : Path.Homotopic.Quotient x y)
+    (g : G) (e : p ⁻¹' {x}) :
+    hp.isCoveringMap.monodromy γ (hp.toPermFiber x g e) =
+      hp.toPermFiber y g (hp.isCoveringMap.monodromy γ e) := by
+  exact hp.isCoveringMap.monodromy_naturality hp.isCoveringMap
+    ⟨fun z ↦ g • z, hp.toContinuousConstSMul.continuous_const_smul g⟩
+    (funext fun _ ↦ hp.map_smul g) γ e
 
 /-- For a quotient covering, fixing one point of a fiber under monodromy is equivalent to
 acting trivially on the whole fiber. Thus the kernel of the monodromy representation is the
