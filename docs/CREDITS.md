@@ -47,6 +47,21 @@ contractibility and group-equivalence APIs. These are mathematical and
 formalization credits, separate from rights in this library's original
 expression; no expression from May's book is redistributed.
 
+The based covering-lift criterion follows J. P. May, *A Concise Course in
+Algebraic Topology*, Chapter 3 §7. Its sufficient direction and uniqueness reuse
+Mathlib's lifting formalization, especially Junyan Xu's approach. Formal Frontier
+Agents formalized the fundamental-group factorization argument and the circle
+and disconnected-domain examples.
+
+The covering-space point-stabilizer, orbit and based equal-image equivalence
+results follow J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3,
+§§2–4 and §7, with the hypotheses and fixed-base interpretation described in the
+modules. They reuse Junyan Xu's Mathlib monodromy, covering-space lifting and
+uniqueness formalization, including the existing quotient-cover kernel result.
+Formal Frontier Agents formalized the proofs, characteristic laws and
+mathematical examples. The original Lean expressions and explanatory prose are
+AI-authored; no book expression or assets are reproduced.
+
 ## Interfaces and documentation
 
 Prism added native public imports and visibility decisions, including public

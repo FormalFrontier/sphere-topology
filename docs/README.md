@@ -7,6 +7,11 @@ sites but occur in the historical 32-module record. Import `SphereTopology`
 for the aggregate library; it imports no tests. The [overview](../README.md)
 explains the mathematics, client imports, limitations and pinned build.
 
+For point-fiber deck actions and evaluation embeddings, see the focused
+[`SphereTopology.Topology.DeckGroup`](../SphereTopology/Topology/DeckGroup.lean)
+module and its sharp interfaces in the overview. This
+module is outside the bounded display inventory below.
+
 An API display is not a complete generated, public/exported, private or kernel
 declaration census, a typeclass-registration promise, or an axiom audit. The
 previous accepted mathematical release had a successful build and complete

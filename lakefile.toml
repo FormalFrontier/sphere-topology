@@ -22,6 +22,9 @@ roots = [
   "SphereTopologyTest.Clients",
   "SphereTopologyTest.Components",
   "SphereTopologyTest.Connectedness",
+  "SphereTopologyTest.CoveringMonodromy",
+  "SphereTopologyTest.CoveringEquivalence",
+  "SphereTopologyTest.DeckGroup",
   "SphereTopologyTest.HairyBallSphere2",
   "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
   "SphereTopologyTest.HairyBallSphere2Root",
@@ -38,6 +41,7 @@ roots = [
   "SphereTopologyTest.SphereAntipodal",
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
+  "SphereTopologyTest.Topology.CoveringLifting",
   "SphereTopologyTest.SphereModuleAxioms"
 ]
 

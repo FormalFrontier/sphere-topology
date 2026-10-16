@@ -156,8 +156,6 @@ private theorem threePoint_first_difference_coordinate :
     (TopCat.singularHomologyZeroPoint threePointSpace (1 : Fin 3) -
         TopCat.singularHomologyZeroPoint threePointSpace (0 : Fin 3)) ≫
         threePointFirstCoordinate = 𝟙 TopCat.singularHomologyIntegerCoefficients.{0} := by
-  simp [threePointFirstCoordinate, Preadditive.sub_comp,
-    TopCat.singularHomologyZeroPoint_homology₀Iso_assoc]
   let φ : Fin 3 → (TopCat.singularHomologyIntegerCoefficients.{0} ⟶
       TopCat.singularHomologyIntegerCoefficients.{0}) :=
     fun i ↦ if i = 1 then 𝟙 _ else 0
@@ -166,7 +164,13 @@ private theorem threePoint_first_difference_coordinate :
         TopCat.singularHomologyIntegerCoefficients.{0} ↦ f - g)
     (congrArg φ (threePointComponentsEquiv_mk (1 : threePointSpace)))
     (congrArg φ (threePointComponentsEquiv_mk (0 : threePointSpace)))
-  exact h.trans (by simp [φ])
+  have h' :
+      φ (threePointComponentsEquiv (.mk (1 : threePointSpace))) -
+        φ (threePointComponentsEquiv (.mk (0 : threePointSpace))) =
+      𝟙 TopCat.singularHomologyIntegerCoefficients.{0} :=
+    h.trans (by simp [φ])
+  simpa [threePointFirstCoordinate, Preadditive.sub_comp,
+    TopCat.singularHomologyZeroPoint_homology₀Iso_assoc, φ] using h'
 
 /-- The ordinary difference is nonzero without invoking the component-kernel
 universal property or an isomorphism constructed from it. -/

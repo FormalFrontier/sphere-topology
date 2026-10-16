@@ -1,13 +1,15 @@
 # Sphere Topology
 
 A reusable Lean library for circle fundamental groups, continuous fields on
-spheres, covering-space lifts of singular simplices, and integral singular
-homology. It develops finite-support subdivision and cover-small chains, ordinary
-and nonnegative reduced Mayer–Vietoris sequences, and explicit circle and
-standard two-sphere computations. Their antipodal sign obstruction gives a
-continuous-field hairy-ball theorem for the unit two-sphere. Import the
-aggregate `SphereTopology` or the focused modules listed below; no source
-research repository is needed to use the library.
+spheres, covering spaces, and integral singular homology. Its covering-space
+interfaces give based lifting, deck actions on fibers, monodromy and based
+equivalences, and lifts of singular simplices. It develops finite-support
+subdivision and cover-small chains, ordinary and nonnegative reduced
+Mayer–Vietoris sequences, and explicit circle and standard two-sphere
+computations. Their antipodal sign obstruction gives a continuous-field
+hairy-ball theorem for the unit two-sphere. Import the aggregate
+`SphereTopology` or the focused modules listed below; no source research
+repository is needed to use the library.
 
 Authors: Formal Frontier Agents.
 
@@ -55,6 +57,13 @@ additive circle and complex unit circle.
   antipodal map, hence multiplication by `-1` in the fixed `ℤ` coordinate and
   nonhomotopy to identity:
   [`integralSingularHomologyMap_sphere2Antipodal_two`](SphereTopology/Homology/Singular/SphereAntipodal.lean).
+- **Based covering-map lifting criterion.** A continuous map from a path
+  connected, locally path connected domain has a unique lift with a prescribed
+  value exactly when its fundamental-group image lies in that of the covering
+  map:
+  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](SphereTopology/Topology/CoveringLifting.lean).
+  The three spaces have independent universes; neither global surjectivity nor
+  connectedness or local path connectedness of the base or total space is required.
 - **Covering-space lifts of singular simplices.** For `p : Y ⟶ X` between
   spaces in a common ambient universe and `IsCoveringMap p`, evaluation at
   **any** point of a simplex identifies its lift fiber under
@@ -70,6 +79,41 @@ additive circle and complex unit circle.
   pullback. The continuous-map version allows independent universes and a simply
   connected, locally path connected domain; finite nonempty real standard
   simplices have the required domain instances.
+- **Deck transformations on fibers.** For any map `p : E → B` with a topology
+  on `E`, Mathlib's `deck p` acts on each point fiber `p ⁻¹' {b}`. If `p` is
+  separated and locally injective and `E` is preconnected, evaluation at a
+  specified `e : E` embeds the deck group into `p ⁻¹' {p e}`, and a deck
+  transformation fixing a point is the identity:
+  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](SphereTopology/Topology/DeckGroup.lean).
+  The generic interfaces need no topology on `B` or continuity of `p`.
+  Covering maps supply separation and local injectivity; no Hausdorff total
+  space, base connectedness/local path connectedness, surjectivity, or
+  transitivity of the deck action is assumed. General lift uniqueness is reused
+  from Mathlib's `IsSeparatedMap.eq_of_comp_eq` and `IsCoveringMap.eq_of_comp_eq`,
+  not redefined.
+- **Covering-space monodromy and based equivalences.** For any covering map,
+  the stabilizer of a point in a fiber is the image of the fundamental group
+  based at that point, and two fiber points share a monodromy orbit exactly
+  when they are joined in the total space:
+  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](SphereTopology/Topology/CoveringMonodromy.lean),
+  `IsCoveringMap.exists_monodromy_eq_iff_joined`. These need no global
+  connectedness or local path connectedness. For quotient coverings,
+  `IsQuotientCoveringMap.ker_monodromyPerm_eq_comap_stabilizer` identifies the
+  permutation kernel with the preimage of any point stabilizer; no such kernel
+  identification is asserted for arbitrary covers.
+  A continuous map over a fixed common base between covers is surjective
+  when its source is nonempty and its target total space is path connected:
+  [`IsCoveringMap.surjective_of_comp_eq`](SphereTopology/Topology/CoveringEquivalence.lean).
+  When both total spaces are path connected and only the source is locally
+  path connected, equality of their based fundamental-group images constructs
+  `IsCoveringMap.homeomorphOfRangeEq`, a homeomorphism over that base. The second
+  image is transported along the inverse of the chosen projection equality.
+  The total spaces and base have three independent universes; no global base
+  connectedness, local path connectedness or surjectivity of the covers is
+  required. Four chosen-point and projection laws, and
+  `IsCoveringMap.homeomorphOfRangeEq_eq_iff`, characterize the construction and
+  its inverse. This is the based equal-image case, not a general classification
+  of coverings or a classification by bare homeomorphism of total spaces.
 - **Subdivision and cover-small chains.** Signed barycentric subdivision `Sd`
   and its support-preserving prism `H` obey `∂H + H∂ = id − Sd`:
   [`singularHomotopy_boundary`](SphereTopology/Homology/Singular/Subdivision.lean#L1598).
@@ -137,7 +181,11 @@ additive circle and complex unit circle.
 | --- | --- |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
+| `Topology.CoveringLifting` | Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
+| `Topology.CoveringMonodromy` | Arbitrary-cover point stabilizers and path-component orbits; quotient-cover permutation-kernel bridge. |
+| `Topology.CoveringEquivalence` | Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
+| `Topology.DeckGroup` | Point-fiber deck actions, evaluation embeddings and fixed-point rigidity for separated, locally injective maps with preconnected total space. |
 | `Homology.Singular.Subdivision`, `SmallChains` | Integral subdivision, prism equations, small-chain quasi-isomorphism, maps and refinements. |
 | `Homology.Singular.MayerVietoris` | Ordinary ordered two-open sequence, comparison, exactness and naturality. |
 | `Homology.Singular.Components` | Categorical-coefficient nonbasepoint-component inclusion and augmentation-kernel statement. |
@@ -145,7 +193,7 @@ additive circle and complex unit circle.
 | `Homology.Singular.Connectedness` | Total-augmentation and nonempty integral reduced-zero criteria for path connectedness. |
 | `Homology.Singular.Circle`, `Sphere`, `SphereAntipodal` | Fixed models, integer coordinates and antipodal obstruction. |
 
-The covering-space interfaces concern topological and simplicial lift fibers;
+The singular-lift interfaces concern topological and simplicial lift fibers;
 they do not construct additional chain or homology maps. A simply connected
 simplex domain does not impose connectedness assumptions on the base space.
 
@@ -229,7 +277,7 @@ private noncomputable def sphere_homology :
 
 ## Source, rights and credit
 
-The mathematical motivation is Charles A. Weibel, *The K-book: An Introduction
+The sphere-field motivation is Charles A. Weibel, *The K-book: An Introduction
 to Algebraic K-theory*, complete-book build dated August 29, 2013, Example
 I.1.2.2. The book passage rules out **two independent tangent fields**; this
 library proves a **stronger one-field** zero theorem for continuous orthogonal
@@ -238,5 +286,16 @@ unimodular-row or completion statements, and asserts no full book coverage.
 See [formalization.yaml](formalization.yaml) for the public bibliographic
 record and [credits](docs/CREDITS.md) for the distinct mathematical authors,
 research/production reconciliations, interface and documentation contributions.
+
+The based covering-lift criterion follows J. P. May, *A Concise Course in
+Algebraic Topology*, Chapter 3 §7, printed pp. 28–29 (PDF pp. 36–37), and reuses
+Mathlib's lifting formalization, especially Junyan Xu's approach. The
+covering-map fixed-point corollary specializes uniqueness of maps of covers
+there, printed p. 29 (PDF p. 37), by comparing a deck transformation with the
+identity. The deck interfaces reuse Mathlib's deck group formalized by Kim
+Morrison and sharp separated-map uniqueness formalized by Junyan Xu. This is
+not a claim of a separately stated fixed-point theorem or complete coverage of
+May's text.
+
 No book assets, third-party source excerpts or mathlib implementation are
 bundled; dependency and book authors retain their own rights and notices.
