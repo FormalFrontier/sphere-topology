@@ -4,10 +4,11 @@ Authors: Formal Frontier Agents
 -/
 module
 
+public import Mathlib.GroupTheory.GroupAction.Hom
 public import Mathlib.Topology.Homotopy.Lifting
 
 /-!
-# Monodromy stabilizers and path components
+# Monodromy stabilizers, path components and maps of fibers
 
 For a covering map, the loops fixing a point of a fiber are exactly the image of the
 fundamental group of the total space based at that point. Two points of a fiber lie in the
@@ -26,17 +27,23 @@ and `IsQuotientCoveringMap.ker_monodromyPerm` already computes that kernel.
 Continuous maps over a common base intertwine monodromy. The proof generalizes the
 lifted-path-class argument of Mathlib's `IsQuotientCoveringMap.monodromy_toPermFiber`;
 `IsQuotientCoveringMap.monodromy_naturality_toPermFiber` recovers its quotient-action
-formula. Over a path-connected base, continuous maps out of a covering space are determined
-by their values on one whole fiber when the target projection is separated and locally
-injective. This uniqueness requires no local path connectedness.
+formula. Restriction to a point fiber is the equivariant map `IsCoveringMap.fiberMap`
+for the two covering maps' canonical fundamental-group actions, without connectivity
+hypotheses. Restriction preserves identities and composition.
+
+Over a path-connected base, continuous maps out of a covering space are determined by their
+values on one whole fiber when the target projection is separated and locally injective.
+This uniqueness requires no local path connectedness.
 
 ## References
 
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3, §§2–4,
   especially the monodromy discussion on p. 25.
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3, §7, p. 29,
-  for uniqueness of maps of covering spaces from their restrictions to a fiber.
+  for restriction of maps of covering spaces to a fiber and uniqueness.
 * Junyan Xu, `Mathlib.Topology.Homotopy.Lifting`, for covering-space monodromy and lifting.
+* Kenny Lau and Antoine Chambert-Loir, `Mathlib.GroupTheory.GroupAction.Hom`, for
+  equivariant maps.
 -/
 
 @[expose] public section
@@ -85,7 +92,7 @@ end IsCoveringMap
 
 section Maps
 
-universe u v w
+universe u v w z
 
 variable {E : Type u} {E' : Type v} {B : Type w}
   [TopologicalSpace E] [TopologicalSpace E'] [TopologicalSpace B]
@@ -112,6 +119,78 @@ theorem monodromy_naturality (covp : IsCoveringMap p) (covq : IsCoveringMap q)
   · exact congr_fun hf (covp.monodromy γ e)
   · grind
 
+/-- Restriction of a continuous map over the base to an equivariant map of point fibers.
+Both actions are the specified covering maps' canonical fundamental-group actions. No
+connectedness, local path connectedness or surjectivity is required. -/
+def fiberMap (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (b : B) (f : {f : C(E, E') // q ∘ f = p}) :
+    @MulActionHom (FundamentalGroup B b) (FundamentalGroup B b)
+      (@id (FundamentalGroup B b))
+      (p ⁻¹' {b}) (covp.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+      (q ⁻¹' {b}) (covq.fundamentalGroupMulAction b).toSemigroupAction.toSMul :=
+  @MulActionHom.mk (FundamentalGroup B b) (FundamentalGroup B b)
+    (@id (FundamentalGroup B b))
+    (p ⁻¹' {b}) (covp.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+    (q ⁻¹' {b}) (covq.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+    (fun e ↦ ⟨f.val e.val, (congr_fun f.property e.val).trans e.property⟩)
+    (fun γ e ↦ (covp.monodromy_naturality covq f.val f.property γ e).symm)
+
+/-- Restriction evaluates the original continuous map on the fiber. -/
+theorem fiberMap_apply (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (b : B) (f : {f : C(E, E') // q ∘ f = p}) (e : p ⁻¹' {b}) :
+    covp.fiberMap covq b f e =
+      ⟨f.val e.val, (congr_fun f.property e.val).trans e.property⟩ := rfl
+
+/-- The total-space coordinate of restriction is evaluation of the original map. -/
+@[simp] theorem fiberMap_apply_coe (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (b : B) (f : {f : C(E, E') // q ∘ f = p}) (e : p ⁻¹' {b}) :
+    (covp.fiberMap covq b f e).val = f.val e.val := rfl
+
+/-- An equivariant map is the restriction of an over-map exactly when their underlying
+values agree on the whole fiber. -/
+theorem fiberMap_eq_iff (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (b : B) (f : {f : C(E, E') // q ∘ f = p})
+    {h : @MulActionHom (FundamentalGroup B b) (FundamentalGroup B b)
+      (@id (FundamentalGroup B b))
+      (p ⁻¹' {b}) (covp.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+      (q ⁻¹' {b}) (covq.fundamentalGroupMulAction b).toSemigroupAction.toSMul} :
+    covp.fiberMap covq b f = h ↔ ∀ e : p ⁻¹' {b}, f.val e.val = (h e).val := by
+  constructor
+  · intro hf e
+    exact congrArg Subtype.val (DFunLike.congr_fun hf e)
+  · intro hf
+    exact DFunLike.ext _ _ fun e ↦ Subtype.ext (hf e)
+
+/-- Restriction of the identity over-map is the identity equivariant map. -/
+@[simp] theorem fiberMap_id (covp : IsCoveringMap p) (b : B) :
+    covp.fiberMap covp b ⟨ContinuousMap.id E, rfl⟩ =
+      @MulActionHom.id (FundamentalGroup B b) (p ⁻¹' {b})
+        (covp.fundamentalGroupMulAction b).toSemigroupAction.toSMul := by
+  exact DFunLike.ext _ _ fun _ ↦ Subtype.ext rfl
+
+section Composition
+
+variable {E'' : Type z} [TopologicalSpace E''] {r : E'' → B}
+
+/-- Restriction preserves composition of continuous maps over the base. The three total
+spaces and the base have independent universes. -/
+@[simp] theorem fiberMap_comp (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    (covr : IsCoveringMap r) (b : B)
+    (g : {g : C(E', E'') // r ∘ g = q}) (f : {f : C(E, E') // q ∘ f = p}) :
+    covp.fiberMap covr b
+      ⟨g.val.comp f.val, funext fun e ↦
+        (congr_fun g.property (f.val e)).trans (congr_fun f.property e)⟩ =
+      @MulActionHom.comp (FundamentalGroup B b) (FundamentalGroup B b)
+        (FundamentalGroup B b) (@id (FundamentalGroup B b)) (@id (FundamentalGroup B b))
+        (@id (FundamentalGroup B b))
+        (p ⁻¹' {b}) (covp.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+        (q ⁻¹' {b}) (covq.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+        (r ⁻¹' {b}) (covr.fundamentalGroupMulAction b).toSemigroupAction.toSMul
+        (covq.fiberMap covr b g) (covp.fiberMap covq b f) inferInstance := by
+  exact DFunLike.ext _ _ fun _ ↦ Subtype.ext rfl
+
+end Composition
+
 /-- Continuous maps over a path-connected base from a covering space to a separated,
 locally injective map agree everywhere if they agree on one whole fiber. Every path component
 of the source meets that fiber, and uniqueness of lifts applies on each component. No local
@@ -126,6 +205,16 @@ theorem eq_of_comp_eq_of_eqOn_fiber (covp : IsCoveringMap p) (hsep : IsSeparated
     f.continuous.continuousOn g.continuous.continuousOn
     (fun z _ ↦ congr_fun (hf.trans hg.symm) z) a.property (h ⟨a, ha⟩)
     (mem_pathComponent_self e)
+
+/-- Restriction to a whole fiber is injective over a path-connected base. The total spaces
+need not be connected, locally path connected or nonempty. -/
+theorem fiberMap_injective (covp : IsCoveringMap p) (covq : IsCoveringMap q)
+    [PathConnectedSpace B] (b : B) : Function.Injective (covp.fiberMap covq b) := by
+  intro f g h
+  apply Subtype.ext
+  exact covp.eq_of_comp_eq_of_eqOn_fiber covq.isSeparatedMap
+    covq.isLocalHomeomorph.isLocallyInjective f.val g.val f.property g.property b
+    ((covp.fiberMap_eq_iff covq b f).mp h)
 
 end IsCoveringMap
 

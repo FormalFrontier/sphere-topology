@@ -113,6 +113,25 @@ additive circle and complex unit circle.
   transitivity of the deck action is assumed. General lift uniqueness is reused
   from Mathlib's `IsSeparatedMap.eq_of_comp_eq` and `IsCoveringMap.eq_of_comp_eq`,
   not redefined.
+- **Maps of covers and equivariant fiber maps.** For coverings `p : E → B`
+  and `q : F → B`, with the three spaces in independent universes,
+  [`IsCoveringMap.fiberMap`](SphereTopology/Topology/CoveringMonodromy.lean)
+  restricts `{f : C(E, F) // q ∘ f = p}` to Mathlib's `MulActionHom` between
+  the fibers over `b`, over the identity of `FundamentalGroup B b`, using the
+  covers' canonical monodromy actions. Restriction needs no connectedness,
+  local path connectedness or surjectivity, and is injective if `B` is path connected.
+  [`IsCoveringMap.fiberMapEquivOfPathConnected`](SphereTopology/Topology/DeckMonodromy.lean)
+  is an equivalence of these map spaces over `p e₀` for path-connected, locally
+  path-connected `E` and a supplied `e₀ : E`, with no connectedness or local path
+  connectedness assumption on `B`.
+  [`IsCoveringMap.fiberMapEquiv`](SphereTopology/Topology/DeckMonodromy.lean)
+  instead requires only path-connected `B` and locally path-connected `E`, at
+  any `b : B`, allowing empty or disconnected `E`. Neither equivalence requires
+  connectedness or local path connectedness of `F`, or surjectivity of the covers.
+  The inverse is the unique continuous map over the base with the prescribed
+  whole-fiber values; restriction preserves identities and composition. These
+  are equivalences between map spaces, not assertions that individual maps are
+  bijections or homeomorphisms; nonbijective equivariant fiber maps are allowed.
 - **Deck groups as monodromy centralizers.** For any covering `p : E → B`,
   restriction to the point fiber gives
   [`IsCoveringMap.deckMonodromyHom`](SphereTopology/Topology/DeckMonodromy.lean),
@@ -236,9 +255,9 @@ additive circle and complex unit circle.
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
-| `Topology.CoveringMonodromy` | Point stabilizers, path-component orbits, naturality for continuous maps of covers and whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
+| `Topology.CoveringMonodromy` | Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
-| `Topology.DeckMonodromy` | Restriction to the monodromy centralizer; whole-fiber faithfulness for path-connected base; equivalences with locally path-connected total space and either path-connected base or path-connected total space at a specified point. |
+| `Topology.DeckMonodromy` | Equivalences between continuous maps of covers and equivariant fiber maps with locally path-connected source and either path-connected base or path-connected source at a supplied point; deck-centralizer restriction, path-connected-base faithfulness and the corresponding deck-group equivalences. |
 | `Topology.DeckGroup` | Point-fiber deck actions, evaluation embeddings and fixed-point rigidity for separated, locally injective maps with preconnected total space. |
 | `Homology.Singular.Transfer` | Finite-point-fiber covering transfer on all-simplex singular chains and ordinary homology, lift-sum and sheet formulas. |
 | `Homology.Singular.Subdivision`, `SmallChains` | Integral subdivision, prism equations, small-chain quasi-isomorphism, maps and refinements. |

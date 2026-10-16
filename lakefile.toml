@@ -45,6 +45,7 @@ roots = [
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.Topology.CoveringLifting",
+  "SphereTopologyTest.Topology.CoveringMorphisms",
   "SphereTopologyTest.SphereModuleAxioms"
 ]
 
