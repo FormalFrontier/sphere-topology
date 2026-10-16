@@ -38,6 +38,15 @@ unused `DecidableEq` binder. Prism authored the subsequent targeted
 build-diagnostic repair. These repairs are neither wholly new mathematical
 bodies nor substitutes for the earlier reviewed theorem statements.
 
+The circle fundamental-group calculator follows the integer-loop and
+lifted-endpoint idea in J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 1, §5, pp. 8–9, generalized to nonzero signed real periods. It reuses
+Mathlib's quotient-covering and monodromy formalization by Junyan Xu, its
+additive-circle and complex-circle identifications, and its path,
+contractibility and group-equivalence APIs. These are mathematical and
+formalization credits, separate from rights in this library's original
+expression; no expression from May's book is redistributed.
+
 ## Interfaces and documentation
 
 Prism added native public imports and visibility decisions, including public

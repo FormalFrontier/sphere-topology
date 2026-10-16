@@ -8,6 +8,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homology.Singular.MayerVietoris
+public import SphereTopology.Homology.Singular.Components
 public import Mathlib.AlgebraicTopology.SingularHomology.HomologyZero
 public import Mathlib.AlgebraicTopology.SingularHomology.HomotopyInvariance
 public import Mathlib.Algebra.Category.ModuleCat.Colimits
@@ -309,6 +310,62 @@ noncomputable def reducedSingularHomologyZeroToOrdinaryIsKernel (X : TopCat.{u})
     IsLimit (KernelFork.ofι (reducedSingularHomologyZeroToOrdinary X)
       (reducedSingularHomologyZeroToOrdinary_augmentation X)) := by
   exact kernelIsKernel _
+
+/-- Reduced integral degree-zero homology is the coproduct of the integer
+coefficient object over path components other than that of `x`. The comparison
+is the uniqueness isomorphism between two kernels of the same augmentation. -/
+noncomputable def reducedSingularHomologyZeroComponentsIso (X : TopCat.{u}) (x : X) :
+    reducedSingularHomology X 0 ≅
+      ∐ (fun _ : {c : ZerothHomotopy X // c ≠ .mk x} ↦
+        singularHomologyIntegerCoefficients) :=
+  (reducedSingularHomologyZeroToOrdinaryIsKernel X).conePointUniqueUpToIso
+    (singularHomologyZeroComponentInclusionIsKernel X
+      singularHomologyIntegerCoefficients x)
+
+/-- The inverse component presentation agrees with the component inclusion
+when followed by the reduced-to-ordinary map. -/
+@[reassoc]
+theorem reducedSingularHomologyZeroComponentsIso_inv_toOrdinary
+    (X : TopCat.{u}) (x : X) :
+    (reducedSingularHomologyZeroComponentsIso X x).inv ≫
+        reducedSingularHomologyZeroToOrdinary X =
+      singularHomologyZeroComponentInclusion X singularHomologyIntegerCoefficients x := by
+  exact IsLimit.conePointUniqueUpToIso_inv_comp
+    (reducedSingularHomologyZeroToOrdinaryIsKernel X)
+    (singularHomologyZeroComponentInclusionIsKernel X
+      singularHomologyIntegerCoefficients x) WalkingParallelPair.zero
+
+/-- The ordinary image of a reduced component generator is its component
+injection minus the basepoint-component injection under Mathlib's `H₀` isomorphism. -/
+@[reassoc]
+theorem ι_reducedSingularHomologyZeroComponentsIso_inv_toOrdinary
+    (X : TopCat.{u}) (x : X)
+    (c : {c : ZerothHomotopy X // c ≠ .mk x}) :
+    Sigma.ι (fun _ : {c : ZerothHomotopy X // c ≠ .mk x} ↦
+        singularHomologyIntegerCoefficients) c ≫
+        (reducedSingularHomologyZeroComponentsIso X x).inv ≫
+        reducedSingularHomologyZeroToOrdinary X =
+      (Sigma.ι (fun _ : ZerothHomotopy X ↦ singularHomologyIntegerCoefficients) c.val -
+        Sigma.ι (fun _ : ZerothHomotopy X ↦ singularHomologyIntegerCoefficients) (.mk x)) ≫
+          (X.singularHomology₀Iso singularHomologyIntegerCoefficients).inv := by
+  rw [reducedSingularHomologyZeroComponentsIso_inv_toOrdinary]
+  exact ι_singularHomologyZeroComponentInclusion X singularHomologyIntegerCoefficients x c
+
+/-- For a point `y` outside the basepoint path component, the corresponding
+reduced generator has ordinary image `[y] - [x]`, using the existing point classes. -/
+@[reassoc]
+theorem ι_reducedSingularHomologyZeroComponentsIso_inv_toOrdinary_point
+    (X : TopCat.{u}) (x y : X) (h : ZerothHomotopy.mk y ≠ .mk x) :
+    Sigma.ι (fun _ : {c : ZerothHomotopy X // c ≠ .mk x} ↦
+        singularHomologyIntegerCoefficients) ⟨.mk y, h⟩ ≫
+        (reducedSingularHomologyZeroComponentsIso X x).inv ≫
+        reducedSingularHomologyZeroToOrdinary X =
+      singularHomologyZeroPoint X y - singularHomologyZeroPoint X x := by
+  rw [ι_reducedSingularHomologyZeroComponentsIso_inv_toOrdinary]
+  apply (Iso.comp_inv_eq
+    (X.singularHomology₀Iso singularHomologyIntegerCoefficients)).2
+  rw [Preadditive.sub_comp, singularHomologyZeroPoint_homology₀Iso,
+    singularHomologyZeroPoint_homology₀Iso]
 
 /-- Naturality of the degree-zero reduced inclusion, with ordinary homology
 displayed explicitly. -/

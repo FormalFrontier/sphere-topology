@@ -2,6 +2,12 @@ name = "sphere-topology"
 version = "0.1.0"
 defaultTargets = ["SphereTopology", "SphereTopologyTest"]
 
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+weak.linter.style.header = false
+
 [[lean_lib]]
 name = "SphereTopology"
 
@@ -11,8 +17,10 @@ roots = [
   "SphereTopologyTest.AugmentationSimp",
   "SphereTopologyTest.Axioms",
   "SphereTopologyTest.Circle",
+  "SphereTopologyTest.CircleFundamentalGroup",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
+  "SphereTopologyTest.Components",
   "SphereTopologyTest.Connectedness",
   "SphereTopologyTest.HairyBallSphere2",
   "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
@@ -25,12 +33,17 @@ roots = [
   "SphereTopologyTest.ReducedMayerVietorisModuleAxioms",
   "SphereTopologyTest.ReducedModuleAxioms",
   "SphereTopologyTest.SmallChains",
+  "SphereTopologyTest.SingularLifts",
   "SphereTopologyTest.Sphere",
   "SphereTopologyTest.SphereAntipodal",
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.SphereModuleAxioms"
 ]
+
+# Verification declarations are intentionally private.
+[lean_lib.leanOptions]
+weak.linter.privateModule = false
 
 [[require]]
 name = "mathlib"

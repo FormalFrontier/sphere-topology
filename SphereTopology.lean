@@ -8,8 +8,11 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.TangentField
+public import SphereTopology.Topology.SingularLifts
+public import SphereTopology.Homotopy.Circle
 public import SphereTopology.Homology.Singular.SmallChains
 public import SphereTopology.Homology.Singular.MayerVietoris
+public import SphereTopology.Homology.Singular.Components
 public import SphereTopology.Homology.Singular.Reduced
 public import SphereTopology.Homology.Singular.Connectedness
 public import SphereTopology.Homology.Singular.ReducedMayerVietoris

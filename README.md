@@ -1,6 +1,7 @@
 # Sphere Topology
 
-A reusable Lean library for continuous fields on spheres and integral singular
+A reusable Lean library for circle fundamental groups, continuous fields on
+spheres, covering-space lifts of singular simplices, and integral singular
 homology. It develops finite-support subdivision and cover-small chains, ordinary
 and nonnegative reduced Mayer–Vietoris sequences, and explicit circle and
 standard two-sphere computations. Their antipodal sign obstruction gives a
@@ -18,8 +19,21 @@ constructions and conventions.
 
 The subdivision, Mayer–Vietoris and sphere computations below use integer
 coefficients; singular chains have finite support. The zeroth augmentation
-criterion also permits categorical coefficient objects. The circle and two-sphere are unit spheres in
-`EuclideanSpace ℝ (Fin 2)` and `EuclideanSpace ℝ (Fin 3)`, respectively.
+criterion and nonbasepoint-component presentation also permit categorical
+coefficient objects. The homology computations
+use the unit spheres in `EuclideanSpace ℝ (Fin 2)` and
+`EuclideanSpace ℝ (Fin 3)`. The fundamental-group calculator uses Mathlib's real
+additive circle and complex unit circle.
+
+- **Normalized circle fundamental group.** For every real `T ≠ 0`,
+  [`AddCircle.fundamentalGroupEquivInt`](SphereTopology/Homotopy/Circle.lean)
+  identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`. The projected segment
+  `t ↦ T*n*t mod T` has coordinate `n`, and any lift starting at zero ends at
+  `T` times the computed integer. The signed-period homeomorphism to the complex
+  unit `Circle` agrees with its counterclockwise-normalized calculator, also
+  when `T < 0`. `Circle.exp` uses radians, so its lifted endpoint is `2π*n`.
+  The zero-period quotient has trivial fundamental group and is excluded from
+  the integer equivalence, not from the covering-map construction.
 
 - **Continuous hairy-ball theorem for S².** Every bundled continuous
   field `V : C(sphere2, E3)` pointwise orthogonal to the radius vanishes
@@ -41,6 +55,21 @@ criterion also permits categorical coefficient objects. The circle and two-spher
   antipodal map, hence multiplication by `-1` in the fixed `ℤ` coordinate and
   nonhomotopy to identity:
   [`integralSingularHomologyMap_sphere2Antipodal_two`](SphereTopology/Homology/Singular/SphereAntipodal.lean).
+- **Covering-space lifts of singular simplices.** For `p : Y ⟶ X` between
+  spaces in a common ambient universe and `IsCoveringMap p`, evaluation at
+  **any** point of a simplex identifies its lift fiber under
+  `TopCat.toSSet.map p` with the corresponding point fiber:
+  [`IsCoveringMap.singularLiftEquiv`](SphereTopology/Topology/SingularLifts.lean).
+  Restriction is bijective for **every** simplex operator, including faces
+  that omit vertex zero and degeneracies:
+  `IsCoveringMap.bijective_singularLiftRestrict`. There are no nonemptiness,
+  connectedness, local connectedness, surjectivity or finite-sheet assumptions
+  on the base or total space. A finite point fiber gives finitely many lifts.
+  The induced singular simplicial map is equifibered:
+  `IsCoveringMap.toSSet_map_equifibered` makes every naturality square a
+  pullback. The continuous-map version allows independent universes and a simply
+  connected, locally path connected domain; finite nonempty real standard
+  simplices have the required domain instances.
 - **Subdivision and cover-small chains.** Signed barycentric subdivision `Sd`
   and its support-preserving prism `H` obey `∂H + H∂ = id − Sd`:
   [`singularHomotopy_boundary`](SphereTopology/Homology/Singular/Subdivision.lean#L1598).
@@ -61,6 +90,18 @@ criterion also permits categorical coefficient objects. The circle and two-spher
   The connecting morphism lands in small-chain intersection homology, with an
   explicit comparison to homology of the intersection as an open subspace. The general minus-identity criterion additionally requires the
   transported-intersection identity and a monic connecting map.
+- **Nonbasepoint path components.** Given `x : X`, the coproduct of a coefficient
+  object `R` over `{c : ZerothHomotopy X // c ≠ .mk x}` maps to `H₀(X; R)` by
+  component minus basepoint-component injections:
+  [`singularHomologyZeroComponentInclusion`](SphereTopology/Homology/Singular/Components.lean).
+  This uses Mathlib's independent space/category universes, coproducts,
+  preadditivity and `CategoryWithHomology`, with no nonzero-coefficient,
+  path-connectedness or finiteness assumption. Its kernel universal property gives
+  the integral comparison
+  [`reducedSingularHomologyZeroComponentsIso`](SphereTopology/Homology/Singular/Reduced.lean).
+  The three-point presentation has inverse generators `[1]−[0]`
+  and `[2]−[0]`; basepoint `true` on the two-point space recovers the existing
+  false-minus-true basis.
 - **Nonnegative reduced homology.** Degree zero is the augmentation kernel;
   positive degrees agree with ordinary homology. It is homotopy invariant,
   vanishes for contractible **nonempty** spaces, and `H̃₀(∅)=0` does not
@@ -94,15 +135,28 @@ criterion also permits categorical coefficient objects. The circle and two-spher
 
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
+| `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
+| `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Homology.Singular.Subdivision`, `SmallChains` | Integral subdivision, prism equations, small-chain quasi-isomorphism, maps and refinements. |
 | `Homology.Singular.MayerVietoris` | Ordinary ordered two-open sequence, comparison, exactness and naturality. |
-| `Homology.Singular.Reduced`, `ReducedMayerVietoris` | Nonnegative reduced homology, two-point sign, reduced degree-zero tail and connecting map. |
+| `Homology.Singular.Components` | Categorical-coefficient nonbasepoint-component inclusion and augmentation-kernel statement. |
+| `Homology.Singular.Reduced`, `ReducedMayerVietoris` | Nonnegative reduced homology, integral component comparison, two-point sign, reduced degree-zero tail and connecting map. |
 | `Homology.Singular.Connectedness` | Total-augmentation and nonempty integral reduced-zero criteria for path connectedness. |
 | `Homology.Singular.Circle`, `Sphere`, `SphereAntipodal` | Fixed models, integer coordinates and antipodal obstruction. |
 
-The source boundary is the alternating face sum, not an arbitrary-coefficient
-chain theory. Open-cover small-chain interfaces allow independently universed
+The covering-space interfaces concern topological and simplicial lift fibers;
+they do not construct additional chain or homology maps. A simply connected
+simplex domain does not impose connectedness assumptions on the base space.
+
+The subdivision and small-chain boundary is the alternating face sum, not an
+arbitrary-coefficient chain theory. The component leaf instead reuses Mathlib's
+categorical-coefficient singular `H₀`. Its augmentation-kernel/all-simplex model
+generalizes the integral calculation in J. P. May's *A Concise Course in Algebraic
+Topology*, Chapters 13 and 15, using Joël Riou's Mathlib formalization. It does not
+supply based-relative or primed reduced-homology comparisons, normalized-chain/
+tensor-coefficient comparisons, or CGWH/k-ification correspondences.
+Open-cover small-chain interfaces allow independently universed
 cover indices; ordered Mayer–Vietoris naturality compares spaces in a common
 ambient universe. No global nonemptiness assumption is implicit for covers.
 The reduced low-degree target uses the open-intersection comparison. The
