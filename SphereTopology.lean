@@ -7,6 +7,7 @@ Authors: Formal Frontier Agents
 -- See docs/CREDITS.md for mathematical and interface credit.
 module
 
+public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.TangentField
 public import SphereTopology.Topology.CoveringLifting
 public import SphereTopology.Topology.SingularLifts

@@ -28,6 +28,7 @@ roots = [
   "SphereTopologyTest.HairyBallSphere2",
   "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
   "SphereTopologyTest.HairyBallSphere2Root",
+  "SphereTopologyTest.HSpaceFundamentalGroup",
   "SphereTopologyTest.MayerVietoris",
   "SphereTopologyTest.PublicAPIClient",
   "SphereTopologyTest.Reduced",

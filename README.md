@@ -27,6 +27,18 @@ use the unit spheres in `EuclideanSpace ℝ (Fin 2)` and
 `EuclideanSpace ℝ (Fin 3)`. The fundamental-group calculator uses Mathlib's real
 additive circle and complex unit circle.
 
+- **H-space fundamental groups are commutative.** At the unit of any H-space,
+  [`HSpace.loopMul_homotopic_trans`](SphereTopology/Homotopy/HSpaceFundamentalGroup.lean)
+  compares pointwise loop multiplication with chronological concatenation using
+  only the two relative unit homotopies. No associativity, commutativity or strict
+  unit laws for the H-space multiplication are assumed.
+  `FundamentalGroup.fromPath_loopMul` gives the class `[q] * [p]`, and
+  `FundamentalGroup.mul_comm` proves commutativity for arbitrary classes. The
+  `IsMulCommutative` instance preserves the existing fundamental-group data.
+  For continuous multiplication with a strict unit,
+  `Path.mul_homotopic_trans` gives the comparison using `Path.mul`; no
+  associativity or inverse law is needed.
+
 - **Normalized circle fundamental group.** For every real `T ≠ 0`,
   [`AddCircle.fundamentalGroupEquivInt`](SphereTopology/Homotopy/Circle.lean)
   identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`. The projected segment
@@ -196,6 +208,7 @@ additive circle and complex unit circle.
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
+| `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
