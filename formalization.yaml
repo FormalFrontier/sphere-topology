@@ -7,7 +7,9 @@ project:
     continuous fields, identity-to-antipodal homotopies from orthogonal fields,
     integral subdivision, cover-small chains and two-open Mayer-Vietoris,
     nonnegative reduced integral homology and degree-zero criteria for path
-    connectedness. Explicit circle and two-sphere calculations give
+    connectedness. Finite-fiber coverings give transfers on all-simplex singular
+    chains and ordinary homology with categorical coefficient objects.
+    Explicit circle and two-sphere calculations give
     the antipodal action on H2 of the standard two-sphere and its
     continuous orthogonal-field hairy-ball theorem.
   authors:
@@ -28,7 +30,7 @@ sources:
     note: >-
       The sphere tangent-field obstruction motivates this independent topology
       library. The source passage rules out two independent tangent fields;
-      the library proves the stronger one-field zero theorem on literal S2.
+      the library proves the stronger one-field zero theorem on the standard metric S2.
       Algebraic kernel nonfreeness, unimodular-row noncompletion and the exact
       source adapter are separate statements, not consequences certified by
       this metadata. No full example, chapter or book coverage is claimed.
@@ -39,11 +41,25 @@ sources:
       proof exposition is separately credited in docs/CREDITS.md, not represented
       as a publicly accessible bibliographic source.
 
+  - title: "A Concise Course in Algebraic Topology"
+    authors:
+      - "J. Peter May"
+    id: "https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf"
+    type: "book"
+    location: "Revised edition, Chapter 16, Problem 3."
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: >-
+      Motivates the covering transfer and its sheet formula. The coefficient
+      objects and all-simplex chain complex differ from the normalized
+      tensor-coefficient convention of the book. No book expression or asset
+      is redistributed.
+
 related_formalizations:
   - id: "https://github.com/leanprover-community/mathlib4/tree/83abb3e776bdefcbc447a1e44d0debe4010039e5"
     relationship: "builds-on"
     note: >-
-      The only direct library dependency. Reuses continuous maps and homotopies,
+      Reuses continuous maps and homotopies,
       real inner-product spaces, standard simplices, simplicial sets, integral
       singular chains, chain complexes, homology, short exact sequences,
       category-theoretic kernels, stereographic projection and contractibility.
@@ -52,6 +68,13 @@ related_formalizations:
       not original dependency implementation. Project expression origins and
       prior formalization contributions are credited in docs/CREDITS.md; these
       are not additional library dependencies.
+  - id: "https://github.com/FormalFrontier/simplicial-objects/tree/fe4b0a3e8f245c1ba30a640330d66f95ea7dddda"
+    relationship: "builds-on"
+    note: >-
+      Supplies finite-fiber coproduct transfers for equifibered simplicial maps,
+      the all-simplex chain transfer, and its induced homology transfer.
+      The covering construction specializes these maps using evaluation of
+      singular lifts. Dependency authorship and notices remain upstream.
 
 status:
   scope: >-
@@ -65,9 +88,29 @@ status:
     coefficient object in a preadditive category with the requisite small
     coproducts and homology; nonemptiness of the space is not assumed. For
     nonempty spaces, integral reduced H0 vanishes exactly for path connectedness.
-    No complete coverage of Weibel or any other source is claimed. See README.md
+    The covering transfer takes a coefficient object in a preadditive category
+    with coproducts indexed in the space universe; ordinary homology adds only
+    CategoryWithHomology. Its lift-sum and fixed-sheet formulas concern transfer
+    followed by pushforward; finite point fibers and their uniform cardinality
+    are separate hypotheses. Nonempty, surjective and connected coverings are
+    not required. No complete coverage of Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "IsCoveringMap.singularChainComplexTransfer"
+      file: "SphereTopology/Homology/Singular/Transfer.lean"
+      note: "All-simplex singular chain transfer for a covering map with finite point fibers, with a coefficient object in a preadditive category with the requisite coproducts."
+    - declaration: "IsCoveringMap.summandι_singularChainComplexTransfer_f"
+      file: "SphereTopology/Homology/Singular/Transfer.lean"
+      note: "The characteristic formula specifies a singular simplex's image as the sum of all its lifts."
+    - declaration: "IsCoveringMap.singularChainComplexTransfer_comp_map"
+      file: "SphereTopology/Homology/Singular/Transfer.lean"
+      note: "The sheet formula specifies transfer followed by pushforward as d times identity when finite point fibers all have cardinality d."
+    - declaration: "IsCoveringMap.singularHomologyTransfer"
+      file: "SphereTopology/Homology/Singular/Transfer.lean"
+      note: "The induced ordinary singular homology transfer in every nonnegative degree, requiring CategoryWithHomology."
+    - declaration: "IsCoveringMap.singularHomologyTransfer_comp_map"
+      file: "SphereTopology/Homology/Singular/Transfer.lean"
+      note: "The ordinary homology sheet formula has the same finite-fiber and constant-cardinality hypotheses as the chain formula."
     - declaration: "ContinuousMap.normalizeOfNoZero"
       file: "SphereTopology/Homotopy/TangentField.lean"
       note: "Normalize a pointwise nowhere-zero continuous map from any topological space into a real normed vector space."
@@ -97,7 +140,7 @@ status:
       note: "Ordered two-open small-chain short exact sequence, with difference (c,-c) followed by sum."
     - declaration: "AlgebraicTopology.twoOpenMayerVietoris_exact_at_intersection"
       file: "SphereTopology/Homology/Singular/MayerVietoris.lean"
-      note: "Ordinary integral Mayer-Vietoris exactness at the literal intersection for a two-open cover."
+      note: "Ordinary integral Mayer-Vietoris exactness at the open-subspace intersection for a two-open cover."
     - declaration: "AlgebraicTopology.twoOpenMayerVietoris_exact_at_biprod"
       file: "SphereTopology/Homology/Singular/MayerVietoris.lean"
       note: "Exactness at the biproduct of the open-set homology objects."
@@ -121,7 +164,7 @@ status:
       note: "Homotopy equivalences induce reduced homology isomorphisms in every nonnegative degree."
     - declaration: "TopCat.isZero_reducedSingularHomology_of_contractible"
       file: "SphereTopology/Homology/Singular/Reduced.lean"
-      note: "Reduced homology vanishes for a native contractible space; this native premise includes nonemptiness."
+      note: "Reduced homology vanishes for a space with a ContractibleSpace instance; this premise includes nonemptiness."
     - declaration: "TopCat.isZero_reducedSingularHomologyZero_empty"
       file: "SphereTopology/Homology/Singular/Reduced.lean"
       note: "The empty space has zero degree-zero augmentation kernel; this is not a degree-minus-one convention."
@@ -136,7 +179,7 @@ status:
       note: "For a nonempty space, integral reduced H0 vanishes exactly when the space is path connected; nonemptiness is essential."
     - declaration: "AlgebraicTopology.twoOpenReducedMayerVietorisδZero"
       file: "SphereTopology/Homology/Singular/ReducedMayerVietoris.lean"
-      note: "The low-degree boundary lands in reduced H0 of the literal intersection, with explicit ordinary-homology comparison."
+      note: "The low-degree boundary lands in reduced H0 of the open-subspace intersection, with explicit ordinary-homology comparison."
     - declaration: "AlgebraicTopology.twoOpenReducedMayerVietoris_exact_intersectionZero"
       file: "SphereTopology/Homology/Singular/ReducedMayerVietoris.lean"
       note: "Reduced low-degree exactness at the intersection, with separate naturality and ordered-cover swap laws."
@@ -145,7 +188,7 @@ status:
       note: "The reduced H1-to-H0 boundary is an isomorphism when both H0 and H1 vanish for each of the two opens."
     - declaration: "SphereTopology.circlePunctureIntersectionHomotopyEquiv"
       file: "SphereTopology/Homology/Singular/Circle.lean"
-      note: "The literal circle's east/west puncture intersection deforms to two points, with false=upper and true=lower."
+      note: "The metric unit circle's east/west puncture intersection deforms to two points, with false=upper and true=lower."
     - declaration: "SphereTopology.reducedSingularHomologyOneSphereOneIntegerIso"
       file: "SphereTopology/Homology/Singular/Circle.lean"
       note: "Explicit reduced H1 of the unit sphere in EuclideanSpace real (Fin 2) is isomorphic to the integers."
@@ -154,7 +197,7 @@ status:
       note: "The geometric ordered circle cover retains the reduced Mayer-Vietoris minus sign on reversal."
     - declaration: "SphereTopology.sphere2PunctureIntersectionEquatorHomotopyEquiv"
       file: "SphereTopology/Homology/Singular/Sphere.lean"
-      note: "The north/south puncture intersection of literal S2 deforms to its equator by normalized (x,y,t*z); equator points are fixed."
+      note: "The north/south puncture intersection of the standard metric S2 deforms to its equator by normalized (x,y,t*z); equator points are fixed."
     - declaration: "SphereTopology.sphere2EquatorHomeomorphSphere1"
       file: "SphereTopology/Homology/Singular/Sphere.lean"
       note: "Equator-to-circle coordinates preserve the ordered pair (x,y), without an implicit orientation reversal."
@@ -166,16 +209,16 @@ status:
       note: "The antipodal action on the puncture intersection is homotopic to identity through an equatorial half-turn."
     - declaration: "SphereTopology.integralSingularHomologyMap_sphere2Antipodal_two"
       file: "SphereTopology/Homology/Singular/SphereAntipodal.lean"
-      note: "The literal S2 antipodal acts by minus identity on ordinary integral H2, using ordered-cover exchange."
+      note: "The antipodal map on the standard metric S2 acts by minus identity on ordinary integral H2, using ordered-cover exchange."
     - declaration: "SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal"
       file: "SphereTopology/Homology/Singular/SphereAntipodal.lean"
       note: "In the fixed reduced-H2 integer coordinate, the antipodal action is multiplication by minus one."
     - declaration: "SphereTopology.sphere2_id_not_homotopic_antipodal"
       file: "SphereTopology/Homology/Singular/SphereAntipodal.lean"
-      note: "Identity and antipodal on the literal standard two-sphere are not continuously homotopic."
+      note: "Identity and antipodal on the standard metric two-sphere are not continuously homotopic."
     - declaration: "SphereTopology.sphere2_exists_zero_of_orthogonal_field"
       file: "SphereTopology/Homotopy/HairyBallSphere2.lean"
-      note: "Every continuous field V from literal S2 to real Euclidean 3-space, pointwise orthogonal to its base point, has a zero."
+      note: "Every continuous field V from the standard metric S2 to real Euclidean 3-space, pointwise orthogonal to its base point, has a zero."
 
 automation:
   methods:
@@ -188,16 +231,22 @@ automation:
     does not establish correctness, ownership or redistribution rights;
     third-party implementation and source assets are not redistributed here.
 
+review:
+  status: "agent-reviewed"
+
 fidelity:
   divergences: >-
-    Generic small-chain and two-open homology results retain arbitrary TopCat
+    The covering transfer uses Mathlib's all-simplex singular chain and homology
+    functors, not normalized chains or May's tensor-coefficient construction.
+    It makes no CGWH, negative-degree, reduced, relative or deck-equivariant
+    transfer comparison. Generic small-chain and two-open homology results retain arbitrary TopCat
     universes, lifted integral coefficients and exact cover hypotheses. Reduced
     homology uses nonnegative degrees; no augmented degree-minus-one statement
     follows. Contractible-space premises include nonemptiness; empty-space and
     degenerate-cover clients use their separately valid hypotheses. Acyclic-open
     isomorphisms retain both adjacent-degree vanishings, and the cover-swapping
     minus-identity criterion retains its monomorphism and transported-map premises.
-    Explicit geometric calculations concern the literal unit circle and S2 and
+    Explicit geometric calculations concern the metric unit circle and standard metric S2 and
     their fixed integral coordinates, not every homology group of every sphere,
     arbitrary coefficients, characteristic-two obstructions or smooth tangent
     bundles. The tangent-field homotopy is more general than the finite-dimensional
@@ -210,17 +259,11 @@ fidelity:
     has no DecidableEq alpha binder; explicit positional or named-class callers
     must match its current signature.
 
-review:
-  status: "agent-reviewed"
-  notes: >-
-    The mathematical content is independently reviewed by project AI agents,
-    with pinned build and transitive axiom-audit evidence allowing only propext,
-    Classical.choice and Quot.sound. This is not human or source-author
-    endorsement or certification of complete source coverage.
-
 acknowledgements: >-
   The mathlib community supplies the underlying formal mathematics; its authorship
-  and license notices remain with the dependency. Lean and Lake supply the proof
+  and license notices remain with the dependency. Simplicial Objects supplies
+  the simplicial finite-fiber transfer. May supplies the covering-transfer
+  exercise and its coefficient conventions. Lean and Lake supply the proof
   assistant and build system. Weibel's bibliographic authorship is distinct from
   project formalization authorship. Original project contributions and identified
   internal adaptations use the operator-selected Apache-2.0 license; no ownership

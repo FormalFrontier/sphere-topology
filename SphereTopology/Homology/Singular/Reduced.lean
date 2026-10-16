@@ -31,6 +31,19 @@ Our convention is nonnegative and applies to every space, including the empty
 space: degree zero is always the augmentation kernel, while every positive
 degree is ordinary homology.  In particular, no nonemptiness instance is used
 in the definitions.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §§1 and 3,
+  for reduced homology and the two-point computation, and Chapters 13 and 15
+  for the path-component description. May's based-relative reduced theory
+  is background; no comparison to this nonnegative augmentation-kernel model
+  or to normalized chains is supplied here.
+* Joël Riou's Mathlib degree-zero singular-homology coproduct, augmentation and
+  homotopy-invariance formalizations supply the ordinary theory.
+* Formal Frontier Agents' earlier reduced-homology constructions and their
+  universe-polymorphic reconciliation, and the component-kernel construction
+  in `SphereTopology.Homology.Singular.Components`; see `docs/CREDITS.md`.
 -/
 
 @[expose] public section
@@ -45,7 +58,7 @@ namespace AlgebraicTopology
 universe u
 
 /-- Integral singular homology, functorially in the topological space. Its
-objects are the accepted `integralSingularHomology` groups. -/
+objects are the `integralSingularHomology` groups. -/
 noncomputable abbrev integralSingularHomologyFunctor (n : ℕ) :=
   (singularHomologyFunctor (ModuleCat.{u, 0} ℤ) n).obj integerCoefficients
 
@@ -64,12 +77,12 @@ universe u
 open ContinuousMap
 
 /-- The integer coefficient object, lifted to the universe of the spaces under
-consideration. This is the accepted coefficient bridge used by the ordinary
+consideration. This coefficient object is used by the ordinary
 integral singular-chain and Mayer--Vietoris APIs. -/
 abbrev singularHomologyIntegerCoefficients : ModuleCat.{u, 0} ℤ :=
   AlgebraicTopology.integerCoefficients
 
-/-- Compatibility name for the accepted integral singular homology functor. -/
+/-- Compatibility name for the integral singular homology functor. -/
 noncomputable abbrev integerSingularHomologyFunctor (n : ℕ) :
     TopCat.{u} ⥤ ModuleCat.{u, 0} ℤ :=
   integralSingularHomologyFunctor n
@@ -313,7 +326,12 @@ noncomputable def reducedSingularHomologyZeroToOrdinaryIsKernel (X : TopCat.{u})
 
 /-- Reduced integral degree-zero homology is the coproduct of the integer
 coefficient object over path components other than that of `x`. The comparison
-is the uniqueness isomorphism between two kernels of the same augmentation. -/
+is the uniqueness isomorphism between two kernels of the same augmentation.
+
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory. -/
 noncomputable def reducedSingularHomologyZeroComponentsIso (X : TopCat.{u}) (x : X) :
     reducedSingularHomology X 0 ≅
       ∐ (fun _ : {c : ZerothHomotopy X // c ≠ .mk x} ↦
@@ -428,7 +446,12 @@ theorem reducedSingularHomologyMap_eq_of_homotopy {X Y : TopCat.{u}}
         singularHomologyIntegerCoefficients (n + 1)
 
 /-- A homotopy equivalence induces an isomorphism on reduced integer singular
-homology in every nonnegative degree. -/
+homology in every nonnegative degree.
+
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory. -/
 noncomputable def reducedSingularHomologyIsoOfHomotopyEquiv
     {X Y : TopCat.{u}} (e : (X : Type u) ≃ₕ (Y : Type u)) (n : ℕ) :
     reducedSingularHomology X n ≅ reducedSingularHomology Y n where
@@ -487,7 +510,12 @@ theorem isZero_reducedSingularHomology_onePoint (n : ℕ) :
 
 /-- Every contractible space has zero reduced integer singular homology in
 every nonnegative degree. This statement preserves the universe of the
-ambient space. -/
+ambient space.
+
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory. -/
 theorem isZero_reducedSingularHomology_of_contractible (X : TopCat.{u})
     [ContractibleSpace (X : Type u)] (n : ℕ) :
     IsZero (reducedSingularHomology X n) := by
@@ -718,7 +746,12 @@ theorem twoPointReducedCoordinate_basis :
         Preadditive.comp_sub, biproduct.isoCoproduct_inv,
         singularHomologyZeroPoint_twoPoint_iso_assoc] using htrue.symm
 
-/-- The explicit two-point computation with basis `[false] - [true]`. -/
+/-- The explicit two-point computation with basis `[false] - [true]`.
+
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory. -/
 noncomputable def reducedSingularHomologyZeroTwoPointIso :
     reducedSingularHomologyZero twoPointSpace ≅
       singularHomologyIntegerCoefficients where
@@ -733,7 +766,7 @@ def singularHomologyIntegerCoefficientsIso :
     singularHomologyIntegerCoefficients.{0} ≅ ModuleCat.of ℤ ℤ :=
   ULift.moduleEquiv.toModuleIso
 
-/-- The two-point computation stated with the literal integer module as its
+/-- The two-point computation stated with the unlifted integer module as its
 target. -/
 noncomputable def reducedSingularHomologyZeroTwoPointIntegerIso :
     reducedSingularHomologyZero twoPointSpace ≅ ModuleCat.of ℤ ℤ :=
@@ -767,7 +800,7 @@ theorem reducedSingularHomologyZeroTwoPointIso_swap :
   rw [← Category.assoc, twoPointReducedBasis_swap]
   rw [Preadditive.neg_comp, twoPointReducedBasis_coordinate]
 
-/-- The literal-integer form of the transposition computation: conjugating by
+/-- The unlifted-integer form of the transposition computation: conjugating by
 `reducedSingularHomologyZeroTwoPointIntegerIso` gives `-𝟙` on `ℤ`. -/
 theorem reducedSingularHomologyZeroTwoPointIntegerIso_swap :
     reducedSingularHomologyZeroTwoPointIntegerIso.inv ≫

@@ -12,11 +12,22 @@ public import SphereTopology.Homotopy.TangentField
 /-!
 # The antipodal action on the standard two-sphere
 
-This module computes the action of the literal antipodal self-map of the
+This module computes the action of the pointwise-negation self-map of the
 standard metric two-sphere on integral homology.  The north/south puncture
-cover is exchanged, while the resulting sign-free endomorphism of the literal
-puncture intersection is homotopic to the identity.  The ordered
+cover is exchanged, while the resulting sign-free endomorphism of the
+puncture intersection as an open subspace is homotopic to the identity.  The ordered
 Mayer--Vietoris swap is therefore the unique source of the final minus sign.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5,
+  for the antipodal degree `(-1)^(n+1)`. This file proves the two-dimensional
+  integral-homology action using an ordered open cover and explicit homotopies,
+  rather than formalizing May's suspension-induction proof or a general degree theory.
+* Joël Riou's Mathlib singular homology and homotopy invariance supply the
+  underlying functors.
+* Formal Frontier Agents' ordered-cover swap, equatorial deformation and
+  half-turn constructions; see `docs/CREDITS.md`.
 -/
 
 @[expose] public section
@@ -28,7 +39,7 @@ noncomputable section
 
 namespace SphereTopology
 
-/-- The bundled antipodal self-map of the literal standard two-sphere. -/
+/-- The bundled antipodal self-map of the standard metric two-sphere. -/
 def sphere2Antipodal : sphere2 ⟶ sphere2 :=
   TopCat.ofHom (Metric.Sphere.antipodal (E := E3))
 
@@ -69,7 +80,7 @@ theorem sphere2Antipodal_mapsTo_south_north :
   have hneg := congrArg Neg.neg h
   simpa [sphere2SouthPoint] using hneg
 
-/-- Antipodal negation as a point of the literal puncture intersection. -/
+/-- Antipodal negation as a point of the puncture intersection as an open subspace. -/
 def sphere2PunctureIntersectionAntipodalPoint
     (p : sphere2PunctureIntersection) : sphere2PunctureIntersection :=
   ⟨-p.1, by
@@ -86,7 +97,7 @@ def sphere2PunctureIntersectionAntipodalPoint
     · change -p.1 ≠ sphere2SouthPoint
       simpa [sphere2SouthPoint] using hpN⟩
 
-/-- The antipodal endomorphism of the literal puncture intersection. -/
+/-- The antipodal endomorphism of the puncture intersection as an open subspace. -/
 def sphere2PunctureIntersectionAntipodal :
     C(sphere2PunctureIntersection, sphere2PunctureIntersection) :=
   ⟨sphere2PunctureIntersectionAntipodalPoint,
@@ -94,7 +105,7 @@ def sphere2PunctureIntersectionAntipodal :
 
 /-- The sign-free endomorphism induced from the swapped two-open cover: first
 restrict antipodal negation to the south/north intersection, then forget the
-order by the accepted swap map. -/
+order by the sign-free intersection swap map. -/
 def sphere2PunctureIntersectionAntipodalInduced :
     TopCat.of sphere2PunctureIntersection ⟶
       TopCat.of sphere2PunctureIntersection :=
@@ -106,7 +117,7 @@ def sphere2PunctureIntersectionAntipodalInduced :
     AlgebraicTopology.twoOpenIntersectionSwapMap
       sphere2SouthPunctured sphere2NorthPunctured
 
-/-- The induced sign-free endomorphism is literally antipodal negation. -/
+/-- The induced sign-free endomorphism equals pointwise antipodal negation. -/
 theorem sphere2PunctureIntersectionAntipodalInduced_eq :
     sphere2PunctureIntersectionAntipodalInduced =
       TopCat.ofHom sphere2PunctureIntersectionAntipodal := by
@@ -120,7 +131,7 @@ theorem sphere2PunctureIntersectionAntipodal_coe
       -(p.1.1 : E3) := by
   rfl
 
-/-- Antipodal negation is involutive on the literal puncture intersection. -/
+/-- Antipodal negation is involutive on the puncture intersection as an open subspace. -/
 theorem sphere2PunctureIntersectionAntipodal_comp :
     sphere2PunctureIntersectionAntipodal.comp
       sphere2PunctureIntersectionAntipodal =
@@ -130,11 +141,11 @@ theorem sphere2PunctureIntersectionAntipodal_comp :
   apply Subtype.ext
   simp
 
-/-- Antipodal negation on the literal equator. -/
+/-- Antipodal negation on the equator subtype. -/
 def sphere2EquatorAntipodalPoint (p : sphere2Equator) : sphere2Equator :=
   ⟨-p.1, by simpa using p.2⟩
 
-/-- Continuous antipodal negation on the literal equator, preserving its zero
+/-- Continuous antipodal negation on the equator subtype, preserving its zero
 third coordinate. -/
 def sphere2EquatorAntipodal : C(sphere2Equator, sphere2Equator) :=
   ⟨sphere2EquatorAntipodalPoint, by
@@ -193,7 +204,7 @@ theorem sphere2EquatorHalfTurnVector_norm
     sphere2EquatorHalfTurnVector_third]
   nlinarith
 
-/-- The equatorial half-turn as a point of the literal equator. -/
+/-- The equatorial half-turn as a point of the equator subtype. -/
 def sphere2EquatorHalfTurnPoint
     (t : unitInterval) (p : sphere2Equator) : sphere2Equator :=
   ⟨⟨sphere2EquatorHalfTurnVector t p,
@@ -245,7 +256,7 @@ def sphere2EquatorHalfTurnHomotopy :
     sphere2EquatorHalfTurnPoint_zero,
     sphere2EquatorHalfTurnPoint_one⟩
 
-/-- The accepted radial deformation is equivariant for antipodal negation at
+/-- The radial deformation of the puncture intersection is equivariant for antipodal negation at
 the unnormalized-vector level. -/
 theorem sphere2PunctureIntersectionLinearVector_antipodal
     (t : unitInterval) (p : sphere2PunctureIntersection) :
@@ -259,7 +270,7 @@ theorem sphere2PunctureIntersectionLinearVector_antipodal
   fin_cases i <;>
     simp
 
-/-- The accepted normalized radial deformation commutes with antipodal
+/-- The normalized radial deformation of the puncture intersection commutes with antipodal
 negation. -/
 theorem sphere2PunctureIntersectionRadialPoint_antipodal
     (t : unitInterval) (p : sphere2PunctureIntersection) :
@@ -317,7 +328,7 @@ theorem sphere2PunctureIntersectionAntipodal_projection_eq :
   exact (sphere2EquatorToPunctureIntersection_antipodal
     (sphere2PunctureIntersectionToEquator p)).symm
 
-/-- The sign-free antipodal endomorphism of the literal puncture intersection
+/-- The sign-free antipodal endomorphism of the puncture intersection as an open subspace
 is homotopic to the identity. -/
 theorem sphere2PunctureIntersectionAntipodal_homotopic_id :
     ContinuousMap.Homotopic sphere2PunctureIntersectionAntipodal
@@ -377,7 +388,7 @@ theorem sphere2PunctureIntersectionAntipodal_homology_eq_id (n : ℕ) :
 
 set_option linter.style.haveILetI false in
 /-- The connecting morphism for the reversed south/north cover is an
-isomorphism.  This is derived from the accepted north/south isomorphism and
+isomorphism.  This is derived from the north/south connecting isomorphism and
 the ordered-cover swap theorem. -/
 theorem sphere2MayerVietorisδOne_reversed_isIso :
     IsIso (AlgebraicTopology.twoOpenMayerVietorisδ
@@ -411,8 +422,13 @@ theorem sphere2MayerVietorisδOne_reversed_isIso :
   rw [hδ]
   infer_instance
 
-/-- The literal antipodal map acts by `-1` on ordinary integral second
-homology of the literal standard two-sphere. -/
+/-- The pointwise-negation antipodal map acts by `-1` on ordinary integral second
+homology of the standard metric two-sphere.
+
+This is the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology. -/
 theorem integralSingularHomologyMap_sphere2Antipodal_two :
     HomologicalComplex.homologyMap
         (AlgebraicTopology.integralSingularChainMap sphere2Antipodal) 2 =
@@ -431,8 +447,13 @@ theorem reducedSingularHomologyMap_sphere2Antipodal_two :
     TopCat.reducedSingularHomologyMap sphere2Antipodal 2 = -𝟙 _ := by
   exact integralSingularHomologyMap_sphere2Antipodal_two
 
-/-- In the accepted fixed integer coordinate on reduced `H₂`, the literal
-antipodal map is multiplication by `-1`. -/
+/-- In the fixed integer coordinate on reduced `H₂`, the pointwise-negation
+antipodal map is multiplication by `-1`.
+
+This is the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology. -/
 theorem reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal :
     reducedSingularHomologyTwoSphereTwoIntegerIso.inv ≫
         TopCat.reducedSingularHomologyMap sphere2Antipodal 2 ≫
@@ -441,8 +462,13 @@ theorem reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal :
   rw [reducedSingularHomologyMap_sphere2Antipodal_two]
   simp
 
-/-- The identity and literal antipodal self-maps of the standard two-sphere
-are not homotopic. -/
+/-- The identity and pointwise-negation self-maps of the standard two-sphere
+are not homotopic.
+
+This follows from the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology. -/
 theorem sphere2_id_not_homotopic_antipodal :
     ¬ ContinuousMap.Homotopic (ContinuousMap.id sphere2)
       sphere2Antipodal.hom := by

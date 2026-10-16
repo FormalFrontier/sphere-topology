@@ -20,6 +20,18 @@ public import Mathlib.Tactic.Linarith
 This module normalizes nowhere-zero continuous vector-valued maps and constructs
 an explicit homotopy from the identity of a real metric unit sphere to its
 antipodal map. The homotopy rotates each point through an orthogonal unit field.
+
+## References
+
+* Charles A. Weibel, *The K-book: An Introduction to Algebraic K-theory*,
+  Example I.1.2.2, motivates the sphere-field obstruction; it is not a source
+  for a formal comparison with algebraic kernels or unimodular rows.
+* Formal Frontier Agents' earlier sphere-field proof exposition supplies the
+  normalization and cosine--sine rotation argument. The construction here
+  applies to any real inner-product space, without finite dimensionality;
+  see `docs/CREDITS.md` for its original and interface contributions.
+* Mathlib's normalization, real inner-product, trigonometric and continuous
+  homotopy APIs supply the analytic and topological foundations.
 -/
 
 @[expose] public section
@@ -59,7 +71,11 @@ def antipodal
   continuous_toFun := continuous_neg
 
 /-- An orthogonal unit field rotates the identity map of a unit sphere to the
-antipodal map. -/
+antipodal map.
+
+This is the cosine--sine rotation construction from Formal Frontier Agents'
+earlier sphere-field proof exposition, implemented with Mathlib's
+inner-product, trigonometric and homotopy APIs; see the module references. -/
 noncomputable def homotopyAntipodalOfUnitOrthogonal
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     (W : C(Metric.sphere (0 : E) 1, E))
@@ -90,7 +106,11 @@ noncomputable def homotopyAntipodalOfUnitOrthogonal
     simp [antipodal]
 
 /-- A nowhere-zero orthogonal field can first be normalized and then used to
-rotate the identity map to the antipodal map. -/
+rotate the identity map to the antipodal map.
+
+This is the cosine--sine rotation construction from Formal Frontier Agents'
+earlier sphere-field proof exposition, implemented with Mathlib's
+inner-product, trigonometric and homotopy APIs; see the module references. -/
 noncomputable def homotopyAntipodalOfNowhereZeroOrthogonal
     {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     (V : C(Metric.sphere (0 : E) 1, E))

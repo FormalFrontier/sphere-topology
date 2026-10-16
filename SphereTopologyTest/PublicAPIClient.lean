@@ -12,7 +12,7 @@ import SphereTopology
 # Ordinary aggregate-import clients
 
 These private consumers use only the advertised ordinary root import. They test
-actual conclusions, data interfaces, empty cases and literal sphere models. The
+the stated conclusions, data interfaces, empty cases and metric sphere models. The
 existing focused clients separately retain the full ordered-cover and universe
 regressions. No source repository is a dependency of this library.
 -/
@@ -111,7 +111,7 @@ private theorem hairyBall (V : C(sphere2, E3))
     (hOrth : ∀ p, inner ℝ p.1 (V p) = 0) : ∃ p, V p = 0 :=
   sphere2_exists_zero_of_orthogonal_field V hOrth
 
--- The concrete bundling/model step used by the accepted downstream source adapter.
+-- Bundling a continuous orthogonal field on the standard metric sphere.
 private theorem unbundledField
     (V : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1 → EuclideanSpace ℝ (Fin 3))
     (hContinuous : Continuous V) (hOrth : ∀ p, inner ℝ p.1 (V p) = 0) :

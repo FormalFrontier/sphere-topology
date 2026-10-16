@@ -26,7 +26,7 @@ open AlgebraicTopology
 
 universe u
 
-/- The chain complex, cover-small inclusion, accepted quasi-isomorphism and
+/- The chain complex, cover-small inclusion, cover-small quasi-isomorphism and
 resulting short exact sequence all expose the ambient universe. -/
 private theorem case001 {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) : True := by
   have _ := integralSingularChains X

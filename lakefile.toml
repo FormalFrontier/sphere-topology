@@ -17,6 +17,7 @@ roots = [
   "SphereTopologyTest.AugmentationSimp",
   "SphereTopologyTest.Axioms",
   "SphereTopologyTest.Circle",
+  "SphereTopologyTest.CircleDegree",
   "SphereTopologyTest.CircleFundamentalGroup",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
@@ -38,6 +39,7 @@ roots = [
   "SphereTopologyTest.ReducedModuleAxioms",
   "SphereTopologyTest.SmallChains",
   "SphereTopologyTest.SingularLifts",
+  "SphereTopologyTest.SingularTransfer",
   "SphereTopologyTest.Sphere",
   "SphereTopologyTest.SphereAntipodal",
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
@@ -54,3 +56,8 @@ weak.linter.privateModule = false
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
 rev = "83abb3e776bdefcbc447a1e44d0debe4010039e5"
+
+[[require]]
+name = "simplicial-objects"
+git = "https://github.com/FormalFrontier/simplicial-objects"
+rev = "fe4b0a3e8f245c1ba30a640330d66f95ea7dddda"

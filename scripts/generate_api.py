@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
 # Authors: Formal Frontier Agents
-"""Generate this library's Markdown API from pinned native doc-gen4 records.
+"""Format this library's API from historical records or current source inspection.
 
 Adapted by Prism from Anchor's algebraic-direct-limits adapter at
 bbdcf43d28dd92312484adba53fe20b5b35a2f75. See docs/CREDITS.md.
@@ -53,7 +53,7 @@ def digest(raw):
 
 
 def source_site(info, revision, path, sources):
-    """Validate the actual native source-snapshot identifier, not a remote URL."""
+    """Validate the native source-snapshot identifier, not a remote URL."""
     line_count = len(sources[path].splitlines())
     require(type(info["line"]) is int and 0 < info["line"] <= line_count,
             "invalid native source line")
@@ -232,17 +232,125 @@ def render(records, revision, sources):
     return markdown, (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
 
 
+def inspected_source_site(name, meta, source):
+    """Locate a unique declaration/owner in this fixed library, not arbitrary Lean.
+
+    Only declaration-line names and immediately attached doc comments are read.
+    Generated declarations use the inventory's explicit owner, never guessed names.
+    """
+    target = meta["generated_owner"] or name
+    candidates = [m for m in re.finditer(
+        r"(?m)^(?:(?:noncomputable|private|public|protected|local)\s+|"
+        r"@\[[^\]\n]*\]\s+)*(?:def|theorem|lemma|abbrev|instance)\s+([\w.₀-₉]+)", source)
+        if target == m[1].rstrip(".") or target.endswith("." + m[1].rstrip("."))]
+    require(bool(candidates), "source declaration absent: " + name)
+    longest = max(len(m[1]) for m in candidates)
+    candidates = [m for m in candidates if len(m[1]) == longest]
+    require(len(candidates) == 1, "ambiguous source declaration: " + name)
+    declaration = candidates[0]
+    prefix = source[:declaration.start()].rstrip()
+    doc = ""
+    site = declaration.start()
+    if prefix.endswith("-/"):
+        start = prefix.rfind("/--")
+        if start >= 0 and "-/" not in prefix[start:-2]:
+            doc = prefix[start + 3:-2].strip()
+            site = start
+    # Generated displays inherit owner prose only where the historical record
+    # already did so; other generated displays keep separately authored notes.
+    if meta["generated_owner"] and not meta["native_doc"].strip():
+        doc = ""
+    return source.count("\n", 0, site) + 1, doc
+
+
+def inspect_current(markdown, sources):
+    """Refresh only current prose/links; keep historical headers and provenance.
+
+    The input is the shipped, five-header-corrected page, not a new native record.
+    Later interfaces outside the 567-site inventory remain untouched.
+    """
+    sites = {}
+    pattern = (r"(?m)^### ([^\n]+)\n\n```lean\n([^\n]+)\n```\n\n"
+               r"(.*?)\[Source\]\(\.\./([^#]+)#L[0-9]+\) "
+               r"\(retained native site: line ([0-9]+)\)\.")
+    def update(match):
+        name, header, body, path, native_line = match.groups()
+        require(name in EXPECTED and name not in sites, "current display differs")
+        meta = EXPECTED[name]
+        require(path == MODULE_PATHS[meta["module"]] and int(native_line) == meta["line"],
+                "historical display selection differs")
+        line, doc = inspected_source_site(name, meta, sources[path].decode())
+        require(bool(doc) == bool(meta["native_doc"].strip()),
+                "current docstring presence differs: " + name)
+        require("```" not in doc, "unsupported source docstring fence")
+        # Keep the five previously labeled source-inspected header corrections.
+        correction = re.match(r"(\*\*Source-inspected correction:\*\*[^\n]+\n\n)", body)
+        content = correction[1] if correction else ""
+        content += doc if doc else "**API note (not a source docstring):** " + NOTES[name]
+        if meta["generated_owner"]:
+            content += ("\n\nGenerated `" + meta["generated_attribute"] + "` declaration from `"
+                        + meta["generated_owner"] + "`; the source link locates its owner.")
+        if meta["local_instance"]:
+            content += "\n\nSource registration: **local instance**, not a globally registered instance."
+        if name == "TopCat.isOpenCover_twoOpenCover":
+            content += ("\n\nFormal boundary: the displayed theorem supplies the stated implication;"
+                        " its docstring does not establish a separate converse.")
+        sites[name] = dict(line=line, source_docstring_sha256=digest(doc.encode()))
+        return ("### " + name + "\n\n```lean\n" + header + "\n```\n\n" + content
+                + f"\n\n[Source](../{path}#L{line}) (retained native site: line {native_line}).")
+    current = re.sub(pattern, update, markdown.decode(), flags=re.S).encode()
+    require(set(sites) == set(EXPECTED), "incomplete current display inspection")
+    details = dict(method="Bounded source-docstring/link inspection; no native doc-gen run.",
+                   source_inputs={p: digest(sources[p]) for p in sorted(sources)},
+                   documentation_inputs={str(p.relative_to(HERE.parent)): digest(p.read_bytes())
+                       for p in (HERE / "generate_api.py", HERE / "api_inventory.json", HERE / "api_notes.json")},
+                   api_sha256=digest(current), source_links_checked=len(sites),
+                   source_docstrings_displayed=299, authored_api_notes_displayed=268,
+                   source_docstrings_differing_from_native=sum(
+                       sites[n]["source_docstring_sha256"] != digest(m["native_doc"].strip().encode())
+                       for n, m in EXPECTED.items()),
+                   scope="Historical 567-site display selection only; not a whole-library declaration census.",
+                   proof_certification=False)
+    return current, details
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--native-data", type=Path, required=True,
+    p.add_argument("--inspect-current", action="store_true",
+                   help="format current source docstrings and links, without native records")
+    p.add_argument("--native-data", type=Path,
                    help="native fromDb output doc-data directory")
-    p.add_argument("--source-revision", required=True)
+    p.add_argument("--source-revision")
     p.add_argument("--check", action="store_true", help="compare, never write")
     args = p.parse_args()
-    require(re.fullmatch(r"[0-9a-f]{40}", args.source_revision) is not None,
-            "full source revision required")
     root = Path(__file__).resolve().parent.parent
     sources = {path: (root / path).read_bytes() for path in INPUTS}
+    if args.inspect_current:
+        require(args.native_data is None and args.source_revision is None,
+                "current inspection does not consume native records or a native revision")
+        page = root / "docs/API.md"
+        provenance = root / "docs/api-manifest.json"
+        current, details = inspect_current(page.read_bytes(), sources)
+        manifest = json.loads(provenance.read_bytes())
+        # Every original top-level field and the earlier source_inspection remain
+        # historical. Content hashes, not a fabricated generation revision, bind
+        # the current inspected source and separately edited notes.
+        manifest["current_source_inspection"] = details
+        raw_manifest = (json.dumps(manifest, indent=2) + "\n").encode()
+        if args.check:
+            require(page.read_bytes() == current, "current API differs")
+            require(json.loads(provenance.read_bytes()) == manifest, "current inspection binding differs")
+        else:
+            page.write_bytes(current)
+            provenance.write_bytes(raw_manifest)
+        print(json.dumps(dict(status="matched" if args.check else "source-inspected",
+                              declarations=567, api_sha256=digest(current),
+                              native_generation=False, proof_certification=False)))
+        return
+    require(args.native_data is not None and args.source_revision is not None,
+            "historical generation requires native data and its source revision")
+    require(re.fullmatch(r"[0-9a-f]{40}", args.source_revision) is not None,
+            "full source revision required")
     # A public release has independent ancestry: its analyzed development commit
     # need not be present. Prefer the exact Git object when available, otherwise
     # require the already committed complete source/pin manifest. Neither branch

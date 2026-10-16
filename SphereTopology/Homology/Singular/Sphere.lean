@@ -14,7 +14,7 @@ public import Mathlib.Topology.Constructions
 /-!
 # Reduced integral homology of the standard two-sphere
 
-This module equips the literal unit sphere in `EuclideanSpace ℝ (Fin 3)` with
+This module equips the metric unit sphere in `EuclideanSpace ℝ (Fin 3)` with
 the ordered north/south puncture cover.  Stereographic projection contracts
 the two opens.  On their intersection, the explicit normalized homotopy
 
@@ -23,6 +23,18 @@ the two opens.  On their intersection, the explicit normalized homotopy
 deforms the twice-punctured sphere onto the equator while fixing the equator
 pointwise.  The equator is then identified with the standard oriented circle
 by retaining coordinates zero and one.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §§3 and 5,
+  for sphere homology and Mayer--Vietoris. The normalized equatorial deformation
+  and coordinate-ordered circle transport here are project constructions,
+  not a comparison with May's based-relative or normalized chain models.
+* Mathlib's stereographic projection and contractibility in
+  `Mathlib.Geometry.Manifold.Instances.Sphere` and
+  `Mathlib.Analysis.Convex.Contractible`, and Joël Riou's singular homology.
+* Formal Frontier Agents' ordered Mayer--Vietoris and fixed circle computation
+  in `SphereTopology.Homology.Singular.Circle`; see `docs/CREDITS.md`.
 -/
 
 @[expose] public section
@@ -74,7 +86,7 @@ lemma sphere2NorthPoint_ne_southPoint : sphere2NorthPoint ≠ sphere2SouthPoint 
   have := congrArg (fun p : Metric.sphere (0 : E3) 1 => (p.1 : E3) 2) h
   norm_num at this
 
-/-- The literal standard metric two-sphere. -/
+/-- The standard metric two-sphere in `E3`. -/
 abbrev sphere2 : TopCat :=
   TopCat.of (Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1)
 
@@ -121,12 +133,12 @@ noncomputable def sphere2SouthPuncturedHomeomorph :
     (Homeomorph.setCongr (stereographic'_target sphere2SouthPoint)) |>.trans
     (Homeomorph.Set.univ (EuclideanSpace ℝ (Fin 2)))
 
-/-- The literal intersection of the ordered north/south puncture cover. -/
+/-- The open-subspace intersection of the ordered north/south puncture cover. -/
 abbrev sphere2PunctureIntersection :=
   ((TopologicalSpace.Opens.toTopCat sphere2).obj
     (sphere2NorthPunctured ⊓ sphere2SouthPunctured) : Type)
 
-/-- The literal equator, as a subtype of the literal standard two-sphere. -/
+/-- The equator, defined by zero third coordinate in the standard two-sphere. -/
 abbrev sphere2Equator :=
   {p : Metric.sphere (0 : E3) 1 // (p.1 : E3) 2 = 0}
 
@@ -224,7 +236,7 @@ lemma sphere2PunctureIntersectionRadialVector_first_second_not_both_zero
       smul_eq_mul, sphere2PunctureIntersectionLinearVector_second] at hy
     exact (mul_eq_zero.mp hy).resolve_left hn
 
-/-- The normalized homotopy stays on the literal twice-punctured sphere. -/
+/-- The normalized homotopy stays on the metric two-sphere with both poles removed. -/
 def sphere2PunctureIntersectionRadialPoint
     (t : unitInterval) (p : sphere2PunctureIntersection) :
     sphere2PunctureIntersection :=
@@ -293,7 +305,7 @@ lemma continuous_sphere2PunctureIntersectionToEquatorPoint :
   exact (continuous_subtype_val.comp
     sphere2PunctureIntersectionRadialAtZero.continuous).subtype_mk _
 
-/-- Projection of the twice-punctured sphere onto the literal equator. -/
+/-- Projection of the twice-punctured sphere onto the equator subtype. -/
 def sphere2PunctureIntersectionToEquator :
     C(sphere2PunctureIntersection, sphere2Equator) :=
   ⟨sphere2PunctureIntersectionToEquatorPoint,
@@ -321,7 +333,7 @@ lemma continuous_sphere2EquatorToPunctureIntersectionPoint :
     Continuous sphere2EquatorToPunctureIntersectionPoint := by
   exact continuous_subtype_val.subtype_mk _
 
-/-- Inclusion of the literal equator into the twice-punctured sphere. -/
+/-- Inclusion of the equator subtype into the twice-punctured sphere. -/
 def sphere2EquatorToPunctureIntersection :
     C(sphere2Equator, sphere2PunctureIntersection) :=
   ⟨sphere2EquatorToPunctureIntersectionPoint,
@@ -402,8 +414,8 @@ def sphere2PunctureIntersectionRadialHomotopy :
     sphere2PunctureIntersectionRadialPoint_zero,
     sphere2PunctureIntersectionRadialPoint_one⟩
 
-/-- The literal twice-punctured sphere is homotopy equivalent to its literal
-equator through the displayed projection, inclusion, and deformation. -/
+/-- The metric two-sphere with both poles removed is homotopy equivalent to its
+equator subtype through the displayed projection, inclusion, and deformation. -/
 noncomputable def sphere2PunctureIntersectionEquatorHomotopyEquiv :
     sphere2PunctureIntersection ≃ₕ sphere2Equator where
   toFun := sphere2PunctureIntersectionToEquator
@@ -485,7 +497,7 @@ lemma sphere1ToSphere2EquatorVector_norm
   nlinarith [norm_nonneg (sphere1ToSphere2EquatorVector p)]
 
 /-- The orientation-fixed coordinate homeomorphism from the equator to the
-accepted standard circle: `(x,y,0)` is sent to `(x,y)`. -/
+metric unit circle in `E2`: `(x,y,0)` is sent to `(x,y)`. -/
 noncomputable def sphere2EquatorHomeomorphSphere1 :
     sphere2Equator ≃ₜ (sphere1 : Type) where
   toFun p := ⟨sphere2EquatorToCircleVector p,
@@ -518,8 +530,8 @@ noncomputable def sphere2EquatorHomeomorphSphere1 :
     apply (PiLp.continuous_toLp 2 _).comp
     fun_prop
 
-/-- The full geometric transport from the literal twice-punctured sphere to
-the accepted standard circle, with the equatorial coordinate order `(x,y)`. -/
+/-- The full geometric transport from the metric two-sphere with both poles removed to
+the metric unit circle in `E2`, with the equatorial coordinate order `(x,y)`. -/
 noncomputable def sphere2PunctureIntersectionSphere1HomotopyEquiv :
     sphere2PunctureIntersection ≃ₕ (sphere1 : Type) :=
   sphere2PunctureIntersectionEquatorHomotopyEquiv.trans
@@ -552,7 +564,7 @@ theorem isZero_reducedSingularHomology_sphere2SouthPunctured (n : ℕ) :
   exact TopCat.isZero_reducedSingularHomology_of_contractible _ _
 
 set_option linter.style.haveILetI false in
-/-- The accepted positive-degree connecting morphism for the ordered
+/-- The positive-degree Mayer--Vietoris connecting morphism for the ordered
 north/south cover is an isomorphism in degree two. -/
 theorem sphere2MayerVietorisδOne_isIso :
     IsIso (AlgebraicTopology.twoOpenMayerVietorisδ
@@ -587,7 +599,7 @@ theorem sphere2MayerVietorisδOne_isIso :
     ((biprod_isZero_iff _ _).2 ⟨hN₁, hS₁⟩)
 
 /-- Positive-degree reduced Mayer--Vietoris for the ordered north/south cover,
-with its target identified with the literal puncture intersection. -/
+with its target identified with the puncture intersection as an open subspace. -/
 noncomputable def sphere2ReducedMayerVietorisIso :
     TopCat.reducedSingularHomology sphere2 2 ≅
       TopCat.reducedSingularHomology
@@ -617,7 +629,12 @@ theorem sphere2ReducedMayerVietorisIso_hom :
   rfl
 
 /-- The fixed-coordinate reduced integral homology computation
-`H̃₂(S²; ℤ) ≅ ℤ` for the literal standard two-sphere. -/
+`H̃₂(S²; ℤ) ≅ ℤ` for the standard metric two-sphere.
+
+The sphere-homology result is described in J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §3. The proof here uses the project's ordered Mayer--Vietoris,
+normalized equatorial deformation and fixed circle computation, over Mathlib's
+singular homology; it supplies no comparison with May's based-relative model. -/
 noncomputable def reducedSingularHomologyTwoSphereTwoIntegerIso :
     TopCat.reducedSingularHomology sphere2 2 ≅ ModuleCat.of ℤ ℤ :=
   sphere2ReducedMayerVietorisIso ≪≫
@@ -625,9 +642,9 @@ noncomputable def reducedSingularHomologyTwoSphereTwoIntegerIso :
       sphere2PunctureIntersectionSphere1HomotopyEquiv 1 ≪≫
     reducedSingularHomologyOneSphereOneIntegerIso
 
-/-- The computation uses the accepted ordered connecting morphism, then the
-literal intersection/equator transport, the coordinate-ordered equator/circle
-transport, and finally the accepted fixed circle integer coordinate. -/
+/-- The computation uses the ordered Mayer--Vietoris connecting morphism, then the
+open-intersection/equator transport, the coordinate-ordered equator/circle
+transport, and finally the fixed circle integer coordinate. -/
 theorem reducedSingularHomologyTwoSphereTwoIntegerIso_hom :
     reducedSingularHomologyTwoSphereTwoIntegerIso.hom =
       sphere2ReducedMayerVietorisIso.hom ≫
@@ -636,7 +653,7 @@ theorem reducedSingularHomologyTwoSphereTwoIntegerIso_hom :
       reducedSingularHomologyOneSphereOneIntegerIso.hom := by
   rfl
 
-/-- Fully expanded comparison with the accepted positive-degree connecting
+/-- Fully expanded comparison with the positive-degree Mayer--Vietoris connecting
 morphism and the fixed circle coordinate. -/
 theorem reducedSingularHomologyTwoSphereTwoIntegerIso_hom_explicit :
     reducedSingularHomologyTwoSphereTwoIntegerIso.hom =

@@ -31,6 +31,17 @@ It then realizes these operators on singular simplices.  Every simplex produced
 by subdivision or the homotopy has range contained in the range of an input
 simplex.  Iterated subdivision eventually makes every simplex in a finitely
 supported chain small relative to an open cover.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 16, §1,
+  for singular simplices and the alternating boundary as mathematical background.
+  May uses normalized chains; the finite-support all-simplex cone/prism
+  construction here is a project construction, not a formalization of that model comparison.
+* Mathlib's standard-simplex, barycenter and simplicial APIs, together with
+  Joël Riou's singular-homology formalization, supply the underlying objects.
+* Formal Frontier Agents' integral subdivision and support-preserving prism
+  constructions; see `docs/CREDITS.md` for the original and interface contributions.
 -/
 
 @[expose] public section
@@ -1020,7 +1031,7 @@ open Convexity Convexity.StdSimplex
 universe u
 
 /-- Finite integer linear combinations of singular `n`-simplices in `X`,
-represented as finitely supported functions on its native singular simplicial set. -/
+represented as finitely supported functions on its singular simplicial set. -/
 abbrev SingularChainFinsupp (X : TopCat.{u}) (n : ℕ) :=
   (TopCat.toSSet.obj X) _⦋n⦌ →₀ ℤ
 

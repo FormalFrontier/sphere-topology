@@ -123,6 +123,25 @@ class Controls(unittest.TestCase):
         for module in empty:
             self.assertEqual(records[module]["declarations"], [])
             self.assertIn(module, facts["native_record_sha256"])
+        # Current source inspection is separate from historical reproduction.
+        page = (ROOT / "docs/API.md").read_bytes()
+        current, inspection = api.inspect_current(page, sources)
+        self.assertEqual(current, page)
+        again, repeated = api.inspect_current(current, sources)
+        self.assertEqual((again, repeated), (current, inspection))
+        self.assertEqual(inspection["source_docstrings_displayed"], 299)
+        self.assertEqual(inspection["authored_api_notes_displayed"], 268)
+        self.assertEqual(inspection["source_links_checked"], 567)
+        self.assertFalse(inspection["proof_certification"])
+        self.assertEqual(inspection["source_inputs"],
+                         {p: api.digest(sources[p]) for p in sorted(sources)})
+        self.assertIn(b"Chapter 13, \xc2\xa75", current)
+        with self.assertRaisesRegex(ValueError, "incomplete current display"):
+            api.inspect_current(page.replace(b"### SphereTopology.E2", b"## SphereTopology.E2"), sources)
+        with self.assertRaisesRegex(ValueError, "source declaration absent"):
+            api.inspected_source_site("Absent", {"generated_owner": ""}, "")
+        with self.assertRaisesRegex(ValueError, "ambiguous source declaration"):
+            api.inspected_source_site("A.x", {"generated_owner": ""}, "def x := 0\ndef x := 1")
 
     def test_all_literal_kinds_and_signature_tokens(self):
         records, sources = fixture()

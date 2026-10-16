@@ -1,10 +1,43 @@
 # API reference
 
-This reference contains 567 native display sites in ten mathematical library leaves.
-Import `SphereTopology` for the library; the 21 test/audit modules are separate.
-All 32 shipped module records are retained, including 22 empty display records.
-The ordinary build checks proofs; the complete axiom audit separately covers private declarations.
-Native display-site counts are not a complete kernel-declaration census.
+## Finite-fiber covering transfer
+
+[`SphereTopology.Homology.Singular.Transfer`](../SphereTopology/Homology/Singular/Transfer.lean)
+uses Mathlib's all-simplex singular chain and ordinary homology functors.
+For `p : Y ⟶ X`, `hp : IsCoveringMap p` and
+`hf : ∀ x : X, Finite {y : Y // p y = x}`, its interfaces are:
+
+| Declaration in `IsCoveringMap` | Role |
+| --- | --- |
+| `singularChainComplexTransfer hp hf R` | Chain map from `X` to `Y` with coefficient object `R`. |
+| `singularChainComplexTransfer_f` | Component as a finite-fiber coproduct transfer. |
+| `summandι_singularChainComplexTransfer_f` | Image of a simplex as the sum of all its lifts. |
+| `singularChainComplexTransfer_comp_map` | Transfer then pushforward is `d • id`, assuming each point fiber has cardinality `d`. |
+| `singularHomologyTransfer hp hf R q` | Induced ordinary singular homology map in degree `q : ℕ`. |
+| `singularHomologyTransfer_eq_map` | Agreement with applying the homology functor to the chain transfer. |
+| `singularHomologyTransfer_comp_map` | The corresponding degree-`q` sheet formula. |
+
+The coefficient category needs preadditivity and coproducts indexed in the
+space universe; its object and morphism universes are independent. Homology
+adds `CategoryWithHomology`. Finiteness is not inferred from a cardinality
+equality. The constructions do not require a constant degree, nonemptiness,
+surjectivity or connectedness. No normalized, tensor-coefficient, CGWH,
+negative-degree, reduced, relative or deck-equivariant comparison is supplied.
+The integral example uses the two-sheet projection `Circle × Fin 2 → Circle`
+and the nonconstant one-turn singular edge, with one copy of each lift.
+
+## Other interfaces
+
+The display collection below contains 567 sites in ten mathematical modules.
+Its retained 32-module inventory includes 22 modules with no displays; it does
+not enumerate every interface in the library. The covering-transfer interfaces
+above are listed separately. Integer degree and free homotopy of unbased
+complex-circle self-maps are documented in
+[`SphereTopology.Homotopy.CircleDegree`](../SphereTopology/Homotopy/CircleDegree.lean)
+and the [overview](../README.md). That module and its
+[examples](../SphereTopologyTest/CircleDegree.lean) are outside the historical
+32-module record and 567-site display selection. Import `SphereTopology` for
+the library; private example modules are separate.
 
 Headers below reuse native doc-gen4 display signatures, not complete declarations
 with proof bodies. Five explicitly labeled headers are corrected by source
@@ -18,7 +51,13 @@ Source links are relative to this same checkout.
 
 The historical native provenance and separate current source inspection are in [api-manifest.json](api-manifest.json).
 See [generation instructions](README.md) and the [library overview](../README.md).
-Where no source docstring exists, a separately authored **API note** is labeled explicitly.
+The 299 docstring displays below follow current attached source prose, including
+mathematical references; recorded generated displays inherit their owner's prose
+where the original inventory did so. They are not fresh native output. The
+historical native docstrings remain unchanged in `scripts/api_inventory.json`.
+Where no source docstring exists, one of the 268 separately authored **API notes**
+is labeled explicitly. The current inspection's file hashes and page hash are
+separate from both historical manifest layers.
 
 ## SphereTopology.Homology.Singular.Circle
 
@@ -32,7 +71,7 @@ abbrev SphereTopology.E2 : Type
 
 The real Euclidean plane, with coordinates indexed by `0` and `1`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L35) (retained native site: line 35).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L48) (retained native site: line 35).
 
 ### SphereTopology.eastVector
 
@@ -42,7 +81,7 @@ def SphereTopology.eastVector : E2
 
 The vector `(1, 0)` in the Euclidean plane.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L38) (retained native site: line 38).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L51) (retained native site: line 38).
 
 ### SphereTopology.eastVector_norm
 
@@ -52,7 +91,7 @@ theorem SphereTopology.eastVector_norm : ‖eastVector‖ = 1
 
 **API note (not a source docstring):** The coordinate vector (1,0) has norm one in the Euclidean plane. This supplies the unit-circle membership proof for the east pole.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L41) (retained native site: line 41).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L54) (retained native site: line 41).
 
 ### SphereTopology.eastPoint
 
@@ -62,7 +101,7 @@ def SphereTopology.eastPoint : ↑(Metric.sphere 0 1)
 
 The east pole `(1, 0)`, bundled as a point of the metric unit circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L44) (retained native site: line 44).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L57) (retained native site: line 44).
 
 ### SphereTopology.eastPoint_first
 
@@ -72,7 +111,7 @@ theorem SphereTopology.eastPoint_first : (↑eastPoint).ofLp 0 = 1
 
 **API note (not a source docstring):** The east pole has coordinate zero equal to one. The native display uses ofLp for Euclidean coordinate evaluation.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L50) (retained native site: line 50).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L63) (retained native site: line 50).
 
 ### SphereTopology.eastPoint_second
 
@@ -82,7 +121,7 @@ theorem SphereTopology.eastPoint_second : (↑eastPoint).ofLp 1 = 0
 
 **API note (not a source docstring):** The east pole has coordinate one equal to zero. Coordinates are indexed by Fin 2, starting at zero.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L53) (retained native site: line 53).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L66) (retained native site: line 53).
 
 ### SphereTopology.westPoint
 
@@ -92,7 +131,7 @@ noncomputable def SphereTopology.westPoint : ↑(Metric.sphere 0 1)
 
 The west pole `(-1, 0)`, defined as the antipode of `eastPoint`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L56) (retained native site: line 56).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L69) (retained native site: line 56).
 
 ### SphereTopology.northVector
 
@@ -102,7 +141,7 @@ def SphereTopology.northVector : E2
 
 The vector `(0, 1)` in the Euclidean plane.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L58) (retained native site: line 58).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L71) (retained native site: line 58).
 
 ### SphereTopology.northPoint
 
@@ -112,7 +151,7 @@ def SphereTopology.northPoint : ↑(Metric.sphere 0 1)
 
 The north pole `(0, 1)`, bundled as a point of the metric unit circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L60) (retained native site: line 60).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L73) (retained native site: line 60).
 
 ### SphereTopology.southPoint
 
@@ -122,7 +161,7 @@ noncomputable def SphereTopology.southPoint : ↑(Metric.sphere 0 1)
 
 The south pole `(0, -1)`, defined as the antipode of `northPoint`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L64) (retained native site: line 64).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L77) (retained native site: line 64).
 
 ### SphereTopology.eastPoint_ne_westPoint
 
@@ -130,9 +169,9 @@ The south pole `(0, -1)`, defined as the antipode of `northPoint`.
 theorem SphereTopology.eastPoint_ne_westPoint : eastPoint ≠ westPoint
 ```
 
-**API note (not a source docstring):** The east and west poles of the literal real unit circle are distinct. This ensures their complements cover the circle.
+**API note (not a source docstring):** The east and west poles of the metric unit circle in the real Euclidean plane are distinct. This ensures their complements cover the circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L67) (retained native site: line 67).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L80) (retained native site: line 67).
 
 ### SphereTopology.sphere1
 
@@ -140,9 +179,9 @@ theorem SphereTopology.eastPoint_ne_westPoint : eastPoint ≠ westPoint
 abbrev SphereTopology.sphere1 : TopCat
 ```
 
-The literal metric unit circle in `E2`, viewed as an object of `TopCat`.
+The metric unit circle in the Euclidean plane `E2`, viewed as an object of `TopCat`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L72) (retained native site: line 72).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L85) (retained native site: line 72).
 
 ### SphereTopology.circleEastPunctured
 
@@ -152,7 +191,7 @@ def SphereTopology.circleEastPunctured : TopologicalSpace.Opens ↑sphere1
 
 The complement of the east pole, first in the ordered east/west open cover.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L75) (retained native site: line 75).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L88) (retained native site: line 75).
 
 ### SphereTopology.circleWestPunctured
 
@@ -162,7 +201,7 @@ def SphereTopology.circleWestPunctured : TopologicalSpace.Opens ↑sphere1
 
 The complement of the west pole, second in the ordered east/west open cover.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L79) (retained native site: line 79).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L92) (retained native site: line 79).
 
 ### SphereTopology.circlePunctured_join
 
@@ -172,7 +211,7 @@ theorem SphereTopology.circlePunctured_join : circleEastPunctured ⊔ circleWest
 
 **API note (not a source docstring):** The complement of the east pole and the complement of the west pole cover the entire circle, in that order. The opens lattice join is their union.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L83) (retained native site: line 83).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L96) (retained native site: line 83).
 
 ### SphereTopology.euclideanLineHomeomorphReal
 
@@ -182,7 +221,7 @@ noncomputable def SphereTopology.euclideanLineHomeomorphReal : EuclideanSpace �
 
 Identify the one-coordinate Euclidean space with `ℝ` by its unique coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L91) (retained native site: line 91).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L104) (retained native site: line 91).
 
 ### SphereTopology.circleEastPuncturedHomeomorph
 
@@ -193,7 +232,7 @@ noncomputable def SphereTopology.circleEastPuncturedHomeomorph : ↑((Topologica
 The east-pole stereographic chart, followed by the identification of
 one-dimensional Euclidean space with `ℝ`. Its domain omits the east pole.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L96) (retained native site: line 96).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L109) (retained native site: line 96).
 
 ### SphereTopology.circleWestPuncturedHomeomorph
 
@@ -204,7 +243,7 @@ noncomputable def SphereTopology.circleWestPuncturedHomeomorph : ↑((Topologica
 The west-pole stereographic chart, followed by the identification of
 one-dimensional Euclidean space with `ℝ`. Its domain omits the west pole.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L107) (retained native site: line 107).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L120) (retained native site: line 107).
 
 ### SphereTopology.circlePunctureIntersection
 
@@ -215,7 +254,7 @@ abbrev SphereTopology.circlePunctureIntersection : Type
 The circle with both east and west poles removed, as the subtype underlying
 the intersection of the two punctured opens.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L118) (retained native site: line 118).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L131) (retained native site: line 118).
 
 ### SphereTopology.circle_eq_east_or_west_of_second_eq_zero
 
@@ -223,9 +262,9 @@ the intersection of the two punctured opens.
 theorem SphereTopology.circle_eq_east_or_west_of_second_eq_zero (p : ↑(Metric.sphere 0 1)) (hp : (↑p).ofLp 1 = 0) : p = eastPoint ∨ p = westPoint
 ```
 
-**API note (not a source docstring):** A point of the literal unit circle whose second coordinate is zero is one of the east and west poles. The unit-norm hypothesis comes from the sphere subtype; the result is not a claim about arbitrary plane vectors.
+**API note (not a source docstring):** A point of the metric unit circle in the Euclidean plane whose second coordinate is zero is one of the east and west poles. The unit-norm hypothesis comes from the sphere subtype; the result is not a claim about arbitrary plane vectors.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L124) (retained native site: line 124).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L137) (retained native site: line 124).
 
 ### SphereTopology.circlePunctureIntersection_second_ne_zero
 
@@ -235,7 +274,7 @@ theorem SphereTopology.circlePunctureIntersection_second_ne_zero (p : circlePunc
 
 **API note (not a source docstring):** Removing both horizontal poles forces the second coordinate of every remaining circle point to be nonzero. This is the boundary fact used to split the intersection into its upper and lower components.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L143) (retained native site: line 143).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L156) (retained native site: line 143).
 
 ### SphereTopology.circlePunctureIntersectionComponent
 
@@ -246,7 +285,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionComponent (p : circle
 The pinned component order: `false` is the upper semicircle and `true` is
 the lower semicircle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L150) (retained native site: line 150).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L163) (retained native site: line 150).
 
 ### SphereTopology.circlePunctureIntersectionComponent_eq_false_iff
 
@@ -256,7 +295,7 @@ theorem SphereTopology.circlePunctureIntersectionComponent_eq_false_iff (p : cir
 
 **API note (not a source docstring):** On the twice-punctured circle, component false means that the second coordinate is strictly positive: the upper component.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L155) (retained native site: line 155).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L168) (retained native site: line 155).
 
 ### SphereTopology.circlePunctureIntersectionComponent_eq_true_iff
 
@@ -266,7 +305,7 @@ theorem SphereTopology.circlePunctureIntersectionComponent_eq_true_iff (p : circ
 
 **API note (not a source docstring):** On the twice-punctured circle, component true means that the second coordinate is strictly negative: the lower component. The exclusion of both poles rules out the zero-coordinate boundary.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L160) (retained native site: line 160).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L173) (retained native site: line 160).
 
 ### SphereTopology.continuous_circlePunctureIntersectionComponent
 
@@ -276,7 +315,7 @@ theorem SphereTopology.continuous_circlePunctureIntersectionComponent : Continuo
 
 **API note (not a source docstring):** The upper/lower component selector is continuous to the discrete Boolean two-point space. Its two fibers are open in the twice-punctured circle; it is not asserted continuous on the whole circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L170) (retained native site: line 170).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L183) (retained native site: line 170).
 
 ### SphereTopology.circlePunctureIntersectionToTwoPoint
 
@@ -287,7 +326,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionToTwoPoint : C(circle
 The continuous component map to the discrete two-point space: upper points
 map to `false`, and lower points map to `true`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L191) (retained native site: line 191).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L204) (retained native site: line 191).
 
 ### SphereTopology.circlePunctureIntersectionRepresentative
 
@@ -298,7 +337,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionRepresentative : Bool
 Choose the north pole for `false` and the south pole for `true`, each with
 its proof of membership in the twice-punctured circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L198) (retained native site: line 198).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L211) (retained native site: line 198).
 
 ### SphereTopology.circlePunctureIntersectionFromTwoPoint
 
@@ -309,7 +348,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionFromTwoPoint : C(↑T
 The continuous choice of north/south representatives, inverse to the
 component map up to the radial homotopy.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L214) (retained native site: line 214).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L227) (retained native site: line 214).
 
 ### SphereTopology.circlePunctureIntersectionComponent_representative
 
@@ -319,7 +358,7 @@ theorem SphereTopology.circlePunctureIntersectionComponent_representative (b : B
 
 **API note (not a source docstring):** Selecting the component of the chosen north/south representative returns the original Boolean label. This is the exact right-inverse law of the component map.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L220) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L233) (retained native site: line 220).
 
 ### SphereTopology.circlePunctureIntersectionRepresentative_false_second
 
@@ -329,7 +368,7 @@ theorem SphereTopology.circlePunctureIntersectionRepresentative_false_second : (
 
 **API note (not a source docstring):** The representative of the upper component false is the north pole and has second coordinate one.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L227) (retained native site: line 227).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L240) (retained native site: line 227).
 
 ### SphereTopology.circlePunctureIntersectionRepresentative_true_second
 
@@ -339,7 +378,7 @@ theorem SphereTopology.circlePunctureIntersectionRepresentative_true_second : (�
 
 **API note (not a source docstring):** The representative of the lower component true is the south pole and has second coordinate minus one.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L231) (retained native site: line 231).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L244) (retained native site: line 231).
 
 ### SphereTopology.circlePunctureIntersectionLinearVector
 
@@ -350,7 +389,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionLinearVector (t : ↑
 Interpolate linearly from the chosen component representative at `t = 0`
 to `p` at `t = 1`, before normalization. The second coordinate stays nonzero.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L235) (retained native site: line 235).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L248) (retained native site: line 235).
 
 ### SphereTopology.circlePunctureIntersectionLinearVector_second_pos_of_component_false
 
@@ -360,7 +399,7 @@ theorem SphereTopology.circlePunctureIntersectionLinearVector_second_pos_of_comp
 
 **API note (not a source docstring):** For an upper-component point, the unnormalized segment from its north representative to the point has positive second coordinate at every time in the closed unit interval, including both endpoints.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L244) (retained native site: line 244).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L257) (retained native site: line 244).
 
 ### SphereTopology.circlePunctureIntersectionLinearVector_second_neg_of_component_true
 
@@ -370,7 +409,7 @@ theorem SphereTopology.circlePunctureIntersectionLinearVector_second_neg_of_comp
 
 **API note (not a source docstring):** For a lower-component point, the unnormalized segment from its south representative to the point has negative second coordinate at every time in the closed unit interval.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L260) (retained native site: line 260).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L273) (retained native site: line 260).
 
 ### SphereTopology.circlePunctureIntersectionLinearVector_second_ne_zero
 
@@ -380,7 +419,7 @@ theorem SphereTopology.circlePunctureIntersectionLinearVector_second_ne_zero (t 
 
 **API note (not a source docstring):** The interpolating vector never has zero second coordinate, since the segment stays in the selected upper or lower component. The time parameter is restricted to the unit interval.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L277) (retained native site: line 277).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L290) (retained native site: line 277).
 
 ### SphereTopology.circlePunctureIntersectionLinearVector_ne_zero
 
@@ -390,7 +429,7 @@ theorem SphereTopology.circlePunctureIntersectionLinearVector_ne_zero (t : ↑un
 
 **API note (not a source docstring):** The interpolating vector is nonzero at every allowed time. This justifies division by its norm in the radial homotopy.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L286) (retained native site: line 286).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L299) (retained native site: line 286).
 
 ### SphereTopology.circlePunctureIntersectionRadialVector
 
@@ -401,7 +440,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionRadialVector (t : ↑
 Normalize the nonzero interpolating vector to norm one. This retains its
 upper/lower component because normalization uses a positive scalar.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L293) (retained native site: line 293).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L306) (retained native site: line 293).
 
 ### SphereTopology.circlePunctureIntersectionRadialVector_norm
 
@@ -411,7 +450,7 @@ theorem SphereTopology.circlePunctureIntersectionRadialVector_norm (t : ↑unitI
 
 **API note (not a source docstring):** The radial normalization of the nonzero interpolating vector has norm one, so it defines a point of the unit circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L300) (retained native site: line 300).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L313) (retained native site: line 300).
 
 ### SphereTopology.circlePunctureIntersectionRadialVector_second_ne_zero
 
@@ -421,7 +460,7 @@ theorem SphereTopology.circlePunctureIntersectionRadialVector_second_ne_zero (t 
 
 **API note (not a source docstring):** Radial normalization retains a nonzero second coordinate, so it does not hit either removed horizontal pole.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L308) (retained native site: line 308).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L321) (retained native site: line 308).
 
 ### SphereTopology.circlePunctureIntersectionRadialPoint
 
@@ -432,7 +471,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionRadialPoint (t : ↑u
 The normalized interpolating vector as a point of the twice-punctured circle;
 its nonzero second coordinate excludes both removed poles.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L316) (retained native site: line 316).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L329) (retained native site: line 316).
 
 ### SphereTopology.continuous_circlePunctureIntersectionLinearVector
 
@@ -442,7 +481,7 @@ theorem SphereTopology.continuous_circlePunctureIntersectionLinearVector : Conti
 
 **API note (not a source docstring):** The unnormalized interpolation is jointly continuous in time and in the twice-punctured circle point. This is stronger than continuity for each fixed point separately.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L332) (retained native site: line 332).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L345) (retained native site: line 332).
 
 ### SphereTopology.continuous_circlePunctureIntersectionRadialPoint
 
@@ -452,7 +491,7 @@ theorem SphereTopology.continuous_circlePunctureIntersectionRadialPoint : Contin
 
 **API note (not a source docstring):** The normalized interpolation is jointly continuous as a map into the twice-punctured circle. Nonvanishing of the interpolating vector makes the inverse norm continuous.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L346) (retained native site: line 346).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L359) (retained native site: line 346).
 
 ### SphereTopology.circlePunctureIntersectionRadialHomotopyMap
 
@@ -463,7 +502,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionRadialHomotopyMap : C
 Bundle the radial interpolation as a jointly continuous map of time and
 point. Time zero selects the component representative; time one returns the point.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L356) (retained native site: line 356).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L369) (retained native site: line 356).
 
 ### SphereTopology.circlePunctureIntersectionRadialPoint_zero
 
@@ -473,7 +512,7 @@ theorem SphereTopology.circlePunctureIntersectionRadialPoint_zero (p : circlePun
 
 **API note (not a source docstring):** At time zero the radial homotopy returns the selected north/south representative of the point's component, not the original point in general.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L363) (retained native site: line 363).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L376) (retained native site: line 363).
 
 ### SphereTopology.circlePunctureIntersectionRadialPoint_one
 
@@ -483,7 +522,7 @@ theorem SphereTopology.circlePunctureIntersectionRadialPoint_one (p : circlePunc
 
 **API note (not a source docstring):** At time one the radial homotopy is the identity on the twice-punctured circle.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L374) (retained native site: line 374).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L387) (retained native site: line 374).
 
 ### SphereTopology.circlePunctureIntersectionRadialHomotopy
 
@@ -494,7 +533,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionRadialHomotopy : (cir
 The homotopy from the component-representative composite to the identity,
 using normalized straight-line interpolation within each component.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L384) (retained native site: line 384).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L397) (retained native site: line 384).
 
 ### SphereTopology.circlePunctureIntersectionHomotopyEquiv
 
@@ -505,7 +544,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionHomotopyEquiv : Conti
 The homotopy equivalence with the two-point space given by the component map
 and north/south representatives, ordered as `false`/`true`.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L394) (retained native site: line 394).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L407) (retained native site: line 394).
 
 ### SphereTopology.circlePunctureIntersectionHomotopyEquivULift
 
@@ -516,7 +555,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionHomotopyEquivULift : 
 Transport the component homotopy equivalence to `ULift` on both sides via
 the canonical `ULift` homeomorphisms, without changing the component order.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L411) (retained native site: line 411).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L424) (retained native site: line 411).
 
 ### SphereTopology.circleEastPunctured_contractibleSpace
 
@@ -526,7 +565,7 @@ theorem SphereTopology.circleEastPunctured_contractibleSpace : ContractibleSpace
 
 **API note (not a source docstring):** The circle with its east pole removed is contractible, by its stereographic homeomorphism with the real line. This theorem supplies the class value rather than declaring a new global instance.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L419) (retained native site: line 419).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L432) (retained native site: line 419).
 
 ### SphereTopology.circleWestPunctured_contractibleSpace
 
@@ -536,7 +575,7 @@ theorem SphereTopology.circleWestPunctured_contractibleSpace : ContractibleSpace
 
 **API note (not a source docstring):** The circle with its west pole removed is contractible, by its stereographic homeomorphism with the real line. This is a theorem-valued class witness, not a claim that the whole circle contracts.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L424) (retained native site: line 424).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L437) (retained native site: line 424).
 
 ### SphereTopology.isZero_reducedSingularHomology_circleEastPunctured
 
@@ -546,7 +585,7 @@ theorem SphereTopology.isZero_reducedSingularHomology_circleEastPunctured (n : �
 
 **API note (not a source docstring):** Every nonnegative reduced integral singular homology object of the east-punctured circle is zero. The natural-number degree includes reduced degree zero; no degree minus one is represented.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L429) (retained native site: line 429).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L442) (retained native site: line 429).
 
 ### SphereTopology.isZero_reducedSingularHomology_circleWestPunctured
 
@@ -556,7 +595,7 @@ theorem SphereTopology.isZero_reducedSingularHomology_circleWestPunctured (n : �
 
 **API note (not a source docstring):** Every nonnegative reduced integral singular homology object of the west-punctured circle is zero, using contractibility of that open.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L435) (retained native site: line 435).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L448) (retained native site: line 435).
 
 ### SphereTopology.reducedSingularHomologyOneSphereOneIntegerIso
 
@@ -568,7 +607,12 @@ Identify the circle's first reduced integral singular homology with `ℤ`.
 The coordinate uses the east/west ordered Mayer--Vietoris connecting map and
 the two-point basis `[false] - [true]`, with `false` the upper component.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L441) (retained native site: line 441).
+The sphere-homology result is described in J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §3. This fixed-coordinate construction uses this library's
+ordered reduced Mayer--Vietoris and two-point basis, with Mathlib's
+stereographic projection and singular homology.
+
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L454) (retained native site: line 441).
 
 ### SphereTopology.reducedSingularHomologyOneSphereOneIntegerIso_hom
 
@@ -578,7 +622,7 @@ theorem SphereTopology.reducedSingularHomologyOneSphereOneIntegerIso_hom : reduc
 
 **API note (not a source docstring):** The chosen H-tilde-one circle coordinate is the ordered east/west reduced connecting morphism followed by the upper/lower two-point homotopy equivalence and its fixed integer coordinate. The formula identifies the chosen map, not merely an unspecified isomorphism with the integers.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L456) (retained native site: line 456).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L474) (retained native site: line 456).
 
 ### SphereTopology.circlePunctured_join_reversed
 
@@ -588,7 +632,7 @@ theorem SphereTopology.circlePunctured_join_reversed : circleWestPunctured ⊔ c
 
 **API note (not a source docstring):** The west/east ordering of the same two punctured opens also covers the circle. This changes the order of the Mayer--Vietoris input, not the underlying union.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L465) (retained native site: line 465).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L483) (retained native site: line 465).
 
 ### SphereTopology.circlePunctureIntersectionReversed
 
@@ -596,9 +640,9 @@ theorem SphereTopology.circlePunctured_join_reversed : circleWestPunctured ⊔ c
 abbrev SphereTopology.circlePunctureIntersectionReversed : Type
 ```
 
-The same literal intersection with the puncture order reversed.
+The same open-subspace intersection with the puncture order reversed.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L470) (retained native site: line 470).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L488) (retained native site: line 470).
 
 ### SphereTopology.circlePunctureIntersectionSwapHomeomorph
 
@@ -608,7 +652,7 @@ def SphereTopology.circlePunctureIntersectionSwapHomeomorph : circlePunctureInte
 
 The sign-free identity homeomorphism between the two meet orderings.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L475) (retained native site: line 475).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L493) (retained native site: line 475).
 
 ### SphereTopology.circlePunctureIntersectionReversedHomotopyEquiv
 
@@ -619,7 +663,7 @@ noncomputable def SphereTopology.circlePunctureIntersectionReversedHomotopyEquiv
 The upper/lower equivalence for the reversed ordered cover.  It uses the
 same Boolean order, so `false` is still upper and `true` is still lower.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L483) (retained native site: line 483).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L501) (retained native site: line 483).
 
 ### SphereTopology.circlePunctureIntersectionReversedComponent_eq_false_iff
 
@@ -629,7 +673,7 @@ theorem SphereTopology.circlePunctureIntersectionReversedComponent_eq_false_iff 
 
 **API note (not a source docstring):** After the sign-free identification from the reversed meet ordering, label false still denotes a strictly positive second coordinate. Swapping cover order does not relabel the geometric upper component.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L490) (retained native site: line 490).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L508) (retained native site: line 490).
 
 ### SphereTopology.circlePunctureIntersectionReversedComponent_eq_true_iff
 
@@ -639,7 +683,7 @@ theorem SphereTopology.circlePunctureIntersectionReversedComponent_eq_true_iff (
 
 **API note (not a source docstring):** After the sign-free identification from the reversed meet ordering, label true still denotes a strictly negative second coordinate. The lower component keeps its Boolean label.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L497) (retained native site: line 497).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L515) (retained native site: line 497).
 
 ### SphereTopology.reducedSingularHomologyOneSphereOneIntegerIsoReversed
 
@@ -648,10 +692,10 @@ noncomputable def SphereTopology.reducedSingularHomologyOneSphereOneIntegerIsoRe
 ```
 
 The reversed-cover circle computation, retained as an order/sign client.
-Its coordinate still means upper minus lower; the accepted ordered-cover swap
+Its coordinate still means upper minus lower; the ordered-cover swap
 theorem below records the negation of the connecting morphism.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L504) (retained native site: line 504).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L522) (retained native site: line 504).
 
 ### SphereTopology.reducedSingularHomologyOneSphereOneIntegerIsoReversed_hom
 
@@ -661,7 +705,7 @@ theorem SphereTopology.reducedSingularHomologyOneSphereOneIntegerIsoReversed_hom
 
 **API note (not a source docstring):** The reversed coordinate map uses the west/east connecting morphism, the same upper/lower component labels, and the fixed two-point integer coordinate. Its construction is displayed separately from the original ordered coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L519) (retained native site: line 519).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L537) (retained native site: line 519).
 
 ### SphereTopology.circleReducedMayerVietoris_swap_eq_neg
 
@@ -671,7 +715,7 @@ theorem SphereTopology.circleReducedMayerVietoris_swap_eq_neg : CategoryTheory.C
 
 **API note (not a source docstring):** Transporting the east/west reduced connecting morphism along the sign-free intersection swap gives the negative of the west/east connecting morphism. The minus sign belongs to ordered Mayer--Vietoris, not to a relabeling of upper and lower components.
 
-[Source](../SphereTopology/Homology/Singular/Circle.lean#L528) (retained native site: line 528).
+[Source](../SphereTopology/Homology/Singular/Circle.lean#L546) (retained native site: line 528).
 
 ## SphereTopology.Homology.Singular.MayerVietoris
 
@@ -686,7 +730,7 @@ noncomputable def TopCat.openSingularSet {X : TopCat} (U : TopologicalSpace.Open
 The simplicial subset of singular simplices of `X` whose image is contained
 in the open subset `U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L44) (retained native site: line 44).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L56) (retained native site: line 44).
 
 ### TopCat.mem_openSingularSet_iff
 
@@ -697,7 +741,7 @@ theorem TopCat.mem_openSingularSet_iff {X : TopCat} (U : TopologicalSpace.Opens 
 Membership in `openSingularSet U` means exactly that the range of the
 singular simplex is contained in `U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L50) (retained native site: line 50).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L62) (retained native site: line 50).
 
 ### TopCat.openSingularSetMap
 
@@ -708,7 +752,7 @@ noncomputable def TopCat.openSingularSetMap {X Y : TopCat} (f : X ⟶ Y) (U : To
 The map on ambient open-singular subcomplexes induced by a map of spaces
 which sends one open subset into another.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L71) (retained native site: line 71).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L83) (retained native site: line 71).
 
 ### TopCat.openSingularSetMap_comp_inclusion
 
@@ -718,7 +762,7 @@ theorem TopCat.openSingularSetMap_comp_inclusion {X Y : TopCat} (f : X ⟶ Y) (U
 
 **API note (not a source docstring):** For a continuous map sending U into W, mapping the ambient open-singular subcomplex and then including it in the target singular set equals inclusion followed by the full singular-set map. This compatibility does not require a cover.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L84) (retained native site: line 84).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L96) (retained native site: line 84).
 
 ### TopCat.openSingularSetMap_comp_inclusion_assoc
 
@@ -730,7 +774,7 @@ theorem TopCat.openSingularSetMap_comp_inclusion_assoc {X Y : TopCat} (f : X ⟶
 
 Generated `reassoc` declaration from `TopCat.openSingularSetMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L84) (retained native site: line 84).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L96) (retained native site: line 84).
 
 ### TopCat.openSingularSetInfMap
 
@@ -741,7 +785,7 @@ noncomputable def TopCat.openSingularSetInfMap {X Y : TopCat} (f : X ⟶ Y) (U V
 The induced map on intersections of two ambient open-singular
 subcomplexes.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L90) (retained native site: line 90).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L102) (retained native site: line 90).
 
 ### TopCat.openSingularSetSupMap
 
@@ -751,7 +795,7 @@ noncomputable def TopCat.openSingularSetSupMap {X Y : TopCat} (f : X ⟶ Y) (U V
 
 The induced map on unions of two ambient open-singular subcomplexes.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L105) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L117) (retained native site: line 105).
 
 ### TopCat.openSingularSetInfMap_comp_left
 
@@ -761,7 +805,7 @@ theorem TopCat.openSingularSetInfMap_comp_left {X Y : TopCat} (f : X ⟶ Y) (U V
 
 **API note (not a source docstring):** The induced map between intersections of ambient open-singular subcomplexes commutes with projection to the first member. The underlying continuous map must send U into U' and V into V'; no cover hypothesis is used.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L119) (retained native site: line 119).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L131) (retained native site: line 119).
 
 ### TopCat.openSingularSetInfMap_comp_left_assoc
 
@@ -773,7 +817,7 @@ theorem TopCat.openSingularSetInfMap_comp_left_assoc {X Y : TopCat} (f : X ⟶ Y
 
 Generated `reassoc` declaration from `TopCat.openSingularSetInfMap_comp_left`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L119) (retained native site: line 119).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L131) (retained native site: line 119).
 
 ### TopCat.openSingularSetInfMap_comp_right
 
@@ -783,7 +827,7 @@ theorem TopCat.openSingularSetInfMap_comp_right {X Y : TopCat} (f : X ⟶ Y) (U 
 
 **API note (not a source docstring):** The induced map between intersections of ambient open-singular subcomplexes commutes with projection to the second member V'. Both MapsTo hypotheses are explicit, without assuming the opens cover.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L128) (retained native site: line 128).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L140) (retained native site: line 128).
 
 ### TopCat.openSingularSetInfMap_comp_right_assoc
 
@@ -795,7 +839,7 @@ theorem TopCat.openSingularSetInfMap_comp_right_assoc {X Y : TopCat} (f : X ⟶ 
 
 Generated `reassoc` declaration from `TopCat.openSingularSetInfMap_comp_right`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L128) (retained native site: line 128).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L140) (retained native site: line 128).
 
 ### TopCat.openSingularSetMap_comp_supLeft
 
@@ -805,7 +849,7 @@ theorem TopCat.openSingularSetMap_comp_supLeft {X Y : TopCat} (f : X ⟶ Y) (U V
 
 **API note (not a source docstring):** Mapping the first ambient open-singular subcomplex and then including it in the target union agrees with including in the source union and applying the induced union map. The ordered first member is U, and the pair need not cover.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L137) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L149) (retained native site: line 137).
 
 ### TopCat.openSingularSetMap_comp_supLeft_assoc
 
@@ -817,7 +861,7 @@ theorem TopCat.openSingularSetMap_comp_supLeft_assoc {X Y : TopCat} (f : X ⟶ Y
 
 Generated `reassoc` declaration from `TopCat.openSingularSetMap_comp_supLeft`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L137) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L149) (retained native site: line 137).
 
 ### TopCat.openSingularSetMap_comp_supRight
 
@@ -827,7 +871,7 @@ theorem TopCat.openSingularSetMap_comp_supRight {X Y : TopCat} (f : X ⟶ Y) (U 
 
 **API note (not a source docstring):** Mapping the second ambient open-singular subcomplex and then including it in the target union agrees with inclusion followed by the induced union map. The second member is V, with no cover assumption.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L146) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L158) (retained native site: line 146).
 
 ### TopCat.openSingularSetMap_comp_supRight_assoc
 
@@ -839,7 +883,7 @@ theorem TopCat.openSingularSetMap_comp_supRight_assoc {X Y : TopCat} (f : X ⟶ 
 
 Generated `reassoc` declaration from `TopCat.openSingularSetMap_comp_supRight`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L146) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L158) (retained native site: line 146).
 
 ### TopCat.openSingularSetIso
 
@@ -850,7 +894,7 @@ noncomputable def TopCat.openSingularSetIso {X : TopCat} (U : TopologicalSpace.O
 Singular simplices of the open subspace `U` identify with singular
 simplices of `X` whose image is contained in `U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L168) (retained native site: line 168).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L180) (retained native site: line 168).
 
 ### TopCat.twoOpenCover
 
@@ -861,7 +905,7 @@ def TopCat.twoOpenCover {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : Bool 
 The ordered two-member family `(U,V)`.  The Boolean value `false` indexes
 `U`, and `true` indexes `V`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L188) (retained native site: line 188).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L200) (retained native site: line 188).
 
 ### TopCat.isOpenCover_twoOpenCover
 
@@ -871,9 +915,9 @@ theorem TopCat.isOpenCover_twoOpenCover {X : TopCat} {U V : TopologicalSpace.Ope
 
 The ordered family `(U,V)` covers exactly when `U ⊔ V = ⊤`.
 
-Formal boundary: the displayed theorem supplies the stated implication; the retained native prose above is not evidence of a separate converse.
+Formal boundary: the displayed theorem supplies the stated implication; its docstring does not establish a separate converse.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L193) (retained native site: line 193).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L205) (retained native site: line 193).
 
 ### TopCat.openSingularSet_inf
 
@@ -884,7 +928,7 @@ theorem TopCat.openSingularSet_inf {X : TopCat} (U V : TopologicalSpace.Opens �
 Intersecting the ambient singular subcomplexes agrees with taking the
 singular subcomplex of the intersection.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L202) (retained native site: line 202).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L214) (retained native site: line 202).
 
 ### TopCat.openSingularSet_sup
 
@@ -892,10 +936,10 @@ singular subcomplex of the intersection.
 theorem TopCat.openSingularSet_sup {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : openSingularSet U ⊔ openSingularSet V = smallSingularSet (twoOpenCover U V)
 ```
 
-The union of the two ambient singular subcomplexes is the accepted
+The union of the two ambient singular subcomplexes is the
 cover-small singular set for the ordered family `(U,V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L213) (retained native site: line 213).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L225) (retained native site: line 213).
 
 ### TopCat.openMap
 
@@ -905,7 +949,7 @@ def TopCat.openMap {X Y : TopCat} (f : X ⟶ Y) (U : TopologicalSpace.Opens ↑X
 
 A continuous map restricted to a map between open subspaces.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L231) (retained native site: line 231).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L243) (retained native site: line 231).
 
 ### TopCat.openMap_comp_inclusion
 
@@ -915,7 +959,7 @@ theorem TopCat.openMap_comp_inclusion {X Y : TopCat} (f : X ⟶ Y) (U : Topologi
 
 **API note (not a source docstring):** Restricting a continuous map to U with values in W and then including W into Y is the original map after including U into X. The supplied MapsTo proof provides the restriction.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L237) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L249) (retained native site: line 237).
 
 ### TopCat.openMap_comp_inclusion_assoc
 
@@ -927,7 +971,7 @@ theorem TopCat.openMap_comp_inclusion_assoc {X Y : TopCat} (f : X ⟶ Y) (U : To
 
 Generated `reassoc` declaration from `TopCat.openMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L237) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L249) (retained native site: line 237).
 
 ### TopCat.mapsTo_twoOpenCover
 
@@ -938,7 +982,7 @@ theorem TopCat.mapsTo_twoOpenCover {X Y : TopCat} (f : X ⟶ Y) (U V : Topologic
 A map respecting `U` and `V` respects the corresponding ordered Boolean
 covers without changing the index.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L242) (retained native site: line 242).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L254) (retained native site: line 242).
 
 ### AlgebraicTopology.openSingularChainIso
 
@@ -949,7 +993,7 @@ noncomputable def AlgebraicTopology.openSingularChainIso {X : TopCat} (U : Topol
 The chain isomorphism identifying ordinary singular chains of an open
 subspace with the corresponding simplicial subcomplex in the ambient space.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L258) (retained native site: line 258).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L270) (retained native site: line 258).
 
 ### AlgebraicTopology.isPushout_chainComplexMap
 
@@ -959,7 +1003,7 @@ theorem AlgebraicTopology.isPushout_chainComplexMap {W X Y Z : SSet} {f : W ⟶ 
 
 Integer simplicial chains preserve pushout squares of simplicial sets.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L283) (retained native site: line 283).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L295) (retained native site: line 283).
 
 ### AlgebraicTopology.mono_chainComplexMap_subcomplex
 
@@ -970,7 +1014,7 @@ theorem AlgebraicTopology.mono_chainComplexMap_subcomplex {X : SSet} {A B : X.Su
 An inclusion of simplicial subcomplexes induces a monomorphism on integer
 chain complexes.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L296) (retained native site: line 296).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L308) (retained native site: line 296).
 
 ### AlgebraicTopology.subcomplex_inter_union_isPushout
 
@@ -981,7 +1025,7 @@ theorem AlgebraicTopology.subcomplex_inter_union_isPushout {X : SSet} (A B : X.S
 The pushout square formed by the intersection and union of two simplicial
 subcomplexes.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L307) (retained native site: line 307).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L319) (retained native site: line 307).
 
 ### AlgebraicTopology.subcomplexUnionShortComplex
 
@@ -993,7 +1037,7 @@ The ordered difference/sum short complex of integer chains associated to
 two simplicial subcomplexes.  Its first map is `(c,-c)` and its second map is
 addition.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L319) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L331) (retained native site: line 319).
 
 ### AlgebraicTopology.subcomplexUnionShortExact
 
@@ -1004,7 +1048,7 @@ theorem AlgebraicTopology.subcomplexUnionShortExact {X : SSet} (A B : X.Subcompl
 The difference/sum chain complex for two simplicial subcomplexes is short
 exact.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L326) (retained native site: line 326).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L338) (retained native site: line 326).
 
 ### AlgebraicTopology.subcomplexInfSwapChainIso
 
@@ -1014,7 +1058,7 @@ noncomputable def AlgebraicTopology.subcomplexInfSwapChainIso {X : SSet} (A B : 
 
 Swapping the two intersection factors at chain level.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L351) (retained native site: line 351).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L363) (retained native site: line 351).
 
 ### AlgebraicTopology.subcomplexSupSwapChainIso
 
@@ -1024,7 +1068,7 @@ noncomputable def AlgebraicTopology.subcomplexSupSwapChainIso {X : SSet} (A B : 
 
 Swapping the two union factors at chain level.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L358) (retained native site: line 358).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L370) (retained native site: line 358).
 
 ### AlgebraicTopology.subcomplexUnionSwapIso
 
@@ -1036,7 +1080,7 @@ Swapping the two members of the ordered difference/sum sequence.  The
 intersection term is multiplied by `-1`, the middle term is braided, and the
 union term is merely transported across commutativity of union.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L365) (retained native site: line 365).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L377) (retained native site: line 365).
 
 ### AlgebraicTopology.subcomplexUnionδ
 
@@ -1047,7 +1091,7 @@ noncomputable def AlgebraicTopology.subcomplexUnionδ {X : SSet} (A B : X.Subcom
 The connecting map of the union short exact sequence, from degree `n+1`
 to degree `n`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L389) (retained native site: line 389).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L401) (retained native site: line 389).
 
 ### AlgebraicTopology.subcomplexUnion_exact₁
 
@@ -1057,7 +1101,7 @@ theorem AlgebraicTopology.subcomplexUnion_exact₁ {X : SSet} (A B : X.Subcomple
 
 Exactness at the intersection term after the connecting map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L396) (retained native site: line 396).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L408) (retained native site: line 396).
 
 ### AlgebraicTopology.subcomplexUnion_exact₂
 
@@ -1067,7 +1111,7 @@ theorem AlgebraicTopology.subcomplexUnion_exact₂ {X : SSet} (A B : X.Subcomple
 
 Exactness at the direct-sum chain-complex homology term.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L404) (retained native site: line 404).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L416) (retained native site: line 404).
 
 ### AlgebraicTopology.subcomplexUnion_exact₃
 
@@ -1077,7 +1121,7 @@ theorem AlgebraicTopology.subcomplexUnion_exact₃ {X : SSet} (A B : X.Subcomple
 
 Exactness at the union term before the connecting map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L415) (retained native site: line 415).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L427) (retained native site: line 415).
 
 ### AlgebraicTopology.subcomplexUnionδ_swap
 
@@ -1089,7 +1133,7 @@ Swapping the ordered pair multiplies the connecting morphism by `-1`,
 after the canonical transports across commutativity of intersection and union.
 This records the sign convention independently of any topological client.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L423) (retained native site: line 423).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L435) (retained native site: line 423).
 
 ### AlgebraicTopology.integralSingularChains
 
@@ -1099,7 +1143,7 @@ noncomputable abbrev AlgebraicTopology.integralSingularChains (X : TopCat) : Cha
 
 The integral singular chain complex of a topological space.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L442) (retained native site: line 442).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L454) (retained native site: line 442).
 
 ### AlgebraicTopology.integralSingularChainMap
 
@@ -1109,7 +1153,7 @@ noncomputable def AlgebraicTopology.integralSingularChainMap {X Y : TopCat} (f :
 
 The integral singular chain map induced by a continuous map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L446) (retained native site: line 446).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L458) (retained native site: line 446).
 
 ### AlgebraicTopology.twoOpenIntersectionToLeft
 
@@ -1119,7 +1163,7 @@ def AlgebraicTopology.twoOpenIntersectionToLeft {X : TopCat} (U V : TopologicalS
 
 Inclusion of `U ∩ V` into the first open set.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L451) (retained native site: line 451).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L463) (retained native site: line 451).
 
 ### AlgebraicTopology.twoOpenIntersectionToRight
 
@@ -1129,7 +1173,7 @@ def AlgebraicTopology.twoOpenIntersectionToRight {X : TopCat} (U V : Topological
 
 Inclusion of `U ∩ V` into the second open set.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L456) (retained native site: line 456).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L468) (retained native site: line 456).
 
 ### AlgebraicTopology.twoOpenIntersectionToLeft_comp
 
@@ -1137,9 +1181,9 @@ Inclusion of `U ∩ V` into the second open set.
 theorem AlgebraicTopology.twoOpenIntersectionToLeft_comp {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionToLeft U V) U.inclusion' = (U ⊓ V).inclusion'
 ```
 
-**API note (not a source docstring):** The literal inclusion of U intersect V into U followed by the inclusion of U into X is the direct inclusion of the intersection into X. This identity is independent of whether U and V cover X.
+**API note (not a source docstring):** The open-subspace inclusion of U intersect V into U followed by the inclusion of U into X is the direct inclusion of the intersection into X. This identity is independent of whether U and V cover X.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L461) (retained native site: line 461).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L473) (retained native site: line 461).
 
 ### AlgebraicTopology.twoOpenIntersectionToLeft_comp_assoc
 
@@ -1151,7 +1195,7 @@ theorem AlgebraicTopology.twoOpenIntersectionToLeft_comp_assoc {X : TopCat} (U V
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionToLeft_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L461) (retained native site: line 461).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L473) (retained native site: line 461).
 
 ### AlgebraicTopology.twoOpenIntersectionToRight_comp
 
@@ -1159,9 +1203,9 @@ Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionToLef
 theorem AlgebraicTopology.twoOpenIntersectionToRight_comp {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionToRight U V) V.inclusion' = (U ⊓ V).inclusion'
 ```
 
-**API note (not a source docstring):** The literal inclusion of U intersect V into V followed by the inclusion of V into X is the direct inclusion of the intersection into X. There is no cover hypothesis.
+**API note (not a source docstring):** The open-subspace inclusion of U intersect V into V followed by the inclusion of V into X is the direct inclusion of the intersection into X. There is no cover hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L467) (retained native site: line 467).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L479) (retained native site: line 467).
 
 ### AlgebraicTopology.twoOpenIntersectionToRight_comp_assoc
 
@@ -1173,7 +1217,7 @@ theorem AlgebraicTopology.twoOpenIntersectionToRight_comp_assoc {X : TopCat} (U 
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionToRight_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L467) (retained native site: line 467).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L479) (retained native site: line 467).
 
 ### AlgebraicTopology.twoOpenDifferenceChainMap
 
@@ -1184,7 +1228,7 @@ noncomputable def AlgebraicTopology.twoOpenDifferenceChainMap {X : TopCat} (U V 
 The ordered chain difference `c ↦ (c,-c)` induced by the two
 intersection inclusions.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L473) (retained native site: line 473).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L485) (retained native site: line 473).
 
 ### AlgebraicTopology.twoOpenSumChainMap
 
@@ -1194,7 +1238,7 @@ noncomputable def AlgebraicTopology.twoOpenSumChainMap {X : TopCat} (U V : Topol
 
 The ordered chain sum induced by the inclusions of `U` and `V` into `X`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L483) (retained native site: line 483).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L495) (retained native site: line 483).
 
 ### AlgebraicTopology.twoOpenDifference_comp_sum
 
@@ -1204,7 +1248,7 @@ theorem AlgebraicTopology.twoOpenDifference_comp_sum {X : TopCat} (U V : Topolog
 
 The ordered difference followed by the sum is zero.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L491) (retained native site: line 491).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L503) (retained native site: line 491).
 
 ### AlgebraicTopology.twoOpenDifference_comp_sum_assoc
 
@@ -1216,7 +1260,7 @@ The ordered difference followed by the sum is zero.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenDifference_comp_sum`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L492) (retained native site: line 492).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L503) (retained native site: line 492).
 
 ### AlgebraicTopology.twoOpenIntersectionMap
 
@@ -1227,7 +1271,7 @@ def AlgebraicTopology.twoOpenIntersectionMap {X Y : TopCat} (f : X ⟶ Y) (U V :
 The map of intersection subspaces induced by a map respecting an ordered
 pair of opens.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L501) (retained native site: line 500).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L513) (retained native site: line 500).
 
 ### AlgebraicTopology.twoOpenBiprodChainMap
 
@@ -1237,7 +1281,7 @@ noncomputable def AlgebraicTopology.twoOpenBiprodChainMap {X Y : TopCat} (f : X 
 
 The direct-sum chain map induced by a map respecting the ordered pair.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L510) (retained native site: line 509).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L522) (retained native site: line 509).
 
 ### AlgebraicTopology.twoOpenSmallChainMap
 
@@ -1247,7 +1291,7 @@ noncomputable def AlgebraicTopology.twoOpenSmallChainMap {X Y : TopCat} (f : X �
 
 The cover-small chain map induced by a map respecting the ordered pair.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L522) (retained native site: line 521).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L534) (retained native site: line 521).
 
 ### AlgebraicTopology.twoOpenAmbientShortComplex
 
@@ -1257,7 +1301,7 @@ noncomputable abbrev AlgebraicTopology.twoOpenAmbientShortComplex {X : TopCat} (
 
 The chain-level difference/sum sequence inside the singular set of `X`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L531) (retained native site: line 530).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L543) (retained native site: line 530).
 
 ### AlgebraicTopology.twoOpenAmbientShortComplexMap
 
@@ -1268,7 +1312,7 @@ noncomputable def AlgebraicTopology.twoOpenAmbientShortComplexMap {X Y : TopCat}
 Naturality of the ambient difference/sum short complex for maps respecting
 ordered pairs of opens.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L535) (retained native site: line 534).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L547) (retained native site: line 534).
 
 ### AlgebraicTopology.twoOpenIntersectionChainIso
 
@@ -1279,7 +1323,7 @@ noncomputable def AlgebraicTopology.twoOpenIntersectionChainIso {X : TopCat} (U 
 Ordinary chains on `U ∩ V` identify with the first term of the ambient
 difference/sum sequence.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L574) (retained native site: line 573).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L586) (retained native site: line 573).
 
 ### AlgebraicTopology.twoOpenBiprodChainIso
 
@@ -1290,7 +1334,7 @@ noncomputable def AlgebraicTopology.twoOpenBiprodChainIso {X : TopCat} (U V : To
 The direct sum of ordinary chains on `U` and `V` identifies with the
 middle term of the ambient difference/sum sequence.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L583) (retained native site: line 582).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L595) (retained native site: line 582).
 
 ### AlgebraicTopology.twoOpenUnionChainIso
 
@@ -1301,7 +1345,7 @@ noncomputable def AlgebraicTopology.twoOpenUnionChainIso {X : TopCat} (U V : Top
 The last ambient term identifies with chains small in the ordered cover
 `(U,V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L591) (retained native site: line 590).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L603) (retained native site: line 590).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex
 
@@ -1312,7 +1356,7 @@ noncomputable def AlgebraicTopology.twoOpenSmallShortComplex {X : TopCat} (U V :
 The ordinary-chain / cover-small-chain short complex for the ordered pair
 `(U,V)`.  Its first map uses the convention `(c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L599) (retained native site: line 598).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L611) (retained native site: line 598).
 
 ### AlgebraicTopology.twoOpenSmallToAmbientIso
 
@@ -1323,7 +1367,7 @@ noncomputable def AlgebraicTopology.twoOpenSmallToAmbientIso {X : TopCat} (U V :
 The ordinary/open-chain short complex identified with its ambient
 subcomplex model.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L613) (retained native site: line 612).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L625) (retained native site: line 612).
 
 ### AlgebraicTopology.twoOpenSmallShortExact
 
@@ -1333,7 +1377,7 @@ theorem AlgebraicTopology.twoOpenSmallShortExact {X : TopCat} (U V : Topological
 
 The ordinary-chain / cover-small-chain sequence is short exact.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L622) (retained native site: line 621).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L634) (retained native site: line 621).
 
 ### AlgebraicTopology.twoOpenSmallShortComplexSwapIso
 
@@ -1346,7 +1390,7 @@ component includes the sign forced by the convention `c ↦ (c,-c)`, the middle
 component braids the two summands, and the last component reindexes the same
 cover-small chains.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L630) (retained native site: line 629).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L642) (retained native site: line 629).
 
 ### AlgebraicTopology.twoOpenIntersectionSwapChainIso
 
@@ -1358,7 +1402,7 @@ The sign-free transport between the intersection-chain terms when the
 ordered pair is swapped.  The minus sign removes the sign already present in
 the first component of `twoOpenSmallShortComplexSwapIso`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L642) (retained native site: line 641).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L654) (retained native site: line 641).
 
 ### AlgebraicTopology.twoOpenCoverSwapChainIso
 
@@ -1368,7 +1412,7 @@ noncomputable def AlgebraicTopology.twoOpenCoverSwapChainIso {X : TopCat} (U V :
 
 Reindexing the same cover-small chains after swapping the two opens.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L651) (retained native site: line 650).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L663) (retained native site: line 650).
 
 ### AlgebraicTopology.twoOpenCoverSwapChainIso_comp_inclusion
 
@@ -1379,7 +1423,7 @@ theorem AlgebraicTopology.twoOpenCoverSwapChainIso_comp_inclusion {X : TopCat} (
 Swapping the two entries only reindexes cover-small chains: after inclusion
 in all singular chains, the swap map is the identity.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L657) (retained native site: line 656).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L669) (retained native site: line 656).
 
 ### AlgebraicTopology.twoOpenCoverSwapChainIso_comp_inclusion_assoc
 
@@ -1392,7 +1436,7 @@ in all singular chains, the swap map is the identity.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenCoverSwapChainIso_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L659) (retained native site: line 658).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L669) (retained native site: line 658).
 
 ### AlgebraicTopology.twoOpenSmallShortComplexMap
 
@@ -1403,7 +1447,7 @@ noncomputable def AlgebraicTopology.twoOpenSmallShortComplexMap {X Y : TopCat} (
 The natural map between the short exact chain sequences associated to a
 continuous map respecting ordered pairs of opens.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L685) (retained native site: line 684).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L697) (retained native site: line 684).
 
 ### AlgebraicTopology.twoOpenSmallShortComplexMap_comp_inclusion
 
@@ -1414,7 +1458,7 @@ theorem AlgebraicTopology.twoOpenSmallShortComplexMap_comp_inclusion {X Y : TopC
 The last component of the natural map of short complexes agrees, after
 cover-small inclusion, with the ordinary singular chain map induced by `f`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L709) (retained native site: line 708).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L721) (retained native site: line 708).
 
 ### AlgebraicTopology.twoOpenSmallShortComplexMap_comp_inclusion_assoc
 
@@ -1427,7 +1471,7 @@ cover-small inclusion, with the ordinary singular chain map induced by `f`.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenSmallShortComplexMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L711) (retained native site: line 710).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L721) (retained native site: line 710).
 
 ### AlgebraicTopology.integralSingularHomology
 
@@ -1437,7 +1481,7 @@ noncomputable abbrev AlgebraicTopology.integralSingularHomology (X : TopCat) (n 
 
 Integral singular homology in degree `n`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L740) (retained native site: line 739).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L752) (retained native site: line 739).
 
 ### AlgebraicTopology.smallSingularHomologyIso
 
@@ -1448,7 +1492,7 @@ noncomputable def AlgebraicTopology.smallSingularHomologyIso {X : TopCat} {ι : 
 A cover-small homology group is canonically isomorphic to ordinary
 singular homology when the family is an open cover.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L745) (retained native site: line 744).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L757) (retained native site: line 744).
 
 ### AlgebraicTopology.twoOpenSpaceHomologyIso
 
@@ -1457,9 +1501,9 @@ noncomputable def AlgebraicTopology.twoOpenSpaceHomologyIso {X : TopCat} (U V : 
 ```
 
 The last term of the two-open short complex has ordinary singular
-homology, via the accepted cover-small quasi-isomorphism.
+homology, via the cover-small inclusion quasi-isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L754) (retained native site: line 753).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L766) (retained native site: line 753).
 
 ### AlgebraicTopology.twoOpenMiddleHomologyIso
 
@@ -1470,7 +1514,7 @@ noncomputable def AlgebraicTopology.twoOpenMiddleHomologyIso {X : TopCat} (U V :
 The middle homology term is canonically the direct sum
 `Hₙ(U;ℤ) ⊕ Hₙ(V;ℤ)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L764) (retained native site: line 763).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L776) (retained native site: line 763).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ
 
@@ -1481,7 +1525,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisδ {X : TopCat} (U V : T
 The ordinary Mayer--Vietoris connecting morphism for the ordered cover
 `(U,V)`, with the chain convention `c ↦ (c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L782) (retained native site: line 781).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L794) (retained native site: line 781).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap
 
@@ -1490,10 +1534,10 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap {X : TopCat
 ```
 
 The ordinary homology self-map induced by reindexing the ordered cover
-`(U,V)` as `(V,U)`.  It conjugates the cover-small swap map by the accepted
+`(U,V)` as `(V,U)`.  It conjugates the cover-small swap map by the canonical
 cover-small/ordinary homology isomorphisms.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L791) (retained native site: line 790).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L803) (retained native site: line 790).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap_eq_id
 
@@ -1504,7 +1548,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap_eq_id {X : TopCat} (U
 Reindexing the two-member cover induces the identity on ordinary singular
 homology of the ambient space.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L801) (retained native site: line 800).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L813) (retained native site: line 800).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_swap
 
@@ -1517,7 +1561,7 @@ connecting morphism by `-1`, after the sign-free transport of the intersection
 term and the canonical cover reindexing on the space term.  Thus the sign from
 the chain convention `c ↦ (c,-c)` remains visible over `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L821) (retained native site: line 820).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L833) (retained native site: line 820).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_swap_eq_neg
 
@@ -1528,7 +1572,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_swap_eq_neg {X : TopCat} (U V :
 In the ordinary formulation, where reindexing the cover acts identically
 on `H(X;ℤ)`, swapping `U` and `V` negates the connecting morphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L856) (retained native site: line 855).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L868) (retained native site: line 855).
 
 ### AlgebraicTopology.twoOpenMayerVietorisToSpace
 
@@ -1538,7 +1582,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisToSpace {X : TopCat} (U 
 
 The map from the middle homology term to ordinary homology of `X`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L868) (retained native site: line 867).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L880) (retained native site: line 867).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection
 
@@ -1549,7 +1593,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisFromIntersection {X : To
 The difference map on homology, displayed with target
 `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L876) (retained native site: line 875).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L888) (retained native site: line 875).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromBiprod
 
@@ -1560,7 +1604,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisFromBiprod {X : TopCat} 
 The sum map on homology, displayed with source
 `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L886) (retained native site: line 885).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L898) (retained native site: line 885).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_comp
 
@@ -1570,7 +1614,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_comp {X : TopCat} (U V : Topolo
 
 **API note (not a source docstring):** For the open cover U union V = X, the connecting map from H_(n+1)(X;Z) to the intersection homology followed by the short complex's ordered difference map on H_n is zero. This uses the fixed (c,-c) convention and is a consecutive-map identity, not an exactness assertion by itself.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L896) (retained native site: line 895).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L973) (retained native site: line 895).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_comp_assoc
 
@@ -1582,7 +1626,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_comp_assoc {X : TopCat} (U V : 
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietorisδ_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L896) (retained native site: line 895).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L973) (retained native site: line 895).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace
 
@@ -1592,7 +1636,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace {X : TopCat} (U V : 
 
 **API note (not a source docstring):** For a two-open cover, the homology map of the ordered difference followed by the map from the middle homology object to ordinary H_n(X;Z) is zero. The middle object is still presented as homology of the chain biproduct.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L904) (retained native site: line 903).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L981) (retained native site: line 903).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace_assoc
 
@@ -1604,7 +1648,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace_assoc {X : TopCat} (
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L904) (retained native site: line 903).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L981) (retained native site: line 903).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ
 
@@ -1614,7 +1658,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ {X : TopCat} (U V
 
 **API note (not a source docstring):** For the open cover U union V = X, the map from the middle homology object in degree n+1 to ordinary H_(n+1)(X;Z), followed by the connecting morphism into intersection H_n, is zero. This records consecutive-map vanishing with the degree shift explicit.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L916) (retained native site: line 915).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1004) (retained native site: line 915).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ_assoc
 
@@ -1626,7 +1670,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ_assoc {X : TopCat
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L916) (retained native site: line 915).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1004) (retained native site: line 915).
 
 ### AlgebraicTopology.twoOpenMayerVietorisIntersectionMap
 
@@ -1637,7 +1681,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisIntersectionMap {X Y : T
 The map on the intersection homology term induced by a continuous map
 respecting ordered pairs.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L929) (retained native site: line 928).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1017) (retained native site: line 928).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSpaceMap
 
@@ -1647,9 +1691,9 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisSpaceMap {X Y : TopCat} 
 
 The ordinary-space homology map obtained naturally from the two-open
 short complexes.  It is defined by conjugating the cover-small map by the
-accepted cover-small/ordinary homology isomorphisms.
+canonical cover-small/ordinary homology isomorphisms.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L939) (retained native site: line 938).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1027) (retained native site: line 938).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSpaceMap_eq
 
@@ -1660,7 +1704,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisSpaceMap_eq {X Y : TopCat} (f : X 
 The space map used in Mayer--Vietoris naturality is the ordinary singular
 homology map induced by the underlying continuous map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L952) (retained native site: line 951).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1040) (retained native site: line 951).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_naturality
 
@@ -1671,7 +1715,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_naturality {X Y : TopCat} (f : 
 Naturality of the ordinary two-open Mayer--Vietoris connecting
 morphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L978) (retained native site: line 977).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1066) (retained native site: line 977).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_naturality_induced
 
@@ -1682,7 +1726,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_naturality_induced {X Y : TopCa
 Naturality of the connecting morphism with the standard ordinary singular
 homology map of the underlying continuous map displayed explicitly.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L995) (retained native site: line 994).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1083) (retained native site: line 994).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_intersection
 
@@ -1692,7 +1736,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_intersection {X : TopCat} (
 
 Exactness at `Hₙ(U∩V)` in the ordinary Mayer--Vietoris sequence.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1010) (retained native site: line 1009).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1098) (retained native site: line 1009).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_middle
 
@@ -1702,7 +1750,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_middle {X : TopCat} (U V : 
 
 Exactness at the middle term in the ordinary Mayer--Vietoris sequence.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1043) (retained native site: line 1042).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1135) (retained native site: line 1042).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_space
 
@@ -1712,7 +1764,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_space {X : TopCat} (U V : T
 
 Exactness at `Hₙ₊₁(X)` before the connecting morphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1080) (retained native site: line 1079).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1176) (retained native site: line 1079).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_intersection
 
@@ -1723,7 +1779,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_at_intersection {X : TopCat
 Exactness at `Hₙ(U∩V)` with the middle term displayed as
 `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1118) (retained native site: line 1117).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1218) (retained native site: line 1117).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_biprod
 
@@ -1733,7 +1793,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_at_biprod {X : TopCat} (U V
 
 Exactness at `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1151) (retained native site: line 1150).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1255) (retained native site: line 1150).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_space
 
@@ -1744,7 +1808,11 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_exact_at_space {X : TopCat} (U V 
 Exactness at `Hₙ₊₁(X)` with the preceding term displayed as
 `Hₙ₊₁(U) ⊕ Hₙ₊₁(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1181) (retained native site: line 1180).
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API.
+
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1289) (retained native site: line 1180).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_fst
 
@@ -1753,9 +1821,9 @@ theorem AlgebraicTopology.twoOpenSmallShortComplex_f_fst {X : TopCat} (U V : Top
 ```
 
 The left projection of the first map in the two-open small short complex
-is induced by the literal inclusion `U ∩ V → U`.
+is induced by the open-subspace inclusion `U ∩ V → U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1239) (retained native site: line 1238).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1351) (retained native site: line 1238).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_snd
 
@@ -1764,9 +1832,9 @@ theorem AlgebraicTopology.twoOpenSmallShortComplex_f_snd {X : TopCat} (U V : Top
 ```
 
 The right projection of the first map in the two-open small short complex
-is minus the map induced by the literal inclusion `U ∩ V → V`.
+is minus the map induced by the open-subspace inclusion `U ∩ V → V`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1277) (retained native site: line 1276).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1389) (retained native site: line 1276).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_eq_difference
 
@@ -1774,10 +1842,10 @@ is minus the map induced by the literal inclusion `U ∩ V → V`.
 theorem AlgebraicTopology.twoOpenSmallShortComplex_f_eq_difference {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : (twoOpenSmallShortComplex U V).f = twoOpenDifferenceChainMap U V
 ```
 
-The first map of the two-open small short complex is the accepted ordered
+The first map of the two-open small short complex is the ordered
 difference map `c ↦ (c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1317) (retained native site: line 1316).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1429) (retained native site: line 1316).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso
 
@@ -1785,10 +1853,10 @@ difference map `c ↦ (c,-c)`.
 noncomputable def AlgebraicTopology.twoOpenIntersectionHomologyIso {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (n : ℕ) : integralSingularHomology ((TopologicalSpace.Opens.toTopCat X).obj (U ⊓ V)) n ≅ HomologicalComplex.homology (twoOpenSmallShortComplex U V).X₁ n
 ```
 
-The homology of the literal open intersection is canonically the first
-homology object of the accepted two-open small short complex.
+The homology of the intersection as an open subspace is canonically the first
+homology object of the two-open small short complex.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1328) (retained native site: line 1327).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1440) (retained native site: line 1327).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection_fst
 
@@ -1799,7 +1867,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisFromIntersection_fst {X : TopCat} 
 The left projection of the displayed ordinary difference map is induced
 by `U ∩ V → U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1336) (retained native site: line 1335).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1448) (retained native site: line 1335).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection_snd
 
@@ -1810,7 +1878,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisFromIntersection_snd {X : TopCat} 
 The right projection of the displayed ordinary difference map is minus
 the map induced by `U ∩ V → V`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1352) (retained native site: line 1350).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1464) (retained native site: line 1350).
 
 ### AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionMap
 
@@ -1818,10 +1886,10 @@ the map induced by `U ∩ V → V`.
 theorem AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionMap {X Y : TopCat} (f : X ⟶ Y) (U V : TopologicalSpace.Opens ↑X) (U' V' : TopologicalSpace.Opens ↑Y) (hU : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑U ↑U') (hV : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑V ↑V') : integralSingularChainMap (twoOpenIntersectionMap f U V U' V' hU hV) = (twoOpenSmallShortComplexMap f U V U' V' hU hV).τ₁
 ```
 
-The first component of the accepted map of two-open small short complexes
-is the chain map induced by the literal map of open intersections.
+The first component of the induced map of two-open small short complexes
+is the chain map induced by the restricted map of open intersections.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1384) (retained native site: line 1381).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1496) (retained native site: line 1381).
 
 ### AlgebraicTopology.twoOpenMayerVietorisIntersectionMap_eq
 
@@ -1829,10 +1897,10 @@ is the chain map induced by the literal map of open intersections.
 theorem AlgebraicTopology.twoOpenMayerVietorisIntersectionMap_eq {X Y : TopCat} (f : X ⟶ Y) (U V : TopologicalSpace.Opens ↑X) (U' V' : TopologicalSpace.Opens ↑Y) (hU : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑U ↑U') (hV : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑V ↑V') (n : ℕ) : twoOpenMayerVietorisIntersectionMap f U V U' V' hU hV n = HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionMap f U V U' V' hU hV)) n
 ```
 
-The accepted map on the intersection homology term is the ordinary
-homology map induced by the literal open-intersection map.
+The induced map on the intersection homology term is the ordinary
+homology map induced by the restricted open-intersection map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1416) (retained native site: line 1413).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1528) (retained native site: line 1413).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality
 
@@ -1840,9 +1908,9 @@ homology map induced by the literal open-intersection map.
 theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality {X Y : TopCat} (f : X ⟶ Y) (U V : TopologicalSpace.Opens ↑X) (U' V' : TopologicalSpace.Opens ↑Y) (hU : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑U ↑U') (hV : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑V ↑V') (n : ℕ) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso U V n).hom (twoOpenMayerVietorisIntersectionMap f U V U' V' hU hV n) = CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionMap f U V U' V' hU hV)) n) (twoOpenIntersectionHomologyIso U' V' n).hom
 ```
 
-Naturality of the literal-intersection identification.
+Naturality of the open-subspace intersection identification.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1429) (retained native site: line 1426).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1541) (retained native site: line 1426).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality_assoc
 
@@ -1850,11 +1918,11 @@ Naturality of the literal-intersection identification.
 theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality_assoc {X Y : TopCat} (f : X ⟶ Y) (U V : TopologicalSpace.Opens ↑X) (U' V' : TopologicalSpace.Opens ↑Y) (hU : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑U ↑U') (hV : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑V ↑V') (n : ℕ) {Z : ModuleCat ℤ} (h : HomologicalComplex.homology (twoOpenSmallShortComplex U' V').X₁ n ⟶ Z) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso U V n).hom (CategoryTheory.CategoryStruct.comp (twoOpenMayerVietorisIntersectionMap f U V U' V' hU hV n) h) = CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionMap f U V U' V' hU hV)) n) (CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso U' V' n).hom h)
 ```
 
-Naturality of the literal-intersection identification.
+Naturality of the open-subspace intersection identification.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1430) (retained native site: line 1427).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1541) (retained native site: line 1427).
 
 ### AlgebraicTopology.twoOpenIntersectionSwapMap
 
@@ -1862,10 +1930,10 @@ Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomol
 def AlgebraicTopology.twoOpenIntersectionSwapMap {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : (TopologicalSpace.Opens.toTopCat X).obj (U ⊓ V) ⟶ (TopologicalSpace.Opens.toTopCat X).obj (V ⊓ U)
 ```
 
-The sign-free map from the literal intersection `U ∩ V` to the literal
+The sign-free map from the open-subspace intersection `U ∩ V` to the open-subspace
 intersection `V ∩ U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1444) (retained native site: line 1441).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1556) (retained native site: line 1441).
 
 ### AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionSwapMap
 
@@ -1873,10 +1941,10 @@ intersection `V ∩ U`.
 theorem AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionSwapMap {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : integralSingularChainMap (twoOpenIntersectionSwapMap U V) = (twoOpenIntersectionSwapChainIso U V).hom
 ```
 
-The chain map induced by the sign-free literal-intersection swap is the
-accepted intersection swap chain isomorphism.
+The chain map induced by the sign-free open-subspace intersection swap is the
+intersection swap chain isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1467) (retained native site: line 1464).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1579) (retained native site: line 1464).
 
 ### AlgebraicTopology.integralSingularHomologyMap_twoOpenIntersectionSwapMap
 
@@ -1884,10 +1952,10 @@ accepted intersection swap chain isomorphism.
 theorem AlgebraicTopology.integralSingularHomologyMap_twoOpenIntersectionSwapMap {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (n : ℕ) : HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionSwapMap U V)) n = HomologicalComplex.homologyMap (twoOpenIntersectionSwapChainIso U V).hom n
 ```
 
-On homology, the map induced by the sign-free literal-intersection swap is
-the accepted swap map.
+On homology, the map induced by the sign-free open-subspace intersection swap is
+the homology swap map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1538) (retained native site: line 1535).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1650) (retained native site: line 1535).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_swap
 
@@ -1895,10 +1963,10 @@ the accepted swap map.
 theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_swap {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (n : ℕ) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso U V n).hom (HomologicalComplex.homologyMap (twoOpenIntersectionSwapChainIso U V).hom n) = CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionSwapMap U V)) n) (twoOpenIntersectionHomologyIso V U n).hom
 ```
 
-The literal-intersection identification intertwines the actual sign-free
-swap map with the accepted swap map.
+The open-subspace intersection identification intertwines the sign-free
+swap map with the homology swap map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1549) (retained native site: line 1546).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1661) (retained native site: line 1546).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_swap_assoc
 
@@ -1906,12 +1974,12 @@ swap map with the accepted swap map.
 theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_swap_assoc {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (n : ℕ) {Z : ModuleCat ℤ} (h : HomologicalComplex.homology (twoOpenSmallShortComplex V U).X₁ n ⟶ Z) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso U V n).hom (CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (twoOpenIntersectionSwapChainIso U V).hom n) h) = CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionSwapMap U V)) n) (CategoryTheory.CategoryStruct.comp (twoOpenIntersectionHomologyIso V U n).hom h)
 ```
 
-The literal-intersection identification intertwines the actual sign-free
-swap map with the accepted swap map.
+The open-subspace intersection identification intertwines the sign-free
+swap map with the homology swap map.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomologyIso_swap`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1551) (retained native site: line 1548).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1661) (retained native site: line 1548).
 
 ### AlgebraicTopology.twoOpenIntersectionSwapMap_comp
 
@@ -1919,9 +1987,9 @@ Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomol
 theorem AlgebraicTopology.twoOpenIntersectionSwapMap_comp {X : TopCat} (U V : TopologicalSpace.Opens ↑X) : CategoryTheory.CategoryStruct.comp (twoOpenIntersectionSwapMap U V) (twoOpenIntersectionSwapMap V U) = CategoryTheory.CategoryStruct.id ((TopologicalSpace.Opens.toTopCat X).obj (U ⊓ V))
 ```
 
-Swapping the literal intersection twice is the identity.
+Swapping the open-subspace intersection twice is the identity.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1564) (retained native site: line 1561).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1676) (retained native site: line 1561).
 
 ### AlgebraicTopology.integralSingularHomologyMap_eq_neg_id_of_twoOpen_swap
 
@@ -1929,13 +1997,13 @@ Swapping the literal intersection twice is the identity.
 theorem AlgebraicTopology.integralSingularHomologyMap_eq_neg_id_of_twoOpen_swap {X : TopCat} (f : X ⟶ X) (U V : TopologicalSpace.Opens ↑X) (hU : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑U ↑V) (hV : Set.MapsTo ⇑(CategoryTheory.ConcreteCategory.hom f) ↑V ↑U) (hUV : U ⊔ V = ⊤) (hVU : V ⊔ U = ⊤) (n : ℕ) (hIntersection : CategoryTheory.CategoryStruct.comp (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionMap f V U U V hV hU)) n) (HomologicalComplex.homologyMap (integralSingularChainMap (twoOpenIntersectionSwapMap U V)) n) = CategoryTheory.CategoryStruct.id (HomologicalComplex.homology (integralSingularChains ((TopologicalSpace.Opens.toTopCat X).obj (V ⊓ U))) n)) [CategoryTheory.Mono (twoOpenMayerVietorisδ U V hUV n)] : HomologicalComplex.homologyMap (integralSingularChainMap f) (n + 1) = -CategoryTheory.CategoryStruct.id (HomologicalComplex.homology (integralSingularChains X) (n + 1))
 ```
 
-A self-map which exchanges an ordered two-open cover and whose literal
+A self-map which exchanges an ordered two-open cover and whose restricted
 intersection map agrees on homology with the sign-free swap acts by `-1` on
 the next ordinary integral homology group, provided the displayed connecting
 morphism is monic.  The minus sign comes from the ordered Mayer--Vietoris
 convention; it is not part of the intersection transport hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1572) (retained native site: line 1569).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1684) (retained native site: line 1569).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_isIso_of_isZero_outer
 
@@ -1946,7 +2014,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_isIso_of_isZero_outer {X : TopC
 If the two outer biproduct terms vanish, the ordinary two-open
 Mayer--Vietoris connecting morphism is an isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1628) (retained native site: line 1625).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1740) (retained native site: line 1625).
 
 ## SphereTopology.Homology.Singular.Reduced
 
@@ -1959,9 +2027,9 @@ noncomputable abbrev AlgebraicTopology.integralSingularHomologyFunctor (n : ℕ)
 ```
 
 Integral singular homology, functorially in the topological space. Its
-objects are the accepted `integralSingularHomology` groups.
+objects are the `integralSingularHomology` groups.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L46) (retained native site: line 45).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L60) (retained native site: line 45).
 
 ### AlgebraicTopology.integralSingularHomologyFunctor_map
 
@@ -1971,7 +2039,7 @@ theorem AlgebraicTopology.integralSingularHomologyFunctor_map {X Y : TopCat} (f 
 
 **API note (not a source docstring):** The map part of the degree-n integral singular homology functor is the homology map induced by the integer singular chain map. This identifies the functor presentation with the chain-complex presentation for any continuous map and any nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L51) (retained native site: line 50).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L65) (retained native site: line 50).
 
 ### TopCat.singularHomologyIntegerCoefficients
 
@@ -1980,10 +2048,10 @@ abbrev TopCat.singularHomologyIntegerCoefficients : ModuleCat ℤ
 ```
 
 The integer coefficient object, lifted to the universe of the spaces under
-consideration. This is the accepted coefficient bridge used by the ordinary
+consideration. This coefficient object is used by the ordinary
 integral singular-chain and Mayer--Vietoris APIs.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L65) (retained native site: line 64).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L79) (retained native site: line 64).
 
 ### TopCat.integerSingularHomologyFunctor
 
@@ -1991,9 +2059,9 @@ integral singular-chain and Mayer--Vietoris APIs.
 noncomputable abbrev TopCat.integerSingularHomologyFunctor (n : ℕ) : CategoryTheory.Functor TopCat (ModuleCat ℤ)
 ```
 
-Compatibility name for the accepted integral singular homology functor.
+Compatibility name for the integral singular homology functor.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L71) (retained native site: line 70).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L85) (retained native site: line 70).
 
 ### SSet.homologyZeroPoint
 
@@ -2003,7 +2071,7 @@ noncomputable def SSet.homologyZeroPoint {C : Type u} [CategoryTheory.Category.{
 
 The degree-zero homology class represented by a vertex of a simplicial set.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L85) (retained native site: line 84).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L99) (retained native site: line 84).
 
 ### SSet.homologyZeroPoint_homology₀Iso
 
@@ -2013,7 +2081,7 @@ theorem SSet.homologyZeroPoint_homology₀Iso {C : Type u} [CategoryTheory.Categ
 
 **API note (not a source docstring):** Under the coproduct description of zeroth simplicial homology, the class map of a zero-simplex is the coproduct inclusion of its connected component. The coefficient object is arbitrary in the category with coproducts, preadditive structure and homology appearing in the signature; this statement is not restricted to integer coefficients.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L91) (retained native site: line 90).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L105) (retained native site: line 90).
 
 ### SSet.homologyZeroPoint_homology₀Iso_assoc
 
@@ -2025,7 +2093,7 @@ theorem SSet.homologyZeroPoint_homology₀Iso_assoc {C : Type u} [CategoryTheory
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_homology₀Iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L91) (retained native site: line 90).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L105) (retained native site: line 90).
 
 ### SSet.homologyZeroPoint_augmentation
 
@@ -2035,7 +2103,7 @@ theorem SSet.homologyZeroPoint_augmentation {C : Type u} [CategoryTheory.Categor
 
 **API note (not a source docstring):** The class map of a zero-simplex followed by the total augmentation is the identity of the coefficient object R. The supplied zero-simplex, rather than a global nonemptiness instance, supplies the point; the ambient category is as general as the displayed assumptions.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L99) (retained native site: line 98).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L113) (retained native site: line 98).
 
 ### SSet.homologyZeroPoint_augmentation_assoc
 
@@ -2047,7 +2115,7 @@ theorem SSet.homologyZeroPoint_augmentation_assoc {C : Type u} [CategoryTheory.C
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L99) (retained native site: line 98).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L113) (retained native site: line 98).
 
 ### SSet.homologyZeroPoint_naturality
 
@@ -2057,7 +2125,7 @@ theorem SSet.homologyZeroPoint_naturality {C : Type u} [CategoryTheory.Category.
 
 **API note (not a source docstring):** A simplicial map sends the zeroth-homology class map of x to the class map of its image zero-simplex. This naturality statement uses the arbitrary coefficient object R and the displayed categorical homology assumptions.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L106) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L120) (retained native site: line 105).
 
 ### SSet.homologyZeroPoint_naturality_assoc
 
@@ -2069,7 +2137,7 @@ theorem SSet.homologyZeroPoint_naturality_assoc {C : Type u} [CategoryTheory.Cat
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L106) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L120) (retained native site: line 105).
 
 ### TopCat.singularHomologyZeroPoint
 
@@ -2079,7 +2147,7 @@ noncomputable def TopCat.singularHomologyZeroPoint (X : TopCat) (x : ↑X) : sin
 
 The degree-zero homology class represented by a point.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L124) (retained native site: line 123).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L138) (retained native site: line 123).
 
 ### TopCat.singularHomologyZeroPoint_homology₀Iso
 
@@ -2089,7 +2157,7 @@ theorem TopCat.singularHomologyZeroPoint_homology₀Iso (X : TopCat) (x : ↑X) 
 
 **API note (not a source docstring):** The integral H0 class map of a point becomes the inclusion of that point's path component in the coproduct description of singular H0. Coefficients are the universe-lifted integer module used by this file.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L132) (retained native site: line 131).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L146) (retained native site: line 131).
 
 ### TopCat.singularHomologyZeroPoint_homology₀Iso_assoc
 
@@ -2101,7 +2169,7 @@ theorem TopCat.singularHomologyZeroPoint_homology₀Iso_assoc (X : TopCat) (x : 
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_homology₀Iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L132) (retained native site: line 131).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L146) (retained native site: line 131).
 
 ### TopCat.singularHomologyZeroPoint_augmentation
 
@@ -2109,9 +2177,9 @@ Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_homology�
 theorem TopCat.singularHomologyZeroPoint_augmentation (X : TopCat) (x : ↑X) : CategoryTheory.CategoryStruct.comp (X.singularHomologyZeroPoint x) (X.singularHomology₀ε singularHomologyIntegerCoefficients) = CategoryTheory.CategoryStruct.id singularHomologyIntegerCoefficients
 ```
 
-**API note (not a source docstring):** A point class followed by the integral H0 augmentation is the identity on the lifted integer coefficient module. The theorem takes an actual point x and makes no separate path-connectedness assumption.
+**API note (not a source docstring):** A point class followed by the integral H0 augmentation is the identity on the lifted integer coefficient module. The theorem takes a specified point x and makes no separate path-connectedness assumption.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L147) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L161) (retained native site: line 146).
 
 ### TopCat.singularHomologyZeroPoint_augmentation_assoc
 
@@ -2123,7 +2191,7 @@ theorem TopCat.singularHomologyZeroPoint_augmentation_assoc (X : TopCat) (x : �
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L147) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L161) (retained native site: line 146).
 
 ### TopCat.singularHomologyZeroPoint_naturality
 
@@ -2133,7 +2201,7 @@ theorem TopCat.singularHomologyZeroPoint_naturality {X Y : TopCat} (f : X ⟶ Y)
 
 **API note (not a source docstring):** The ordinary integral H0 map of a continuous map sends the class map of x to the class map of f(x). No connectedness or nonemptiness beyond the supplied point is assumed.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L158) (retained native site: line 157).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L172) (retained native site: line 157).
 
 ### TopCat.singularHomologyZeroPoint_naturality_assoc
 
@@ -2145,7 +2213,7 @@ theorem TopCat.singularHomologyZeroPoint_naturality_assoc {X Y : TopCat} (f : X 
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L158) (retained native site: line 157).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L172) (retained native site: line 157).
 
 ### TopCat.singularHomologyZeroAugmentation_naturality
 
@@ -2155,7 +2223,7 @@ theorem TopCat.singularHomologyZeroAugmentation_naturality {X Y : TopCat} (f : X
 
 The total degree-zero augmentation commutes with every continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L169) (retained native site: line 168).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L183) (retained native site: line 168).
 
 ### TopCat.singularHomologyZeroAugmentation_naturality_assoc
 
@@ -2167,7 +2235,7 @@ The total degree-zero augmentation commutes with every continuous map.
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroAugmentation_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L170) (retained native site: line 169).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L183) (retained native site: line 169).
 
 ### TopCat.reducedSingularHomologyZero
 
@@ -2177,7 +2245,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyZero (X : TopCat) : ModuleCat
 
 Reduced integer singular homology in degree zero.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L187) (retained native site: line 186).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L201) (retained native site: line 186).
 
 ### TopCat.reducedSingularHomologyZeroι
 
@@ -2188,7 +2256,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyZeroι (X : TopCat) : X.reduc
 The canonical inclusion of reduced degree-zero homology into ordinary
 degree-zero homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L191) (retained native site: line 190).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L205) (retained native site: line 190).
 
 ### TopCat.reducedSingularHomologyZeroMap
 
@@ -2198,7 +2266,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroMap {X Y : TopCat} (f : X �
 
 The map on reduced degree-zero homology induced by a continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L197) (retained native site: line 196).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L211) (retained native site: line 196).
 
 ### TopCat.reducedSingularHomologyZeroMap_ι
 
@@ -2208,7 +2276,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_ι {X Y : TopCat} (f : X ⟶ Y) : 
 
 **API note (not a source docstring):** The reduced H0 map, defined on the total-augmentation kernel, commutes with its kernel inclusion into ordinary integral H0. This holds for every continuous map, without a nonempty-space hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L209) (retained native site: line 208).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L223) (retained native site: line 208).
 
 ### TopCat.reducedSingularHomologyZeroMap_ι_assoc
 
@@ -2220,7 +2288,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_ι_assoc {X Y : TopCat} (f : X ⟶
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroMap_ι`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L209) (retained native site: line 208).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L223) (retained native site: line 208).
 
 ### TopCat.reducedSingularHomologyZeroMap_id
 
@@ -2230,7 +2298,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_id (X : TopCat) : reducedSingularH
 
 **API note (not a source docstring):** The map induced on the augmentation kernel by the identity continuous map is the identity on reduced H0, for an arbitrary space.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L215) (retained native site: line 214).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L229) (retained native site: line 214).
 
 ### TopCat.reducedSingularHomologyZeroMap_comp
 
@@ -2240,7 +2308,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_comp {X Y Z : TopCat} (f : X ⟶ Y
 
 **API note (not a source docstring):** The reduced H0 map of a composite continuous map is the composite of the reduced H0 maps, in categorical composition order. No connectedness hypothesis is needed.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L221) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L235) (retained native site: line 220).
 
 ### TopCat.reducedSingularHomologyZeroMap_comp_assoc
 
@@ -2252,7 +2320,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_comp_assoc {X Y Z : TopCat} (f : X
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroMap_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L221) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L235) (retained native site: line 220).
 
 ### TopCat.reducedSingularHomologyZeroFunctor
 
@@ -2262,7 +2330,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroFunctor : CategoryTheory.Fun
 
 Reduced degree-zero singular homology is a functor.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L229) (retained native site: line 228).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 228).
 
 ### TopCat.reducedSingularHomologyZeroFunctor_map
 
@@ -2274,7 +2342,7 @@ theorem TopCat.reducedSingularHomologyZeroFunctor_map {X✝ Y✝ : TopCat} (f : 
 
 Generated `simps` declaration from `TopCat.reducedSingularHomologyZeroFunctor`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L230) (retained native site: line 229).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 229).
 
 ### TopCat.reducedSingularHomologyZeroFunctor_obj
 
@@ -2286,7 +2354,7 @@ theorem TopCat.reducedSingularHomologyZeroFunctor_obj (X : TopCat) : reducedSing
 
 Generated `simps` declaration from `TopCat.reducedSingularHomologyZeroFunctor`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L230) (retained native site: line 229).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 229).
 
 ### TopCat.reducedSingularHomologyFunctor
 
@@ -2297,7 +2365,7 @@ noncomputable def TopCat.reducedSingularHomologyFunctor (n : ℕ) : CategoryTheo
 Nonnegative reduced singular homology.  Degree zero is the augmentation
 kernel, and positive degrees are ordinary integer singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L238) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L252) (retained native site: line 237).
 
 ### TopCat.reducedSingularHomology
 
@@ -2307,7 +2375,7 @@ noncomputable abbrev TopCat.reducedSingularHomology (X : TopCat) (n : ℕ) : Mod
 
 The object-level nonnegative reduced singular homology group.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L246) (retained native site: line 245).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L260) (retained native site: line 245).
 
 ### TopCat.reducedSingularHomologyMap
 
@@ -2317,7 +2385,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyMap {X Y : TopCat} (f : X ⟶
 
 The induced map on nonnegative reduced singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L251) (retained native site: line 250).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L265) (retained native site: line 250).
 
 ### TopCat.reducedSingularHomologyZeroIso
 
@@ -2327,7 +2395,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroIso (X : TopCat) : X.reduced
 
 In degree zero, the nonnegative interface is the augmentation kernel.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L257) (retained native site: line 256).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L271) (retained native site: line 256).
 
 ### TopCat.reducedSingularHomologyZeroInclusion
 
@@ -2338,7 +2406,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroInclusion (X : TopCat) : X.r
 The canonical inclusion from the degree-zero nonnegative reduced-homology
 interface into ordinary degree-zero integral singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L262) (retained native site: line 261).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L276) (retained native site: line 261).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_mono
 
@@ -2348,7 +2416,7 @@ instance TopCat.reducedSingularHomologyZeroInclusion_mono (X : TopCat) : Categor
 
 **API note (not a source docstring):** The degree-zero inclusion from the file's reduced-homology convention to the ordinary integral H0 functor is a categorical monomorphism. This instance is inherited from the augmentation-kernel inclusion and needs no nonemptiness hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L270) (retained native site: line 269).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L284) (retained native site: line 269).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_naturality
 
@@ -2358,7 +2426,7 @@ theorem TopCat.reducedSingularHomologyZeroInclusion_naturality {X Y : TopCat} (f
 
 The degree-zero reduced inclusion is natural for continuous maps.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L275) (retained native site: line 274).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L289) (retained native site: line 274).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_naturality_assoc
 
@@ -2370,7 +2438,7 @@ The degree-zero reduced inclusion is natural for continuous maps.
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroInclusion_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L276) (retained native site: line 275).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L289) (retained native site: line 275).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary
 
@@ -2381,7 +2449,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroToOrdinary (X : TopCat) : X.
 The degree-zero reduced inclusion with its codomain displayed using the
 ordinary integral singular-homology abbreviation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L289) (retained native site: line 288).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L303) (retained native site: line 288).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_mono
 
@@ -2391,7 +2459,7 @@ instance TopCat.reducedSingularHomologyZeroToOrdinary_mono (X : TopCat) : Catego
 
 **API note (not a source docstring):** The degree-zero reduced inclusion is a categorical monomorphism when its codomain is displayed using integralSingularHomology X 0. This is the same inclusion as reducedSingularHomologyZeroInclusion, with a definitionally equal presentation of ordinary homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L295) (retained native site: line 294).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L309) (retained native site: line 294).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_naturality
 
@@ -2402,7 +2470,7 @@ theorem TopCat.reducedSingularHomologyZeroToOrdinary_naturality {X Y : TopCat} (
 Naturality of the degree-zero reduced inclusion, with ordinary homology
 displayed explicitly.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L300) (retained native site: line 299).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L388) (retained native site: line 299).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_naturality_assoc
 
@@ -2415,7 +2483,7 @@ displayed explicitly.
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroToOrdinary_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L302) (retained native site: line 301).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L388) (retained native site: line 301).
 
 ### TopCat.reducedSingularHomologyIsoOfNeZero
 
@@ -2426,7 +2494,7 @@ noncomputable def TopCat.reducedSingularHomologyIsoOfNeZero (X : TopCat) (n : �
 In every positive degree, reduced and ordinary integer singular homology
 are canonically identical.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L311) (retained native site: line 310).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L399) (retained native site: line 310).
 
 ### TopCat.reducedSingularHomologyMap_isoOfNeZero
 
@@ -2436,7 +2504,7 @@ theorem TopCat.reducedSingularHomologyMap_isoOfNeZero {X Y : TopCat} (f : X ⟶ 
 
 **API note (not a source docstring):** In a specified nonzero natural-number degree, the reduced map agrees with the ordinary integral homology map under the canonical reduced-to-ordinary isomorphisms. The hypothesis n ≠ 0 is essential to this presentation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L320) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L408) (retained native site: line 319).
 
 ### TopCat.reducedSingularHomologyMap_isoOfNeZero_assoc
 
@@ -2448,7 +2516,7 @@ theorem TopCat.reducedSingularHomologyMap_isoOfNeZero_assoc {X Y : TopCat} (f : 
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyMap_isoOfNeZero`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L320) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L408) (retained native site: line 319).
 
 ### TopCat.reducedSingularHomologyZeroMap_eq_of_homotopy
 
@@ -2458,7 +2526,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_eq_of_homotopy {X Y : TopCat} {f g
 
 Homotopic maps induce the same map on reduced degree-zero homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L331) (retained native site: line 330).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L419) (retained native site: line 330).
 
 ### TopCat.reducedSingularHomologyMap_eq_of_homotopy
 
@@ -2469,7 +2537,7 @@ theorem TopCat.reducedSingularHomologyMap_eq_of_homotopy {X Y : TopCat} {f g : X
 Homotopic maps induce the same map on reduced integer singular homology in
 every nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L349) (retained native site: line 348).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L437) (retained native site: line 348).
 
 ### TopCat.reducedSingularHomologyIsoOfHomotopyEquiv
 
@@ -2480,7 +2548,12 @@ noncomputable def TopCat.reducedSingularHomologyIsoOfHomotopyEquiv {X Y : TopCat
 A homotopy equivalence induces an isomorphism on reduced integer singular
 homology in every nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L360) (retained native site: line 359).
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory.
+
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L448) (retained native site: line 359).
 
 ### TopCat.isZero_reducedSingularHomologyZero_of_pathConnected
 
@@ -2490,7 +2563,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_of_pathConnected (X : TopCat) 
 
 A path-connected space has zero reduced degree-zero integer homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L386) (retained native site: line 385).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L479) (retained native site: line 385).
 
 ### TopCat.isZero_reducedSingularHomologyZero_of_contractible
 
@@ -2501,7 +2574,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_of_contractible (X : TopCat) [
 In particular, a contractible space has zero reduced degree-zero integer
 homology.  A `ContractibleSpace` instance includes nonemptiness.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L393) (retained native site: line 392).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L486) (retained native site: line 392).
 
 ### TopCat.onePointSpace
 
@@ -2511,7 +2584,7 @@ abbrev TopCat.onePointSpace : TopCat
 
 The canonical one-point space, lifted into an arbitrary universe.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L400) (retained native site: line 399).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L493) (retained native site: line 399).
 
 ### TopCat.isZero_reducedSingularHomology_onePoint
 
@@ -2522,7 +2595,7 @@ theorem TopCat.isZero_reducedSingularHomology_onePoint (n : ℕ) : CategoryTheor
 Reduced integer singular homology of a point vanishes in every
 nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L403) (retained native site: line 402).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L496) (retained native site: line 402).
 
 ### TopCat.isZero_reducedSingularHomology_of_contractible
 
@@ -2534,7 +2607,12 @@ Every contractible space has zero reduced integer singular homology in
 every nonnegative degree. This statement preserves the universe of the
 ambient space.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L418) (retained native site: line 417).
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory.
+
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L511) (retained native site: line 417).
 
 ### TopCat.emptySpace
 
@@ -2544,7 +2622,7 @@ abbrev TopCat.emptySpace : TopCat
 
 The canonical empty space, lifted into an arbitrary universe.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L429) (retained native site: line 428).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L527) (retained native site: line 428).
 
 ### TopCat.isZero_reducedSingularHomologyZero_empty
 
@@ -2555,7 +2633,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_empty : CategoryTheory.Limits.
 Under the nonnegative convention of this file, reduced degree-zero
 homology of the empty space is zero: its ordinary `H₀` is already zero.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L432) (retained native site: line 431).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L530) (retained native site: line 431).
 
 ### TopCat.twoPointSpace
 
@@ -2565,7 +2643,7 @@ abbrev TopCat.twoPointSpace : TopCat
 
 The canonical discrete two-point space used below.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L454) (retained native site: line 453).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L552) (retained native site: line 453).
 
 ### TopCat.twoPointSwap
 
@@ -2575,7 +2653,7 @@ def TopCat.twoPointSwap : twoPointSpace ⟶ twoPointSpace
 
 Transposition of the canonical discrete two-point space.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L457) (retained native site: line 456).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L555) (retained native site: line 456).
 
 ### TopCat.twoPointSwap_apply
 
@@ -2585,7 +2663,7 @@ theorem TopCat.twoPointSwap_apply (b : Bool) : (CategoryTheory.ConcreteCategory.
 
 **API note (not a source docstring):** The transposition of the canonical discrete two-point space Bool evaluates to Boolean negation. It swaps false and true in the fixed coordinate order.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L461) (retained native site: line 460).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L559) (retained native site: line 460).
 
 ### TopCat.path_endpoints_eq_of_totallyDisconnected
 
@@ -2595,7 +2673,7 @@ theorem TopCat.path_endpoints_eq_of_totallyDisconnected {X : Type u_1} [Topologi
 
 On a totally disconnected space every path has equal endpoints.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L464) (retained native site: line 463).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L562) (retained native site: line 463).
 
 ### TopCat.twoPointZerothHomotopyEquiv
 
@@ -2606,7 +2684,7 @@ noncomputable def TopCat.twoPointZerothHomotopyEquiv : ZerothHomotopy ↑twoPoin
 Path components of the discrete two-point space, with no choice of
 representatives: the component of `b` is sent to `b`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L471) (retained native site: line 470).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L569) (retained native site: line 470).
 
 ### TopCat.twoPointZerothHomotopyEquiv_mk
 
@@ -2616,7 +2694,7 @@ theorem TopCat.twoPointZerothHomotopyEquiv_mk (b : Bool) : twoPointZerothHomotop
 
 **API note (not a source docstring):** The component of b in the discrete Bool space is sent back to b by the chosen path-component equivalence. This fixes the labels used by the two-point H0 coordinates.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L481) (retained native site: line 480).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L579) (retained native site: line 480).
 
 ### TopCat.twoPointSingularHomologyZeroIso
 
@@ -2627,7 +2705,7 @@ noncomputable def TopCat.twoPointSingularHomologyZeroIso : (AlgebraicTopology.in
 The canonical presentation of `H₀` of the two-point space by the two
 point classes, ordered as `false`, `true`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L485) (retained native site: line 484).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L583) (retained native site: line 484).
 
 ### TopCat.singularHomologyZeroPoint_twoPoint_iso
 
@@ -2637,7 +2715,7 @@ theorem TopCat.singularHomologyZeroPoint_twoPoint_iso (b : Bool) : CategoryTheor
 
 **API note (not a source docstring):** Under the ordered two-point ordinary H0 isomorphism, the class map of b becomes the coproduct inclusion indexed by b. The order is false, true; it is not chosen up to permutation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L494) (retained native site: line 493).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L592) (retained native site: line 493).
 
 ### TopCat.singularHomologyZeroPoint_twoPoint_iso_assoc
 
@@ -2649,7 +2727,7 @@ theorem TopCat.singularHomologyZeroPoint_twoPoint_iso_assoc (b : Bool) {Z : Modu
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_twoPoint_iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L494) (retained native site: line 493).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L592) (retained native site: line 493).
 
 ### TopCat.twoPoint_sigmaι_iso_inv
 
@@ -2659,7 +2737,7 @@ theorem TopCat.twoPoint_sigmaι_iso_inv (b : Bool) : CategoryTheory.CategoryStru
 
 **API note (not a source docstring):** The inverse two-point H0 isomorphism sends the coproduct inclusion at b to the singular point-class map of b. This is the inverse-coordinate form of the fixed false/true presentation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L509) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L607) (retained native site: line 503).
 
 ### TopCat.twoPoint_sigmaι_iso_inv_assoc
 
@@ -2671,7 +2749,7 @@ theorem TopCat.twoPoint_sigmaι_iso_inv_assoc (b : Bool) {Z : ModuleCat ℤ} (h 
 
 Generated `reassoc` declaration from `TopCat.twoPoint_sigmaι_iso_inv`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L509) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L607) (retained native site: line 503).
 
 ### TopCat.twoPointSingularHomologyZeroIso_hom_desc
 
@@ -2681,7 +2759,7 @@ theorem TopCat.twoPointSingularHomologyZeroIso_hom_desc : CategoryTheory.Categor
 
 **API note (not a source docstring):** In the ordered two-point coproduct coordinates, summing the two coefficient components is exactly the ordinary H0 augmentation. Both coproduct summands are mapped by the identity coefficient morphism.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L517) (retained native site: line 511).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L615) (retained native site: line 511).
 
 ### TopCat.twoPointSingularHomologyZeroIso_hom_desc_assoc
 
@@ -2693,7 +2771,7 @@ theorem TopCat.twoPointSingularHomologyZeroIso_hom_desc_assoc {Z : ModuleCat ℤ
 
 Generated `reassoc` declaration from `TopCat.twoPointSingularHomologyZeroIso_hom_desc`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L517) (retained native site: line 511).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L615) (retained native site: line 511).
 
 ### TopCat.twoPointReducedBasisClass
 
@@ -2704,7 +2782,7 @@ noncomputable def TopCat.twoPointReducedBasisClass : singularHomologyIntegerCoef
 The chosen reduced `H₀` basis class is `[false] - [true]`.  This fixes the
 sign used by the two-point computation and all naturality statements below.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L529) (retained native site: line 523).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L627) (retained native site: line 523).
 
 ### TopCat.twoPointReducedBasisClass_augmentation
 
@@ -2714,7 +2792,7 @@ theorem TopCat.twoPointReducedBasisClass_augmentation : CategoryTheory.CategoryS
 
 **API note (not a source docstring):** The ordinary H0 class [false] − [true] has zero total augmentation. This is the kernel condition used to lift the chosen signed basis class to reduced H0.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L537) (retained native site: line 531).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L635) (retained native site: line 531).
 
 ### TopCat.twoPointReducedBasisClass_augmentation_assoc
 
@@ -2726,7 +2804,7 @@ theorem TopCat.twoPointReducedBasisClass_augmentation_assoc {Z : ModuleCat ℤ} 
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasisClass_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L537) (retained native site: line 531).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L635) (retained native site: line 531).
 
 ### TopCat.twoPointReducedBasis
 
@@ -2736,7 +2814,7 @@ noncomputable def TopCat.twoPointReducedBasis : singularHomologyIntegerCoefficie
 
 The basis vector `1 ↦ [false] - [true]` in reduced `H₀`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L543) (retained native site: line 537).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L641) (retained native site: line 537).
 
 ### TopCat.twoPointReducedBasis_ι
 
@@ -2746,7 +2824,7 @@ theorem TopCat.twoPointReducedBasis_ι : CategoryTheory.CategoryStruct.comp twoP
 
 **API note (not a source docstring):** Including the chosen reduced basis into ordinary H0 gives the explicitly ordered difference [false] − [true]. This characterizes its lift through the augmentation kernel.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L550) (retained native site: line 544).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L648) (retained native site: line 544).
 
 ### TopCat.twoPointReducedBasis_ι_assoc
 
@@ -2758,7 +2836,7 @@ theorem TopCat.twoPointReducedBasis_ι_assoc {Z : ModuleCat ℤ} (h : (Algebraic
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_ι`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L550) (retained native site: line 544).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L648) (retained native site: line 544).
 
 ### TopCat.twoPointReducedCoordinate
 
@@ -2769,7 +2847,7 @@ noncomputable def TopCat.twoPointReducedCoordinate : twoPointSpace.reducedSingul
 The `false` coordinate on reduced `H₀`, after the ordered two-point
 presentation and its canonical finite biproduct structure.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L556) (retained native site: line 550).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L654) (retained native site: line 550).
 
 ### TopCat.twoPointReducedBasis_coordinate
 
@@ -2779,7 +2857,7 @@ theorem TopCat.twoPointReducedBasis_coordinate : CategoryTheory.CategoryStruct.c
 
 **API note (not a source docstring):** Applying the false coordinate to the reduced basis [false] − [true] gives the identity coefficient morphism. This is one of the two inverse identities for the explicit reduced-H0 coordinate isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L566) (retained native site: line 560).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L664) (retained native site: line 560).
 
 ### TopCat.twoPointReducedBasis_coordinate_assoc
 
@@ -2791,7 +2869,7 @@ theorem TopCat.twoPointReducedBasis_coordinate_assoc {Z : ModuleCat ℤ} (h : si
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_coordinate`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L566) (retained native site: line 560).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L664) (retained native site: line 560).
 
 ### TopCat.twoPointReducedCoordinate_basis
 
@@ -2801,7 +2879,7 @@ theorem TopCat.twoPointReducedCoordinate_basis : CategoryTheory.CategoryStruct.c
 
 **API note (not a source docstring):** Taking the false coordinate of a reduced H0 class and then multiplying the chosen basis [false] − [true] reconstructs that class. The augmentation-kernel condition supplies the relation between its two coordinates.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L576) (retained native site: line 570).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L674) (retained native site: line 570).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso
 
@@ -2811,7 +2889,12 @@ noncomputable def TopCat.reducedSingularHomologyZeroTwoPointIso : twoPointSpace.
 
 The explicit two-point computation with basis `[false] - [true]`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L651) (retained native site: line 645).
+For the reduced-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
+homology (Joël Riou) and the project's augmentation-kernel model, not a
+comparison with May's based-relative theory.
+
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L749) (retained native site: line 645).
 
 ### TopCat.singularHomologyIntegerCoefficientsIso
 
@@ -2822,7 +2905,7 @@ def TopCat.singularHomologyIntegerCoefficientsIso : singularHomologyIntegerCoeff
 The universe-zero coefficient object is canonically the ordinary integer
 module.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L660) (retained native site: line 654).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L763) (retained native site: line 654).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIntegerIso
 
@@ -2830,10 +2913,10 @@ module.
 noncomputable def TopCat.reducedSingularHomologyZeroTwoPointIntegerIso : twoPointSpace.reducedSingularHomologyZero ≅ ↧ℤ
 ```
 
-The two-point computation stated with the literal integer module as its
+The two-point computation stated with the unlifted integer module as its
 target.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L666) (retained native site: line 660).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L769) (retained native site: line 660).
 
 ### TopCat.twoPointReducedBasis_swap
 
@@ -2843,7 +2926,7 @@ theorem TopCat.twoPointReducedBasis_swap : CategoryTheory.CategoryStruct.comp tw
 
 Transposition sends the chosen basis `[false] - [true]` to its negative.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L673) (retained native site: line 667).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L776) (retained native site: line 667).
 
 ### TopCat.twoPointReducedBasis_swap_assoc
 
@@ -2855,7 +2938,7 @@ Transposition sends the chosen basis `[false] - [true]` to its negative.
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_swap`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L674) (retained native site: line 668).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L776) (retained native site: line 668).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso_swap
 
@@ -2866,7 +2949,7 @@ theorem TopCat.reducedSingularHomologyZeroTwoPointIso_swap : CategoryTheory.Cate
 In the basis `[false] - [true]`, transposition acts on reduced `H₀` by
 multiplication by `-1`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L687) (retained native site: line 681).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L790) (retained native site: line 681).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIntegerIso_swap
 
@@ -2874,10 +2957,10 @@ multiplication by `-1`.
 theorem TopCat.reducedSingularHomologyZeroTwoPointIntegerIso_swap : CategoryTheory.CategoryStruct.comp reducedSingularHomologyZeroTwoPointIntegerIso.inv (CategoryTheory.CategoryStruct.comp (reducedSingularHomologyZeroMap twoPointSwap) reducedSingularHomologyZeroTwoPointIntegerIso.hom) = -CategoryTheory.CategoryStruct.id ↧ℤ
 ```
 
-The literal-integer form of the transposition computation: conjugating by
+The unlifted-integer form of the transposition computation: conjugating by
 `reducedSingularHomologyZeroTwoPointIntegerIso` gives `-𝟙` on `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L700) (retained native site: line 694).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L803) (retained native site: line 694).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso_id
 
@@ -2887,7 +2970,7 @@ theorem TopCat.reducedSingularHomologyZeroTwoPointIso_id : CategoryTheory.Catego
 
 The identity map acts as the identity in the same ordered basis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L715) (retained native site: line 709).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L818) (retained native site: line 709).
 
 ## SphereTopology.Homology.Singular.ReducedMayerVietoris
 
@@ -2900,10 +2983,10 @@ noncomputable def AlgebraicTopology.twoOpenReducedMayerVietorisδZero {X : TopCa
 ```
 
 The reduced degree-zero connecting morphism for the ordered cover `(U,V)`.
-It is the unique factorization of the accepted ordinary connecting morphism
+It is the unique factorization of the ordinary connecting morphism
 through the degree-zero augmentation kernel.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L105) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L123) (retained native site: line 105).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_ordinary
 
@@ -2912,10 +2995,10 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_ordinary {X : TopCat
 ```
 
 Composing the reduced connecting morphism with the augmentation-kernel
-inclusion and literal-intersection identification recovers the accepted
-ordinary connecting morphism with its owned sign.
+inclusion and open-subspace intersection identification recovers the
+ordinary connecting morphism with the ordered difference/sum sign.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L159) (retained native site: line 159).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L177) (retained native site: line 159).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_ordinary_assoc
 
@@ -2924,12 +3007,12 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_ordinary_assoc {X : 
 ```
 
 Composing the reduced connecting morphism with the augmentation-kernel
-inclusion and literal-intersection identification recovers the accepted
-ordinary connecting morphism with its owned sign.
+inclusion and open-subspace intersection identification recovers the
+ordinary connecting morphism with the ordered difference/sum sign.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenReducedMayerVietorisδZero_ordinary`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L162) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L177) (retained native site: line 162).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisFromIntersectionZero
 
@@ -2940,7 +3023,7 @@ noncomputable def AlgebraicTopology.twoOpenReducedMayerVietorisFromIntersectionZ
 The ordered reduced degree-zero difference map
 `H̃₀(U∩V) → H̃₀(U) ⊕ H̃₀(V)`, with convention `(c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L173) (retained native site: line 173).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L191) (retained native site: line 173).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_comp_fromIntersection
 
@@ -2951,7 +3034,7 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_comp_fromIntersectio
 The reduced connecting morphism is followed by zero in the reduced
 degree-zero Mayer--Vietoris sequence.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L216) (retained native site: line 216).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L563) (retained native site: line 216).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_comp_fromIntersection_assoc
 
@@ -2964,7 +3047,7 @@ degree-zero Mayer--Vietoris sequence.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenReducedMayerVietorisδZero_comp_fromIntersection`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L218) (retained native site: line 218).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L563) (retained native site: line 218).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietoris_exact_intersectionZero
 
@@ -2972,10 +3055,10 @@ Generated `reassoc` declaration from `AlgebraicTopology.twoOpenReducedMayerVieto
 theorem AlgebraicTopology.twoOpenReducedMayerVietoris_exact_intersectionZero {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (hUV : U ⊔ V = ⊤) : { X₁ := X.reducedSingularHomology 1, X₂ := ((TopologicalSpace.Opens.toTopCat X).obj (U ⊓ V)).reducedSingularHomology 0, X₃ := ((TopologicalSpace.Opens.toTopCat X).obj U).reducedSingularHomology 0 ⊞ ((TopologicalSpace.Opens.toTopCat X).obj V).reducedSingularHomology 0, f := twoOpenReducedMayerVietorisδZero U V hUV, g := twoOpenReducedMayerVietorisFromIntersectionZero U V, zero := ⋯ }.Exact
 ```
 
-Exactness at the reduced degree-zero homology of the literal
-intersection.
+Exactness at the reduced degree-zero homology of the
+intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L237) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L584) (retained native site: line 237).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_naturality
 
@@ -2984,10 +3067,10 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_naturality {X Y : To
 ```
 
 Naturality of the reduced connecting morphism for a continuous map
-respecting both ordered opens, stated using the actual literal-intersection
+respecting both ordered opens, stated using the restricted open-intersection
 map.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L296) (retained native site: line 296).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L643) (retained native site: line 296).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_swap_eq_neg
 
@@ -2995,10 +3078,10 @@ map.
 theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_swap_eq_neg {X : TopCat} (U V : TopologicalSpace.Opens ↑X) (hUV : U ⊔ V = ⊤) (hVU : V ⊔ U = ⊤) : CategoryTheory.CategoryStruct.comp (twoOpenReducedMayerVietorisδZero U V hUV) (TopCat.reducedSingularHomologyMap (twoOpenIntersectionSwapMap U V) 0) = -twoOpenReducedMayerVietorisδZero V U hVU
 ```
 
-Swapping the ordered cover and transporting by the actual sign-free
-literal-intersection swap negates the reduced connecting morphism.
+Swapping the ordered cover and transporting by the sign-free
+open-subspace intersection swap negates the reduced connecting morphism.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L320) (retained native site: line 320).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L667) (retained native site: line 320).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_opens
 
@@ -3009,7 +3092,7 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_ope
 If both opens have zero reduced homology in degrees zero and one, the
 reduced connecting morphism is an isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L341) (retained native site: line 341).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L688) (retained native site: line 341).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisIsoOfAcyclicOpens
 
@@ -3020,7 +3103,7 @@ noncomputable def AlgebraicTopology.twoOpenReducedMayerVietorisIsoOfAcyclicOpens
 The reduced Mayer--Vietoris isomorphism furnished by an acyclic ordered
 two-open cover in the adjacent degrees.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L390) (retained native site: line 390).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L737) (retained native site: line 390).
 
 ## SphereTopology.Homology.Singular.SmallChains
 
@@ -3034,7 +3117,7 @@ def TopCat.smallSingularSet {X : TopCat} {ι : Type u_1} (U : ι → Topological
 
 Singular simplices whose range is contained in one member of `U`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L44) (retained native site: line 43).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L55) (retained native site: line 43).
 
 ### TopCat.mem_smallSingularSet_iff
 
@@ -3044,7 +3127,7 @@ theorem TopCat.mem_smallSingularSet_iff {X : TopCat} {ι : Type u_1} (U : ι →
 
 **API note (not a source docstring):** A singular simplex belongs to the small singular subcomplex exactly when its continuous representative has range contained in one member of the family U. U may be any family of opens; this characterization does not require it to cover the space.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L54) (retained native site: line 53).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L65) (retained native site: line 53).
 
 ### TopCat.smallSingularSet_mono
 
@@ -3055,7 +3138,7 @@ theorem TopCat.smallSingularSet_mono {X : TopCat} {ι : Type u_1} {κ : Type u_2
 Refining every member of `U` into a member of `V` gives an inclusion of
 the corresponding small-singular subcomplexes.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L60) (retained native site: line 59).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L71) (retained native site: line 59).
 
 ### TopCat.smallSingularSetHomOfRefinement
 
@@ -3065,7 +3148,7 @@ noncomputable def TopCat.smallSingularSetHomOfRefinement {X : TopCat} {ι : Type
 
 The simplicial map on small singular sets induced by a cover refinement.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L70) (retained native site: line 69).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L81) (retained native site: line 69).
 
 ### TopCat.smallSingularSetMap
 
@@ -3076,7 +3159,7 @@ noncomputable def TopCat.smallSingularSetMap {X Y : TopCat} {ι : Type u_1} {κ 
 A continuous map induces a map of small-singular simplicial sets whenever
 it sends each member of the source cover into a member of the target cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L77) (retained native site: line 76).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L88) (retained native site: line 76).
 
 ### TopCat.smallSingularSetMap_comp_inclusion
 
@@ -3086,7 +3169,7 @@ theorem TopCat.smallSingularSetMap_comp_inclusion {X Y : TopCat} {ι : Type u_1}
 
 **API note (not a source docstring):** The small-singular simplicial map induced by a continuous map respecting the two families of opens commutes with inclusion into all singular simplices. The hypothesis sends each source member into some target member; no covering hypothesis is used.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L93) (retained native site: line 92).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L104) (retained native site: line 92).
 
 ### TopCat.smallSingularSetMap_comp_inclusion_assoc
 
@@ -3098,7 +3181,7 @@ theorem TopCat.smallSingularSetMap_comp_inclusion_assoc {X Y : TopCat} {ι : Typ
 
 Generated `reassoc` declaration from `TopCat.smallSingularSetMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L93) (retained native site: line 92).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L104) (retained native site: line 92).
 
 ### AlgebraicTopology.integerCoefficients
 
@@ -3109,7 +3192,7 @@ abbrev AlgebraicTopology.integerCoefficients : ModuleCat ℤ
 Integer coefficients lifted into the universe of the singular simplices.
 The underlying module is canonically linearly equivalent to `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L105) (retained native site: line 104).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L116) (retained native site: line 104).
 
 ### AlgebraicTopology.isCoverSmall_zero
 
@@ -3119,7 +3202,7 @@ theorem AlgebraicTopology.isCoverSmall_zero {X : TopCat} {ι : Type u_1} (U : ι
 
 Every singular zero-simplex is small relative to an open cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L110) (retained native site: line 109).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L121) (retained native site: line 109).
 
 ### AlgebraicTopology.smallSingularChainComplex
 
@@ -3129,7 +3212,7 @@ noncomputable def AlgebraicTopology.smallSingularChainComplex {X : TopCat} {ι :
 
 The integer chain complex generated by singular simplices small in `U`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L120) (retained native site: line 119).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L131) (retained native site: line 119).
 
 ### AlgebraicTopology.smallSingularChainInclusion
 
@@ -3139,7 +3222,7 @@ noncomputable def AlgebraicTopology.smallSingularChainInclusion {X : TopCat} {ι
 
 Inclusion of the `U`-small integer singular chain complex into all chains.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L125) (retained native site: line 124).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L136) (retained native site: line 124).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement
 
@@ -3149,7 +3232,7 @@ noncomputable def AlgebraicTopology.smallSingularChainMapOfRefinement {X : TopCa
 
 The integer-chain map induced by a refinement of open covers.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L131) (retained native site: line 130).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L142) (retained native site: line 130).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion
 
@@ -3159,7 +3242,7 @@ theorem AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion {X : 
 
 **API note (not a source docstring):** A refinement from U to V induces a map of small integer chain complexes whose composite with the V-inclusion is the U-inclusion. Each U member need only lie in some V member; the families need not cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L138) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L149) (retained native site: line 137).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion_assoc
 
@@ -3171,7 +3254,7 @@ theorem AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion_assoc
 
 Generated `reassoc` declaration from `AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L138) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L149) (retained native site: line 137).
 
 ### AlgebraicTopology.smallSingularChainMap
 
@@ -3182,7 +3265,7 @@ noncomputable def AlgebraicTopology.smallSingularChainMap {X Y : TopCat} {ι : T
 The chain map on cover-small chains induced by a cover-respecting
 continuous map.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L155) (retained native site: line 154).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L166) (retained native site: line 154).
 
 ### AlgebraicTopology.smallSingularChainMap_comp_inclusion
 
@@ -3192,7 +3275,7 @@ theorem AlgebraicTopology.smallSingularChainMap_comp_inclusion {X Y : TopCat} {�
 
 **API note (not a source docstring):** For a continuous map taking each U member into some V member, the induced map of small integer chains commutes with inclusion and the full singular chain map. Neither family is assumed to cover here.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L163) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L174) (retained native site: line 162).
 
 ### AlgebraicTopology.smallSingularChainMap_comp_inclusion_assoc
 
@@ -3204,7 +3287,7 @@ theorem AlgebraicTopology.smallSingularChainMap_comp_inclusion_assoc {X Y : TopC
 
 Generated `reassoc` declaration from `AlgebraicTopology.smallSingularChainMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L163) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L174) (retained native site: line 162).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp
 
@@ -3216,7 +3299,7 @@ Identify the degree-`n` integer-coefficient simplicial chain group with
 finitely supported integer functions on the `n`-simplices. The construction
 also removes the coefficient `ULift` used to accommodate the universe of `X`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L182) (retained native site: line 181).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L193) (retained native site: line 181).
 
 ### AlgebraicTopology.ι_chainGroupIsoFinsupp_hom
 
@@ -3226,7 +3309,7 @@ theorem AlgebraicTopology.ι_chainGroupIsoFinsupp_hom (X : SSet) {n : ℕ} (x : 
 
 **API note (not a source docstring):** The coefficient inclusion of a simplex followed by the chain-to-finsupp isomorphism is the linear singleton map at that simplex, composed with removal of the coefficient ULift. This is a morphism-level identity for any simplicial set and degree.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L196) (retained native site: line 195).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L207) (retained native site: line 195).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_hom_ι
 
@@ -3236,7 +3319,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_hom_ι (X : SSet) {n : ℕ} (x : 
 
 **API note (not a source docstring):** Under the chain-to-finsupp isomorphism, the coefficient-one generator at a simplex is its finitely supported singleton with integer coefficient one. The lifted coefficient on the chain side is made explicit.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L216) (retained native site: line 215).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L227) (retained native site: line 215).
 
 ### AlgebraicTopology.moduleCat_quasiIso_of_representatives
 
@@ -3246,7 +3329,7 @@ theorem AlgebraicTopology.moduleCat_quasiIso_of_representatives {S₁ S₂ : Cat
 
 **API note (not a source docstring):** A morphism of integer-module short complexes is a quasi-isomorphism if every target cycle is represented by an image cycle modulo a boundary and every source cycle whose image is a boundary is itself a boundary. The two displayed elementwise hypotheses are the surjectivity and injectivity criteria on homology; both complexes have the displayed homology instances.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L236) (retained native site: line 235).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L247) (retained native site: line 235).
 
 ### AlgebraicTopology.sSetFinsuppBoundary
 
@@ -3257,7 +3340,7 @@ noncomputable def AlgebraicTopology.sSetFinsuppBoundary (Z : SSet) (n : ℕ) : (
 The integer-linear boundary from degree `n + 1` to degree `n`, sending a
 simplex to the alternating face sum with coefficient `(-1)^i` on its `i`th face.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L307) (retained native site: line 306).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L318) (retained native site: line 306).
 
 ### AlgebraicTopology.sSetFinsuppBoundary_single
 
@@ -3267,7 +3350,7 @@ theorem AlgebraicTopology.sSetFinsuppBoundary_single (Z : SSet) (n : ℕ) (x : Z
 
 **API note (not a source docstring):** The boundary of a coefficient-one simplex is the sum of its faces, with integer sign (−1)^i on face i. The input degree is n+1, the output degree is n, and there are n+2 faces.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L314) (retained native site: line 313).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L325) (retained native site: line 313).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_sSet_d
 
@@ -3277,7 +3360,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_sSet_d (Z : SSet) (n : ℕ) : Cat
 
 **API note (not a source docstring):** Conjugating the simplicial integer-chain differential from degree n+1 to n by the two chain-to-finsupp isomorphisms yields the alternating-face linear boundary map. This is an equality of module morphisms for any simplicial set.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L320) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L331) (retained native site: line 319).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_sSet_d_apply
 
@@ -3287,7 +3370,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_sSet_d_apply (Z : SSet) (n : ℕ)
 
 **API note (not a source docstring):** Elementwise form of chainGroupIsoFinsupp_sSet_d: transporting a finitely supported chain into the simplicial chain group, differentiating and transporting back is the alternating-face boundary.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L347) (retained native site: line 346).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L358) (retained native site: line 346).
 
 ### AlgebraicTopology.mapDomain_smallFinsuppBoundary
 
@@ -3297,7 +3380,7 @@ theorem AlgebraicTopology.mapDomain_smallFinsuppBoundary {X : TopCat} {ι : Type
 
 **API note (not a source docstring):** Forgetting the smallness subtype commutes with the finitely supported alternating-face boundary. This holds for an arbitrary family U of opens, since the faces of a simplex small in U remain small in U.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L358) (retained native site: line 357).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L369) (retained native site: line 357).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_d
 
@@ -3307,7 +3390,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_d (X : TopCat) (n : ℕ) : Catego
 
 **API note (not a source docstring):** For a topological space's singular simplicial set, the transported integer-chain differential is singularFinsuppBoundary. This specializes the general simplicial chain-to-finsupp differential identity to singular chains.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L380) (retained native site: line 379).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L391) (retained native site: line 379).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion
 
@@ -3317,7 +3400,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion {X : TopCat} {ι :
 
 **API note (not a source docstring):** In finitely supported coordinates, inclusion of U-small singular chains is the integer-linear mapDomain along the small-simplex subtype inclusion. No open-cover hypothesis is needed for this morphism-level equality.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L408) (retained native site: line 407).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L419) (retained native site: line 407).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_d_apply
 
@@ -3327,7 +3410,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_d_apply (X : TopCat) (n : ℕ) (c
 
 **API note (not a source docstring):** Elementwise singular-chain specialization: transport a degree-(n+1) finitely supported chain to singular chains, take the differential and transport back to obtain its singularFinsuppBoundary.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L430) (retained native site: line 429).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L441) (retained native site: line 429).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion_apply
 
@@ -3337,7 +3420,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion_apply {X : TopCat}
 
 **API note (not a source docstring):** Elementwise form of the small-chain inclusion coordinate identity: transport a finitely supported chain on small simplices into small chains and then all chains to obtain mapDomain along Subtype.val.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L441) (retained native site: line 440).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L452) (retained native site: line 440).
 
 ### AlgebraicTopology.smallSingularChainInclusion_f_injective
 
@@ -3347,7 +3430,7 @@ theorem AlgebraicTopology.smallSingularChainInclusion_f_injective {X : TopCat} {
 
 **API note (not a source docstring):** In every nonnegative degree, the map including U-small integer singular chains into all singular chains is injective as a function. U may be any family of opens; surjectivity or an open-cover condition is not asserted.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L456) (retained native site: line 455).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L467) (retained native site: line 455).
 
 ### AlgebraicTopology.smallChainOfSupport
 
@@ -3360,7 +3443,7 @@ small in one member of `U`, discarding any other terms. No support or cover
 hypothesis is required here; `mapDomain_smallChainOfSupport` recovers the original
 chain when every simplex in its support is small.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L483) (retained native site: line 482).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L494) (retained native site: line 482).
 
 ### AlgebraicTopology.mapDomain_smallChainOfSupport
 
@@ -3370,7 +3453,7 @@ theorem AlgebraicTopology.mapDomain_smallChainOfSupport {X : TopCat} {ι : Type 
 
 **API note (not a source docstring):** If every simplex in the support of c is small in U, then forgetting the subtype after restricting c with smallChainOfSupport recovers c. The support hypothesis is essential: without it the restriction discards non-small terms.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L492) (retained native site: line 491).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L503) (retained native site: line 491).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_mapDomain_small
 
@@ -3380,7 +3463,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_mapDomain_small {X : TopCat} {ι :
 
 **API note (not a source docstring):** Every simplex in the support of a finitely supported chain obtained by forgetting the small-simplex subtype is small in U. This needs no assertion that U covers the entire space.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L504) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L515) (retained native site: line 503).
 
 ### AlgebraicTopology.quasiIso_smallSingularChainInclusion
 
@@ -3390,7 +3473,12 @@ theorem AlgebraicTopology.quasiIso_smallSingularChainInclusion {X : TopCat} {ι 
 
 The inclusion of cover-small integer singular chains is a quasi-isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L523) (retained native site: line 522).
+The proof uses Formal Frontier Agents' support-preserving subdivision/prism
+construction and Mathlib's singular-homology and quasi-isomorphism APIs.
+For singular-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 16; no normalized-chain comparison is asserted.
+
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L534) (retained native site: line 522).
 
 ## SphereTopology.Homology.Singular.Sphere
 
@@ -3404,7 +3492,7 @@ abbrev SphereTopology.E3 : Type
 
 Real Euclidean three-space, with coordinate order `(x, y, z)`.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L37) (retained native site: line 37).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L49) (retained native site: line 37).
 
 ### SphereTopology.sphere2NorthVector
 
@@ -3414,7 +3502,7 @@ def SphereTopology.sphere2NorthVector : E3
 
 The vector `(0, 0, 1)` in `E3`, with the third coordinate indexed by `2`.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L40) (retained native site: line 40).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L52) (retained native site: line 40).
 
 ### SphereTopology.sphere2NorthVector_norm
 
@@ -3422,9 +3510,9 @@ The vector `(0, 0, 1)` in `E3`, with the third coordinate indexed by `2`.
 theorem SphereTopology.sphere2NorthVector_norm : ‖sphere2NorthVector‖ = 1
 ```
 
-**API note (not a source docstring):** The vector (0,0,1) has norm one in real Euclidean three-space. It therefore supplies the north pole of the literal unit two-sphere.
+**API note (not a source docstring):** The vector (0,0,1) has norm one in real Euclidean three-space. It therefore supplies the north pole of the standard metric unit two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L43) (retained native site: line 43).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L55) (retained native site: line 43).
 
 ### SphereTopology.sphere2NorthPoint
 
@@ -3434,7 +3522,7 @@ def SphereTopology.sphere2NorthPoint : ↑(Metric.sphere 0 1)
 
 The north pole `(0, 0, 1)` bundled as a point of the metric unit two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L46) (retained native site: line 46).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L58) (retained native site: line 46).
 
 ### SphereTopology.sphere2SouthPoint
 
@@ -3444,7 +3532,7 @@ noncomputable def SphereTopology.sphere2SouthPoint : ↑(Metric.sphere 0 1)
 
 The south pole `(0, 0, -1)`, defined as the antipode of the north pole.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L51) (retained native site: line 51).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L63) (retained native site: line 51).
 
 ### SphereTopology.sphere2NorthPoint_first
 
@@ -3454,7 +3542,7 @@ theorem SphereTopology.sphere2NorthPoint_first : (↑sphere2NorthPoint).ofLp 0 =
 
 **API note (not a source docstring):** The north pole has coordinate zero equal to zero; the coordinate order is (x,y,z).
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L54) (retained native site: line 54).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L66) (retained native site: line 54).
 
 ### SphereTopology.sphere2NorthPoint_second
 
@@ -3464,7 +3552,7 @@ theorem SphereTopology.sphere2NorthPoint_second : (↑sphere2NorthPoint).ofLp 1 
 
 **API note (not a source docstring):** The north pole has coordinate one equal to zero.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L57) (retained native site: line 57).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L69) (retained native site: line 57).
 
 ### SphereTopology.sphere2NorthPoint_third
 
@@ -3474,7 +3562,7 @@ theorem SphereTopology.sphere2NorthPoint_third : (↑sphere2NorthPoint).ofLp 2 =
 
 **API note (not a source docstring):** The north pole has coordinate two equal to one. Fin 3 coordinates are numbered from zero.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L60) (retained native site: line 60).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L72) (retained native site: line 60).
 
 ### SphereTopology.sphere2SouthPoint_first
 
@@ -3484,7 +3572,7 @@ theorem SphereTopology.sphere2SouthPoint_first : (↑sphere2SouthPoint).ofLp 0 =
 
 **API note (not a source docstring):** The south pole has coordinate zero equal to zero, as the antipode of the north pole.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L63) (retained native site: line 63).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L75) (retained native site: line 63).
 
 ### SphereTopology.sphere2SouthPoint_second
 
@@ -3494,7 +3582,7 @@ theorem SphereTopology.sphere2SouthPoint_second : (↑sphere2SouthPoint).ofLp 1 
 
 **API note (not a source docstring):** The south pole has coordinate one equal to zero.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L66) (retained native site: line 66).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L78) (retained native site: line 66).
 
 ### SphereTopology.sphere2SouthPoint_third
 
@@ -3504,7 +3592,7 @@ theorem SphereTopology.sphere2SouthPoint_third : (↑sphere2SouthPoint).ofLp 2 =
 
 **API note (not a source docstring):** The south pole has coordinate two equal to minus one.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L69) (retained native site: line 69).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L81) (retained native site: line 69).
 
 ### SphereTopology.sphere2NorthPoint_ne_southPoint
 
@@ -3514,7 +3602,7 @@ theorem SphereTopology.sphere2NorthPoint_ne_southPoint : sphere2NorthPoint ≠ s
 
 **API note (not a source docstring):** The two poles are distinct, as witnessed by their third coordinates. Their complements consequently form an open cover.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L72) (retained native site: line 72).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L84) (retained native site: line 72).
 
 ### SphereTopology.sphere2
 
@@ -3522,9 +3610,9 @@ theorem SphereTopology.sphere2NorthPoint_ne_southPoint : sphere2NorthPoint ≠ s
 abbrev SphereTopology.sphere2 : TopCat
 ```
 
-The literal standard metric two-sphere.
+The standard metric two-sphere in `E3`.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L77) (retained native site: line 77).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L89) (retained native site: line 77).
 
 ### SphereTopology.sphere2NorthPunctured
 
@@ -3534,7 +3622,7 @@ def SphereTopology.sphere2NorthPunctured : TopologicalSpace.Opens ↑sphere2
 
 The first open in the ordered cover: the complement of the north pole.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L81) (retained native site: line 81).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L93) (retained native site: line 81).
 
 ### SphereTopology.sphere2SouthPunctured
 
@@ -3544,7 +3632,7 @@ def SphereTopology.sphere2SouthPunctured : TopologicalSpace.Opens ↑sphere2
 
 The second open in the ordered cover: the complement of the south pole.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L85) (retained native site: line 85).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L97) (retained native site: line 85).
 
 ### SphereTopology.sphere2Punctured_join
 
@@ -3552,9 +3640,9 @@ The second open in the ordered cover: the complement of the south pole.
 theorem SphereTopology.sphere2Punctured_join : sphere2NorthPunctured ⊔ sphere2SouthPunctured = ⊤
 ```
 
-**API note (not a source docstring):** The north-pole complement followed by the south-pole complement covers the literal two-sphere. This fixes the cover order used for the chosen homology coordinate.
+**API note (not a source docstring):** The north-pole complement followed by the south-pole complement covers the standard metric two-sphere. This fixes the cover order used for the chosen homology coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L89) (retained native site: line 89).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L101) (retained native site: line 89).
 
 ### SphereTopology.sphere2Punctured_join_reversed
 
@@ -3564,7 +3652,7 @@ theorem SphereTopology.sphere2Punctured_join_reversed : sphere2SouthPunctured �
 
 **API note (not a source docstring):** The south/north order of those same two punctured opens also covers the sphere. Ordered connecting-map formulas distinguish this order from north/south.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L99) (retained native site: line 99).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L111) (retained native site: line 99).
 
 ### SphereTopology.sphere2NorthPuncturedHomeomorph
 
@@ -3574,7 +3662,7 @@ noncomputable def SphereTopology.sphere2NorthPuncturedHomeomorph : ↑((Topologi
 
 Stereographic coordinates on the north-punctured sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L104) (retained native site: line 104).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L116) (retained native site: line 104).
 
 ### SphereTopology.sphere2SouthPuncturedHomeomorph
 
@@ -3584,7 +3672,7 @@ noncomputable def SphereTopology.sphere2SouthPuncturedHomeomorph : ↑((Topologi
 
 Stereographic coordinates on the south-punctured sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L114) (retained native site: line 114).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L126) (retained native site: line 114).
 
 ### SphereTopology.sphere2PunctureIntersection
 
@@ -3592,9 +3680,9 @@ Stereographic coordinates on the south-punctured sphere.
 abbrev SphereTopology.sphere2PunctureIntersection : Type
 ```
 
-The literal intersection of the ordered north/south puncture cover.
+The open-subspace intersection of the ordered north/south puncture cover.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L124) (retained native site: line 124).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L136) (retained native site: line 124).
 
 ### SphereTopology.sphere2Equator
 
@@ -3602,9 +3690,9 @@ The literal intersection of the ordered north/south puncture cover.
 abbrev SphereTopology.sphere2Equator : Type
 ```
 
-The literal equator, as a subtype of the literal standard two-sphere.
+The equator, defined by zero third coordinate in the standard two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L129) (retained native site: line 129).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L141) (retained native site: line 129).
 
 ### SphereTopology.sphere2_eq_north_or_south_of_first_second_eq_zero
 
@@ -3614,7 +3702,7 @@ theorem SphereTopology.sphere2_eq_north_or_south_of_first_second_eq_zero (p : �
 
 **API note (not a source docstring):** A unit-sphere point with both first coordinates zero is a north or south pole. Its unit norm, encoded by the sphere subtype, forces the third coordinate to be plus or minus one.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L133) (retained native site: line 133).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L145) (retained native site: line 133).
 
 ### SphereTopology.sphere2PunctureIntersection_first_second_not_both_zero
 
@@ -3624,7 +3712,7 @@ theorem SphereTopology.sphere2PunctureIntersection_first_second_not_both_zero (p
 
 **API note (not a source docstring):** In the sphere with both poles removed, the first two coordinates cannot both vanish. This makes the projection toward the equator safe to normalize.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L154) (retained native site: line 154).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L166) (retained native site: line 154).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector
 
@@ -3635,7 +3723,7 @@ def SphereTopology.sphere2PunctureIntersectionLinearVector (t : ↑unitInterval)
 Before normalization, scale only the third coordinate by the homotopy
 parameter.  The first two coordinates remain unchanged.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L162) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L174) (retained native site: line 162).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector_first
 
@@ -3645,7 +3733,7 @@ theorem SphereTopology.sphere2PunctureIntersectionLinearVector_first (t : ↑uni
 
 **API note (not a source docstring):** The unnormalized equatorial deformation keeps coordinate zero unchanged at every time.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L169) (retained native site: line 169).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L181) (retained native site: line 169).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector_second
 
@@ -3655,7 +3743,7 @@ theorem SphereTopology.sphere2PunctureIntersectionLinearVector_second (t : ↑un
 
 **API note (not a source docstring):** The unnormalized equatorial deformation keeps coordinate one unchanged at every time.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L174) (retained native site: line 174).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L186) (retained native site: line 174).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector_third
 
@@ -3665,7 +3753,7 @@ theorem SphereTopology.sphere2PunctureIntersectionLinearVector_third (t : ↑uni
 
 **API note (not a source docstring):** Only coordinate two changes before normalization: it is multiplied by the unit-interval parameter t. Thus t=0 removes the vertical coordinate and t=1 restores it.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L179) (retained native site: line 179).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L191) (retained native site: line 179).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector_ne_zero
 
@@ -3675,7 +3763,7 @@ theorem SphereTopology.sphere2PunctureIntersectionLinearVector_ne_zero (t : ↑u
 
 **API note (not a source docstring):** The vector (x,y,t*z) never vanishes on the twice-punctured sphere, because x and y are not both zero. This licenses radial normalization for every allowed t.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L185) (retained native site: line 185).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L197) (retained native site: line 185).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialVector
 
@@ -3685,7 +3773,7 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionRadialVector (t : �
 
 The normalized equatorial-deformation vector.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L196) (retained native site: line 196).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L208) (retained native site: line 196).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialVector_norm
 
@@ -3695,7 +3783,7 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialVector_norm (t : ↑unit
 
 **API note (not a source docstring):** Normalizing the equatorial-deformation vector gives norm one, so it stays on the unit sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L202) (retained native site: line 202).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L214) (retained native site: line 202).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialVector_first_second_not_both_zero
 
@@ -3705,7 +3793,7 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialVector_first_second_not_
 
 **API note (not a source docstring):** Normalization does not make both first coordinates zero. The normalized homotopy therefore avoids both removed poles.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L210) (retained native site: line 210).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L222) (retained native site: line 210).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialPoint
 
@@ -3713,9 +3801,9 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialVector_first_second_not_
 noncomputable def SphereTopology.sphere2PunctureIntersectionRadialPoint (t : ↑unitInterval) (p : sphere2PunctureIntersection) : sphere2PunctureIntersection
 ```
 
-The normalized homotopy stays on the literal twice-punctured sphere.
+The normalized homotopy stays on the metric two-sphere with both poles removed.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L227) (retained native site: line 227).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L239) (retained native site: line 227).
 
 ### SphereTopology.continuous_sphere2PunctureIntersectionLinearVector
 
@@ -3725,7 +3813,7 @@ theorem SphereTopology.continuous_sphere2PunctureIntersectionLinearVector : Cont
 
 **API note (not a source docstring):** The map (t,p) to the unnormalized vector (x,y,t*z) is jointly continuous on the unit interval times the twice-punctured sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L248) (retained native site: line 248).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L260) (retained native site: line 248).
 
 ### SphereTopology.continuous_sphere2PunctureIntersectionRadialPoint
 
@@ -3735,7 +3823,7 @@ theorem SphereTopology.continuous_sphere2PunctureIntersectionRadialPoint : Conti
 
 **API note (not a source docstring):** The normalized deformation is jointly continuous into the twice-punctured sphere; the vector nonvanishing result supplies continuity of the inverse norm.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L255) (retained native site: line 255).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L267) (retained native site: line 255).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialHomotopyMap
 
@@ -3747,7 +3835,7 @@ The jointly continuous map obtained by normalizing `(x, y, t * z)` on the
 twice-punctured sphere. At time zero it projects to the equator; at time one it
 is the identity, and equatorial points remain fixed throughout.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L265) (retained native site: line 265).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L277) (retained native site: line 265).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialVector_zero_third
 
@@ -3755,9 +3843,9 @@ is the identity, and equatorial points remain fixed throughout.
 theorem SphereTopology.sphere2PunctureIntersectionRadialVector_zero_third (p : sphere2PunctureIntersection) : (sphere2PunctureIntersectionRadialVector 0 p).ofLp 2 = 0
 ```
 
-**API note (not a source docstring):** At time zero the normalized vector has third coordinate zero. Its value lies on the literal equator.
+**API note (not a source docstring):** At time zero the normalized vector has third coordinate zero. Its value lies on the equator subtype.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L273) (retained native site: line 273).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L285) (retained native site: line 273).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialAtZero
 
@@ -3767,7 +3855,7 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionRadialAtZero : C(sph
 
 Evaluation of the radial homotopy at its equatorial endpoint.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L279) (retained native site: line 279).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L291) (retained native site: line 279).
 
 ### SphereTopology.sphere2PunctureIntersectionToEquatorPoint
 
@@ -3777,7 +3865,7 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionToEquatorPoint (p : 
 
 The point-valued equatorial projection underlying the continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L285) (retained native site: line 285).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L297) (retained native site: line 285).
 
 ### SphereTopology.continuous_sphere2PunctureIntersectionToEquatorPoint
 
@@ -3787,7 +3875,7 @@ theorem SphereTopology.continuous_sphere2PunctureIntersectionToEquatorPoint : Co
 
 **API note (not a source docstring):** The equatorial projection is continuous as a map into the equator subtype, not only after forgetting to ambient three-space.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L291) (retained native site: line 291).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L303) (retained native site: line 291).
 
 ### SphereTopology.sphere2PunctureIntersectionToEquator
 
@@ -3795,9 +3883,9 @@ theorem SphereTopology.continuous_sphere2PunctureIntersectionToEquatorPoint : Co
 noncomputable def SphereTopology.sphere2PunctureIntersectionToEquator : C(sphere2PunctureIntersection, sphere2Equator)
 ```
 
-Projection of the twice-punctured sphere onto the literal equator.
+Projection of the twice-punctured sphere onto the equator subtype.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L296) (retained native site: line 296).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L308) (retained native site: line 296).
 
 ### SphereTopology.sphere2EquatorToPunctureIntersectionPoint
 
@@ -3807,7 +3895,7 @@ def SphereTopology.sphere2EquatorToPunctureIntersectionPoint (p : sphere2Equator
 
 The point-valued inclusion underlying the equator continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L302) (retained native site: line 302).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L314) (retained native site: line 302).
 
 ### SphereTopology.continuous_sphere2EquatorToPunctureIntersectionPoint
 
@@ -3815,9 +3903,9 @@ The point-valued inclusion underlying the equator continuous map.
 theorem SphereTopology.continuous_sphere2EquatorToPunctureIntersectionPoint : Continuous sphere2EquatorToPunctureIntersectionPoint
 ```
 
-**API note (not a source docstring):** The literal equator includes continuously into the twice-punctured sphere; its zero third coordinate excludes both poles.
+**API note (not a source docstring):** The equator subtype includes continuously into the twice-punctured sphere; its zero third coordinate excludes both poles.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L320) (retained native site: line 320).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L332) (retained native site: line 320).
 
 ### SphereTopology.sphere2EquatorToPunctureIntersection
 
@@ -3825,9 +3913,9 @@ theorem SphereTopology.continuous_sphere2EquatorToPunctureIntersectionPoint : Co
 def SphereTopology.sphere2EquatorToPunctureIntersection : C(sphere2Equator, sphere2PunctureIntersection)
 ```
 
-Inclusion of the literal equator into the twice-punctured sphere.
+Inclusion of the equator subtype into the twice-punctured sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L324) (retained native site: line 324).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L336) (retained native site: line 324).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialPoint_zero
 
@@ -3837,7 +3925,7 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialPoint_zero (p : sphere2P
 
 **API note (not a source docstring):** At time zero the homotopy is equatorial projection followed by inclusion back into the puncture intersection.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L330) (retained native site: line 330).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L342) (retained native site: line 330).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialPoint_one
 
@@ -3847,7 +3935,7 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialPoint_one (p : sphere2Pu
 
 **API note (not a source docstring):** At time one the normalized homotopy is the identity on the puncture intersection.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L341) (retained native site: line 341).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L353) (retained native site: line 341).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialPoint_fixed
 
@@ -3857,7 +3945,7 @@ theorem SphereTopology.sphere2PunctureIntersectionRadialPoint_fixed (t : ↑unit
 
 The normalized deformation fixes every equator point at every time.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L355) (retained native site: line 355).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L367) (retained native site: line 355).
 
 ### SphereTopology.sphere2PunctureIntersectionToEquator_inclusion
 
@@ -3867,7 +3955,7 @@ theorem SphereTopology.sphere2PunctureIntersectionToEquator_inclusion (p : spher
 
 **API note (not a source docstring):** Projection after equator inclusion is exactly the identity on the equator. Along with the pointwise-fixed homotopy, this gives the stated equatorial homotopy equivalence.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L379) (retained native site: line 379).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L391) (retained native site: line 379).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialHomotopy
 
@@ -3878,7 +3966,7 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionRadialHomotopy : (sp
 The explicit normalized deformation homotopy, from equatorial projection
 followed by inclusion to the identity.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L395) (retained native site: line 395).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L407) (retained native site: line 395).
 
 ### SphereTopology.sphere2PunctureIntersectionEquatorHomotopyEquiv
 
@@ -3886,10 +3974,10 @@ followed by inclusion to the identity.
 noncomputable def SphereTopology.sphere2PunctureIntersectionEquatorHomotopyEquiv : ContinuousMap.HomotopyEquiv sphere2PunctureIntersection sphere2Equator
 ```
 
-The literal twice-punctured sphere is homotopy equivalent to its literal
-equator through the displayed projection, inclusion, and deformation.
+The metric two-sphere with both poles removed is homotopy equivalent to its
+equator subtype through the displayed projection, inclusion, and deformation.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L405) (retained native site: line 405).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L417) (retained native site: line 405).
 
 ### SphereTopology.sphere2PunctureIntersectionEquatorHomotopyEquivULift
 
@@ -3899,7 +3987,7 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionEquatorHomotopyEquiv
 
 A genuine universe-lifted client of the intersection/equator geometry.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L421) (retained native site: line 421).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L433) (retained native site: line 421).
 
 ### SphereTopology.sphere2EquatorToCircleVector
 
@@ -3909,7 +3997,7 @@ def SphereTopology.sphere2EquatorToCircleVector (p : sphere2Equator) : E2
 
 Keep coordinates zero and one of an equator point, in that order.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L428) (retained native site: line 428).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L440) (retained native site: line 428).
 
 ### SphereTopology.sphere1ToSphere2EquatorVector
 
@@ -3920,7 +4008,7 @@ def SphereTopology.sphere1ToSphere2EquatorVector (p : ↑(Metric.sphere 0 1)) : 
 Insert a circle point into the first two coordinates of `E3`; the third
 coordinate is zero.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L432) (retained native site: line 432).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L444) (retained native site: line 432).
 
 ### SphereTopology.sphere2EquatorToCircleVector_first
 
@@ -3930,7 +4018,7 @@ theorem SphereTopology.sphere2EquatorToCircleVector_first (p : sphere2Equator) :
 
 **API note (not a source docstring):** The equator-to-circle coordinate map retains coordinate zero. It does not exchange the x and y axes.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L437) (retained native site: line 437).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L449) (retained native site: line 437).
 
 ### SphereTopology.sphere2EquatorToCircleVector_second
 
@@ -3940,7 +4028,7 @@ theorem SphereTopology.sphere2EquatorToCircleVector_second (p : sphere2Equator) 
 
 **API note (not a source docstring):** The equator-to-circle coordinate map retains coordinate one, completing the prescribed (x,y) order.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L441) (retained native site: line 441).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L453) (retained native site: line 441).
 
 ### SphereTopology.sphere1ToSphere2EquatorVector_first
 
@@ -3950,7 +4038,7 @@ theorem SphereTopology.sphere1ToSphere2EquatorVector_first (p : ↑(Metric.spher
 
 **API note (not a source docstring):** The inverse coordinate construction inserts a circle point's coordinate zero as coordinate zero in three-space.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L445) (retained native site: line 445).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L457) (retained native site: line 445).
 
 ### SphereTopology.sphere1ToSphere2EquatorVector_second
 
@@ -3960,7 +4048,7 @@ theorem SphereTopology.sphere1ToSphere2EquatorVector_second (p : ↑(Metric.sphe
 
 **API note (not a source docstring):** The inverse coordinate construction inserts a circle point's coordinate one as coordinate one in three-space.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L450) (retained native site: line 450).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L462) (retained native site: line 450).
 
 ### SphereTopology.sphere1ToSphere2EquatorVector_third
 
@@ -3970,7 +4058,7 @@ theorem SphereTopology.sphere1ToSphere2EquatorVector_third (p : ↑(Metric.spher
 
 **API note (not a source docstring):** The inverse coordinate construction inserts zero as coordinate two, placing its image on the equator.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L455) (retained native site: line 455).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L467) (retained native site: line 455).
 
 ### SphereTopology.sphere2EquatorToCircleVector_norm
 
@@ -3980,7 +4068,7 @@ theorem SphereTopology.sphere2EquatorToCircleVector_norm (p : sphere2Equator) : 
 
 **API note (not a source docstring):** Discarding the zero third coordinate of an equator point preserves unit norm. The two-coordinate vector is therefore a point of the standard circle.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L460) (retained native site: line 460).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L472) (retained native site: line 460).
 
 ### SphereTopology.sphere1ToSphere2EquatorVector_norm
 
@@ -3990,7 +4078,7 @@ theorem SphereTopology.sphere1ToSphere2EquatorVector_norm (p : ↑(Metric.sphere
 
 **API note (not a source docstring):** Appending a zero third coordinate to a unit-circle point preserves norm one. This supplies the sphere membership proof for the inverse equator coordinate map.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L471) (retained native site: line 471).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L483) (retained native site: line 471).
 
 ### SphereTopology.sphere2EquatorHomeomorphSphere1
 
@@ -3999,9 +4087,9 @@ noncomputable def SphereTopology.sphere2EquatorHomeomorphSphere1 : sphere2Equato
 ```
 
 The orientation-fixed coordinate homeomorphism from the equator to the
-accepted standard circle: `(x,y,0)` is sent to `(x,y)`.
+metric unit circle in `E2`: `(x,y,0)` is sent to `(x,y)`.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L487) (retained native site: line 487).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L499) (retained native site: line 487).
 
 ### SphereTopology.sphere2PunctureIntersectionSphere1HomotopyEquiv
 
@@ -4009,10 +4097,10 @@ accepted standard circle: `(x,y,0)` is sent to `(x,y)`.
 noncomputable def SphereTopology.sphere2PunctureIntersectionSphere1HomotopyEquiv : ContinuousMap.HomotopyEquiv sphere2PunctureIntersection ↑sphere1
 ```
 
-The full geometric transport from the literal twice-punctured sphere to
-the accepted standard circle, with the equatorial coordinate order `(x,y)`.
+The full geometric transport from the metric two-sphere with both poles removed to
+the metric unit circle in `E2`, with the equatorial coordinate order `(x,y)`.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L521) (retained native site: line 521).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L533) (retained native site: line 521).
 
 ### SphereTopology.sphere2NorthPunctured_contractibleSpace
 
@@ -4022,7 +4110,7 @@ theorem SphereTopology.sphere2NorthPunctured_contractibleSpace : ContractibleSpa
 
 **API note (not a source docstring):** The sphere with its north pole removed is contractible through its stereographic homeomorphism with the Euclidean plane. This theorem returns the contractibility class witness.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L528) (retained native site: line 528).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L540) (retained native site: line 528).
 
 ### SphereTopology.sphere2SouthPunctured_contractibleSpace
 
@@ -4032,7 +4120,7 @@ theorem SphereTopology.sphere2SouthPunctured_contractibleSpace : ContractibleSpa
 
 **API note (not a source docstring):** The sphere with its south pole removed is contractible through its stereographic homeomorphism with the Euclidean plane.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L534) (retained native site: line 534).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L546) (retained native site: line 534).
 
 ### SphereTopology.isZero_reducedSingularHomology_sphere2NorthPunctured
 
@@ -4042,7 +4130,7 @@ theorem SphereTopology.isZero_reducedSingularHomology_sphere2NorthPunctured (n :
 
 **API note (not a source docstring):** All nonnegative reduced integral homology objects of the north-punctured sphere are zero, using the contractibility witness.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L540) (retained native site: line 540).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L552) (retained native site: line 540).
 
 ### SphereTopology.isZero_reducedSingularHomology_sphere2SouthPunctured
 
@@ -4052,7 +4140,7 @@ theorem SphereTopology.isZero_reducedSingularHomology_sphere2SouthPunctured (n :
 
 **API note (not a source docstring):** All nonnegative reduced integral homology objects of the south-punctured sphere are zero. This is vanishing for the open, not for the full sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L547) (retained native site: line 547).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L559) (retained native site: line 547).
 
 ### SphereTopology.sphere2MayerVietorisδOne_isIso
 
@@ -4060,10 +4148,10 @@ theorem SphereTopology.isZero_reducedSingularHomology_sphere2SouthPunctured (n :
 theorem SphereTopology.sphere2MayerVietorisδOne_isIso : CategoryTheory.IsIso (AlgebraicTopology.twoOpenMayerVietorisδ sphere2NorthPunctured sphere2SouthPunctured sphere2Punctured_join 1)
 ```
 
-The accepted positive-degree connecting morphism for the ordered
+The positive-degree Mayer--Vietoris connecting morphism for the ordered
 north/south cover is an isomorphism in degree two.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L555) (retained native site: line 555).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L567) (retained native site: line 555).
 
 ### SphereTopology.sphere2ReducedMayerVietorisIso
 
@@ -4072,9 +4160,9 @@ noncomputable def SphereTopology.sphere2ReducedMayerVietorisIso : sphere2.reduce
 ```
 
 Positive-degree reduced Mayer--Vietoris for the ordered north/south cover,
-with its target identified with the literal puncture intersection.
+with its target identified with the puncture intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L589) (retained native site: line 589).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L601) (retained native site: line 589).
 
 ### SphereTopology.sphere2ReducedMayerVietorisIso_hom
 
@@ -4084,7 +4172,7 @@ theorem SphereTopology.sphere2ReducedMayerVietorisIso_hom : sphere2ReducedMayerV
 
 **API note (not a source docstring):** The chosen reduced H2-to-H1 isomorphism is reduced-to-ordinary conversion, the north/south ordinary connecting morphism, the inverse intersection homology identification, and conversion back to reduced H1. Native _proof_1/_proof_2 tokens express the required positive-degree witnesses; they are not extra mathematical hypotheses.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L606) (retained native site: line 606).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L618) (retained native site: line 606).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso
 
@@ -4093,9 +4181,14 @@ noncomputable def SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso :
 ```
 
 The fixed-coordinate reduced integral homology computation
-`H̃₂(S²; ℤ) ≅ ℤ` for the literal standard two-sphere.
+`H̃₂(S²; ℤ) ≅ ℤ` for the standard metric two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L619) (retained native site: line 619).
+The sphere-homology result is described in J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §3. The proof here uses the project's ordered Mayer--Vietoris,
+normalized equatorial deformation and fixed circle computation, over Mathlib's
+singular homology; it supplies no comparison with May's based-relative model.
+
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L631) (retained native site: line 619).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom
 
@@ -4103,11 +4196,11 @@ The fixed-coordinate reduced integral homology computation
 theorem SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom : reducedSingularHomologyTwoSphereTwoIntegerIso.hom = CategoryTheory.CategoryStruct.comp sphere2ReducedMayerVietorisIso.hom (CategoryTheory.CategoryStruct.comp (TopCat.reducedSingularHomologyIsoOfHomotopyEquiv sphere2PunctureIntersectionSphere1HomotopyEquiv 1).hom reducedSingularHomologyOneSphereOneIntegerIso.hom)
 ```
 
-The computation uses the accepted ordered connecting morphism, then the
-literal intersection/equator transport, the coordinate-ordered equator/circle
-transport, and finally the accepted fixed circle integer coordinate.
+The computation uses the ordered Mayer--Vietoris connecting morphism, then the
+open-intersection/equator transport, the coordinate-ordered equator/circle
+transport, and finally the fixed circle integer coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L628) (retained native site: line 628).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L645) (retained native site: line 628).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom_explicit
 
@@ -4115,10 +4208,10 @@ transport, and finally the accepted fixed circle integer coordinate.
 theorem SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom_explicit : reducedSingularHomologyTwoSphereTwoIntegerIso.hom = CategoryTheory.CategoryStruct.comp (sphere2.reducedSingularHomologyIsoOfNeZero 2 sphere2ReducedMayerVietorisIso._proof_1).hom (CategoryTheory.CategoryStruct.comp (AlgebraicTopology.twoOpenMayerVietorisδ sphere2NorthPunctured sphere2SouthPunctured sphere2Punctured_join 1) (CategoryTheory.CategoryStruct.comp (AlgebraicTopology.twoOpenIntersectionHomologyIso sphere2NorthPunctured sphere2SouthPunctured 1).inv (CategoryTheory.CategoryStruct.comp (((TopologicalSpace.Opens.toTopCat sphere2).obj (sphere2NorthPunctured ⊓ sphere2SouthPunctured)).reducedSingularHomologyIsoOfNeZero 1 sphere2ReducedMayerVietorisIso._proof_2).inv (CategoryTheory.CategoryStruct.comp (TopCat.reducedSingularHomologyIsoOfHomotopyEquiv sphere2PunctureIntersectionSphere1HomotopyEquiv 1).hom reducedSingularHomologyOneSphereOneIntegerIso.hom))))
 ```
 
-Fully expanded comparison with the accepted positive-degree connecting
+Fully expanded comparison with the positive-degree Mayer--Vietoris connecting
 morphism and the fixed circle coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L639) (retained native site: line 639).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L656) (retained native site: line 639).
 
 ## SphereTopology.Homology.Singular.SphereAntipodal
 
@@ -4130,9 +4223,9 @@ Scope: mathematical library leaf.
 noncomputable def SphereTopology.sphere2Antipodal : sphere2 ⟶ sphere2
 ```
 
-The bundled antipodal self-map of the literal standard two-sphere.
+The bundled antipodal self-map of the standard metric two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L31) (retained native site: line 31).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L42) (retained native site: line 31).
 
 ### SphereTopology.sphere2Antipodal_apply
 
@@ -4140,9 +4233,9 @@ The bundled antipodal self-map of the literal standard two-sphere.
 theorem SphereTopology.sphere2Antipodal_apply (p : ↑sphere2) : (CategoryTheory.ConcreteCategory.hom sphere2Antipodal) p = -p
 ```
 
-**API note (not a source docstring):** The bundled antipodal self-map of the literal two-sphere evaluates by pointwise negation.
+**API note (not a source docstring):** The bundled antipodal self-map of the standard metric two-sphere evaluates by pointwise negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L35) (retained native site: line 35).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L46) (retained native site: line 35).
 
 ### SphereTopology.sphere2Antipodal_north
 
@@ -4152,7 +4245,7 @@ theorem SphereTopology.sphere2Antipodal_north : (CategoryTheory.ConcreteCategory
 
 **API note (not a source docstring):** The antipodal map sends the north pole to the south pole.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L39) (retained native site: line 39).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L50) (retained native site: line 39).
 
 ### SphereTopology.sphere2Antipodal_south
 
@@ -4162,7 +4255,7 @@ theorem SphereTopology.sphere2Antipodal_south : (CategoryTheory.ConcreteCategory
 
 **API note (not a source docstring):** The antipodal map sends the south pole back to the north pole. Thus it exchanges the ordered puncture cover.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L43) (retained native site: line 43).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L54) (retained native site: line 43).
 
 ### SphereTopology.sphere2Antipodal_mapsTo_north_south
 
@@ -4173,7 +4266,7 @@ theorem SphereTopology.sphere2Antipodal_mapsTo_north_south : Set.MapsTo ⇑(Cate
 Antipodal negation sends the north-punctured open into the
 south-punctured open.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L49) (retained native site: line 49).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L60) (retained native site: line 49).
 
 ### SphereTopology.sphere2Antipodal_mapsTo_south_north
 
@@ -4184,7 +4277,7 @@ theorem SphereTopology.sphere2Antipodal_mapsTo_south_north : Set.MapsTo ⇑(Cate
 Antipodal negation sends the south-punctured open into the
 north-punctured open.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L59) (retained native site: line 59).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L70) (retained native site: line 59).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodalPoint
 
@@ -4192,9 +4285,9 @@ north-punctured open.
 noncomputable def SphereTopology.sphere2PunctureIntersectionAntipodalPoint (p : sphere2PunctureIntersection) : sphere2PunctureIntersection
 ```
 
-Antipodal negation as a point of the literal puncture intersection.
+Antipodal negation as a point of the puncture intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L72) (retained native site: line 72).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L83) (retained native site: line 72).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal
 
@@ -4202,9 +4295,9 @@ Antipodal negation as a point of the literal puncture intersection.
 noncomputable def SphereTopology.sphere2PunctureIntersectionAntipodal : C(sphere2PunctureIntersection, sphere2PunctureIntersection)
 ```
 
-The antipodal endomorphism of the literal puncture intersection.
+The antipodal endomorphism of the puncture intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L89) (retained native site: line 89).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L100) (retained native site: line 89).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodalInduced
 
@@ -4214,9 +4307,9 @@ noncomputable def SphereTopology.sphere2PunctureIntersectionAntipodalInduced : �
 
 The sign-free endomorphism induced from the swapped two-open cover: first
 restrict antipodal negation to the south/north intersection, then forget the
-order by the accepted swap map.
+order by the sign-free intersection swap map.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L95) (retained native site: line 95).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L106) (retained native site: line 95).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodalInduced_eq
 
@@ -4224,9 +4317,9 @@ order by the accepted swap map.
 theorem SphereTopology.sphere2PunctureIntersectionAntipodalInduced_eq : sphere2PunctureIntersectionAntipodalInduced = TopCat.ofHom sphere2PunctureIntersectionAntipodal
 ```
 
-The induced sign-free endomorphism is literally antipodal negation.
+The induced sign-free endomorphism equals pointwise antipodal negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L109) (retained native site: line 109).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L120) (retained native site: line 109).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal_coe
 
@@ -4236,7 +4329,7 @@ theorem SphereTopology.sphere2PunctureIntersectionAntipodal_coe (p : sphere2Punc
 
 **API note (not a source docstring):** After forgetting the puncture and sphere subtype proofs, the antipodal map on the intersection is ordinary vector negation in E3.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L116) (retained native site: line 116).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L127) (retained native site: line 116).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal_comp
 
@@ -4244,9 +4337,9 @@ theorem SphereTopology.sphere2PunctureIntersectionAntipodal_coe (p : sphere2Punc
 theorem SphereTopology.sphere2PunctureIntersectionAntipodal_comp : sphere2PunctureIntersectionAntipodal.comp sphere2PunctureIntersectionAntipodal = ContinuousMap.id sphere2PunctureIntersection
 ```
 
-Antipodal negation is involutive on the literal puncture intersection.
+Antipodal negation is involutive on the puncture intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L123) (retained native site: line 123).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L134) (retained native site: line 123).
 
 ### SphereTopology.sphere2EquatorAntipodalPoint
 
@@ -4254,9 +4347,9 @@ Antipodal negation is involutive on the literal puncture intersection.
 noncomputable def SphereTopology.sphere2EquatorAntipodalPoint (p : sphere2Equator) : sphere2Equator
 ```
 
-Antipodal negation on the literal equator.
+Antipodal negation on the equator subtype.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L133) (retained native site: line 133).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L144) (retained native site: line 133).
 
 ### SphereTopology.sphere2EquatorAntipodal
 
@@ -4264,10 +4357,10 @@ Antipodal negation on the literal equator.
 noncomputable def SphereTopology.sphere2EquatorAntipodal : C(sphere2Equator, sphere2Equator)
 ```
 
-Continuous antipodal negation on the literal equator, preserving its zero
+Continuous antipodal negation on the equator subtype, preserving its zero
 third coordinate.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L137) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L148) (retained native site: line 137).
 
 ### SphereTopology.sphere2EquatorAntipodal_coe
 
@@ -4277,7 +4370,7 @@ theorem SphereTopology.sphere2EquatorAntipodal_coe (p : sphere2Equator) : ↑↑
 
 **API note (not a source docstring):** After forgetting the equator and sphere subtype proofs, equatorial antipodal negation is ordinary vector negation in E3.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L144) (retained native site: line 144).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L155) (retained native site: line 144).
 
 ### SphereTopology.sphere2EquatorHalfTurnVector
 
@@ -4288,7 +4381,7 @@ noncomputable def SphereTopology.sphere2EquatorHalfTurnVector (t : ↑unitInterv
 Rotate an equator point through angle `π t` in its first two
 coordinates, keeping the third coordinate fixed at zero.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L149) (retained native site: line 149).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L160) (retained native site: line 149).
 
 ### SphereTopology.sphere2EquatorHalfTurnVector_first
 
@@ -4298,7 +4391,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnVector_first (t : ↑unitInterval) 
 
 **API note (not a source docstring):** The first coordinate of the equatorial half-turn is cos(pi*t)*x - sin(pi*t)*y. Together with the next coordinate law this specifies the rotation's orientation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L160) (retained native site: line 160).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L171) (retained native site: line 160).
 
 ### SphereTopology.sphere2EquatorHalfTurnVector_second
 
@@ -4308,7 +4401,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnVector_second (t : ↑unitInterval)
 
 **API note (not a source docstring):** The second coordinate of the equatorial half-turn is sin(pi*t)*x + cos(pi*t)*y, with the same unit-interval time parameter.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L168) (retained native site: line 168).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L179) (retained native site: line 168).
 
 ### SphereTopology.sphere2EquatorHalfTurnVector_third
 
@@ -4318,7 +4411,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnVector_third (t : ↑unitInterval) 
 
 **API note (not a source docstring):** The equatorial half-turn has third coordinate zero at every time, so it remains in the equatorial plane.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L176) (retained native site: line 176).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L187) (retained native site: line 176).
 
 ### SphereTopology.sphere2EquatorHalfTurnVector_norm
 
@@ -4328,7 +4421,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnVector_norm (t : ↑unitInterval) (
 
 **API note (not a source docstring):** The half-turn preserves unit norm for an equator input. The trigonometric identity cos squared plus sin squared equals one supplies sphere membership.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L182) (retained native site: line 182).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L193) (retained native site: line 182).
 
 ### SphereTopology.sphere2EquatorHalfTurnPoint
 
@@ -4336,9 +4429,9 @@ theorem SphereTopology.sphere2EquatorHalfTurnVector_norm (t : ↑unitInterval) (
 noncomputable def SphereTopology.sphere2EquatorHalfTurnPoint (t : ↑unitInterval) (p : sphere2Equator) : sphere2Equator
 ```
 
-The equatorial half-turn as a point of the literal equator.
+The equatorial half-turn as a point of the equator subtype.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L196) (retained native site: line 196).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L207) (retained native site: line 196).
 
 ### SphereTopology.continuous_sphere2EquatorHalfTurnPoint
 
@@ -4348,7 +4441,7 @@ theorem SphereTopology.continuous_sphere2EquatorHalfTurnPoint : Continuous fun (
 
 **API note (not a source docstring):** The equatorial half-turn is jointly continuous in its time parameter and equator point, as a map into the equator subtype.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L203) (retained native site: line 203).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L214) (retained native site: line 203).
 
 ### SphereTopology.sphere2EquatorHalfTurnMap
 
@@ -4360,7 +4453,7 @@ The jointly continuous equatorial rotation by angle `π * t`, from the
 identity at time zero to antipodal negation at time one. The rotation uses the
 ordered first two coordinates and leaves the third coordinate zero.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L212) (retained native site: line 212).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L223) (retained native site: line 212).
 
 ### SphereTopology.sphere2EquatorHalfTurnPoint_zero
 
@@ -4370,7 +4463,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnPoint_zero (p : sphere2Equator) : s
 
 **API note (not a source docstring):** At time zero the equatorial rotation is the identity.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L220) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L231) (retained native site: line 220).
 
 ### SphereTopology.sphere2EquatorHalfTurnPoint_one
 
@@ -4380,7 +4473,7 @@ theorem SphereTopology.sphere2EquatorHalfTurnPoint_one (p : sphere2Equator) : sp
 
 **API note (not a source docstring):** At time one the equatorial rotation reaches equatorial antipodal negation. This is a homotopy on the equator, not a homotopy from identity to antipodal on the full two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L229) (retained native site: line 229).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L240) (retained native site: line 229).
 
 ### SphereTopology.sphere2EquatorHalfTurnHomotopy
 
@@ -4391,7 +4484,7 @@ noncomputable def SphereTopology.sphere2EquatorHalfTurnHomotopy : (ContinuousMap
 The explicit equatorial half-turn from the identity to antipodal
 negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L240) (retained native site: line 240).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L251) (retained native site: line 240).
 
 ### SphereTopology.sphere2PunctureIntersectionLinearVector_antipodal
 
@@ -4399,10 +4492,10 @@ negation.
 theorem SphereTopology.sphere2PunctureIntersectionLinearVector_antipodal (t : ↑unitInterval) (p : sphere2PunctureIntersection) : sphere2PunctureIntersectionLinearVector t (sphere2PunctureIntersectionAntipodal p) = -sphere2PunctureIntersectionLinearVector t p
 ```
 
-The accepted radial deformation is equivariant for antipodal negation at
+The radial deformation of the puncture intersection is equivariant for antipodal negation at
 the unnormalized-vector level.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L248) (retained native site: line 248).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L259) (retained native site: line 248).
 
 ### SphereTopology.sphere2PunctureIntersectionRadialPoint_antipodal
 
@@ -4410,10 +4503,10 @@ the unnormalized-vector level.
 theorem SphereTopology.sphere2PunctureIntersectionRadialPoint_antipodal (t : ↑unitInterval) (p : sphere2PunctureIntersection) : sphere2PunctureIntersectionRadialPoint t (sphere2PunctureIntersectionAntipodal p) = sphere2PunctureIntersectionAntipodal (sphere2PunctureIntersectionRadialPoint t p)
 ```
 
-The accepted normalized radial deformation commutes with antipodal
+The normalized radial deformation of the puncture intersection commutes with antipodal
 negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L262) (retained native site: line 262).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L273) (retained native site: line 262).
 
 ### SphereTopology.sphere2PunctureIntersectionToEquator_antipodal
 
@@ -4423,7 +4516,7 @@ theorem SphereTopology.sphere2PunctureIntersectionToEquator_antipodal (p : spher
 
 Equatorial projection commutes with antipodal negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L280) (retained native site: line 280).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L291) (retained native site: line 280).
 
 ### SphereTopology.sphere2EquatorToPunctureIntersection_antipodal
 
@@ -4433,7 +4526,7 @@ theorem SphereTopology.sphere2EquatorToPunctureIntersection_antipodal (p : spher
 
 Equator inclusion commutes with antipodal negation.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L298) (retained native site: line 298).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L309) (retained native site: line 298).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal_projection_eq
 
@@ -4443,7 +4536,7 @@ theorem SphereTopology.sphere2PunctureIntersectionAntipodal_projection_eq : sphe
 
 **API note (not a source docstring):** Applying antipodal negation after equatorial projection and re-inclusion agrees with projection, equatorial antipodal negation and re-inclusion. This identity is used to splice the equatorial half-turn with the radial deformation on the puncture intersection.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L309) (retained native site: line 309).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L320) (retained native site: line 309).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal_homotopic_id
 
@@ -4451,10 +4544,10 @@ theorem SphereTopology.sphere2PunctureIntersectionAntipodal_projection_eq : sphe
 theorem SphereTopology.sphere2PunctureIntersectionAntipodal_homotopic_id : sphere2PunctureIntersectionAntipodal.Homotopic (ContinuousMap.id sphere2PunctureIntersection)
 ```
 
-The sign-free antipodal endomorphism of the literal puncture intersection
+The sign-free antipodal endomorphism of the puncture intersection as an open subspace
 is homotopic to the identity.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L320) (retained native site: line 320).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L331) (retained native site: line 320).
 
 ### SphereTopology.sphere2PunctureIntersectionAntipodal_homology_eq_id
 
@@ -4465,7 +4558,7 @@ theorem SphereTopology.sphere2PunctureIntersectionAntipodal_homology_eq_id (n : 
 On ordinary integral homology, the antipodal restriction followed by the
 sign-free intersection swap acts as the identity.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L350) (retained native site: line 350).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L361) (retained native site: line 350).
 
 ### SphereTopology.sphere2MayerVietorisδOne_reversed_isIso
 
@@ -4474,10 +4567,10 @@ theorem SphereTopology.sphere2MayerVietorisδOne_reversed_isIso : CategoryTheory
 ```
 
 The connecting morphism for the reversed south/north cover is an
-isomorphism.  This is derived from the accepted north/south isomorphism and
+isomorphism.  This is derived from the north/south connecting isomorphism and
 the ordered-cover swap theorem.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L379) (retained native site: line 379).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L390) (retained native site: line 379).
 
 ### SphereTopology.integralSingularHomologyMap_sphere2Antipodal_two
 
@@ -4485,10 +4578,15 @@ the ordered-cover swap theorem.
 theorem SphereTopology.integralSingularHomologyMap_sphere2Antipodal_two : HomologicalComplex.homologyMap (AlgebraicTopology.integralSingularChainMap sphere2Antipodal) 2 = -CategoryTheory.CategoryStruct.id (HomologicalComplex.homology (AlgebraicTopology.integralSingularChains sphere2) 2)
 ```
 
-The literal antipodal map acts by `-1` on ordinary integral second
-homology of the literal standard two-sphere.
+The pointwise-negation antipodal map acts by `-1` on ordinary integral second
+homology of the standard metric two-sphere.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L414) (retained native site: line 414).
+This is the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
+
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L425) (retained native site: line 414).
 
 ### SphereTopology.reducedSingularHomologyMap_sphere2Antipodal_two
 
@@ -4498,7 +4596,7 @@ theorem SphereTopology.reducedSingularHomologyMap_sphere2Antipodal_two : TopCat.
 
 The matching positive-degree reduced integral homology action is `-1`.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L429) (retained native site: line 429).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L445) (retained native site: line 429).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal
 
@@ -4506,10 +4604,15 @@ The matching positive-degree reduced integral homology action is `-1`.
 theorem SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal : CategoryTheory.CategoryStruct.comp reducedSingularHomologyTwoSphereTwoIntegerIso.inv (CategoryTheory.CategoryStruct.comp (TopCat.reducedSingularHomologyMap sphere2Antipodal 2) reducedSingularHomologyTwoSphereTwoIntegerIso.hom) = -CategoryTheory.CategoryStruct.id ↧ℤ
 ```
 
-In the accepted fixed integer coordinate on reduced `H₂`, the literal
+In the fixed integer coordinate on reduced `H₂`, the pointwise-negation
 antipodal map is multiplication by `-1`.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L434) (retained native site: line 434).
+This is the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
+
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L450) (retained native site: line 434).
 
 ### SphereTopology.sphere2_id_not_homotopic_antipodal
 
@@ -4517,10 +4620,15 @@ antipodal map is multiplication by `-1`.
 theorem SphereTopology.sphere2_id_not_homotopic_antipodal : ¬(ContinuousMap.id ↑sphere2).Homotopic (TopCat.Hom.hom sphere2Antipodal)
 ```
 
-The identity and literal antipodal self-maps of the standard two-sphere
+The identity and pointwise-negation self-maps of the standard two-sphere
 are not homotopic.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L444) (retained native site: line 444).
+This follows from the two-sphere case of the antipodal-degree result in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
+The proof here uses the project's ordered-cover swap and equivariant
+equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
+
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L465) (retained native site: line 444).
 
 ## SphereTopology.Homology.Singular.Subdivision
 
@@ -4534,7 +4642,7 @@ noncomputable def Convexity.StdSimplex.affineContinuousMap {m n : ℕ} (v : Fin 
 
 The continuous affine map specified by the images of the vertices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L45) (retained native site: line 44).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L56) (retained native site: line 44).
 
 ### Convexity.StdSimplex.affineContinuousMap_single
 
@@ -4544,7 +4652,7 @@ theorem Convexity.StdSimplex.affineContinuousMap_single {m n : ℕ} (v : Fin (n 
 
 **API note (not a source docstring):** The continuous affine map with prescribed vertices v takes the i-th standard vertex to v(i). Both source and target are real standard simplices, with their dimensions given by n and m.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L76) (retained native site: line 75).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L87) (retained native site: line 75).
 
 ### Convexity.StdSimplex.AffineSimplex
 
@@ -4555,7 +4663,7 @@ abbrev Convexity.StdSimplex.AffineSimplex (m n : ℕ) : Type
 An affine `n`-simplex in the real standard `m`-simplex, specified by its
 ordered `n + 1` vertices. The associated affine map is `affineMapMk`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L84) (retained native site: line 83).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L95) (retained native site: line 83).
 
 ### Convexity.StdSimplex.AffineChain
 
@@ -4566,7 +4674,7 @@ abbrev Convexity.StdSimplex.AffineChain (m n : ℕ) : Type
 Finite integer linear combinations of affine `n`-simplices in the standard
 `m`-simplex, represented by finitely supported coefficient functions.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L89) (retained native site: line 88).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L100) (retained native site: line 88).
 
 ### Convexity.StdSimplex.affineSSet
 
@@ -4577,7 +4685,7 @@ def Convexity.StdSimplex.affineSSet (m : ℕ) : SSet
 The simplicial set of ordered tuples of points of the standard `m`-simplex.
 Its simplicial operators select or repeat vertices by the given order map.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L93) (retained native site: line 92).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L104) (retained native site: line 92).
 
 ### Convexity.StdSimplex.affineIntegerCoefficients
 
@@ -4588,7 +4696,7 @@ abbrev Convexity.StdSimplex.affineIntegerCoefficients : ModuleCat ℤ
 The integers as a module over themselves, used as coefficients for affine
 simplicial chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L101) (retained native site: line 100).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L112) (retained native site: line 100).
 
 ### Convexity.StdSimplex.affineChainIso
 
@@ -4599,7 +4707,7 @@ noncomputable def Convexity.StdSimplex.affineChainIso (m n : ℕ) : ((affineSSet
 Identify the degree-`n` simplicial chain object of `affineSSet m` with
 finitely supported integer coefficients on affine `n`-simplices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L105) (retained native site: line 104).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L116) (retained native site: line 104).
 
 ### Convexity.StdSimplex.affineChainIso_ι
 
@@ -4609,7 +4717,7 @@ theorem Convexity.StdSimplex.affineChainIso_ι (m n : ℕ) (a : AffineSimplex m 
 
 **API note (not a source docstring):** The simplicial-chain inclusion of an ordered affine simplex, followed by the chain-to-finsupp isomorphism, is the integer-linear singleton map at that simplex. This identifies the coefficient-module inclusion, not only its value at coefficient one.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L113) (retained native site: line 112).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L124) (retained native site: line 112).
 
 ### Convexity.StdSimplex.affineChainIso_ι_assoc
 
@@ -4621,7 +4729,7 @@ theorem Convexity.StdSimplex.affineChainIso_ι_assoc (m n : ℕ) (a : AffineSimp
 
 Generated `reassoc` declaration from `Convexity.StdSimplex.affineChainIso_ι`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L113) (retained native site: line 112).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L124) (retained native site: line 112).
 
 ### Convexity.StdSimplex.affineBoundaryHom
 
@@ -4632,7 +4740,7 @@ noncomputable def Convexity.StdSimplex.affineBoundaryHom (m n : ℕ) : ↧(Affin
 The categorical simplicial differential from degree `n + 1` to degree `n`,
 transported through `affineChainIso` to finitely supported affine chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L124) (retained native site: line 123).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L135) (retained native site: line 123).
 
 ### Convexity.StdSimplex.AffineSimplex.face
 
@@ -4643,7 +4751,7 @@ def Convexity.StdSimplex.AffineSimplex.face {m n : ℕ} (a : AffineSimplex m (n 
 The `i`th face of an affine simplex, obtained by deleting vertex `i`
 and retaining the order of the remaining vertices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L132) (retained native site: line 131).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L143) (retained native site: line 131).
 
 ### Convexity.StdSimplex.lsingle_comp_affineBoundaryHom
 
@@ -4653,7 +4761,7 @@ theorem Convexity.StdSimplex.lsingle_comp_affineBoundaryHom {m n : ℕ} (a : Aff
 
 **API note (not a source docstring):** The transported categorical boundary after the singleton inclusion of an affine (n+1)-simplex is the sum of the singleton inclusions of its n-faces, with integer coefficient (-1)^i on the i-th deleted vertex. This is a morphism-level generator formula.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L139) (retained native site: line 138).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L150) (retained native site: line 138).
 
 ### Convexity.StdSimplex.affineBoundaryHom_squared
 
@@ -4663,7 +4771,7 @@ theorem Convexity.StdSimplex.affineBoundaryHom_squared (m n : ℕ) : CategoryThe
 
 **API note (not a source docstring):** Two consecutive transported categorical affine-chain differentials compose to zero, from degree n+2 through n+1 to n. This is the chain-complex identity in module-morphism form.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L154) (retained native site: line 153).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L165) (retained native site: line 153).
 
 ### Convexity.StdSimplex.AffineSimplex.cone
 
@@ -4673,7 +4781,7 @@ def Convexity.StdSimplex.AffineSimplex.cone {m n : ℕ} (b : StdSimplex ℝ (Fin
 
 Cone an affine simplex to the apex `b`, inserting `b` as its first vertex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L160) (retained native site: line 159).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L171) (retained native site: line 159).
 
 ### Convexity.StdSimplex.AffineSimplex.point
 
@@ -4683,7 +4791,7 @@ def Convexity.StdSimplex.AffineSimplex.point {m : ℕ} (b : StdSimplex ℝ (Fin 
 
 The affine zero-simplex whose unique vertex is `b`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L165) (retained native site: line 164).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L176) (retained native site: line 164).
 
 ### Convexity.StdSimplex.affineBoundaryGenerator
 
@@ -4694,7 +4802,7 @@ noncomputable def Convexity.StdSimplex.affineBoundaryGenerator {m n : ℕ} (a : 
 The oriented boundary of one affine simplex: the finite sum of its faces
 with coefficient `(-1)^i` on the face obtained by deleting vertex `i`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L169) (retained native site: line 168).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L180) (retained native site: line 168).
 
 ### Convexity.StdSimplex.affineBoundary
 
@@ -4704,7 +4812,7 @@ noncomputable def Convexity.StdSimplex.affineBoundary (m n : ℕ) : AffineChain 
 
 Extend the alternating face boundary integer-linearly to affine chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L175) (retained native site: line 174).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L186) (retained native site: line 174).
 
 ### Convexity.StdSimplex.affineCone
 
@@ -4715,7 +4823,7 @@ noncomputable def Convexity.StdSimplex.affineCone (m n : ℕ) (b : StdSimplex �
 The integer-linear cone operator on affine chains, prepending the common
 apex `b` to each simplex and raising degree by one.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L180) (retained native site: line 179).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L191) (retained native site: line 179).
 
 ### Convexity.StdSimplex.affineAugmentation
 
@@ -4725,7 +4833,7 @@ noncomputable def Convexity.StdSimplex.affineAugmentation (m : ℕ) : AffineChai
 
 The augmentation of affine zero-chains, summing their integer coefficients.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L187) (retained native site: line 186).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L198) (retained native site: line 186).
 
 ### Convexity.StdSimplex.affineBoundary_single
 
@@ -4735,7 +4843,7 @@ theorem Convexity.StdSimplex.affineBoundary_single {m n : ℕ} (a : AffineSimple
 
 **API note (not a source docstring):** The integer-linear affine boundary of a coefficient-one (n+1)-simplex is its explicitly signed alternating face chain affineBoundaryGenerator.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L191) (retained native site: line 190).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L202) (retained native site: line 190).
 
 ### Convexity.StdSimplex.lsingle_comp_affineBoundary
 
@@ -4745,7 +4853,7 @@ theorem Convexity.StdSimplex.lsingle_comp_affineBoundary {m n : ℕ} (a : Affine
 
 **API note (not a source docstring):** Composing a simplex's integer-linear singleton inclusion with the explicit affine boundary gives the alternating sum of the singleton inclusions of its faces. The equality covers arbitrary input coefficients through linearity.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L196) (retained native site: line 195).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L207) (retained native site: line 195).
 
 ### Convexity.StdSimplex.affineBoundaryHom_eq
 
@@ -4755,7 +4863,7 @@ theorem Convexity.StdSimplex.affineBoundaryHom_eq (m n : ℕ) : affineBoundaryHo
 
 **API note (not a source docstring):** The categorical simplicial differential transported by affineChainIso is exactly the module morphism of the explicit finitely supported alternating-face boundary. It reconciles the two boundary presentations in every degree.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L205) (retained native site: line 204).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L216) (retained native site: line 204).
 
 ### Convexity.StdSimplex.affineBoundary_squared
 
@@ -4765,7 +4873,7 @@ theorem Convexity.StdSimplex.affineBoundary_squared {m n : ℕ} (c : AffineChain
 
 **API note (not a source docstring):** For every affine integer chain in degree n+2, taking the explicit alternating-face boundary twice gives zero. No cycle hypothesis on the input is needed.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L215) (retained native site: line 214).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L226) (retained native site: line 214).
 
 ### Convexity.StdSimplex.affineCone_single
 
@@ -4775,7 +4883,7 @@ theorem Convexity.StdSimplex.affineCone_single {m n : ℕ} (b : StdSimplex ℝ (
 
 **API note (not a source docstring):** The integer-linear cone operator sends a coefficient-one affine simplex to the coefficient-one simplex obtained by prepending the apex b. The degree increases by one.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L221) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L232) (retained native site: line 220).
 
 ### Convexity.StdSimplex.affineAugmentation_single
 
@@ -4785,7 +4893,7 @@ theorem Convexity.StdSimplex.affineAugmentation_single {m : ℕ} (a : AffineSimp
 
 **API note (not a source docstring):** The augmentation of a single affine zero-simplex with integer coefficient z is z. The vertex location does not affect augmentation.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L227) (retained native site: line 226).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L238) (retained native site: line 226).
 
 ### Convexity.StdSimplex.AffineSimplex.face_cone_zero
 
@@ -4795,7 +4903,7 @@ theorem Convexity.StdSimplex.AffineSimplex.face_cone_zero {m n : ℕ} (b : StdSi
 
 **API note (not a source docstring):** Deleting vertex zero from the cone, whose apex is prepended, recovers the original ordered affine simplex. This fixes the positive first-face term in the cone boundary formula.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L232) (retained native site: line 231).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L243) (retained native site: line 231).
 
 ### Convexity.StdSimplex.AffineSimplex.face_cone_one
 
@@ -4805,7 +4913,7 @@ theorem Convexity.StdSimplex.AffineSimplex.face_cone_one {m : ℕ} (b : StdSimpl
 
 **API note (not a source docstring):** For a zero-simplex a, deleting vertex one from its cone to b leaves the zero-simplex at the apex b. This is the other endpoint in the degree-zero cone boundary formula.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L238) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L249) (retained native site: line 237).
 
 ### Convexity.StdSimplex.AffineSimplex.face_cone_succ
 
@@ -4815,7 +4923,7 @@ theorem Convexity.StdSimplex.AffineSimplex.face_cone_succ {m n : ℕ} (b : StdSi
 
 **API note (not a source docstring):** Deleting vertex i+1 from the cone on a positive-dimensional affine simplex is the cone on the i-th face of the original simplex, with the same prepended apex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L245) (retained native site: line 244).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L256) (retained native site: line 244).
 
 ### Convexity.StdSimplex.AffineSimplex.comp
 
@@ -4826,7 +4934,7 @@ noncomputable def Convexity.StdSimplex.AffineSimplex.comp {m n k : ℕ} (a : Aff
 Compose affine simplices by applying the affine map determined by `a`
 to every vertex of `b`. Thus `b` parametrizes a simplex in the domain of `a`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L254) (retained native site: line 253).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L265) (retained native site: line 253).
 
 ### Convexity.StdSimplex.AffineSimplex.comp_face
 
@@ -4836,7 +4944,7 @@ theorem Convexity.StdSimplex.AffineSimplex.comp_face {m n k : ℕ} (a : AffineSi
 
 **API note (not a source docstring):** Affine composition commutes with taking a face in the parameter simplex: deleting a vertex before composition gives the same ordered simplex as deleting it afterward.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L260) (retained native site: line 259).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L271) (retained native site: line 259).
 
 ### Convexity.StdSimplex.AffineSimplex.comp_cone
 
@@ -4846,7 +4954,7 @@ theorem Convexity.StdSimplex.AffineSimplex.comp_cone {m n k : ℕ} (a : AffineSi
 
 **API note (not a source docstring):** Pushing an affine cone through the affine map of a carries its apex x to affineMapMk a x and its base b to a.comp b. The apex remains the first vertex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L264) (retained native site: line 263).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L275) (retained native site: line 263).
 
 ### Convexity.StdSimplex.affineBoundary_cone_single
 
@@ -4856,7 +4964,7 @@ theorem Convexity.StdSimplex.affineBoundary_cone_single {m n : ℕ} (b : StdSimp
 
 **API note (not a source docstring):** For a coefficient-one affine simplex of positive degree, the boundary of its cone is the original chain minus the cone on its boundary. The degree-zero augmentation correction is handled by separate lemmas.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L270) (retained native site: line 269).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L281) (retained native site: line 269).
 
 ### Convexity.StdSimplex.affineBoundary_cone_degree_zero_single
 
@@ -4866,7 +4974,7 @@ theorem Convexity.StdSimplex.affineBoundary_cone_degree_zero_single {m : ℕ} (b
 
 **API note (not a source docstring):** The boundary of the cone on a coefficient-one zero-simplex is that point chain minus the coefficient-one point chain at the apex. This records the endpoint sign explicitly.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L285) (retained native site: line 284).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L296) (retained native site: line 284).
 
 ### Convexity.StdSimplex.affineBoundary_cone_degree_zero
 
@@ -4876,7 +4984,7 @@ theorem Convexity.StdSimplex.affineBoundary_cone_degree_zero {m : ℕ} (b : StdS
 
 **API note (not a source docstring):** For an arbitrary affine zero-chain c, the boundary of its cone equals c minus its total augmentation times the point chain at the apex. The augmentation term is essential in degree zero.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L295) (retained native site: line 293).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L306) (retained native site: line 293).
 
 ### Convexity.StdSimplex.affineBoundary_cone
 
@@ -4886,7 +4994,7 @@ theorem Convexity.StdSimplex.affineBoundary_cone {m n : ℕ} (b : StdSimplex ℝ
 
 **API note (not a source docstring):** On affine chains of positive degree, the cone satisfies boundary(cone(c)) = c - cone(boundary(c)). The same fixed apex is used on both cone operators.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L316) (retained native site: line 314).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L327) (retained native site: line 314).
 
 ### Convexity.StdSimplex.AffineSimplex.center
 
@@ -4897,7 +5005,7 @@ noncomputable def Convexity.StdSimplex.AffineSimplex.center {m n : ℕ} (a : Aff
 The center of an affine simplex, obtained by mapping the domain barycenter
 through its affine map; equivalently, the equally weighted average of its vertices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L330) (retained native site: line 328).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L341) (retained native site: line 328).
 
 ### Convexity.StdSimplex.AffineSimplex.comp_center
 
@@ -4907,7 +5015,7 @@ theorem Convexity.StdSimplex.AffineSimplex.comp_center {m n k : ℕ} (a : Affine
 
 **API note (not a source docstring):** The center of the affine composite a.comp b is the image under a's affine map of the center of b. Centers are equally weighted affine barycenters, so this is compatibility with affine composition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L336) (retained native site: line 334).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L347) (retained native site: line 334).
 
 ### Convexity.StdSimplex.mapAffineChain
 
@@ -4918,7 +5026,7 @@ noncomputable def Convexity.StdSimplex.mapAffineChain {m n : ℕ} (a : AffineSim
 Push affine chains forward along the affine map determined by `a`, adding
 coefficients when distinct simplices have the same image.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L344) (retained native site: line 342).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L355) (retained native site: line 342).
 
 ### Convexity.StdSimplex.mapAffineChain_single
 
@@ -4928,7 +5036,7 @@ theorem Convexity.StdSimplex.mapAffineChain_single {m n k : ℕ} (a : AffineSimp
 
 **API note (not a source docstring):** Pushforward of a coefficient-one affine simplex b along a is the coefficient-one simplex a.comp b. The linear pushforward may add coefficients for coincident images on general chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L350) (retained native site: line 348).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L361) (retained native site: line 348).
 
 ### Convexity.StdSimplex.mapAffineChain_cone
 
@@ -4938,7 +5046,7 @@ theorem Convexity.StdSimplex.mapAffineChain_cone {m n k : ℕ} (a : AffineSimple
 
 **API note (not a source docstring):** Affine-chain pushforward commutes with coning when the apex is also mapped through the same affine map. The input chain can have arbitrary integer coefficients.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L356) (retained native site: line 354).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L367) (retained native site: line 354).
 
 ### Convexity.StdSimplex.subdivideSimplex
 
@@ -4951,7 +5059,7 @@ noncomputable def Convexity.StdSimplex.subdivideSimplex {m : ℕ} (n : ℕ) : Af
 Signed barycentric subdivision of an affine simplex. A zero-simplex is
 unchanged; in positive degree, cone the subdivided oriented boundary to its center.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L369) (retained native site: line 367).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L380) (retained native site: line 367).
 
 ### Convexity.StdSimplex.affineSubdivision
 
@@ -4961,7 +5069,7 @@ noncomputable def Convexity.StdSimplex.affineSubdivision (m n : ℕ) : AffineCha
 
 Extend signed barycentric subdivision integer-linearly to affine chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L378) (retained native site: line 376).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L389) (retained native site: line 376).
 
 ### Convexity.StdSimplex.affineSubdivision_single
 
@@ -4971,7 +5079,7 @@ theorem Convexity.StdSimplex.affineSubdivision_single {m n : ℕ} (a : AffineSim
 
 **API note (not a source docstring):** The linear affine subdivision operator on a coefficient-one simplex agrees with the recursively defined signed subdivision subdivideSimplex of that simplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L382) (retained native site: line 380).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L393) (retained native site: line 380).
 
 ### Convexity.StdSimplex.subdivideSimplex_zero
 
@@ -4981,7 +5089,7 @@ theorem Convexity.StdSimplex.subdivideSimplex_zero {m : ℕ} (a : AffineSimplex 
 
 **API note (not a source docstring):** Signed barycentric subdivision leaves an affine zero-simplex unchanged as a coefficient-one chain. This is the base case of the recursive subdivision definition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L387) (retained native site: line 385).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L398) (retained native site: line 385).
 
 ### Convexity.StdSimplex.subdivideSimplex_succ
 
@@ -4991,7 +5099,7 @@ theorem Convexity.StdSimplex.subdivideSimplex_succ {m n : ℕ} (a : AffineSimple
 
 **API note (not a source docstring):** Subdivision of a positive-dimensional affine simplex is the cone, with apex its center, on the linear subdivision of its oriented boundary. The integer alternating-face signs are retained.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L391) (retained native site: line 389).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L402) (retained native site: line 389).
 
 ### Convexity.StdSimplex.mapAffineChain_subdivideSimplex
 
@@ -5001,7 +5109,7 @@ theorem Convexity.StdSimplex.mapAffineChain_subdivideSimplex {m n k : ℕ} (a : 
 
 **API note (not a source docstring):** Signed subdivision of one affine simplex is natural under affine-chain pushforward: subdividing b and then mapping along a equals subdividing a.comp b.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L401) (retained native site: line 399).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L412) (retained native site: line 399).
 
 ### Convexity.StdSimplex.affineAugmentation_subdivide_zero
 
@@ -5011,7 +5119,7 @@ theorem Convexity.StdSimplex.affineAugmentation_subdivide_zero {m : ℕ} (a : Af
 
 **API note (not a source docstring):** The augmentation of the subdivision of an affine zero-simplex is one. This declaration retains its pre-simplification registration (simp↓), which is distinct from changing the mathematical statement or deleting the simp rule.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L416) (retained native site: line 414).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L427) (retained native site: line 414).
 
 ### Convexity.StdSimplex.affineAugmentation_affineSubdivision_zero
 
@@ -5021,7 +5129,7 @@ theorem Convexity.StdSimplex.affineAugmentation_affineSubdivision_zero {m : ℕ}
 
 **API note (not a source docstring):** Linear affine subdivision preserves the total augmentation of every zero-chain. Coefficients may be arbitrary integers, not just one.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L421) (retained native site: line 419).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L432) (retained native site: line 419).
 
 ### Convexity.StdSimplex.affineAugmentation_boundaryGenerator_degree_one
 
@@ -5031,7 +5139,7 @@ theorem Convexity.StdSimplex.affineAugmentation_boundaryGenerator_degree_one {m 
 
 **API note (not a source docstring):** The signed boundary of an affine one-simplex has total augmentation zero: its two endpoint coefficients cancel.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L432) (retained native site: line 430).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L443) (retained native site: line 430).
 
 ### Convexity.StdSimplex.affineSubdivision_boundary
 
@@ -5041,7 +5149,7 @@ theorem Convexity.StdSimplex.affineSubdivision_boundary (m n : ℕ) (c : AffineC
 
 **API note (not a source docstring):** Affine subdivision commutes with the alternating-face boundary on every positive-degree affine integer chain. This is the chain-map identity, including the case of boundary into degree zero.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L437) (retained native site: line 435).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L448) (retained native site: line 435).
 
 ### Convexity.StdSimplex.homotopySimplex
 
@@ -5055,7 +5163,7 @@ The degree-raising subdivision homotopy on one affine simplex. It is zero
 in degree zero and otherwise cones `a - Sd(a) - H(∂a)` to the center of `a`.
 This convention gives `∂H + H∂ = id - Sd`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L475) (retained native site: line 473).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L486) (retained native site: line 473).
 
 ### Convexity.StdSimplex.affineHomotopy
 
@@ -5066,7 +5174,7 @@ noncomputable def Convexity.StdSimplex.affineHomotopy (m n : ℕ) : AffineChain 
 Extend `homotopySimplex` integer-linearly, giving the degree-raising affine
 chain homotopy with boundary identity `∂H + H∂ = id - Sd`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L486) (retained native site: line 484).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L497) (retained native site: line 484).
 
 ### Convexity.StdSimplex.affineHomotopy_single
 
@@ -5076,7 +5184,7 @@ theorem Convexity.StdSimplex.affineHomotopy_single {m n : ℕ} (a : AffineSimple
 
 **API note (not a source docstring):** The integer-linear affine homotopy sends a coefficient-one simplex to its recursively constructed homotopySimplex chain in the next degree.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L491) (retained native site: line 489).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L502) (retained native site: line 489).
 
 ### Convexity.StdSimplex.homotopySimplex_zero
 
@@ -5086,7 +5194,7 @@ theorem Convexity.StdSimplex.homotopySimplex_zero {m : ℕ} (a : AffineSimplex m
 
 **API note (not a source docstring):** The affine subdivision homotopy on a zero-simplex is the zero one-chain. Subdivision itself is already the identity in degree zero.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L496) (retained native site: line 494).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L507) (retained native site: line 494).
 
 ### Convexity.StdSimplex.homotopySimplex_succ
 
@@ -5096,7 +5204,7 @@ theorem Convexity.StdSimplex.homotopySimplex_succ {m n : ℕ} (a : AffineSimplex
 
 **API note (not a source docstring):** In positive degree the affine homotopy is the cone to the simplex's center on the original simplex minus its subdivision minus the lower-degree homotopy of its boundary. This uses the id - Sd sign convention.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L500) (retained native site: line 498).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L511) (retained native site: line 498).
 
 ### Convexity.StdSimplex.mapAffineChain_homotopySimplex
 
@@ -5106,7 +5214,7 @@ theorem Convexity.StdSimplex.mapAffineChain_homotopySimplex {m n k : ℕ} (a : A
 
 **API note (not a source docstring):** The affine homotopy of a simplex commutes with affine-chain pushforward, in degree one higher than the input simplex. Its recursive centers and cones are mapped by the same affine map.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L509) (retained native site: line 507).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L520) (retained native site: line 507).
 
 ### Convexity.StdSimplex.affineHomotopy_degree_zero
 
@@ -5116,7 +5224,7 @@ theorem Convexity.StdSimplex.affineHomotopy_degree_zero (m : ℕ) (c : AffineCha
 
 **API note (not a source docstring):** In degree zero, the boundary of the affine homotopy is c minus the subdivision of c. No negative-degree boundary/homotopy term is introduced.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L527) (retained native site: line 525).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L538) (retained native site: line 525).
 
 ### Convexity.StdSimplex.affineHomotopy_boundary
 
@@ -5126,7 +5234,7 @@ theorem Convexity.StdSimplex.affineHomotopy_boundary (m n : ℕ) (c : AffineChai
 
 **API note (not a source docstring):** For every positive-degree affine integer chain, boundary(H(c)) + H(boundary(c)) = c - Sd(c). This gives the homotopy between the identity and signed affine subdivision, in that order.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L539) (retained native site: line 537).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L550) (retained native site: line 537).
 
 ### Convexity.StdSimplex.stdSimplexMetricSpace
 
@@ -5139,7 +5247,7 @@ standard simplex's weight embedding, with its existing topology.
 
 Source registration: **local instance**, not a globally registered instance.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L600) (retained native site: line 599).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L611) (retained native site: line 599).
 
 ### Convexity.StdSimplex.stdSimplex_dist_eq_weights
 
@@ -5149,7 +5257,7 @@ theorem Convexity.StdSimplex.stdSimplex_dist_eq_weights {M : Type u_1} [Fintype 
 
 **API note (not a source docstring):** For the file's locally installed metric on the real standard simplex of a finite type, distance is exactly distance between the real weight functions. This fixes the metric used in all subsequent diameter estimates.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L607) (retained native site: line 606).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L618) (retained native site: line 606).
 
 ### Convexity.StdSimplex.stdSimplexIsConvexDist
 
@@ -5161,7 +5269,7 @@ theorem Convexity.StdSimplex.stdSimplexIsConvexDist (M : Type u_1) [Fintype M] :
 
 Source registration: **local instance**, not a globally registered instance.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L610) (retained native site: line 609).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L621) (retained native site: line 609).
 
 ### Convexity.StdSimplex.AffineSimplex.vertexDiameter
 
@@ -5172,7 +5280,7 @@ noncomputable def Convexity.StdSimplex.AffineSimplex.vertexDiameter {m n : ℕ} 
 The diameter of the finite set of vertices, using the metric pulled back
 from the standard simplex's real weight functions.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L623) (retained native site: line 622).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L634) (retained native site: line 622).
 
 ### Convexity.StdSimplex.AffineSimplex.vertexDiameter_nonneg
 
@@ -5182,7 +5290,7 @@ theorem Convexity.StdSimplex.AffineSimplex.vertexDiameter_nonneg {m n : ℕ} (a 
 
 **API note (not a source docstring):** The diameter of the finite vertex set of any affine simplex is nonnegative, using the file's metric induced by real weight functions.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L628) (retained native site: line 627).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L639) (retained native site: line 627).
 
 ### Convexity.StdSimplex.AffineSimplex.dist_le_vertexDiameter
 
@@ -5192,7 +5300,7 @@ theorem Convexity.StdSimplex.AffineSimplex.dist_le_vertexDiameter {m n : ℕ} (a
 
 **API note (not a source docstring):** The distance between any two specified vertices is at most the diameter of the simplex's finite vertex set. Repeated vertices and degenerate simplices are permitted.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L631) (retained native site: line 630).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L642) (retained native site: line 630).
 
 ### Convexity.StdSimplex.AffineSimplex.dist_center_vertex
 
@@ -5202,7 +5310,7 @@ theorem Convexity.StdSimplex.AffineSimplex.dist_center_vertex {m n : ℕ} (a : A
 
 **API note (not a source docstring):** For an affine n-simplex, the distance from its equally weighted center to any vertex is at most n/(n+1) times its vertex diameter. This also covers n = 0, where both sides vanish.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L635) (retained native site: line 634).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L646) (retained native site: line 634).
 
 ### Convexity.StdSimplex.AffineSimplex.dist_center_affineMapMk
 
@@ -5212,7 +5320,7 @@ theorem Convexity.StdSimplex.AffineSimplex.dist_center_affineMapMk {m n k : ℕ}
 
 **API note (not a source docstring):** The center-to-point bound n/(n+1) times the vertex diameter holds for any affine combination of vertices chosen by v. The index map v need not be injective or preserve order.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L661) (retained native site: line 660).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L672) (retained native site: line 660).
 
 ### Convexity.StdSimplex.exists_mem_support_of_mem_support_sum
 
@@ -5224,7 +5332,7 @@ theorem Convexity.StdSimplex.exists_mem_support_of_mem_support_sum {α : Type u_
 
 **API note (not a source docstring):** A nonzero coefficient in a finite sum of integer-valued finitely supported functions must occur in the support of at least one summand. The converse need not hold because coefficients can cancel.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L680) (retained native site: line 679).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L691) (retained native site: line 679).
 
 ### Convexity.StdSimplex.affineCone_eq_mapDomain
 
@@ -5234,7 +5342,7 @@ theorem Convexity.StdSimplex.affineCone_eq_mapDomain {m n : ℕ} (b : StdSimplex
 
 **API note (not a source docstring):** Coning an affine chain is the finitely supported mapDomain along the function that prepends the fixed apex. This identifies the linear cone with coefficient-collecting pushforward.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L688) (retained native site: line 686).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L699) (retained native site: line 686).
 
 ### Convexity.StdSimplex.mem_support_affineCone
 
@@ -5244,7 +5352,7 @@ theorem Convexity.StdSimplex.mem_support_affineCone {m n : ℕ} (b : StdSimplex 
 
 **API note (not a source docstring):** Every simplex with nonzero coefficient in a coned affine chain is the cone on some simplex in the original support, with the same apex. This is an existence implication, not an asserted equality of support sets.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L700) (retained native site: line 698).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L711) (retained native site: line 698).
 
 ### Convexity.StdSimplex.AffineSimplex.VerticesIn
 
@@ -5255,7 +5363,7 @@ def Convexity.StdSimplex.AffineSimplex.VerticesIn {m n k : ℕ} (a : AffineSimpl
 Every vertex of `b` lies in the affine image of `a`. Such a vertex may be
 an interior point of that image; it need not equal one of the vertices of `a`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L710) (retained native site: line 708).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L721) (retained native site: line 708).
 
 ### Convexity.StdSimplex.AffineSimplex.verticesIn_self
 
@@ -5265,7 +5373,7 @@ theorem Convexity.StdSimplex.AffineSimplex.verticesIn_self {m n : ℕ} (a : Affi
 
 **API note (not a source docstring):** Every vertex of an affine simplex lies in its own affine image, witnessed by the corresponding standard vertex. This uses the VerticesIn predicate's affine-image meaning.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L716) (retained native site: line 714).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L727) (retained native site: line 714).
 
 ### Convexity.StdSimplex.AffineSimplex.VerticesIn.trans_face
 
@@ -5275,7 +5383,7 @@ theorem Convexity.StdSimplex.AffineSimplex.VerticesIn.trans_face {m n k : ℕ} (
 
 **API note (not a source docstring):** If all vertices of b lie in the affine image of a face of a, then they also lie in the affine image of a. The face inclusion supplies the domain reparametrization.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L721) (retained native site: line 719).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L732) (retained native site: line 719).
 
 ### Convexity.StdSimplex.AffineSimplex.VerticesIn.cone
 
@@ -5285,7 +5393,7 @@ theorem Convexity.StdSimplex.AffineSimplex.VerticesIn.cone {m n k : ℕ} (a : Af
 
 **API note (not a source docstring):** If b has all vertices in the affine image of a, coning b to the center of a preserves that property. The new apex is itself an affine combination of a's vertices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L730) (retained native site: line 728).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L741) (retained native site: line 728).
 
 ### Convexity.StdSimplex.subdivideSimplex_support_verticesIn
 
@@ -5295,7 +5403,7 @@ theorem Convexity.StdSimplex.subdivideSimplex_support_verticesIn {m n : ℕ} (a 
 
 **API note (not a source docstring):** Every simplex in the support of the signed subdivision of a has all its vertices in the affine image of a. The vertices need not be original vertices of a.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L738) (retained native site: line 736).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L749) (retained native site: line 736).
 
 ### Convexity.StdSimplex.homotopySimplex_support_verticesIn
 
@@ -5305,7 +5413,7 @@ theorem Convexity.StdSimplex.homotopySimplex_support_verticesIn {m n : ℕ} (a :
 
 **API note (not a source docstring):** Every next-degree simplex in the support of the affine homotopy of a has all its vertices in the affine image of a. The statement is vacuous in degree zero, where the homotopy is zero.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L755) (retained native site: line 753).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L766) (retained native site: line 753).
 
 ### Convexity.StdSimplex.AffineSimplex.reparametrization
 
@@ -5317,7 +5425,7 @@ Choose preimages of the vertices of `b` in the domain of `a`, using
 `a.VerticesIn b`. Composing this simplex with `a` recovers `b`; no uniqueness
 or invertibility of the chosen parametrization is asserted.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L775) (retained native site: line 773).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L786) (retained native site: line 773).
 
 ### Convexity.StdSimplex.AffineSimplex.comp_reparametrization
 
@@ -5327,7 +5435,7 @@ theorem Convexity.StdSimplex.AffineSimplex.comp_reparametrization {m n k : ℕ} 
 
 **API note (not a source docstring):** Under a.VerticesIn b, composing a with the classically chosen vertex-preimage simplex reconstructs b exactly. No uniqueness or injectivity of the chosen reparametrization is asserted.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L783) (retained native site: line 781).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L794) (retained native site: line 781).
 
 ### Convexity.StdSimplex.AffineSimplex.range_affineContinuousMap_subset
 
@@ -5337,7 +5445,7 @@ theorem Convexity.StdSimplex.AffineSimplex.range_affineContinuousMap_subset {m n
 
 **API note (not a source docstring):** If every vertex of b lies in the affine image of a, the entire continuous affine image of b lies in that of a. The conclusion concerns all points, not only vertices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L789) (retained native site: line 787).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L800) (retained native site: line 787).
 
 ### Convexity.StdSimplex.AffineSimplex.vertexDiameter_face_le
 
@@ -5347,7 +5455,7 @@ theorem Convexity.StdSimplex.AffineSimplex.vertexDiameter_face_le {m n : ℕ} (a
 
 **API note (not a source docstring):** Deleting a vertex cannot increase the vertex diameter of an affine simplex. This uses inclusion of the finite vertex sets and does not require a nondegenerate simplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L800) (retained native site: line 798).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L811) (retained native site: line 798).
 
 ### Convexity.StdSimplex.AffineSimplex.vertexDiameter_cone_le
 
@@ -5357,7 +5465,7 @@ theorem Convexity.StdSimplex.AffineSimplex.vertexDiameter_cone_le {m n : ℕ} (a
 
 **API note (not a source docstring):** Coning b to the center of an affine (n+1)-simplex a preserves the bound (n+1)/(n+2) times a's vertex diameter when b lies in the affine image of a specified face and already satisfies that bound. Both hypotheses are required.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L807) (retained native site: line 805).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L818) (retained native site: line 805).
 
 ### Convexity.StdSimplex.subdivideSimplex_support_vertexDiameter_le
 
@@ -5367,7 +5475,7 @@ theorem Convexity.StdSimplex.subdivideSimplex_support_vertexDiameter_le {m n : �
 
 **API note (not a source docstring):** Each simplex surviving in the signed subdivision of an affine n-simplex has vertex diameter at most n/(n+1) times the original vertex diameter. The bound includes degenerate and zero-dimensional cases.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L842) (retained native site: line 840).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L853) (retained native site: line 840).
 
 ### Convexity.StdSimplex.mem_support_affineSubdivision
 
@@ -5377,7 +5485,7 @@ theorem Convexity.StdSimplex.mem_support_affineSubdivision {m n : ℕ} (c : Affi
 
 **API note (not a source docstring):** A simplex in the support of the subdivision of a finite affine chain occurs in the subdivision support of some simplex in the original support. The result does not preclude cancellation between different input contributions.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L882) (retained native site: line 880).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L893) (retained native site: line 880).
 
 ### Convexity.StdSimplex.affineSubdivision_iterate_support_vertexDiameter_le
 
@@ -5387,7 +5495,7 @@ theorem Convexity.StdSimplex.affineSubdivision_iterate_support_vertexDiameter_le
 
 **API note (not a source docstring):** If every simplex in the initial affine-chain support has vertex diameter at most D, each support simplex after N subdivisions has diameter at most (n/(n+1))^N times D. N may be zero; the hypothesis on the original support is explicit.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L896) (retained native site: line 894).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L907) (retained native site: line 894).
 
 ### Convexity.StdSimplex.AffineSimplex.dist_center_affineMapMk_self
 
@@ -5397,7 +5505,7 @@ theorem Convexity.StdSimplex.AffineSimplex.dist_center_affineMapMk_self {m n : �
 
 **API note (not a source docstring):** The distance from the center of an affine n-simplex to any point of its affine image is at most n/(n+1) times the vertex diameter. This is the unreindexed version of the affine-combination estimate.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L915) (retained native site: line 913).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L926) (retained native site: line 913).
 
 ### Convexity.StdSimplex.AffineSimplex.diam_range_affineContinuousMap_le
 
@@ -5407,7 +5515,7 @@ theorem Convexity.StdSimplex.AffineSimplex.diam_range_affineContinuousMap_le {m 
 
 **API note (not a source docstring):** The metric diameter of the full affine image is at most twice the vertex diameter. This is the bound actually proved; it does not assert equality or the sharper vertex-diameter bound.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L921) (retained native site: line 919).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L932) (retained native site: line 919).
 
 ### Convexity.StdSimplex.AffineSimplex.standard
 
@@ -5417,7 +5525,7 @@ noncomputable def Convexity.StdSimplex.AffineSimplex.standard (n : ℕ) : Affine
 
 The standard affine simplex, with its `i`th vertex the `i`th unit weight vector.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L944) (retained native site: line 942).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L955) (retained native site: line 942).
 
 ### Convexity.StdSimplex.exists_affineSubdivision_iterate_diam_lt
 
@@ -5427,7 +5535,7 @@ theorem Convexity.StdSimplex.exists_affineSubdivision_iterate_diam_lt {n : ℕ} 
 
 **API note (not a source docstring):** For positive dimension n and epsilon > 0, some number N of subdivisions makes every support simplex of the standard coefficient-one n-simplex have affine-image diameter less than epsilon. The theorem is existential, not a chosen numerical algorithm for N.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L948) (retained native site: line 946).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L959) (retained native site: line 946).
 
 ### Convexity.StdSimplex.exists_affineSubdivision_iterate_cover_small
 
@@ -5437,7 +5545,7 @@ theorem Convexity.StdSimplex.exists_affineSubdivision_iterate_cover_small {X : T
 
 **API note (not a source docstring):** Given an open cover of any topological space and one continuous singular simplex, some subdivision of its standard domain has every surviving affine piece mapped into a cover member. The member may depend on the piece; no metric on the target space is assumed.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L982) (retained native site: line 980).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L993) (retained native site: line 980).
 
 ### AlgebraicTopology.SingularChainFinsupp
 
@@ -5446,9 +5554,9 @@ abbrev AlgebraicTopology.SingularChainFinsupp (X : TopCat) (n : ℕ) : Type u
 ```
 
 Finite integer linear combinations of singular `n`-simplices in `X`,
-represented as finitely supported functions on its native singular simplicial set.
+represented as finitely supported functions on its singular simplicial set.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1022) (retained native site: line 1020).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1033) (retained native site: line 1020).
 
 ### AlgebraicTopology.singularFinsuppMap
 
@@ -5458,7 +5566,7 @@ noncomputable def AlgebraicTopology.singularFinsuppMap {X Y : TopCat} (f : X ⟶
 
 Postcomposition of finitely supported singular chains by a continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1027) (retained native site: line 1025).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1038) (retained native site: line 1025).
 
 ### AlgebraicTopology.singularFinsuppMap_single
 
@@ -5468,7 +5576,7 @@ theorem AlgebraicTopology.singularFinsuppMap_single {X Y : TopCat} (f : X ⟶ Y)
 
 **API note (not a source docstring):** Postcomposition of a coefficient-one singular simplex by a continuous map is the coefficient-one image simplex in the target singular set. This is the generator formula for integer-linear singular-chain pushforward.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1032) (retained native site: line 1030).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1043) (retained native site: line 1030).
 
 ### AlgebraicTopology.affinePostcompose
 
@@ -5480,7 +5588,7 @@ Turn an affine `k`-simplex in the standard `n`-simplex into a singular
 `k`-simplex in `X`. Despite the name, this precomposes the singular simplex `x`
 with the continuous affine map determined by `a`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1039) (retained native site: line 1037).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1050) (retained native site: line 1037).
 
 ### AlgebraicTopology.realizeAffineChain
 
@@ -5491,7 +5599,7 @@ noncomputable def AlgebraicTopology.realizeAffineChain {X : TopCat} {n : ℕ} (x
 Map an affine chain in the domain of a singular simplex `x` to a singular
 chain in `X`, adding coefficients whenever the resulting singular simplices coincide.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1048) (retained native site: line 1046).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1059) (retained native site: line 1046).
 
 ### AlgebraicTopology.mem_support_realizeAffineChain
 
@@ -5501,7 +5609,7 @@ theorem AlgebraicTopology.mem_support_realizeAffineChain {X : TopCat} {n k : ℕ
 
 **API note (not a source docstring):** Every singular simplex with nonzero coefficient after realizing an affine chain through x comes from some affine simplex in the original support. Distinct affine pieces may realize to the same singular simplex, so this is only the stated support implication.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1055) (retained native site: line 1053).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1066) (retained native site: line 1053).
 
 ### AlgebraicTopology.affinePostcompose_range_subset
 
@@ -5511,7 +5619,7 @@ theorem AlgebraicTopology.affinePostcompose_range_subset {X : TopCat} {n k : ℕ
 
 **API note (not a source docstring):** Precomposing a singular simplex x with an affine parameter map produces a singular simplex whose range is contained in the range of x. Despite its name, affinePostcompose performs this domain precomposition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1066) (retained native site: line 1064).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1077) (retained native site: line 1064).
 
 ### AlgebraicTopology.realizeAffineChain_single
 
@@ -5521,7 +5629,7 @@ theorem AlgebraicTopology.realizeAffineChain_single {X : TopCat} {n k : ℕ} (x 
 
 **API note (not a source docstring):** Realizing the coefficient-one affine simplex a through a singular simplex x gives the coefficient-one singular simplex affinePostcompose x a. The resulting degree is the dimension of a.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1075) (retained native site: line 1073).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1086) (retained native site: line 1073).
 
 ### AlgebraicTopology.affinePostcompose_naturality
 
@@ -5531,7 +5639,7 @@ theorem AlgebraicTopology.affinePostcompose_naturality {X Y : TopCat} (f : X ⟶
 
 **API note (not a source docstring):** Continuous postcomposition on the target space commutes with the affine domain precomposition used to form affinePostcompose. Both operations give the same resulting singular simplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1082) (retained native site: line 1080).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1093) (retained native site: line 1080).
 
 ### AlgebraicTopology.singularFinsuppMap_realizeAffineChain
 
@@ -5541,7 +5649,7 @@ theorem AlgebraicTopology.singularFinsuppMap_realizeAffineChain {X Y : TopCat} (
 
 **API note (not a source docstring):** Realization of an affine chain is natural under continuous maps of target spaces: postcompose the realized chain, or postcompose the outer singular simplex before realization. The equality holds for arbitrary integer coefficients.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1088) (retained native site: line 1086).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1099) (retained native site: line 1086).
 
 ### AlgebraicTopology.affinePostcompose_standard
 
@@ -5551,7 +5659,7 @@ theorem AlgebraicTopology.affinePostcompose_standard {X : TopCat} {n : ℕ} (x :
 
 **API note (not a source docstring):** Precomposing a singular simplex with the standard affine simplex leaves it unchanged. The standard affine map is the identity on the domain simplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1101) (retained native site: line 1099).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1112) (retained native site: line 1099).
 
 ### AlgebraicTopology.affinePostcompose_face
 
@@ -5561,7 +5669,7 @@ theorem AlgebraicTopology.affinePostcompose_face {X : TopCat} {n k : ℕ} (x : (
 
 **API note (not a source docstring):** Realizing a face of the affine parameter simplex gives the corresponding singular face of the realized simplex. The same deleted-vertex index is used on both sides.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1112) (retained native site: line 1110).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1123) (retained native site: line 1110).
 
 ### AlgebraicTopology.affinePostcompose_comp
 
@@ -5571,7 +5679,7 @@ theorem AlgebraicTopology.affinePostcompose_comp {X : TopCat} {m n k : ℕ} (x :
 
 **API note (not a source docstring):** Realization of an affine composite agrees with successive affine precompositions of the singular simplex. The dimension indices record the two domain changes.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1127) (retained native site: line 1125).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1138) (retained native site: line 1125).
 
 ### AlgebraicTopology.realizeAffineChain_mapAffineChain
 
@@ -5581,7 +5689,7 @@ theorem AlgebraicTopology.realizeAffineChain_mapAffineChain {X : TopCat} {m n k 
 
 **API note (not a source docstring):** Realizing a chain after affine-chain pushforward along a equals realizing it directly through the singular simplex affinePostcompose x a. This is the linear-chain form of compatibility with affine composition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1140) (retained native site: line 1138).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1151) (retained native site: line 1138).
 
 ### AlgebraicTopology.singularFinsuppBoundary
 
@@ -5592,7 +5700,7 @@ noncomputable def AlgebraicTopology.singularFinsuppBoundary (X : TopCat) (n : �
 The integer-linear singular boundary in finitely supported coordinates,
 with coefficient `(-1)^i` on the `i`th face of each simplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1154) (retained native site: line 1152).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1165) (retained native site: line 1152).
 
 ### AlgebraicTopology.singularFinsuppBoundary_single
 
@@ -5602,7 +5710,7 @@ theorem AlgebraicTopology.singularFinsuppBoundary_single {X : TopCat} {n : ℕ} 
 
 **API note (not a source docstring):** The boundary of a coefficient-one singular (n+1)-simplex is the sum of its n-faces with integer coefficient (-1)^i at face i. This fixes the orientation convention for the finitely supported singular chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1162) (retained native site: line 1160).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1173) (retained native site: line 1160).
 
 ### AlgebraicTopology.singularFinsuppBoundary_realizeAffineChain
 
@@ -5612,7 +5720,7 @@ theorem AlgebraicTopology.singularFinsuppBoundary_realizeAffineChain {X : TopCat
 
 **API note (not a source docstring):** Realization commutes with boundary: the singular boundary of a realized affine chain is the realization of its affine boundary. Both differentials lower degree by one with the same alternating signs.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1170) (retained native site: line 1168).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1181) (retained native site: line 1168).
 
 ### AlgebraicTopology.AffineSimplex.comp_standard
 
@@ -5620,9 +5728,9 @@ theorem AlgebraicTopology.singularFinsuppBoundary_realizeAffineChain {X : TopCat
 theorem AlgebraicTopology.AffineSimplex.comp_standard {m n : ℕ} (a : Convexity.StdSimplex.AffineSimplex m n) : a.comp (Convexity.StdSimplex.AffineSimplex.standard n) = a
 ```
 
-**API note (not a source docstring):** Composing an affine simplex with the standard affine simplex of its domain gives the original affine simplex. The actual declaration is in AlgebraicTopology.AffineSimplex; this note does not rename it into Convexity.StdSimplex.
+**API note (not a source docstring):** Composing an affine simplex with the standard affine simplex of its domain gives the original affine simplex. The declaration belongs to AlgebraicTopology.AffineSimplex; this note does not rename it into Convexity.StdSimplex.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1187) (retained native site: line 1185).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1198) (retained native site: line 1185).
 
 ### AlgebraicTopology.realize_subdivide_face_standard
 
@@ -5632,7 +5740,7 @@ theorem AlgebraicTopology.realize_subdivide_face_standard {X : TopCat} {n : ℕ}
 
 **API note (not a source docstring):** Subdividing a face of the standard domain simplex and realizing through x agrees with realizing the subdivision of the lower-dimensional standard simplex through the corresponding singular face of x. The result has degree n.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1192) (retained native site: line 1190).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1203) (retained native site: line 1190).
 
 ### AlgebraicTopology.realize_homotopy_face_standard
 
@@ -5642,7 +5750,7 @@ theorem AlgebraicTopology.realize_homotopy_face_standard {X : TopCat} {n : ℕ} 
 
 **API note (not a source docstring):** Applying the affine homotopy to a standard face and realizing through x agrees with realization through the corresponding singular face of the standard lower-dimensional homotopy. The degree-raising homotopy produces chains of degree n+1.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1207) (retained native site: line 1205).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1218) (retained native site: line 1205).
 
 ### AlgebraicTopology.singularSubdivision
 
@@ -5653,7 +5761,7 @@ noncomputable def AlgebraicTopology.singularSubdivision (X : TopCat) (n : ℕ) :
 Subdivide each singular simplex by realizing the signed barycentric
 subdivision of its standard domain, then extend integer-linearly to chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1221) (retained native site: line 1219).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1232) (retained native site: line 1219).
 
 ### AlgebraicTopology.singularSubdivisionIterate
 
@@ -5666,7 +5774,7 @@ noncomputable def AlgebraicTopology.singularSubdivisionIterate (X : TopCat) (n N
 Apply singular subdivision `N` times. The zeroth iterate is the identity
 linear map, and each successor composes the preceding iterate with subdivision.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1229) (retained native site: line 1227).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1240) (retained native site: line 1227).
 
 ### AlgebraicTopology.singularSubdivisionIterate_zero
 
@@ -5676,7 +5784,7 @@ theorem AlgebraicTopology.singularSubdivisionIterate_zero (X : TopCat) (n : ℕ)
 
 **API note (not a source docstring):** Zero iterations of singular subdivision give the identity integer-linear map on chains of the chosen degree. This is distinct from the zero initial value of the iterated homotopy.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1237) (retained native site: line 1235).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1248) (retained native site: line 1235).
 
 ### AlgebraicTopology.singularSubdivisionIterate_succ
 
@@ -5686,7 +5794,7 @@ theorem AlgebraicTopology.singularSubdivisionIterate_succ (X : TopCat) (n N : �
 
 **API note (not a source docstring):** The (N+1)-fold subdivision map first performs one subdivision and then the N-fold iterate, as expressed by linear-map composition. The chain degree stays fixed.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1241) (retained native site: line 1239).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1252) (retained native site: line 1239).
 
 ### AlgebraicTopology.singularSubdivisionIterate_apply
 
@@ -5696,7 +5804,7 @@ theorem AlgebraicTopology.singularSubdivisionIterate_apply (X : TopCat) (n N : �
 
 **API note (not a source docstring):** Applying the recursively defined linear singularSubdivisionIterate equals N-fold function iteration of singularSubdivision on the input chain. This relates the linear-map and function-iterate presentations.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1245) (retained native site: line 1243).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1256) (retained native site: line 1243).
 
 ### AlgebraicTopology.singularSubdivision_single
 
@@ -5706,7 +5814,7 @@ theorem AlgebraicTopology.singularSubdivision_single {X : TopCat} {n : ℕ} (x :
 
 **API note (not a source docstring):** Subdivision of a coefficient-one singular simplex is obtained by realizing the signed subdivision of its standard affine domain through that simplex. General chains are treated by integer linearity.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1257) (retained native site: line 1255).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1268) (retained native site: line 1255).
 
 ### AlgebraicTopology.singularSubdivision_degree_zero
 
@@ -5716,7 +5824,7 @@ theorem AlgebraicTopology.singularSubdivision_degree_zero (X : TopCat) (c : Sing
 
 In degree zero barycentric subdivision is the identity.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1265) (retained native site: line 1263).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1276) (retained native site: line 1263).
 
 ### AlgebraicTopology.singularSubdivision_naturality
 
@@ -5726,7 +5834,7 @@ theorem AlgebraicTopology.singularSubdivision_naturality {X Y : TopCat} (f : X �
 
 Barycentric subdivision commutes with postcomposition of singular chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1279) (retained native site: line 1277).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1290) (retained native site: line 1277).
 
 ### AlgebraicTopology.mem_support_singularSubdivision
 
@@ -5736,7 +5844,7 @@ theorem AlgebraicTopology.mem_support_singularSubdivision {X : TopCat} {n : ℕ}
 
 **API note (not a source docstring):** Every simplex in a subdivided chain's support has range contained in the range of some simplex in the original support. This is a local range-control statement and assumes no open cover.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1293) (retained native site: line 1291).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1304) (retained native site: line 1291).
 
 ### AlgebraicTopology.singularSubdivision_realizeAffineChain
 
@@ -5746,7 +5854,7 @@ theorem AlgebraicTopology.singularSubdivision_realizeAffineChain {X : TopCat} {m
 
 **API note (not a source docstring):** Singular subdivision of a realized affine chain equals realization of the affine subdivision of that chain. The outer singular simplex is unchanged.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1324) (retained native site: line 1322).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1335) (retained native site: line 1322).
 
 ### AlgebraicTopology.singularSubdivision_iterate_single
 
@@ -5756,7 +5864,7 @@ theorem AlgebraicTopology.singularSubdivision_iterate_single {X : TopCat} {n N :
 
 **API note (not a source docstring):** N-fold singular subdivision of a coefficient-one singular simplex is realization of N-fold affine subdivision of the coefficient-one standard domain simplex. The equality includes N = 0.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1341) (retained native site: line 1339).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1352) (retained native site: line 1339).
 
 ### AlgebraicTopology.exists_singularSubdivision_iterate_cover_small
 
@@ -5766,7 +5874,7 @@ theorem AlgebraicTopology.exists_singularSubdivision_iterate_cover_small {X : To
 
 **API note (not a source docstring):** For a given singular simplex and an open cover, some subdivision iterate has every support simplex contained in a cover member. The exponent is allowed to depend on the original simplex and the cover.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1354) (retained native site: line 1352).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1365) (retained native site: line 1352).
 
 ### AlgebraicTopology.IsCoverSmall
 
@@ -5777,7 +5885,7 @@ def AlgebraicTopology.IsCoverSmall {X : TopCat} {ι : Type u_1} (U : ι → Topo
 The range of a singular simplex lies in one member of the family `U`.
 This predicate itself does not assume that `U` covers the whole space.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1370) (retained native site: line 1368).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1381) (retained native site: line 1368).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_singularSubdivision
 
@@ -5787,7 +5895,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_singularSubdivision {X : TopCat} {
 
 **API note (not a source docstring):** If every simplex in a chain's support is small in the family U, then every simplex after one subdivision is also small in U. The family need not cover the whole space; range containment suffices.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1377) (retained native site: line 1375).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1388) (retained native site: line 1375).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_singularSubdivisionIterate
 
@@ -5797,7 +5905,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_singularSubdivisionIterate {X : To
 
 **API note (not a source docstring):** Smallness of a finite chain in an arbitrary family of opens is preserved by every subdivision iterate. No open-cover hypothesis is required for this preservation result.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1388) (retained native site: line 1386).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1399) (retained native site: line 1386).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_singularSubdivisionIterate_of_le
 
@@ -5807,7 +5915,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_singularSubdivisionIterate_of_le {
 
 **API note (not a source docstring):** If all support simplices are small after N subdivisions, they remain small after any M subdivisions with N <= M. U may be any family of opens; this is persistence of an already established smallness condition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1401) (retained native site: line 1399).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1412) (retained native site: line 1399).
 
 ### AlgebraicTopology.exists_singularSubdivisionIterate_chain_cover_small
 
@@ -5815,9 +5923,9 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_singularSubdivisionIterate_of_le {
 theorem AlgebraicTopology.exists_singularSubdivisionIterate_chain_cover_small {X : TopCat} {ι : Type u_1} (U : ι → TopologicalSpace.Opens ↑X) (hU : TopologicalSpace.IsOpenCover U) {n : ℕ} (c : SingularChainFinsupp X n) : ∃ (N : ℕ), ∀ {y : (TopCat.toSSet.obj X).obj (Opposite.op { len := n })}, y ∈ ((singularSubdivisionIterate X n N) c).support → IsCoverSmall U y
 ```
 
-**API note (not a source docstring):** For any finitely supported singular integer chain and an actual open cover, there is one exponent N making every simplex in the subdivided chain's support small. N depends on that finite chain and cover, not uniformly on all chains.
+**API note (not a source docstring):** For any finitely supported singular integer chain and an open cover, there is one exponent N making every simplex in the subdivided chain's support small. N depends on that finite chain and cover, not uniformly on all chains.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1414) (retained native site: line 1412).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1425) (retained native site: line 1412).
 
 ### AlgebraicTopology.singularHomotopy
 
@@ -5828,7 +5936,7 @@ noncomputable def AlgebraicTopology.singularHomotopy (X : TopCat) (n : ℕ) : Si
 Realize the affine subdivision homotopy on each singular simplex and extend
 integer-linearly. It raises degree by one and has sign `∂H + H∂ = id - Sd`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1480) (retained native site: line 1478).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1491) (retained native site: line 1478).
 
 ### AlgebraicTopology.singularHomotopy_single
 
@@ -5838,7 +5946,7 @@ theorem AlgebraicTopology.singularHomotopy_single {X : TopCat} {n : ℕ} (x : (T
 
 **API note (not a source docstring):** The singular subdivision homotopy on a coefficient-one simplex is realization of the affine homotopy of its standard domain. It raises degree by one.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1489) (retained native site: line 1487).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1500) (retained native site: line 1487).
 
 ### AlgebraicTopology.singularHomotopy_naturality
 
@@ -5848,7 +5956,7 @@ theorem AlgebraicTopology.singularHomotopy_naturality {X Y : TopCat} (f : X ⟶ 
 
 The subdivision prism homotopy commutes with postcomposition.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1497) (retained native site: line 1495).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1508) (retained native site: line 1495).
 
 ### AlgebraicTopology.mem_support_singularHomotopy
 
@@ -5858,7 +5966,7 @@ theorem AlgebraicTopology.mem_support_singularHomotopy {X : TopCat} {n : ℕ} (c
 
 **API note (not a source docstring):** Every next-degree simplex in a singular homotopy chain has range contained in that of some input support simplex. This support control is independent of a cover hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1511) (retained native site: line 1509).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1522) (retained native site: line 1509).
 
 ### AlgebraicTopology.singularSubdivision_boundary
 
@@ -5868,7 +5976,7 @@ theorem AlgebraicTopology.singularSubdivision_boundary (X : TopCat) (n : ℕ) (c
 
 **API note (not a source docstring):** Singular subdivision commutes with the finitely supported singular boundary on all positive-degree chains. The subdivisions on the two sides operate in consecutive degrees.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1542) (retained native site: line 1540).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1553) (retained native site: line 1540).
 
 ### AlgebraicTopology.singularSubdivisionIterate_boundary
 
@@ -5878,7 +5986,7 @@ theorem AlgebraicTopology.singularSubdivisionIterate_boundary (X : TopCat) (n N 
 
 **API note (not a source docstring):** Every N-fold singular subdivision commutes with boundary. The same number N of subdivisions is used before and after lowering the degree.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1568) (retained native site: line 1566).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1579) (retained native site: line 1566).
 
 ### AlgebraicTopology.singularHomotopy_degree_zero
 
@@ -5888,7 +5996,7 @@ theorem AlgebraicTopology.singularHomotopy_degree_zero (X : TopCat) (c : Singula
 
 **API note (not a source docstring):** For a singular zero-chain, the boundary of its subdivision homotopy is c minus Sd(c). There is no additional negative-degree term; subdivision is the identity in this degree.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1583) (retained native site: line 1581).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1594) (retained native site: line 1581).
 
 ### AlgebraicTopology.singularHomotopy_boundary
 
@@ -5898,7 +6006,7 @@ theorem AlgebraicTopology.singularHomotopy_boundary (X : TopCat) (n : ℕ) (c : 
 
 **API note (not a source docstring):** For a positive-degree singular chain, boundary(H(c)) + H(boundary(c)) = c - Sd(c). This realizes the affine homotopy identity with the identity-minus-subdivision sign.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1598) (retained native site: line 1596).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1609) (retained native site: line 1596).
 
 ### AlgebraicTopology.singularHomotopyIterate
 
@@ -5912,7 +6020,7 @@ The telescoping homotopy from `N` subdivisions to the identity: it is zero
 for `N = 0` and satisfies `H_(N+1) = H + H_N ∘ Sd`. This is a sum of
 degree-raising maps, not function iteration of `singularHomotopy`.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1636) (retained native site: line 1634).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1647) (retained native site: line 1634).
 
 ### AlgebraicTopology.singularHomotopyIterate_zero
 
@@ -5922,7 +6030,7 @@ theorem AlgebraicTopology.singularHomotopyIterate_zero (X : TopCat) (n : ℕ) : 
 
 **API note (not a source docstring):** The telescoping homotopy associated to zero subdivisions is the zero degree-raising linear map. It is not the identity map or a zero-fold function iterate of singularHomotopy.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1646) (retained native site: line 1644).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1657) (retained native site: line 1644).
 
 ### AlgebraicTopology.singularHomotopyIterate_succ
 
@@ -5932,7 +6040,7 @@ theorem AlgebraicTopology.singularHomotopyIterate_succ (X : TopCat) (n N : ℕ) 
 
 **API note (not a source docstring):** The homotopy for N+1 subdivisions is H plus the homotopy for N subdivisions applied after one subdivision. This is a sum of degree-raising linear maps, not self-composition of H.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1650) (retained native site: line 1648).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1661) (retained native site: line 1648).
 
 ### AlgebraicTopology.singularHomotopyIterate_degree_zero
 
@@ -5942,7 +6050,7 @@ theorem AlgebraicTopology.singularHomotopyIterate_degree_zero (X : TopCat) (N : 
 
 **API note (not a source docstring):** In degree zero, the boundary of the telescoping homotopy for N subdivisions equals c minus Sd^N(c). The equality includes N = 0.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1654) (retained native site: line 1652).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1665) (retained native site: line 1652).
 
 ### AlgebraicTopology.singularHomotopyIterate_boundary
 
@@ -5952,7 +6060,7 @@ theorem AlgebraicTopology.singularHomotopyIterate_boundary (X : TopCat) (n N : �
 
 **API note (not a source docstring):** The telescoping singular homotopy satisfies boundary(H_N(c)) + H_N(boundary(c)) = c - Sd^N(c) on every positive-degree chain. This supplies the homotopy identity for the subdivision iterate, with the same N in both degrees.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1666) (retained native site: line 1664).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1677) (retained native site: line 1664).
 
 ### AlgebraicTopology.mem_support_singularHomotopyIterate
 
@@ -5962,7 +6070,7 @@ theorem AlgebraicTopology.mem_support_singularHomotopyIterate {X : TopCat} {n N 
 
 **API note (not a source docstring):** Every simplex surviving in the telescoping homotopy for N subdivisions has range contained in an original input support simplex's range. The statement covers every N and does not require an open cover.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1703) (retained native site: line 1701).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1714) (retained native site: line 1701).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_singularHomotopyIterate
 
@@ -5972,7 +6080,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_singularHomotopyIterate {X : TopCa
 
 **API note (not a source docstring):** If an input chain is small in a family U, every simplex in the iterated homotopy chain remains small in U. This is a preservation statement for arbitrary families, not the separate existence theorem requiring an open cover.
 
-[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1719) (retained native site: line 1717).
+[Source](../SphereTopology/Homology/Singular/Subdivision.lean#L1730) (retained native site: line 1717).
 
 ## SphereTopology.Homotopy.HairyBallSphere2
 
@@ -5987,7 +6095,14 @@ theorem SphereTopology.sphere2_exists_zero_of_orthogonal_field (V : C(↑sphere2
 Every continuous field orthogonal to the radius on the standard two-sphere
 vanishes somewhere.
 
-[Source](../SphereTopology/Homotopy/HairyBallSphere2.lean#L24) (retained native site: line 24).
+This one-field theorem strengthens the two-independent-field obstruction
+motivating Charles A. Weibel, *The K-book: An Introduction to Algebraic
+K-theory*, Example I.1.2.2. The project's normalization/rotation and homology
+proof uses the antipodal sign (see J. Peter May, *A Concise Course in Algebraic
+Topology*, Chapter 13, §5) and Mathlib's homotopy-invariant singular homology.
+It does not assert the algebraic kernel or unimodular-row conclusions of Weibel's example.
+
+[Source](../SphereTopology/Homotopy/HairyBallSphere2.lean#L37) (retained native site: line 24).
 
 ## SphereTopology.Homotopy.TangentField
 
@@ -6001,7 +6116,7 @@ noncomputable def ContinuousMap.normalizeOfNoZero {X : Type u_1} {E : Type u_2} 
 
 Pointwise normalization of a nowhere-zero continuous vector-valued map.
 
-[Source](../SphereTopology/Homotopy/TangentField.lean#L33) (retained native site: line 33).
+[Source](../SphereTopology/Homotopy/TangentField.lean#L45) (retained native site: line 33).
 
 ### ContinuousMap.norm_normalizeOfNoZero
 
@@ -6011,7 +6126,7 @@ theorem ContinuousMap.norm_normalizeOfNoZero {X : Type u_1} {E : Type u_2} [Topo
 
 **API note (not a source docstring):** Normalizing a bundled continuous map that is nonzero at every point produces a vector of norm one at every point. This uses a real normed vector space; no inner product, finite-dimensionality or nonempty-domain assumption is needed for this statement.
 
-[Source](../SphereTopology/Homotopy/TangentField.lean#L43) (retained native site: line 43).
+[Source](../SphereTopology/Homotopy/TangentField.lean#L55) (retained native site: line 43).
 
 ### Metric.Sphere.antipodal
 
@@ -6021,7 +6136,7 @@ def Metric.Sphere.antipodal {E : Type u_1} [NormedAddCommGroup E] : C(↑(sphere
 
 The antipodal continuous self-map of a unit sphere.
 
-[Source](../SphereTopology/Homotopy/TangentField.lean#L54) (retained native site: line 54).
+[Source](../SphereTopology/Homotopy/TangentField.lean#L66) (retained native site: line 54).
 
 ### Metric.Sphere.homotopyAntipodalOfUnitOrthogonal
 
@@ -6032,7 +6147,11 @@ noncomputable def Metric.Sphere.homotopyAntipodalOfUnitOrthogonal {E : Type u_1}
 An orthogonal unit field rotates the identity map of a unit sphere to the
 antipodal map.
 
-[Source](../SphereTopology/Homotopy/TangentField.lean#L61) (retained native site: line 61).
+This is the cosine--sine rotation construction from Formal Frontier Agents'
+earlier sphere-field proof exposition, implemented with Mathlib's
+inner-product, trigonometric and homotopy APIs; see the module references.
+
+[Source](../SphereTopology/Homotopy/TangentField.lean#L73) (retained native site: line 61).
 
 ### Metric.Sphere.homotopyAntipodalOfNowhereZeroOrthogonal
 
@@ -6043,4 +6162,8 @@ noncomputable def Metric.Sphere.homotopyAntipodalOfNowhereZeroOrthogonal {E : Ty
 A nowhere-zero orthogonal field can first be normalized and then used to
 rotate the identity map to the antipodal map.
 
-[Source](../SphereTopology/Homotopy/TangentField.lean#L92) (retained native site: line 92).
+This is the cosine--sine rotation construction from Formal Frontier Agents'
+earlier sphere-field proof exposition, implemented with Mathlib's
+inner-product, trigonometric and homotopy APIs; see the module references.
+
+[Source](../SphereTopology/Homotopy/TangentField.lean#L108) (retained native site: line 92).

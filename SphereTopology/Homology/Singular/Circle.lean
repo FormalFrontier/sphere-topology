@@ -21,6 +21,19 @@ explicitly homotopy equivalent to the two-point space: `false` is the upper
 component and `true` is the lower component.  The resulting reduced
 Mayer--Vietoris isomorphism computes `H̃₁(S¹; ℤ)` as `ℤ` with that fixed
 component order.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §§3 and 5,
+  for the sphere-homology calculation and Mayer--Vietoris as mathematical results.
+  The ordered puncture deformation and fixed integer coordinate here are project
+  constructions in the nonnegative augmentation-kernel model; no comparison
+  with May's based-relative or normalized model is asserted.
+* Mathlib's stereographic projection and contractibility formalizations in
+  `Mathlib.Geometry.Manifold.Instances.Sphere` and
+  `Mathlib.Analysis.Convex.Contractible`, and Joël Riou's singular homology.
+* Formal Frontier Agents' reduced Mayer--Vietoris and two-point basis
+  constructions; original and interface contributions are in `docs/CREDITS.md`.
 -/
 
 @[expose] public section
@@ -69,7 +82,7 @@ lemma eastPoint_ne_westPoint : eastPoint ≠ westPoint := by
   have := congrArg (fun p : Metric.sphere (0 : E2) 1 => (p.1 : E2) 0) h
   norm_num [eastPoint, eastVector, westPoint] at this
 
-/-- The literal metric unit circle in `E2`, viewed as an object of `TopCat`. -/
+/-- The metric unit circle in the Euclidean plane `E2`, viewed as an object of `TopCat`. -/
 abbrev sphere1 : TopCat := TopCat.of (Metric.sphere (0 : E2) 1)
 
 /-- The complement of the east pole, first in the ordered east/west open cover. -/
@@ -440,7 +453,12 @@ theorem isZero_reducedSingularHomology_circleWestPunctured (n : ℕ) :
 
 /-- Identify the circle's first reduced integral singular homology with `ℤ`.
 The coordinate uses the east/west ordered Mayer--Vietoris connecting map and
-the two-point basis `[false] - [true]`, with `false` the upper component. -/
+the two-point basis `[false] - [true]`, with `false` the upper component.
+
+The sphere-homology result is described in J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 14, §3. This fixed-coordinate construction uses this library's
+ordered reduced Mayer--Vietoris and two-point basis, with Mathlib's
+stereographic projection and singular homology. -/
 noncomputable def reducedSingularHomologyOneSphereOneIntegerIso :
     TopCat.reducedSingularHomology sphere1 1 ≅ ModuleCat.of ℤ ℤ :=
   AlgebraicTopology.twoOpenReducedMayerVietorisIsoOfAcyclicOpens
@@ -467,7 +485,7 @@ lemma circlePunctured_join_reversed :
   rw [sup_comm]
   exact circlePunctured_join
 
-/-- The same literal intersection with the puncture order reversed. -/
+/-- The same open-subspace intersection with the puncture order reversed. -/
 abbrev circlePunctureIntersectionReversed :=
   ((TopologicalSpace.Opens.toTopCat sphere1).obj
     (circleWestPunctured ⊓ circleEastPunctured) : Type)
@@ -502,7 +520,7 @@ theorem circlePunctureIntersectionReversedComponent_eq_true_iff
   circlePunctureIntersectionComponent_eq_true_iff _
 
 /-- The reversed-cover circle computation, retained as an order/sign client.
-Its coordinate still means upper minus lower; the accepted ordered-cover swap
+Its coordinate still means upper minus lower; the ordered-cover swap
 theorem below records the negation of the connecting morphism. -/
 noncomputable def reducedSingularHomologyOneSphereOneIntegerIsoReversed :
     TopCat.reducedSingularHomology sphere1 1 ≅ ModuleCat.of ℤ ℤ :=

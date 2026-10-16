@@ -54,7 +54,7 @@ private noncomputable def twoOpenIntersectionHomologyFunctorIso
       (twoOpenSmallShortComplex U V).X₁.homology n :=
   Iso.refl _
 
-private noncomputable def twoOpenReducedMayerVietorisδZeroLiteral
+private noncomputable def twoOpenReducedMayerVietorisδToHomologyZero
     {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) :
     TopCat.reducedSingularHomology X 1 ⟶
       (integralSingularHomologyFunctor 0).obj
@@ -63,9 +63,9 @@ private noncomputable def twoOpenReducedMayerVietorisδZeroLiteral
     twoOpenMayerVietorisδ U V hUV 0 ≫
     (twoOpenIntersectionHomologyFunctorIso U V 0).inv
 
-private theorem twoOpenReducedMayerVietorisδZeroLiteral_augmentation
+private theorem twoOpenReducedMayerVietorisδToHomologyZero_augmentation
     {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) :
-    twoOpenReducedMayerVietorisδZeroLiteral U V hUV ≫
+    twoOpenReducedMayerVietorisδToHomologyZero U V hUV ≫
         ((Opens.toTopCat X).obj (U ⊓ V)).singularHomology₀ε
           TopCat.singularHomologyIntegerCoefficients = 0 := by
   have hδ := twoOpenMayerVietorisδ_comp U V hUV 0
@@ -121,7 +121,7 @@ private theorem twoOpenReducedMayerVietorisδZeroLiteral_augmentation
       exact HasZeroMorphisms.zero_comp _ εU
 
 /-- The reduced degree-zero connecting morphism for the ordered cover `(U,V)`.
-It is the unique factorization of the accepted ordinary connecting morphism
+It is the unique factorization of the ordinary connecting morphism
 through the degree-zero augmentation kernel. -/
 @[no_expose]
 noncomputable def twoOpenReducedMayerVietorisδZero {X : TopCat.{u}}
@@ -131,8 +131,8 @@ noncomputable def twoOpenReducedMayerVietorisδZero {X : TopCat.{u}}
   kernel.lift
       (((Opens.toTopCat X).obj (U ⊓ V)).singularHomology₀ε
         TopCat.singularHomologyIntegerCoefficients)
-      (twoOpenReducedMayerVietorisδZeroLiteral U V hUV)
-      (twoOpenReducedMayerVietorisδZeroLiteral_augmentation U V hUV) ≫
+      (twoOpenReducedMayerVietorisδToHomologyZero U V hUV)
+      (twoOpenReducedMayerVietorisδToHomologyZero_augmentation U V hUV) ≫
     (TopCat.reducedSingularHomologyZeroIso
       ((Opens.toTopCat X).obj (U ⊓ V))).inv
 
@@ -152,17 +152,17 @@ private theorem twoOpenReducedMayerVietorisδZero_functor {X : TopCat.{u}}
     ((Opens.toTopCat X).obj (U ⊓ V))).inv_hom_id_assoc]
   let Q := (Opens.toTopCat X).obj (U ⊓ V)
   let εQ := Q.singularHomology₀ε TopCat.singularHomologyIntegerCoefficients
-  let k := twoOpenReducedMayerVietorisδZeroLiteral U V hUV
+  let k := twoOpenReducedMayerVietorisδToHomologyZero U V hUV
   have hk : kernel.lift εQ k
-      (twoOpenReducedMayerVietorisδZeroLiteral_augmentation U V hUV) ≫
+      (twoOpenReducedMayerVietorisδToHomologyZero_augmentation U V hUV) ≫
         kernel.ι εQ = k :=
     kernel.lift_ι εQ k
-      (twoOpenReducedMayerVietorisδZeroLiteral_augmentation U V hUV)
+      (twoOpenReducedMayerVietorisδToHomologyZero_augmentation U V hUV)
   calc
     _ = k ≫ (twoOpenIntersectionHomologyFunctorIso U V 0).hom :=
       congrArg (· ≫ (twoOpenIntersectionHomologyFunctorIso U V 0).hom) hk
     _ = _ := by
-      unfold k twoOpenReducedMayerVietorisδZeroLiteral
+      unfold k twoOpenReducedMayerVietorisδToHomologyZero
       let s := (TopCat.reducedSingularHomologyIsoOfNeZero X 1 (by simp)).hom
       let d := twoOpenMayerVietorisδ U V hUV 0
       let e := twoOpenIntersectionHomologyFunctorIso U V 0
@@ -175,8 +175,8 @@ private theorem twoOpenReducedMayerVietorisδZero_functor {X : TopCat.{u}}
         _ = s ≫ d := congrArg (s ≫ ·) (Category.comp_id d)
 
 /-- Composing the reduced connecting morphism with the augmentation-kernel
-inclusion and literal-intersection identification recovers the accepted
-ordinary connecting morphism with its owned sign. -/
+inclusion and open-subspace intersection identification recovers the
+ordinary connecting morphism with the ordered difference/sum sign. -/
 @[reassoc]
 theorem twoOpenReducedMayerVietorisδZero_ordinary {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) :
@@ -581,8 +581,8 @@ theorem twoOpenReducedMayerVietorisδZero_comp_fromIntersection
     (twoOpenMiddleHomologyIso U V 0).hom) = _
   rw [twoOpenMayerVietorisδ_comp_assoc, zero_comp, comp_zero, zero_comp]
 
-/-- Exactness at the reduced degree-zero homology of the literal
-intersection. -/
+/-- Exactness at the reduced degree-zero homology of the
+intersection as an open subspace. -/
 theorem twoOpenReducedMayerVietoris_exact_intersectionZero
     {X : TopCat.{u}} (U V : Opens X) (hUV : U ⊔ V = ⊤) :
     (ShortComplex.mk
@@ -641,7 +641,7 @@ theorem twoOpenReducedMayerVietoris_exact_intersectionZero
   exact hδ.trans hy
 
 /-- Naturality of the reduced connecting morphism for a continuous map
-respecting both ordered opens, stated using the actual literal-intersection
+respecting both ordered opens, stated using the restricted open-intersection
 map. -/
 theorem twoOpenReducedMayerVietorisδZero_naturality {X Y : TopCat.{u}}
     (f : X ⟶ Y) (U V : Opens X) (U' V' : Opens Y)
@@ -664,8 +664,8 @@ theorem twoOpenReducedMayerVietorisδZero_naturality {X Y : TopCat.{u}}
   all_goals try rw [← TopCat.reducedSingularHomologyMap_isoOfNeZero_assoc]
   rw [twoOpenReducedMayerVietorisδZero_ordinary]
 
-/-- Swapping the ordered cover and transporting by the actual sign-free
-literal-intersection swap negates the reduced connecting morphism. -/
+/-- Swapping the ordered cover and transporting by the sign-free
+open-subspace intersection swap negates the reduced connecting morphism. -/
 theorem twoOpenReducedMayerVietorisδZero_swap_eq_neg {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (hVU : V ⊔ U = ⊤) :
     twoOpenReducedMayerVietorisδZero U V hUV ≫

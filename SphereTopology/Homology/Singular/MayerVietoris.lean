@@ -27,6 +27,18 @@ This file fixes the ordered convention
 followed by addition into the chains small in the ordered cover `(U,V)`.
 The resulting degreewise short exact sequence gives the ordinary integral
 singular Mayer--Vietoris connecting morphism and its long exact sequence.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5,
+  for Mayer--Vietoris exactness. May displays diagonal followed by difference;
+  this file uses difference followed by sum. No identification of the two
+  connecting-map conventions or of the underlying chain models is asserted.
+* Joël Riou's Mathlib simplicial and singular homology and Mathlib's homology
+  sequences of short exact complexes supply the algebraic foundations.
+* Formal Frontier Agents' subdivision and small-chain proofs supply the
+  open-cover comparison. Earlier project Mayer--Vietoris constructions and
+  their universe-polymorphic reconciliation are credited in `docs/CREDITS.md`.
 -/
 
 @[expose] public section
@@ -210,7 +222,7 @@ theorem openSingularSet_inf {X : TopCat.{u}} (U V : Opens X) :
     mem_openSingularSet_iff]
   simp only [Opens.coe_inf, Set.subset_inter_iff]
 
-/-- The union of the two ambient singular subcomplexes is the accepted
+/-- The union of the two ambient singular subcomplexes is the
 cover-small singular set for the ordered family `(U,V)`. -/
 theorem openSingularSet_sup {X : TopCat.{u}} (U V : Opens X) :
     openSingularSet U ⊔ openSingularSet V = smallSingularSet (twoOpenCover U V) := by
@@ -752,7 +764,7 @@ noncomputable def smallSingularHomologyIso {X : TopCat.{u}} {ι : Type*}
   exact isoOfQuasiIsoAt (smallSingularChainInclusion W) n
 
 /-- The last term of the two-open short complex has ordinary singular
-homology, via the accepted cover-small quasi-isomorphism. -/
+homology, via the cover-small inclusion quasi-isomorphism. -/
 noncomputable def twoOpenSpaceHomologyIso {X : TopCat.{u}} (U V : Opens X)
     (hUV : U ⊔ V = ⊤) (n : ℕ) :
     ((twoOpenSmallShortComplex U V).X₃).homology n ≅
@@ -789,7 +801,7 @@ noncomputable def twoOpenMayerVietorisδ {X : TopCat.{u}} (U V : Opens X)
     (twoOpenSmallShortExact U V).δ (n + 1) n (by simp)
 
 /-- The ordinary homology self-map induced by reindexing the ordered cover
-`(U,V)` as `(V,U)`.  It conjugates the cover-small swap map by the accepted
+`(U,V)` as `(V,U)`.  It conjugates the cover-small swap map by the canonical
 cover-small/ordinary homology isomorphisms. -/
 noncomputable def twoOpenMayerVietorisSwapSpaceMap {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (hVU : V ⊔ U = ⊤) (n : ℕ) :
@@ -1014,7 +1026,7 @@ noncomputable def twoOpenMayerVietorisIntersectionMap {X Y : TopCat.{u}}
 
 /-- The ordinary-space homology map obtained naturally from the two-open
 short complexes.  It is defined by conjugating the cover-small map by the
-accepted cover-small/ordinary homology isomorphisms. -/
+canonical cover-small/ordinary homology isomorphisms. -/
 noncomputable def twoOpenMayerVietorisSpaceMap {X Y : TopCat.{u}}
     (f : X ⟶ Y) (U V : Opens X) (U' V' : Opens Y)
     (hU : Set.MapsTo f U U') (hV : Set.MapsTo f V V')
@@ -1083,7 +1095,11 @@ theorem twoOpenMayerVietorisδ_naturality_induced {X Y : TopCat.{u}}
   exact twoOpenMayerVietorisδ_naturality
     f U V U' V' hU hV hUV hU'V' n
 
-/-- Exactness at `Hₙ(U∩V)` in the ordinary Mayer--Vietoris sequence. -/
+/-- Exactness at `Hₙ(U∩V)` in the ordinary Mayer--Vietoris sequence.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_intersection {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1116,7 +1132,11 @@ theorem twoOpenMayerVietoris_exact_intersection {X : TopCat.{u}}
   exact ShortComplex.exact_of_iso e.symm
     (hS.homology_exact₁ (n + 1) n (by simp))
 
-/-- Exactness at the middle term in the ordinary Mayer--Vietoris sequence. -/
+/-- Exactness at the middle term in the ordinary Mayer--Vietoris sequence.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_middle {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1153,7 +1173,11 @@ theorem twoOpenMayerVietoris_exact_middle {X : TopCat.{u}}
       (by simp [twoOpenMayerVietorisToSpace, Category.assoc])
   exact ShortComplex.exact_of_iso e.symm (hS.homology_exact₂ n)
 
-/-- Exactness at `Hₙ₊₁(X)` before the connecting morphism. -/
+/-- Exactness at `Hₙ₊₁(X)` before the connecting morphism.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_space {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1192,7 +1216,11 @@ theorem twoOpenMayerVietoris_exact_space {X : TopCat.{u}}
     (hS.homology_exact₃ (n + 1) n (by simp))
 
 /-- Exactness at `Hₙ(U∩V)` with the middle term displayed as
-`Hₙ(U) ⊕ Hₙ(V)`. -/
+`Hₙ(U) ⊕ Hₙ(V)`.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_at_intersection {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1224,7 +1252,11 @@ theorem twoOpenMayerVietoris_exact_at_intersection {X : TopCat.{u}}
   exact ShortComplex.exact_of_iso e.symm
     (twoOpenMayerVietoris_exact_intersection U V hUV n)
 
-/-- Exactness at `Hₙ(U) ⊕ Hₙ(V)`. -/
+/-- Exactness at `Hₙ(U) ⊕ Hₙ(V)`.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_at_biprod {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1255,7 +1287,11 @@ theorem twoOpenMayerVietoris_exact_at_biprod {X : TopCat.{u}}
     (twoOpenMayerVietoris_exact_middle U V hUV n)
 
 /-- Exactness at `Hₙ₊₁(X)` with the preceding term displayed as
-`Hₙ₊₁(U) ⊕ Hₙ₊₁(V)`. -/
+`Hₙ₊₁(U) ⊕ Hₙ₊₁(V)`.
+
+This is the integral two-open form of Mayer--Vietoris exactness in
+J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
+this module's difference/sum convention and Mathlib's homology-sequence API. -/
 theorem twoOpenMayerVietoris_exact_at_space {X : TopCat.{u}}
     (U V : Opens X) (hUV : U ⊔ V = ⊤) (n : ℕ) :
     (ShortComplex.mk
@@ -1313,7 +1349,7 @@ private theorem twoOpenIntersectionToRight_sset {X : TopCat.{u}}
   rfl
 
 /-- The left projection of the first map in the two-open small short complex
-is induced by the literal inclusion `U ∩ V → U`. -/
+is induced by the open-subspace inclusion `U ∩ V → U`. -/
 theorem twoOpenSmallShortComplex_f_fst {X : TopCat.{u}}
     (U V : Opens X) :
     (twoOpenSmallShortComplex U V).f ≫ biprod.fst =
@@ -1351,7 +1387,7 @@ theorem twoOpenSmallShortComplex_f_fst {X : TopCat.{u}}
   simpa only [Functor.map_comp, Category.assoc] using h.symm
 
 /-- The right projection of the first map in the two-open small short complex
-is minus the map induced by the literal inclusion `U ∩ V → V`. -/
+is minus the map induced by the open-subspace inclusion `U ∩ V → V`. -/
 theorem twoOpenSmallShortComplex_f_snd {X : TopCat.{u}}
     (U V : Opens X) :
     (twoOpenSmallShortComplex U V).f ≫ biprod.snd =
@@ -1390,7 +1426,7 @@ theorem twoOpenSmallShortComplex_f_snd {X : TopCat.{u}}
         F.map (TopCat.openSingularSetIso V).hom
     simpa only [Functor.map_comp, Category.assoc] using h.symm)
 
-/-- The first map of the two-open small short complex is the accepted ordered
+/-- The first map of the two-open small short complex is the ordered
 difference map `c ↦ (c,-c)`. -/
 theorem twoOpenSmallShortComplex_f_eq_difference {X : TopCat.{u}}
     (U V : Opens X) :
@@ -1401,8 +1437,8 @@ theorem twoOpenSmallShortComplex_f_eq_difference {X : TopCat.{u}}
   · exact (twoOpenSmallShortComplex_f_snd U V).trans
       (biprod.lift_snd _ _).symm
 
-/-- The homology of the literal open intersection is canonically the first
-homology object of the accepted two-open small short complex. -/
+/-- The homology of the intersection as an open subspace is canonically the first
+homology object of the two-open small short complex. -/
 noncomputable def twoOpenIntersectionHomologyIso {X : TopCat.{u}}
     (U V : Opens X) (n : ℕ) :
     integralSingularHomology ((Opens.toTopCat X).obj (U ⊓ V)) n ≅
@@ -1457,8 +1493,8 @@ private theorem twoOpenIntersectionMap_sset {X Y : TopCat.{u}}
   apply Subtype.ext
   rfl
 
-/-- The first component of the accepted map of two-open small short complexes
-is the chain map induced by the literal map of open intersections. -/
+/-- The first component of the induced map of two-open small short complexes
+is the chain map induced by the restricted map of open intersections. -/
 theorem integralSingularChainMap_twoOpenIntersectionMap {X Y : TopCat.{u}}
     (f : X ⟶ Y) (U V : Opens X) (U' V' : Opens Y)
     (hU : Set.MapsTo f U U') (hV : Set.MapsTo f V V') :
@@ -1489,8 +1525,8 @@ theorem integralSingularChainMap_twoOpenIntersectionMap {X Y : TopCat.{u}}
     (twoOpenIntersectionMap_sset f U V U' V' hU hV)
   simpa only [Functor.map_comp, Category.assoc] using h
 
-/-- The accepted map on the intersection homology term is the ordinary
-homology map induced by the literal open-intersection map. -/
+/-- The induced map on the intersection homology term is the ordinary
+homology map induced by the restricted open-intersection map. -/
 theorem twoOpenMayerVietorisIntersectionMap_eq {X Y : TopCat.{u}}
     (f : X ⟶ Y) (U V : Opens X) (U' V' : Opens Y)
     (hU : Set.MapsTo f U U') (hV : Set.MapsTo f V V') (n : ℕ) :
@@ -1502,7 +1538,7 @@ theorem twoOpenMayerVietorisIntersectionMap_eq {X Y : TopCat.{u}}
   rw [integralSingularChainMap_twoOpenIntersectionMap]
   rfl
 
-/-- Naturality of the literal-intersection identification. -/
+/-- Naturality of the open-subspace intersection identification. -/
 @[reassoc]
 theorem twoOpenIntersectionHomologyIso_naturality {X Y : TopCat.{u}}
     (f : X ⟶ Y) (U V : Opens X) (U' V' : Opens Y)
@@ -1517,7 +1553,7 @@ theorem twoOpenIntersectionHomologyIso_naturality {X Y : TopCat.{u}}
   rw [twoOpenMayerVietorisIntersectionMap_eq]
   exact (Category.id_comp _).trans (Category.comp_id _).symm
 
-/-- The sign-free map from the literal intersection `U ∩ V` to the literal
+/-- The sign-free map from the open-subspace intersection `U ∩ V` to the open-subspace
 intersection `V ∩ U`. -/
 def twoOpenIntersectionSwapMap {X : TopCat.{u}} (U V : Opens X) :
     (Opens.toTopCat X).obj (U ⊓ V) ⟶
@@ -1540,8 +1576,8 @@ private theorem twoOpenIntersectionSwapMap_sset {X : TopCat.{u}}
   apply Subtype.ext
   rfl
 
-/-- The chain map induced by the sign-free literal-intersection swap is the
-accepted intersection swap chain isomorphism. -/
+/-- The chain map induced by the sign-free open-subspace intersection swap is the
+intersection swap chain isomorphism. -/
 theorem integralSingularChainMap_twoOpenIntersectionSwapMap
     {X : TopCat.{u}} (U V : Opens X) :
     integralSingularChainMap (twoOpenIntersectionSwapMap U V) =
@@ -1611,8 +1647,8 @@ theorem integralSingularChainMap_twoOpenIntersectionSwapMap
       ((congrArg (b ≫ ·) e.inv_hom_id).trans (Category.comp_id b))
   exact congrArg ((twoOpenIntersectionChainIso U V).hom ≫ ·) hcancel.symm
 
-/-- On homology, the map induced by the sign-free literal-intersection swap is
-the accepted swap map. -/
+/-- On homology, the map induced by the sign-free open-subspace intersection swap is
+the homology swap map. -/
 theorem integralSingularHomologyMap_twoOpenIntersectionSwapMap
     {X : TopCat.{u}} (U V : Opens X) (n : ℕ) :
     HomologicalComplex.homologyMap
@@ -1622,8 +1658,8 @@ theorem integralSingularHomologyMap_twoOpenIntersectionSwapMap
   rw [integralSingularChainMap_twoOpenIntersectionSwapMap]
   rfl
 
-/-- The literal-intersection identification intertwines the actual sign-free
-swap map with the accepted swap map. -/
+/-- The open-subspace intersection identification intertwines the sign-free
+swap map with the homology swap map. -/
 @[reassoc]
 theorem twoOpenIntersectionHomologyIso_swap {X : TopCat.{u}}
     (U V : Opens X) (n : ℕ) :
@@ -1637,7 +1673,7 @@ theorem twoOpenIntersectionHomologyIso_swap {X : TopCat.{u}}
   rw [integralSingularHomologyMap_twoOpenIntersectionSwapMap]
   exact (Category.id_comp _).trans (Category.comp_id _).symm
 
-/-- Swapping the literal intersection twice is the identity. -/
+/-- Swapping the open-subspace intersection twice is the identity. -/
 theorem twoOpenIntersectionSwapMap_comp {X : TopCat.{u}}
     (U V : Opens X) :
     twoOpenIntersectionSwapMap U V ≫
@@ -1645,7 +1681,7 @@ theorem twoOpenIntersectionSwapMap_comp {X : TopCat.{u}}
   ext x
   rfl
 
-/-- A self-map which exchanges an ordered two-open cover and whose literal
+/-- A self-map which exchanges an ordered two-open cover and whose restricted
 intersection map agrees on homology with the sign-free swap acts by `-1` on
 the next ordinary integral homology group, provided the displayed connecting
 morphism is monic.  The minus sign comes from the ordered Mayer--Vietoris

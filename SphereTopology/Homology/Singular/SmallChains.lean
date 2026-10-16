@@ -27,6 +27,17 @@ and its support-preserving prism homotopy prove that this inclusion is a
 quasi-isomorphism.
 
 No nonemptiness hypothesis is imposed on the space or the cover index.
+
+## References
+
+* J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 16, for
+  singular homology as mathematical background, and Chapter 14, §5, for
+  the Mayer--Vietoris sequence to which small chains are applied.
+* Joël Riou's Mathlib singular-homology and simplicial-subcomplex formalizations,
+  together with Mathlib's quasi-isomorphism and module-category homology APIs.
+* Formal Frontier Agents' subdivision/prism construction in
+  `SphereTopology.Homology.Singular.Subdivision` supplies the small-chain proof;
+  it is not a comparison with May's normalized chain model.
 -/
 
 @[expose] public section
@@ -520,7 +531,12 @@ noncomputable section
 
 namespace AlgebraicTopology
 
-/-- The inclusion of cover-small integer singular chains is a quasi-isomorphism. -/
+/-- The inclusion of cover-small integer singular chains is a quasi-isomorphism.
+
+The proof uses Formal Frontier Agents' support-preserving subdivision/prism
+construction and Mathlib's singular-homology and quasi-isomorphism APIs.
+For singular-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
+Chapter 16; no normalized-chain comparison is asserted. -/
 theorem quasiIso_smallSingularChainInclusion
     {X : TopCat.{u}} {ι : Type*} (U : ι → Opens X)
     (hU : TopologicalSpace.IsOpenCover U) :
