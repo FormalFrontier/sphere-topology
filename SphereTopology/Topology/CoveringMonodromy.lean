@@ -4,6 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
+public import Mathlib.Algebra.Group.Action.Pretransitive
 public import Mathlib.GroupTheory.GroupAction.Hom
 public import Mathlib.Topology.Homotopy.Lifting
 
@@ -14,9 +15,15 @@ For a covering map, the loops fixing a point of a fiber are exactly the image of
 fundamental group of the total space based at that point. Two points of a fiber lie in the
 same monodromy orbit exactly when they are joined by a path in the total space.
 
-These statements use Mathlib's covering maps, which need not be surjective. Unlike the
-connected, locally path-connected setting of May's covering-space theory, no global
-connectedness, local path-connectedness, or separation assumptions are needed here.
+The stabilizer and orbit statements use Mathlib's covering maps, which need not be
+surjective. Unlike the connected, locally path-connected setting of May's covering-space
+theory, they need no global connectedness, local path-connectedness, or separation assumptions.
+
+Path connectedness of the total space makes the canonical monodromy action pretransitive at
+any basepoint. Over a path-connected base, the converse holds for nonempty total spaces,
+without local path connectedness: every path component meets the chosen fiber. Thus path
+connectedness of the total space is equivalent to its nonemptiness and monodromy
+pretransitivity. Nonemptiness is necessary because an empty fiber has a pretransitive action.
 
 The monodromy and path-lifting constructions are those of Mathlib's prior formalization by
 Junyan Xu in `Mathlib.Topology.Homotopy.Lifting`. In particular, the point stabilizer below
@@ -44,6 +51,8 @@ This uniqueness requires no local path connectedness.
 * Junyan Xu, `Mathlib.Topology.Homotopy.Lifting`, for covering-space monodromy and lifting.
 * Kenny Lau and Antoine Chambert-Loir, `Mathlib.GroupTheory.GroupAction.Hom`, for
   equivariant maps.
+* Chris Hughes and Yury Kudryashov, `Mathlib.Algebra.Group.Action.Pretransitive`, for
+  pretransitive actions.
 -/
 
 @[expose] public section
@@ -87,6 +96,51 @@ theorem exists_monodromy_eq_iff_joined (e e' : p ⁻¹' {x}) :
     let γ := (Path.Homotopic.Quotient.mk Γ).map ⟨p, cov.continuous⟩
     refine ⟨γ.cast e.2.symm e'.2.symm, cov.monodromy_eq_of_map_eq (.mk Γ) ?_⟩
     exact ((γ.cast_cast e.2.symm e'.2.symm e.2 e'.2).trans γ.cast_rfl_rfl).symm
+
+/-- A path-connected total space makes canonical monodromy pretransitive on every fiber.
+No connectedness assumption on the base is needed, and the fiber may be empty. This is the
+pretransitivity consequence of the orbit correspondence in May, Chapter 3, §§2–4. -/
+theorem monodromy_isPretransitive (b : X) [PathConnectedSpace E] :
+    @MulAction.IsPretransitive (FundamentalGroup X b) (p ⁻¹' {b})
+      (cov.fundamentalGroupMulAction b).toSemigroupAction.toSMul := by
+  refine @MulAction.IsPretransitive.mk (FundamentalGroup X b) (p ⁻¹' {b})
+    (cov.fundamentalGroupMulAction b).toSemigroupAction.toSMul ?_
+  intro e e'
+  exact (cov.exists_monodromy_eq_iff_joined e e').mpr (PathConnectedSpace.joined _ _)
+
+/-- Over a path-connected base, pretransitive canonical monodromy makes a nonempty total
+space path-connected. Each path component meets the chosen fiber, so no local path
+connectedness assumption is needed. Nonemptiness excludes the empty covering, whose
+monodromy action is vacuously pretransitive. -/
+theorem pathConnectedSpace_of_monodromy_isPretransitive (b : X)
+    [PathConnectedSpace X] [Nonempty E]
+    (h : @MulAction.IsPretransitive (FundamentalGroup X b) (p ⁻¹' {b})
+      (cov.fundamentalGroupMulAction b).toSemigroupAction.toSMul) : PathConnectedSpace E := by
+  refine ⟨inferInstance, ?_⟩
+  intro e e'
+  obtain ⟨a, ha⟩ := cov.comp_subtypeVal_pathComponent_surjective e b
+  obtain ⟨a', ha'⟩ := cov.comp_subtypeVal_pathComponent_surjective e' b
+  have hjoined : Joined a.val a'.val :=
+    (cov.exists_monodromy_eq_iff_joined ⟨a.val, ha⟩ ⟨a'.val, ha'⟩).mp
+      (h.exists_smul_eq ⟨a.val, ha⟩ ⟨a'.val, ha'⟩)
+  exact (mem_pathComponent_iff.mp a.property).trans
+    (hjoined.trans (mem_pathComponent_iff.mp a'.property).symm)
+
+/-- Over a path-connected base, the total space is path-connected exactly when it is
+nonempty and its canonical monodromy action on the chosen fiber is pretransitive. The
+nonemptiness condition is essential: monodromy on the empty covering is pretransitive. -/
+theorem pathConnectedSpace_iff_nonempty_and_monodromy_isPretransitive (b : X)
+    [PathConnectedSpace X] :
+    PathConnectedSpace E ↔ Nonempty E ∧
+      @MulAction.IsPretransitive (FundamentalGroup X b) (p ⁻¹' {b})
+        (cov.fundamentalGroupMulAction b).toSemigroupAction.toSMul := by
+  constructor
+  · intro h
+    have := h
+    exact ⟨h.nonempty, cov.monodromy_isPretransitive b⟩
+  · rintro ⟨hne, h⟩
+    have := hne
+    exact cov.pathConnectedSpace_of_monodromy_isPretransitive b h
 
 end IsCoveringMap
 
