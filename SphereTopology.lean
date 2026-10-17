@@ -9,12 +9,12 @@ module
 
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.TangentField
-public import SphereTopology.Topology.CoveringLifting
+public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
-public import SphereTopology.Topology.DeckGroup
-public import SphereTopology.Topology.DeckMonodromy
-public import SphereTopology.Topology.CoveringMonodromy
-public import SphereTopology.Topology.CoveringEquivalence
+public import FundamentalGroupoids.Topology.Covering.DeckGroup
+public import FundamentalGroupoids.Topology.Covering.DeckMonodromy
+public import FundamentalGroupoids.Topology.Covering.Monodromy
+public import FundamentalGroupoids.Topology.Covering.Equivalence
 public import SphereTopology.Homology.Singular.Transfer
 public import SphereTopology.Homotopy.Circle
 public import SphereTopology.Homotopy.CircleDegree

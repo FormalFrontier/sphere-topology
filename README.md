@@ -1,10 +1,12 @@
 # Sphere Topology
 
-A reusable Lean library for circle fundamental groups, continuous fields on
-spheres, covering spaces, and integral singular homology. Its covering-space
-interfaces give based lifting, deck actions on fibers, monodromy-centralizer
-comparisons, based equivalences, lifts of singular simplices and finite-fiber
-singular transfers. It develops finite-support subdivision and cover-small chains,
+A reusable Lean library implementing circle fundamental groups, continuous
+fields on spheres, covering-space lifts of singular simplices, finite-fiber
+singular transfers and integral singular homology. Generic based lifting, deck
+actions, monodromy-centralizer comparisons and based covering equivalences are
+provided by [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids)
+and re-exported through deprecated Sphere module paths. Sphere develops
+finite-support subdivision and cover-small chains,
 ordinary and nonnegative reduced Mayer–Vietoris sequences, and explicit circle
 and standard two-sphere computations. Their antipodal sign obstruction gives a
 continuous-field hairy-ball theorem for the unit two-sphere. Import the aggregate
@@ -25,7 +27,9 @@ criterion and nonbasepoint-component presentation also permit categorical
 coefficient objects. The homology computations
 use the unit spheres in `EuclideanSpace ℝ (Fin 2)` and
 `EuclideanSpace ℝ (Fin 3)`. The fundamental-group calculator uses Mathlib's real
-additive circle and complex unit circle.
+additive circle and complex unit circle. The covering foundations labelled
+**Fundamental Groupoids** below are supplied by that dependency; Sphere implements
+the singular-lift and transfer constructions and the other results listed here.
 
 - **H-space fundamental groups are commutative.** At the unit of any H-space,
   [`HSpace.loopMul_homotopic_trans`](SphereTopology/Homotopy/HSpaceFundamentalGroup.lean)
@@ -79,11 +83,11 @@ additive circle and complex unit circle.
   antipodal map, hence multiplication by `-1` in the fixed `ℤ` coordinate and
   nonhomotopy to identity:
   [`integralSingularHomologyMap_sphere2Antipodal_two`](SphereTopology/Homology/Singular/SphereAntipodal.lean).
-- **Based covering-map lifting criterion.** A continuous map from a path
-  connected, locally path connected domain has a unique lift with a prescribed
-  value exactly when its fundamental-group image lies in that of the covering
-  map:
-  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](SphereTopology/Topology/CoveringLifting.lean).
+- **Fundamental Groupoids: based covering-map lifting criterion.** A continuous
+  map from a path connected, locally path connected domain has a unique lift
+  with a prescribed value exactly when its fundamental-group image lies in that
+  of the covering map:
+  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Lifting.lean).
   The three spaces have independent universes; neither global surjectivity nor
   connectedness or local path connectedness of the base or total space is required.
 - **Covering-space lifts of singular simplices.** For `p : Y ⟶ X` between
@@ -101,30 +105,31 @@ additive circle and complex unit circle.
   pullback. The continuous-map version allows independent universes and a simply
   connected, locally path connected domain; finite nonempty real standard
   simplices have the required domain instances.
-- **Deck transformations on fibers.** For any map `p : E → B` with a topology
-  on `E`, Mathlib's `deck p` acts on each point fiber `p ⁻¹' {b}`. If `p` is
-  separated and locally injective and `E` is preconnected, evaluation at a
-  specified `e : E` embeds the deck group into `p ⁻¹' {p e}`, and a deck
-  transformation fixing a point is the identity:
-  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](SphereTopology/Topology/DeckGroup.lean).
+- **Fundamental Groupoids: deck transformations on fibers.** For any map
+  `p : E → B` with a topology on `E`, Mathlib's `deck p` acts on each point
+  fiber `p ⁻¹' {b}`. If `p` is separated and locally injective and `E` is
+  preconnected, evaluation at a specified `e : E` embeds the deck group into
+  `p ⁻¹' {p e}`, and a deck transformation fixing a point is the identity:
+  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckGroup.lean).
   The generic interfaces need no topology on `B` or continuity of `p`.
   Covering maps supply separation and local injectivity; no Hausdorff total
   space, base connectedness/local path connectedness, surjectivity, or
   transitivity of the deck action is assumed. General lift uniqueness is reused
   from Mathlib's `IsSeparatedMap.eq_of_comp_eq` and `IsCoveringMap.eq_of_comp_eq`,
   not redefined.
-- **Maps of covers and equivariant fiber maps.** For coverings `p : E → B`
-  and `q : F → B`, with the three spaces in independent universes,
-  [`IsCoveringMap.fiberMap`](SphereTopology/Topology/CoveringMonodromy.lean)
+- **Fundamental Groupoids: maps of covers and equivariant fiber maps.**
+  For coverings `p : E → B` and `q : F → B`, with the three spaces in
+  independent universes,
+  [`IsCoveringMap.fiberMap`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean)
   restricts `{f : C(E, F) // q ∘ f = p}` to Mathlib's `MulActionHom` between
   the fibers over `b`, over the identity of `FundamentalGroup B b`, using the
   covers' canonical monodromy actions. Restriction needs no connectedness,
   local path connectedness or surjectivity, and is injective if `B` is path connected.
-  [`IsCoveringMap.fiberMapEquivOfPathConnected`](SphereTopology/Topology/DeckMonodromy.lean)
+  [`IsCoveringMap.fiberMapEquivOfPathConnected`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
   is an equivalence of these map spaces over `p e₀` for path-connected, locally
   path-connected `E` and a supplied `e₀ : E`, with no connectedness or local path
   connectedness assumption on `B`.
-  [`IsCoveringMap.fiberMapEquiv`](SphereTopology/Topology/DeckMonodromy.lean)
+  [`IsCoveringMap.fiberMapEquiv`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
   instead requires only path-connected `B` and locally path-connected `E`, at
   any `b : B`, allowing empty or disconnected `E`. Neither equivalence requires
   connectedness or local path connectedness of `F`, or surjectivity of the covers.
@@ -132,9 +137,9 @@ additive circle and complex unit circle.
   whole-fiber values; restriction preserves identities and composition. These
   are equivalences between map spaces, not assertions that individual maps are
   bijections or homeomorphisms; nonbijective equivariant fiber maps are allowed.
-- **Deck groups as monodromy centralizers.** For any covering `p : E → B`,
-  restriction to the point fiber gives
-  [`IsCoveringMap.deckMonodromyHom`](SphereTopology/Topology/DeckMonodromy.lean),
+- **Fundamental Groupoids: deck groups as monodromy centralizers.** For any
+  covering `p : E → B`, restriction to the point fiber gives
+  [`IsCoveringMap.deckMonodromyHom`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean),
   a homomorphism into the centralizer of the monodromy image in
   `Equiv.Perm (p ⁻¹' {b})`. With path-connected base it is faithful, without
   local path connectedness or total-space connectedness. If in addition `E`
@@ -148,11 +153,11 @@ additive circle and complex unit circle.
   the permutation on the whole fiber, and they agree wherever both apply.
   The centralizer is a subgroup of the fiber's permutation group, distinct
   from a point stabilizer or the monodromy kernel in the fundamental group.
-- **Covering-space monodromy and based equivalences.** For any covering map,
-  the stabilizer of a point in a fiber is the image of the fundamental group
-  based at that point, and two fiber points share a monodromy orbit exactly
-  when they are joined in the total space:
-  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](SphereTopology/Topology/CoveringMonodromy.lean),
+- **Fundamental Groupoids: covering-space monodromy and based equivalences.**
+  For any covering map, the stabilizer of a point in a fiber is the image of
+  the fundamental group based at that point, and two fiber points share a
+  monodromy orbit exactly when they are joined in the total space:
+  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean),
   `IsCoveringMap.exists_monodromy_eq_iff_joined`. These need no global
   connectedness or local path connectedness. For quotient coverings,
   `IsQuotientCoveringMap.ker_monodromyPerm_eq_comap_stabilizer` identifies the
@@ -160,7 +165,7 @@ additive circle and complex unit circle.
   identification is asserted for arbitrary covers.
   A continuous map over a fixed common base between covers is surjective
   when its source is nonempty and its target total space is path connected:
-  [`IsCoveringMap.surjective_of_comp_eq`](SphereTopology/Topology/CoveringEquivalence.lean).
+  [`IsCoveringMap.surjective_of_comp_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Equivalence.lean).
   When both total spaces are path connected and only the source is locally
   path connected, equality of their based fundamental-group images constructs
   `IsCoveringMap.homeomorphOfRangeEq`, a homeomorphism over that base. The second
@@ -253,12 +258,12 @@ additive circle and complex unit circle.
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
-| `Topology.CoveringLifting` | Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
+| `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
-| `Topology.CoveringMonodromy` | Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
-| `Topology.CoveringEquivalence` | Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
-| `Topology.DeckMonodromy` | Equivalences between continuous maps of covers and equivariant fiber maps with locally path-connected source and either path-connected base or path-connected source at a supplied point; deck-centralizer restriction, path-connected-base faithfulness and the corresponding deck-group equivalences. |
-| `Topology.DeckGroup` | Point-fiber deck actions, evaluation embeddings and fixed-point rigidity for separated, locally injective maps with preconnected total space. |
+| `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
+| `Topology.CoveringEquivalence` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Equivalence`. Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
+| `Topology.DeckMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.DeckMonodromy`. Equivalences between continuous maps of covers and equivariant fiber maps with locally path-connected source and either path-connected base or path-connected source at a supplied point; deck-centralizer restriction, path-connected-base faithfulness and the corresponding deck-group equivalences. |
+| `Topology.DeckGroup` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.DeckGroup`. Point-fiber deck actions, evaluation embeddings and fixed-point rigidity for separated, locally injective maps with preconnected total space. |
 | `Homology.Singular.Transfer` | Finite-point-fiber covering transfer on all-simplex singular chains and ordinary homology, lift-sum and sheet formulas. |
 | `Homology.Singular.Subdivision`, `SmallChains` | Integral subdivision, prism equations, small-chain quasi-isomorphism, maps and refinements. |
 | `Homology.Singular.MayerVietoris` | Ordinary ordered two-open sequence, comparison, exactness and naturality. |
@@ -266,6 +271,19 @@ additive circle and complex unit circle.
 | `Homology.Singular.Reduced`, `ReducedMayerVietoris` | Nonnegative reduced homology, integral component comparison, two-point sign, reduced degree-zero tail and connecting map. |
 | `Homology.Singular.Connectedness` | Total-augmentation and nonempty integral reduced-zero criteria for path connectedness. |
 | `Homology.Singular.Circle`, `Sphere`, `SphereAntipodal` | Fixed models, integer coordinates and antipodal obstruction. |
+
+**Breaking covering-import migration.** The five old `SphereTopology.Topology`
+paths in the table are public-import shims, deprecated since 2026-10-17 and
+supported for at least three months from that date. Their canonical home is the
+released [Fundamental Groupoids revision
+`7a3b69c5c2a88044db6e2f664790913d709ae20b`](https://github.com/FormalFrontier/fundamental-groupoids/commit/7a3b69c5c2a88044db6e2f664790913d709ae20b);
+declaration names and mathematical namespaces are unchanged.
+
+The new Fundamental Groupoids covering modules **cannot be co-imported with a
+legacy Sphere release that still defines its own copies**. Joint consumers must
+use a Sphere version providing these shims and the compatible Fundamental
+Groupoids pin **together**. Existing pins are not upgraded automatically;
+arbitrary version pairs are not promised compatible.
 
 The covering-space evaluation equivalences supply the finite vertex fibers for
 Simplicial Objects' equifibered transfer. The resulting maps use Mathlib's
@@ -316,8 +334,10 @@ Use Git, elan, dependency-network access and the committed manifest: Lean
 `leanprover/lean4:v4.34.0-rc2`, mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`,
 [Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
-`fe4b0a3e8f245c1ba30a640330d66f95ea7dddda`, and eight resolved transitive
-packages. Mathlib and Simplicial Objects are the two direct dependencies.
+`fe4b0a3e8f245c1ba30a640330d66f95ea7dddda`,
+[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
+`7a3b69c5c2a88044db6e2f664790913d709ae20b`, and the resolved transitive packages.
+These are the three direct dependencies of this library.
 Routine use does not require `lake update`.
 Fetch the matching precompiled mathlib cache **successfully before building**;
 repeat after changing pins or replacing `.lake`:
@@ -366,6 +386,9 @@ private noncomputable def sphere_homology :
 - Mathlib's singular homology and simplicial foundations (Joël Riou),
   covering and monodromy formalization (Junyan Xu), deck groups (Kim Morrison),
   and stereographic projection, contractibility, analytic and categorical APIs.
+- [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids),
+  the canonical home of the generic covering interfaces originally developed in
+  Sphere, retaining their source and Mathlib credits.
 - Formal Frontier Agents' project constructions, earlier sphere-field proof
   exposition and Simplicial Objects finite-fiber transfer; see
   [credits](docs/CREDITS.md) for distinct original, reconciliation, Prism and
@@ -403,6 +426,9 @@ not a claim of a separately stated fixed-point theorem or complete coverage of
 May's text. The restriction-to-fiber comparison with the monodromy centralizer
 follows the deck-automorphism comparison in the same section, using based
 lifting and open path components to allow disconnected or empty total spaces.
+These generic covering constructions are now supplied by Fundamental Groupoids;
+Sphere's deprecated covering module paths re-export them rather than maintain
+separate implementations.
 
 No book assets, third-party source excerpts or mathlib implementation are
 bundled; dependency and book authors retain their own rights and notices.

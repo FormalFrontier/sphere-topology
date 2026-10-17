@@ -744,7 +744,7 @@
   "current_source_inspection": {
     "method": "Bounded source-docstring/link inspection; no native doc-gen run.",
     "source_inputs": {
-      "SphereTopology.lean": "253d3eb15144acbc980e7230648e023dc2e07e97d0e66d390d610772ca4e0c10",
+      "SphereTopology.lean": "41321d1b19ede1d09046c14099c606924fc1cc9df4488b8a6fb6aa73e6e13f33",
       "SphereTopology/Homology/Singular/Circle.lean": "662d20f534d98ba8e8d7d51b28bf20bf787d1574583fdb372147385d715a6419",
       "SphereTopology/Homology/Singular/MayerVietoris.lean": "59643b974f2239f26c7762f7f04c9e47c0360e497b489bc53dadf1b2e3518319",
       "SphereTopology/Homology/Singular/Reduced.lean": "883fba5d7cb29be230f7454a8f3fd495c28a812e1840b72d6ec018c4e9ca33e4",
@@ -776,8 +776,8 @@
       "SphereTopologyTest/SphereAntipodalModuleAxioms.lean": "9840cbf5fe9233d127c44cb7801633e0c162b9af93a4949227f75092deba101b",
       "SphereTopologyTest/SphereAntipodalRoot.lean": "e00a4e968fddb7b1ba7fdf05ca406daa63b825cd0272417e4be8ae397c57631a",
       "SphereTopologyTest/SphereModuleAxioms.lean": "719ab47799430c459a642effc51c984516465d8fa1bb0c9f41388c1d0f508e67",
-      "lake-manifest.json": "ad8dc789aa2c8e0f41fd43157c7f869a505d9bb46d6f8eaded22268056e7d6b6",
-      "lakefile.toml": "5ca1259429a3ac3f0c42e4baf9e08750214ca86cddce810e764f37246642870f",
+      "lake-manifest.json": "aee3b57f5052b1bb8c56e821622e98b2ebc219067b068a256826e2bbd9f4bbdd",
+      "lakefile.toml": "898ed72d7253c3411a84e0ce8c63ebce673ff7b80e315b55133c78f34d1805e3",
       "lean-toolchain": "8190e75a201741065fe508b28955dd64dd72d090babe5f70ce6848879d68ae88"
     },
     "documentation_inputs": {

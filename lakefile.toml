@@ -10,6 +10,7 @@ weak.linter.style.header = false
 
 [[lean_lib]]
 name = "SphereTopology"
+globs = ["SphereTopology.*"]
 
 [[lean_lib]]
 name = "SphereTopologyTest"
@@ -23,9 +24,6 @@ roots = [
   "SphereTopologyTest.Clients",
   "SphereTopologyTest.Components",
   "SphereTopologyTest.Connectedness",
-  "SphereTopologyTest.CoveringMonodromy",
-  "SphereTopologyTest.CoveringEquivalence",
-  "SphereTopologyTest.DeckGroup",
   "SphereTopologyTest.HairyBallSphere2",
   "SphereTopologyTest.HairyBallSphere2ModuleAxioms",
   "SphereTopologyTest.HairyBallSphere2Root",
@@ -44,8 +42,6 @@ roots = [
   "SphereTopologyTest.SphereAntipodal",
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
-  "SphereTopologyTest.Topology.CoveringLifting",
-  "SphereTopologyTest.Topology.CoveringMorphisms",
   "SphereTopologyTest.SphereModuleAxioms"
 ]
 
@@ -62,3 +58,8 @@ rev = "83abb3e776bdefcbc447a1e44d0debe4010039e5"
 name = "simplicial-objects"
 git = "https://github.com/FormalFrontier/simplicial-objects"
 rev = "fe4b0a3e8f245c1ba30a640330d66f95ea7dddda"
+
+[[require]]
+name = "fundamental-groupoids"
+git = "https://github.com/FormalFrontier/fundamental-groupoids"
+rev = "7a3b69c5c2a88044db6e2f664790913d709ae20b"

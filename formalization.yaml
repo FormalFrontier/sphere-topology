@@ -9,6 +9,9 @@ project:
     nonnegative reduced integral homology and degree-zero criteria for path
     connectedness. Finite-fiber coverings give transfers on all-simplex singular
     chains and ordinary homology with categorical coefficient objects.
+    Generic based lifting, monodromy, maps of covers and deck-group comparisons
+    are supplied by Fundamental Groupoids, their canonical home, and re-exported
+    through deprecated Sphere covering module paths.
     Explicit circle and two-sphere calculations give
     the antipodal action on H2 of the standard two-sphere and its
     continuous orthogonal-field hairy-ball theorem.
@@ -76,6 +79,21 @@ related_formalizations:
       The covering construction specializes these maps using evaluation of
       singular lifts. Dependency authorship and notices remain upstream.
 
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/7a3b69c5c2a88044db6e2f664790913d709ae20b"
+    relationship: "builds-on"
+    note: >-
+      Canonical home of the generic based covering-lift criterion, based
+      equivalences, monodromy and equivariant fiber maps, deck actions and
+      monodromy-centralizer comparisons originally developed in Sphere.
+      Declaration names and mathematical namespaces are unchanged. The five
+      old covering module paths are public-import shims, deprecated since
+      2026-10-17 and supported for at least three months from that date.
+      Joint use requires a Sphere version providing these shims and this
+      compatible Fundamental Groupoids pin together; the new covering modules
+      cannot be co-imported with legacy Sphere releases defining duplicate
+      copies.
+      Dependency authorship and source and Mathlib credits remain intact.
+
 status:
   scope: >-
     Continuous-field topology, integral subdivision and cover-small chains,
@@ -93,7 +111,10 @@ status:
     CategoryWithHomology. Its lift-sum and fixed-sheet formulas concern transfer
     followed by pushforward; finite point fibers and their uniform cardinality
     are separate hypotheses. Nonempty, surjective and connected coverings are
-    not required. No complete coverage of Weibel or any other source is claimed. See README.md
+    not required. Generic covering foundations are supplied by Fundamental
+    Groupoids rather than implemented twice; the based equal-image comparison
+    is not a general covering-space classification. No complete coverage of
+    Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
     - declaration: "IsCoveringMap.singularChainComplexTransfer"
@@ -262,7 +283,10 @@ fidelity:
 acknowledgements: >-
   The mathlib community supplies the underlying formal mathematics; its authorship
   and license notices remain with the dependency. Simplicial Objects supplies
-  the simplicial finite-fiber transfer. May supplies the covering-transfer
+  the simplicial finite-fiber transfer. Fundamental Groupoids is the canonical
+  home of the generic covering interfaces originally developed in Sphere,
+  building on Mathlib's lifting and monodromy by Junyan Xu and deck groups by
+  Kim Morrison. May supplies the covering-transfer
   exercise and its coefficient conventions. Lean and Lake supply the proof
   assistant and build system. Weibel's bibliographic authorship is distinct from
   project formalization authorship. Original project contributions and identified
