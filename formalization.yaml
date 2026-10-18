@@ -3,7 +3,9 @@ version: "v0.4"
 project:
   name: "Sphere topology"
   description: >-
-    Reusable Lean topology and singular homology: normalization of nowhere-zero
+    Reusable Lean topology and singular homology: arbitrary-index circle bouquets,
+    inclusions, positive-generator homomorphisms, retractions and generator
+    nonidentity, without a free-group identification; normalization of nowhere-zero
     continuous fields, identity-to-antipodal homotopies from orthogonal fields,
     integral subdivision, cover-small chains and two-open Mayer-Vietoris,
     nonnegative reduced integral homology and degree-zero criteria for path
@@ -49,11 +51,12 @@ sources:
       - "J. Peter May"
     id: "https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf"
     type: "book"
-    location: "Revised edition, Chapter 16, Problem 3."
+    location: "Revised edition, Chapter 2, §8; Chapter 16, Problem 3."
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
-      Motivates the covering transfer and its sheet formula. The coefficient
+      Motivates the circle-bouquet setting, covering transfer and its sheet
+      formula. The bouquet fundamental-group calculation is not established here. The coefficient
       objects and all-simplex chain complex differ from the normalized
       tensor-coefficient convention of the book. No book expression or asset
       is redistributed.
@@ -96,6 +99,9 @@ related_formalizations:
 
 status:
   scope: >-
+    Arbitrary-index circle bouquets with inclusions, descent, positive-generator
+    homomorphisms, circle retractions and generator nonidentity; bijectivity of
+    the generator map and its free-group identification are not established here.
     Continuous-field topology, integral subdivision and cover-small chains,
     ordinary two-open Mayer-Vietoris, nonnegative reduced integral homology,
     explicit circle and two-sphere calculations, and the unit two-sphere

@@ -53,6 +53,16 @@ the singular-lift and transfer constructions and the other results listed here.
   The zero-period quotient has trivial fundamental group and is excluded from
   the integer equivalence, not from the covering-map construction.
 
+- **Circle-bouquet construction and positive generators.** For any index type,
+  [`CircleBouquet.space`](SphereTopology/Homotopy/CircleBouquet.lean) is the
+  wide pushout of copies of the complex unit circle at one, retaining a common
+  point even for the empty family. The index and ambient universes are independent.
+  Inclusions, descent and extensionality express its universal property.
+  `CircleBouquet.generatorMap` maps `FreeGroup I` to its fundamental group by
+  the included counterclockwise loops. Retractions onto individual circles
+  detect their positive generators as nonidentity. Bijectivity of this map
+  and the free-group identification of the bouquet's fundamental group are not proved here.
+
 - **Integer degree and free homotopy of circle maps.** Every continuous
   self-map `f : C(Circle, Circle)` has an integer degree in the fixed positive
   fundamental-group coordinate:
@@ -255,6 +265,7 @@ the singular-lift and transfer constructions and the other results listed here.
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
+| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
@@ -377,7 +388,8 @@ private noncomputable def sphere_homology :
 ## References
 
 - J. Peter May, *A Concise Course in Algebraic Topology*, revised edition:
-  Chapter 1, §5 and Problem 3 (circle and H-spaces), Chapter 3 (coverings),
+  Chapter 1, §5 and Problem 3 (circle and H-spaces), Chapter 2, §8
+  (circle-bouquet setting, without its fundamental-group calculation), Chapter 3 (coverings),
   Chapter 13, §5 (antipodal degree), Chapter 14, §§1, 3 and 5 (reduced homology,
   sphere homology and Mayer--Vietoris), Chapters 13 and 15 (components),
   and Chapter 16 (singular homology and Problem 3 on covering transfer).
