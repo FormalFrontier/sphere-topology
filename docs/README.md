@@ -19,10 +19,10 @@ module and its sharp interfaces in the overview. This
 module is outside the bounded display inventory below. The integer degree and
 free-homotopy classification of unbased complex-circle self-maps are in
 [`SphereTopology.Homotopy.CircleDegree`](../SphereTopology/Homotopy/CircleDegree.lean),
-with examples in
-[`SphereTopologyTest.CircleDegree`](../SphereTopologyTest/CircleDegree.lean).
-Neither module is part of the historical 32-module record or 567-site display
-selection; their inclusion in the library does not extend that native inventory.
+with [characteristic examples](../SphereTopology/Homotopy/CircleDegree.lean#L512)
+in the same module. This module and its examples are outside the historical
+32-module record and 567-site display selection; their inclusion in the library
+does not extend that native inventory.
 
 An API display is not a complete generated, public/exported, private or kernel
 declaration census, a typeclass-registration promise, or an axiom audit.

@@ -35,9 +35,9 @@ above are listed separately. Integer degree and free homotopy of unbased
 complex-circle self-maps are documented in
 [`SphereTopology.Homotopy.CircleDegree`](../SphereTopology/Homotopy/CircleDegree.lean)
 and the [overview](../README.md). That module and its
-[examples](../SphereTopologyTest/CircleDegree.lean) are outside the historical
+[characteristic examples](../SphereTopology/Homotopy/CircleDegree.lean#L512) are outside the historical
 32-module record and 567-site display selection. Import `SphereTopology` for
-the library; private example modules are separate.
+the library; characteristic examples remain private.
 
 Headers below reuse native doc-gen4 display signatures, not complete declarations
 with proof bodies. Five explicitly labeled source corrections add four noncomputable
@@ -2038,7 +2038,7 @@ noncomputable abbrev AlgebraicTopology.integralSingularHomologyFunctor (n : ℕ)
 Integral singular homology, functorially in the topological space. Its
 objects are the `integralSingularHomology` groups.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L60) (retained native site: line 45).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L62) (retained native site: line 45).
 
 ### AlgebraicTopology.integralSingularHomologyFunctor_map
 
@@ -2048,7 +2048,7 @@ theorem AlgebraicTopology.integralSingularHomologyFunctor_map {X Y : TopCat} (f 
 
 **API note (not a source docstring):** The map part of the degree-n integral singular homology functor is the homology map induced by the integer singular chain map. This identifies the functor presentation with the chain-complex presentation for any continuous map and any nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L65) (retained native site: line 50).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L67) (retained native site: line 50).
 
 ### TopCat.singularHomologyIntegerCoefficients
 
@@ -2060,7 +2060,7 @@ The integer coefficient object, lifted to the universe of the spaces under
 consideration. This coefficient object is used by the ordinary
 integral singular-chain and Mayer--Vietoris APIs.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L79) (retained native site: line 64).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L81) (retained native site: line 64).
 
 ### TopCat.integerSingularHomologyFunctor
 
@@ -2070,7 +2070,7 @@ noncomputable abbrev TopCat.integerSingularHomologyFunctor (n : ℕ) : CategoryT
 
 Compatibility name for the integral singular homology functor.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L85) (retained native site: line 70).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L87) (retained native site: line 70).
 
 ### SSet.homologyZeroPoint
 
@@ -2080,7 +2080,7 @@ noncomputable def SSet.homologyZeroPoint {C : Type u} [CategoryTheory.Category.{
 
 The degree-zero homology class represented by a vertex of a simplicial set.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L99) (retained native site: line 84).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L101) (retained native site: line 84).
 
 ### SSet.homologyZeroPoint_homology₀Iso
 
@@ -2090,7 +2090,7 @@ theorem SSet.homologyZeroPoint_homology₀Iso {C : Type u} [CategoryTheory.Categ
 
 **API note (not a source docstring):** Under the coproduct description of zeroth simplicial homology, the class map of a zero-simplex is the coproduct inclusion of its connected component. The coefficient object is arbitrary in the category with coproducts, preadditive structure and homology appearing in the signature; this statement is not restricted to integer coefficients.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L105) (retained native site: line 90).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L107) (retained native site: line 90).
 
 ### SSet.homologyZeroPoint_homology₀Iso_assoc
 
@@ -2102,7 +2102,7 @@ theorem SSet.homologyZeroPoint_homology₀Iso_assoc {C : Type u} [CategoryTheory
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_homology₀Iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L105) (retained native site: line 90).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L107) (retained native site: line 90).
 
 ### SSet.homologyZeroPoint_augmentation
 
@@ -2112,7 +2112,7 @@ theorem SSet.homologyZeroPoint_augmentation {C : Type u} [CategoryTheory.Categor
 
 **API note (not a source docstring):** The class map of a zero-simplex followed by the total augmentation is the identity of the coefficient object R. The supplied zero-simplex, rather than a global nonemptiness instance, supplies the point; the ambient category is as general as the displayed assumptions.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L113) (retained native site: line 98).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L115) (retained native site: line 98).
 
 ### SSet.homologyZeroPoint_augmentation_assoc
 
@@ -2124,7 +2124,7 @@ theorem SSet.homologyZeroPoint_augmentation_assoc {C : Type u} [CategoryTheory.C
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L113) (retained native site: line 98).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L115) (retained native site: line 98).
 
 ### SSet.homologyZeroPoint_naturality
 
@@ -2134,7 +2134,7 @@ theorem SSet.homologyZeroPoint_naturality {C : Type u} [CategoryTheory.Category.
 
 **API note (not a source docstring):** A simplicial map sends the zeroth-homology class map of x to the class map of its image zero-simplex. This naturality statement uses the arbitrary coefficient object R and the displayed categorical homology assumptions.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L120) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L122) (retained native site: line 105).
 
 ### SSet.homologyZeroPoint_naturality_assoc
 
@@ -2146,7 +2146,7 @@ theorem SSet.homologyZeroPoint_naturality_assoc {C : Type u} [CategoryTheory.Cat
 
 Generated `reassoc` declaration from `SSet.homologyZeroPoint_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L120) (retained native site: line 105).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L122) (retained native site: line 105).
 
 ### TopCat.singularHomologyZeroPoint
 
@@ -2156,7 +2156,7 @@ noncomputable def TopCat.singularHomologyZeroPoint (X : TopCat) (x : ↑X) : sin
 
 The degree-zero homology class represented by a point.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L138) (retained native site: line 123).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L140) (retained native site: line 123).
 
 ### TopCat.singularHomologyZeroPoint_homology₀Iso
 
@@ -2166,7 +2166,7 @@ theorem TopCat.singularHomologyZeroPoint_homology₀Iso (X : TopCat) (x : ↑X) 
 
 **API note (not a source docstring):** The integral H0 class map of a point becomes the inclusion of that point's path component in the coproduct description of singular H0. Coefficients are the universe-lifted integer module used by this file.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L146) (retained native site: line 131).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L148) (retained native site: line 131).
 
 ### TopCat.singularHomologyZeroPoint_homology₀Iso_assoc
 
@@ -2178,7 +2178,7 @@ theorem TopCat.singularHomologyZeroPoint_homology₀Iso_assoc (X : TopCat) (x : 
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_homology₀Iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L146) (retained native site: line 131).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L148) (retained native site: line 131).
 
 ### TopCat.singularHomologyZeroPoint_augmentation
 
@@ -2188,7 +2188,7 @@ theorem TopCat.singularHomologyZeroPoint_augmentation (X : TopCat) (x : ↑X) : 
 
 **API note (not a source docstring):** A point class followed by the integral H0 augmentation is the identity on the lifted integer coefficient module. The theorem takes a specified point x and makes no separate path-connectedness assumption.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L161) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L163) (retained native site: line 146).
 
 ### TopCat.singularHomologyZeroPoint_augmentation_assoc
 
@@ -2200,7 +2200,7 @@ theorem TopCat.singularHomologyZeroPoint_augmentation_assoc (X : TopCat) (x : �
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L161) (retained native site: line 146).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L163) (retained native site: line 146).
 
 ### TopCat.singularHomologyZeroPoint_naturality
 
@@ -2210,7 +2210,7 @@ theorem TopCat.singularHomologyZeroPoint_naturality {X Y : TopCat} (f : X ⟶ Y)
 
 **API note (not a source docstring):** The ordinary integral H0 map of a continuous map sends the class map of x to the class map of f(x). No connectedness or nonemptiness beyond the supplied point is assumed.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L172) (retained native site: line 157).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L174) (retained native site: line 157).
 
 ### TopCat.singularHomologyZeroPoint_naturality_assoc
 
@@ -2222,7 +2222,7 @@ theorem TopCat.singularHomologyZeroPoint_naturality_assoc {X Y : TopCat} (f : X 
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L172) (retained native site: line 157).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L174) (retained native site: line 157).
 
 ### TopCat.singularHomologyZeroAugmentation_naturality
 
@@ -2232,7 +2232,7 @@ theorem TopCat.singularHomologyZeroAugmentation_naturality {X Y : TopCat} (f : X
 
 The total degree-zero augmentation commutes with every continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L183) (retained native site: line 168).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L185) (retained native site: line 168).
 
 ### TopCat.singularHomologyZeroAugmentation_naturality_assoc
 
@@ -2244,7 +2244,7 @@ The total degree-zero augmentation commutes with every continuous map.
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroAugmentation_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L183) (retained native site: line 169).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L185) (retained native site: line 169).
 
 ### TopCat.reducedSingularHomologyZero
 
@@ -2254,7 +2254,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyZero (X : TopCat) : ModuleCat
 
 Reduced integer singular homology in degree zero.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L201) (retained native site: line 186).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L203) (retained native site: line 186).
 
 ### TopCat.reducedSingularHomologyZeroι
 
@@ -2265,7 +2265,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyZeroι (X : TopCat) : X.reduc
 The canonical inclusion of reduced degree-zero homology into ordinary
 degree-zero homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L205) (retained native site: line 190).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L207) (retained native site: line 190).
 
 ### TopCat.reducedSingularHomologyZeroMap
 
@@ -2275,7 +2275,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroMap {X Y : TopCat} (f : X �
 
 The map on reduced degree-zero homology induced by a continuous map.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L211) (retained native site: line 196).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L213) (retained native site: line 196).
 
 ### TopCat.reducedSingularHomologyZeroMap_ι
 
@@ -2285,7 +2285,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_ι {X Y : TopCat} (f : X ⟶ Y) : 
 
 **API note (not a source docstring):** The reduced H0 map, defined on the total-augmentation kernel, commutes with its kernel inclusion into ordinary integral H0. This holds for every continuous map, without a nonempty-space hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L223) (retained native site: line 208).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L225) (retained native site: line 208).
 
 ### TopCat.reducedSingularHomologyZeroMap_ι_assoc
 
@@ -2297,7 +2297,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_ι_assoc {X Y : TopCat} (f : X ⟶
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroMap_ι`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L223) (retained native site: line 208).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L225) (retained native site: line 208).
 
 ### TopCat.reducedSingularHomologyZeroMap_id
 
@@ -2307,7 +2307,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_id (X : TopCat) : reducedSingularH
 
 **API note (not a source docstring):** The map induced on the augmentation kernel by the identity continuous map is the identity on reduced H0, for an arbitrary space.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L229) (retained native site: line 214).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L231) (retained native site: line 214).
 
 ### TopCat.reducedSingularHomologyZeroMap_comp
 
@@ -2317,7 +2317,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_comp {X Y Z : TopCat} (f : X ⟶ Y
 
 **API note (not a source docstring):** The reduced H0 map of a composite continuous map is the composite of the reduced H0 maps, in categorical composition order. No connectedness hypothesis is needed.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L235) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L237) (retained native site: line 220).
 
 ### TopCat.reducedSingularHomologyZeroMap_comp_assoc
 
@@ -2329,7 +2329,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_comp_assoc {X Y Z : TopCat} (f : X
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroMap_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L235) (retained native site: line 220).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L237) (retained native site: line 220).
 
 ### TopCat.reducedSingularHomologyZeroFunctor
 
@@ -2339,7 +2339,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroFunctor : CategoryTheory.Fun
 
 Reduced degree-zero singular homology is a functor.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 228).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L245) (retained native site: line 228).
 
 ### TopCat.reducedSingularHomologyZeroFunctor_map
 
@@ -2351,7 +2351,7 @@ theorem TopCat.reducedSingularHomologyZeroFunctor_map {X✝ Y✝ : TopCat} (f : 
 
 Generated `simps` declaration from `TopCat.reducedSingularHomologyZeroFunctor`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 229).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L245) (retained native site: line 229).
 
 ### TopCat.reducedSingularHomologyZeroFunctor_obj
 
@@ -2363,7 +2363,7 @@ theorem TopCat.reducedSingularHomologyZeroFunctor_obj (X : TopCat) : reducedSing
 
 Generated `simps` declaration from `TopCat.reducedSingularHomologyZeroFunctor`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L243) (retained native site: line 229).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L245) (retained native site: line 229).
 
 ### TopCat.reducedSingularHomologyFunctor
 
@@ -2374,7 +2374,7 @@ noncomputable def TopCat.reducedSingularHomologyFunctor (n : ℕ) : CategoryTheo
 Nonnegative reduced singular homology.  Degree zero is the augmentation
 kernel, and positive degrees are ordinary integer singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L252) (retained native site: line 237).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L254) (retained native site: line 237).
 
 ### TopCat.reducedSingularHomology
 
@@ -2384,7 +2384,7 @@ noncomputable abbrev TopCat.reducedSingularHomology (X : TopCat) (n : ℕ) : Mod
 
 The object-level nonnegative reduced singular homology group.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L260) (retained native site: line 245).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L262) (retained native site: line 245).
 
 ### TopCat.reducedSingularHomologyMap
 
@@ -2394,7 +2394,7 @@ noncomputable abbrev TopCat.reducedSingularHomologyMap {X Y : TopCat} (f : X ⟶
 
 The induced map on nonnegative reduced singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L265) (retained native site: line 250).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L267) (retained native site: line 250).
 
 ### TopCat.reducedSingularHomologyZeroIso
 
@@ -2404,7 +2404,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroIso (X : TopCat) : X.reduced
 
 In degree zero, the nonnegative interface is the augmentation kernel.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L271) (retained native site: line 256).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L273) (retained native site: line 256).
 
 ### TopCat.reducedSingularHomologyZeroInclusion
 
@@ -2415,7 +2415,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroInclusion (X : TopCat) : X.r
 The canonical inclusion from the degree-zero nonnegative reduced-homology
 interface into ordinary degree-zero integral singular homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L276) (retained native site: line 261).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L278) (retained native site: line 261).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_mono
 
@@ -2425,7 +2425,7 @@ instance TopCat.reducedSingularHomologyZeroInclusion_mono (X : TopCat) : Categor
 
 **API note (not a source docstring):** The degree-zero inclusion from the file's reduced-homology convention to the ordinary integral H0 functor is a categorical monomorphism. This instance is inherited from the augmentation-kernel inclusion and needs no nonemptiness hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L284) (retained native site: line 269).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L286) (retained native site: line 269).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_naturality
 
@@ -2435,7 +2435,7 @@ theorem TopCat.reducedSingularHomologyZeroInclusion_naturality {X Y : TopCat} (f
 
 The degree-zero reduced inclusion is natural for continuous maps.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L289) (retained native site: line 274).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L291) (retained native site: line 274).
 
 ### TopCat.reducedSingularHomologyZeroInclusion_naturality_assoc
 
@@ -2447,7 +2447,7 @@ The degree-zero reduced inclusion is natural for continuous maps.
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroInclusion_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L289) (retained native site: line 275).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L291) (retained native site: line 275).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary
 
@@ -2458,7 +2458,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroToOrdinary (X : TopCat) : X.
 The degree-zero reduced inclusion with its codomain displayed using the
 ordinary integral singular-homology abbreviation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L303) (retained native site: line 288).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L305) (retained native site: line 288).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_mono
 
@@ -2468,7 +2468,7 @@ instance TopCat.reducedSingularHomologyZeroToOrdinary_mono (X : TopCat) : Catego
 
 **API note (not a source docstring):** The degree-zero reduced inclusion is a categorical monomorphism when its codomain is displayed using integralSingularHomology X 0. This is the same inclusion as reducedSingularHomologyZeroInclusion, with a definitionally equal presentation of ordinary homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L309) (retained native site: line 294).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L311) (retained native site: line 294).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_naturality
 
@@ -2479,7 +2479,7 @@ theorem TopCat.reducedSingularHomologyZeroToOrdinary_naturality {X Y : TopCat} (
 Naturality of the degree-zero reduced inclusion, with ordinary homology
 displayed explicitly.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L388) (retained native site: line 299).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L390) (retained native site: line 299).
 
 ### TopCat.reducedSingularHomologyZeroToOrdinary_naturality_assoc
 
@@ -2492,7 +2492,7 @@ displayed explicitly.
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyZeroToOrdinary_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L388) (retained native site: line 301).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L390) (retained native site: line 301).
 
 ### TopCat.reducedSingularHomologyIsoOfNeZero
 
@@ -2503,7 +2503,7 @@ noncomputable def TopCat.reducedSingularHomologyIsoOfNeZero (X : TopCat) (n : �
 In every positive degree, reduced and ordinary integer singular homology
 are canonically identical.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L399) (retained native site: line 310).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L401) (retained native site: line 310).
 
 ### TopCat.reducedSingularHomologyMap_isoOfNeZero
 
@@ -2513,7 +2513,7 @@ theorem TopCat.reducedSingularHomologyMap_isoOfNeZero {X Y : TopCat} (f : X ⟶ 
 
 **API note (not a source docstring):** In a specified nonzero natural-number degree, the reduced map agrees with the ordinary integral homology map under the canonical reduced-to-ordinary isomorphisms. The hypothesis n ≠ 0 is essential to this presentation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L408) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L410) (retained native site: line 319).
 
 ### TopCat.reducedSingularHomologyMap_isoOfNeZero_assoc
 
@@ -2525,7 +2525,7 @@ theorem TopCat.reducedSingularHomologyMap_isoOfNeZero_assoc {X Y : TopCat} (f : 
 
 Generated `reassoc` declaration from `TopCat.reducedSingularHomologyMap_isoOfNeZero`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L408) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L410) (retained native site: line 319).
 
 ### TopCat.reducedSingularHomologyZeroMap_eq_of_homotopy
 
@@ -2535,7 +2535,7 @@ theorem TopCat.reducedSingularHomologyZeroMap_eq_of_homotopy {X Y : TopCat} {f g
 
 Homotopic maps induce the same map on reduced degree-zero homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L419) (retained native site: line 330).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L421) (retained native site: line 330).
 
 ### TopCat.reducedSingularHomologyMap_eq_of_homotopy
 
@@ -2546,7 +2546,7 @@ theorem TopCat.reducedSingularHomologyMap_eq_of_homotopy {X Y : TopCat} {f g : X
 Homotopic maps induce the same map on reduced integer singular homology in
 every nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L437) (retained native site: line 348).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L439) (retained native site: line 348).
 
 ### TopCat.reducedSingularHomologyIsoOfHomotopyEquiv
 
@@ -2562,7 +2562,7 @@ Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
 homology (Joël Riou) and the project's augmentation-kernel model, not a
 comparison with May's based-relative theory.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L448) (retained native site: line 359).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L450) (retained native site: line 359).
 
 ### TopCat.isZero_reducedSingularHomologyZero_of_pathConnected
 
@@ -2572,7 +2572,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_of_pathConnected (X : TopCat) 
 
 A path-connected space has zero reduced degree-zero integer homology.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L479) (retained native site: line 385).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L481) (retained native site: line 385).
 
 ### TopCat.isZero_reducedSingularHomologyZero_of_contractible
 
@@ -2583,7 +2583,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_of_contractible (X : TopCat) [
 In particular, a contractible space has zero reduced degree-zero integer
 homology.  A `ContractibleSpace` instance includes nonemptiness.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L486) (retained native site: line 392).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L488) (retained native site: line 392).
 
 ### TopCat.onePointSpace
 
@@ -2593,7 +2593,7 @@ abbrev TopCat.onePointSpace : TopCat
 
 The canonical one-point space, lifted into an arbitrary universe.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L493) (retained native site: line 399).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L495) (retained native site: line 399).
 
 ### TopCat.isZero_reducedSingularHomology_onePoint
 
@@ -2604,7 +2604,7 @@ theorem TopCat.isZero_reducedSingularHomology_onePoint (n : ℕ) : CategoryTheor
 Reduced integer singular homology of a point vanishes in every
 nonnegative degree.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L496) (retained native site: line 402).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L498) (retained native site: line 402).
 
 ### TopCat.isZero_reducedSingularHomology_of_contractible
 
@@ -2621,7 +2621,7 @@ Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
 homology (Joël Riou) and the project's augmentation-kernel model, not a
 comparison with May's based-relative theory.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L511) (retained native site: line 417).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L513) (retained native site: line 417).
 
 ### TopCat.emptySpace
 
@@ -2631,7 +2631,7 @@ abbrev TopCat.emptySpace : TopCat
 
 The canonical empty space, lifted into an arbitrary universe.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L527) (retained native site: line 428).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L529) (retained native site: line 428).
 
 ### TopCat.isZero_reducedSingularHomologyZero_empty
 
@@ -2642,7 +2642,7 @@ theorem TopCat.isZero_reducedSingularHomologyZero_empty : CategoryTheory.Limits.
 Under the nonnegative convention of this file, reduced degree-zero
 homology of the empty space is zero: its ordinary `H₀` is already zero.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L530) (retained native site: line 431).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L532) (retained native site: line 431).
 
 ### TopCat.twoPointSpace
 
@@ -2652,7 +2652,7 @@ abbrev TopCat.twoPointSpace : TopCat
 
 The canonical discrete two-point space used below.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L552) (retained native site: line 453).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L554) (retained native site: line 453).
 
 ### TopCat.twoPointSwap
 
@@ -2662,7 +2662,7 @@ def TopCat.twoPointSwap : twoPointSpace ⟶ twoPointSpace
 
 Transposition of the canonical discrete two-point space.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L555) (retained native site: line 456).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L557) (retained native site: line 456).
 
 ### TopCat.twoPointSwap_apply
 
@@ -2672,7 +2672,7 @@ theorem TopCat.twoPointSwap_apply (b : Bool) : (CategoryTheory.ConcreteCategory.
 
 **API note (not a source docstring):** The transposition of the canonical discrete two-point space Bool evaluates to Boolean negation. It swaps false and true in the fixed coordinate order.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L559) (retained native site: line 460).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L561) (retained native site: line 460).
 
 ### TopCat.path_endpoints_eq_of_totallyDisconnected
 
@@ -2682,7 +2682,7 @@ theorem TopCat.path_endpoints_eq_of_totallyDisconnected {X : Type u_1} [Topologi
 
 On a totally disconnected space every path has equal endpoints.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L562) (retained native site: line 463).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L564) (retained native site: line 463).
 
 ### TopCat.twoPointZerothHomotopyEquiv
 
@@ -2693,7 +2693,7 @@ noncomputable def TopCat.twoPointZerothHomotopyEquiv : ZerothHomotopy ↑twoPoin
 Path components of the discrete two-point space, with no choice of
 representatives: the component of `b` is sent to `b`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L569) (retained native site: line 470).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L571) (retained native site: line 470).
 
 ### TopCat.twoPointZerothHomotopyEquiv_mk
 
@@ -2703,7 +2703,7 @@ theorem TopCat.twoPointZerothHomotopyEquiv_mk (b : Bool) : twoPointZerothHomotop
 
 **API note (not a source docstring):** The component of b in the discrete Bool space is sent back to b by the chosen path-component equivalence. This fixes the labels used by the two-point H0 coordinates.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L579) (retained native site: line 480).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L581) (retained native site: line 480).
 
 ### TopCat.twoPointSingularHomologyZeroIso
 
@@ -2714,7 +2714,7 @@ noncomputable def TopCat.twoPointSingularHomologyZeroIso : (AlgebraicTopology.in
 The canonical presentation of `H₀` of the two-point space by the two
 point classes, ordered as `false`, `true`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L583) (retained native site: line 484).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L585) (retained native site: line 484).
 
 ### TopCat.singularHomologyZeroPoint_twoPoint_iso
 
@@ -2724,7 +2724,7 @@ theorem TopCat.singularHomologyZeroPoint_twoPoint_iso (b : Bool) : CategoryTheor
 
 **API note (not a source docstring):** Under the ordered two-point ordinary H0 isomorphism, the class map of b becomes the coproduct inclusion indexed by b. The order is false, true; it is not chosen up to permutation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L592) (retained native site: line 493).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L594) (retained native site: line 493).
 
 ### TopCat.singularHomologyZeroPoint_twoPoint_iso_assoc
 
@@ -2736,7 +2736,7 @@ theorem TopCat.singularHomologyZeroPoint_twoPoint_iso_assoc (b : Bool) {Z : Modu
 
 Generated `reassoc` declaration from `TopCat.singularHomologyZeroPoint_twoPoint_iso`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L592) (retained native site: line 493).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L594) (retained native site: line 493).
 
 ### TopCat.twoPoint_sigmaι_iso_inv
 
@@ -2746,7 +2746,7 @@ theorem TopCat.twoPoint_sigmaι_iso_inv (b : Bool) : CategoryTheory.CategoryStru
 
 **API note (not a source docstring):** The inverse two-point H0 isomorphism sends the coproduct inclusion at b to the singular point-class map of b. This is the inverse-coordinate form of the fixed false/true presentation.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L607) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L609) (retained native site: line 503).
 
 ### TopCat.twoPoint_sigmaι_iso_inv_assoc
 
@@ -2758,7 +2758,7 @@ theorem TopCat.twoPoint_sigmaι_iso_inv_assoc (b : Bool) {Z : ModuleCat ℤ} (h 
 
 Generated `reassoc` declaration from `TopCat.twoPoint_sigmaι_iso_inv`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L607) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L609) (retained native site: line 503).
 
 ### TopCat.twoPointSingularHomologyZeroIso_hom_desc
 
@@ -2768,7 +2768,7 @@ theorem TopCat.twoPointSingularHomologyZeroIso_hom_desc : CategoryTheory.Categor
 
 **API note (not a source docstring):** In the ordered two-point coproduct coordinates, summing the two coefficient components is exactly the ordinary H0 augmentation. Both coproduct summands are mapped by the identity coefficient morphism.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L615) (retained native site: line 511).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L617) (retained native site: line 511).
 
 ### TopCat.twoPointSingularHomologyZeroIso_hom_desc_assoc
 
@@ -2780,7 +2780,7 @@ theorem TopCat.twoPointSingularHomologyZeroIso_hom_desc_assoc {Z : ModuleCat ℤ
 
 Generated `reassoc` declaration from `TopCat.twoPointSingularHomologyZeroIso_hom_desc`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L615) (retained native site: line 511).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L617) (retained native site: line 511).
 
 ### TopCat.twoPointReducedBasisClass
 
@@ -2791,7 +2791,7 @@ noncomputable def TopCat.twoPointReducedBasisClass : singularHomologyIntegerCoef
 The chosen reduced `H₀` basis class is `[false] - [true]`.  This fixes the
 sign used by the two-point computation and all naturality statements below.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L627) (retained native site: line 523).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L629) (retained native site: line 523).
 
 ### TopCat.twoPointReducedBasisClass_augmentation
 
@@ -2801,7 +2801,7 @@ theorem TopCat.twoPointReducedBasisClass_augmentation : CategoryTheory.CategoryS
 
 **API note (not a source docstring):** The ordinary H0 class [false] − [true] has zero total augmentation. This is the kernel condition used to lift the chosen signed basis class to reduced H0.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L635) (retained native site: line 531).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L637) (retained native site: line 531).
 
 ### TopCat.twoPointReducedBasisClass_augmentation_assoc
 
@@ -2813,7 +2813,7 @@ theorem TopCat.twoPointReducedBasisClass_augmentation_assoc {Z : ModuleCat ℤ} 
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasisClass_augmentation`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L635) (retained native site: line 531).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L637) (retained native site: line 531).
 
 ### TopCat.twoPointReducedBasis
 
@@ -2823,7 +2823,7 @@ noncomputable def TopCat.twoPointReducedBasis : singularHomologyIntegerCoefficie
 
 The basis vector `1 ↦ [false] - [true]` in reduced `H₀`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L641) (retained native site: line 537).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L643) (retained native site: line 537).
 
 ### TopCat.twoPointReducedBasis_ι
 
@@ -2833,7 +2833,7 @@ theorem TopCat.twoPointReducedBasis_ι : CategoryTheory.CategoryStruct.comp twoP
 
 **API note (not a source docstring):** Including the chosen reduced basis into ordinary H0 gives the explicitly ordered difference [false] − [true]. This characterizes its lift through the augmentation kernel.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L648) (retained native site: line 544).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L650) (retained native site: line 544).
 
 ### TopCat.twoPointReducedBasis_ι_assoc
 
@@ -2845,7 +2845,7 @@ theorem TopCat.twoPointReducedBasis_ι_assoc {Z : ModuleCat ℤ} (h : (Algebraic
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_ι`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L648) (retained native site: line 544).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L650) (retained native site: line 544).
 
 ### TopCat.twoPointReducedCoordinate
 
@@ -2856,7 +2856,7 @@ noncomputable def TopCat.twoPointReducedCoordinate : twoPointSpace.reducedSingul
 The `false` coordinate on reduced `H₀`, after the ordered two-point
 presentation and its canonical finite biproduct structure.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L654) (retained native site: line 550).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L656) (retained native site: line 550).
 
 ### TopCat.twoPointReducedBasis_coordinate
 
@@ -2866,7 +2866,7 @@ theorem TopCat.twoPointReducedBasis_coordinate : CategoryTheory.CategoryStruct.c
 
 **API note (not a source docstring):** Applying the false coordinate to the reduced basis [false] − [true] gives the identity coefficient morphism. This is one of the two inverse identities for the explicit reduced-H0 coordinate isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L664) (retained native site: line 560).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L666) (retained native site: line 560).
 
 ### TopCat.twoPointReducedBasis_coordinate_assoc
 
@@ -2878,7 +2878,7 @@ theorem TopCat.twoPointReducedBasis_coordinate_assoc {Z : ModuleCat ℤ} (h : si
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_coordinate`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L664) (retained native site: line 560).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L666) (retained native site: line 560).
 
 ### TopCat.twoPointReducedCoordinate_basis
 
@@ -2888,7 +2888,7 @@ theorem TopCat.twoPointReducedCoordinate_basis : CategoryTheory.CategoryStruct.c
 
 **API note (not a source docstring):** Taking the false coordinate of a reduced H0 class and then multiplying the chosen basis [false] − [true] reconstructs that class. The augmentation-kernel condition supplies the relation between its two coordinates.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L674) (retained native site: line 570).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L676) (retained native site: line 570).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso
 
@@ -2903,7 +2903,7 @@ Chapter 14, §§1 and 3. This construction uses Mathlib's ordinary singular
 homology (Joël Riou) and the project's augmentation-kernel model, not a
 comparison with May's based-relative theory.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L749) (retained native site: line 645).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L751) (retained native site: line 645).
 
 ### TopCat.singularHomologyIntegerCoefficientsIso
 
@@ -2914,7 +2914,7 @@ def TopCat.singularHomologyIntegerCoefficientsIso : singularHomologyIntegerCoeff
 The universe-zero coefficient object is canonically the ordinary integer
 module.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L763) (retained native site: line 654).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L765) (retained native site: line 654).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIntegerIso
 
@@ -2925,7 +2925,7 @@ noncomputable def TopCat.reducedSingularHomologyZeroTwoPointIntegerIso : twoPoin
 The two-point computation stated with the unlifted integer module as its
 target.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L769) (retained native site: line 660).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L771) (retained native site: line 660).
 
 ### TopCat.twoPointReducedBasis_swap
 
@@ -2935,7 +2935,7 @@ theorem TopCat.twoPointReducedBasis_swap : CategoryTheory.CategoryStruct.comp tw
 
 Transposition sends the chosen basis `[false] - [true]` to its negative.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L776) (retained native site: line 667).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L778) (retained native site: line 667).
 
 ### TopCat.twoPointReducedBasis_swap_assoc
 
@@ -2947,7 +2947,7 @@ Transposition sends the chosen basis `[false] - [true]` to its negative.
 
 Generated `reassoc` declaration from `TopCat.twoPointReducedBasis_swap`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L776) (retained native site: line 668).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L778) (retained native site: line 668).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso_swap
 
@@ -2958,7 +2958,7 @@ theorem TopCat.reducedSingularHomologyZeroTwoPointIso_swap : CategoryTheory.Cate
 In the basis `[false] - [true]`, transposition acts on reduced `H₀` by
 multiplication by `-1`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L790) (retained native site: line 681).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L792) (retained native site: line 681).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIntegerIso_swap
 
@@ -2969,7 +2969,7 @@ theorem TopCat.reducedSingularHomologyZeroTwoPointIntegerIso_swap : CategoryTheo
 The unlifted-integer form of the transposition computation: conjugating by
 `reducedSingularHomologyZeroTwoPointIntegerIso` gives `-𝟙` on `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L803) (retained native site: line 694).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L805) (retained native site: line 694).
 
 ### TopCat.reducedSingularHomologyZeroTwoPointIso_id
 
@@ -2979,7 +2979,7 @@ theorem TopCat.reducedSingularHomologyZeroTwoPointIso_id : CategoryTheory.Catego
 
 The identity map acts as the identity in the same ordered basis.
 
-[Source](../SphereTopology/Homology/Singular/Reduced.lean#L818) (retained native site: line 709).
+[Source](../SphereTopology/Homology/Singular/Reduced.lean#L820) (retained native site: line 709).
 
 ## SphereTopology.Homology.Singular.ReducedMayerVietoris
 
