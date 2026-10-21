@@ -117,7 +117,26 @@
     "line": 181,
     "generated_owner": null,
     "generated_attribute": null,
-    "local_instance": false
+    "local_instance": false,
+    "current_source_origin": {
+      "repository": "https://github.com/FormalFrontier/simplicial-objects",
+      "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+      "module": "SimplicialObjects.ChainCoordinates",
+      "path": "SimplicialObjects/ChainCoordinates.lean",
+      "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+      "line": 56,
+      "declaration_line": 59,
+      "source_type": "noncomputable def chainGroupIsoFinsupp (X : SSet.{u}) (n : ℕ) :\n    (X.chainComplex integerCoefficients).X n ≅\n      ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ)",
+      "universe_context": [
+        "open CategoryTheory",
+        "open scoped Simplicial",
+        "noncomputable section",
+        "universe u",
+        "namespace AlgebraicTopology"
+      ],
+      "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L56",
+      "declaration_end_line": 61
+    }
   },
   "AlgebraicTopology.chainGroupIsoFinsupp_d": {
     "module": "SphereTopology.Homology.Singular.SmallChains",
@@ -153,7 +172,26 @@
     "line": 215,
     "generated_owner": null,
     "generated_attribute": null,
-    "local_instance": false
+    "local_instance": false,
+    "current_source_origin": {
+      "repository": "https://github.com/FormalFrontier/simplicial-objects",
+      "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+      "module": "SimplicialObjects.ChainCoordinates",
+      "path": "SimplicialObjects/ChainCoordinates.lean",
+      "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+      "line": 92,
+      "declaration_line": 94,
+      "source_type": "theorem chainGroupIsoFinsupp_hom_ι (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :\n    (chainGroupIsoFinsupp X n).hom.hom\n        ((X.ιChainComplex (R := integerCoefficients) x).hom (ULift.up (1 : ℤ))) =\n      Finsupp.single x 1",
+      "universe_context": [
+        "open CategoryTheory",
+        "open scoped Simplicial",
+        "noncomputable section",
+        "universe u",
+        "namespace AlgebraicTopology"
+      ],
+      "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L92",
+      "declaration_end_line": 97
+    }
   },
   "AlgebraicTopology.chainGroupIsoFinsupp_sSet_d": {
     "module": "SphereTopology.Homology.Singular.SmallChains",
@@ -237,7 +275,26 @@
     "line": 104,
     "generated_owner": null,
     "generated_attribute": null,
-    "local_instance": false
+    "local_instance": false,
+    "current_source_origin": {
+      "repository": "https://github.com/FormalFrontier/simplicial-objects",
+      "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+      "module": "SimplicialObjects.ChainCoordinates",
+      "path": "SimplicialObjects/ChainCoordinates.lean",
+      "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+      "line": 51,
+      "declaration_line": 53,
+      "source_type": "abbrev integerCoefficients : ModuleCat.{u} ℤ :=\n  (ModuleCat.uliftFunctor.{u} ℤ).obj (ModuleCat.of ℤ ℤ)",
+      "universe_context": [
+        "open CategoryTheory",
+        "open scoped Simplicial",
+        "noncomputable section",
+        "universe u",
+        "namespace AlgebraicTopology"
+      ],
+      "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L51",
+      "declaration_end_line": 54
+    }
   },
   "AlgebraicTopology.integralSingularChainMap": {
     "module": "SphereTopology.Homology.Singular.MayerVietoris",
@@ -2217,7 +2274,26 @@
     "line": 195,
     "generated_owner": null,
     "generated_attribute": null,
-    "local_instance": false
+    "local_instance": false,
+    "current_source_origin": {
+      "repository": "https://github.com/FormalFrontier/simplicial-objects",
+      "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+      "module": "SimplicialObjects.ChainCoordinates",
+      "path": "SimplicialObjects/ChainCoordinates.lean",
+      "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+      "line": 70,
+      "declaration_line": 72,
+      "source_type": "theorem ι_chainGroupIsoFinsupp_hom (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :\n    X.ιChainComplex (R := integerCoefficients) x ≫ (chainGroupIsoFinsupp X n).hom =\n      ModuleCat.ofHom ((Finsupp.lsingle x).comp ULift.moduleEquiv.toLinearMap)",
+      "universe_context": [
+        "open CategoryTheory",
+        "open scoped Simplicial",
+        "noncomputable section",
+        "universe u",
+        "namespace AlgebraicTopology"
+      ],
+      "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L70",
+      "declaration_end_line": 74
+    }
   },
   "ContinuousMap.norm_normalizeOfNoZero": {
     "module": "SphereTopology.Homotopy.TangentField",

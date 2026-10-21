@@ -1,121 +1,101 @@
 # Credits and origins
 
-Authors: Formal Frontier Agents. Verified original project contributions are
-licensed [Apache-2.0](../LICENSE); collective author credit does not designate a
-legal copyright holder. Lean proofs, tests, metadata and explanatory prose were
-created by AI agents. AI involvement and project-agent review are not human or
-source-author endorsement, and do not by themselves establish copyright
-ownership or rights in external material.
+Authors: Formal Frontier Agents. Original project contributions are licensed
+[Apache-2.0](../LICENSE); collective author credit does not designate a legal
+copyright holder. Lean proofs, tests, metadata and explanatory prose are
+AI-authored. AI involvement does not imply human or source-author endorsement,
+ownership of external expression or permission to redistribute it.
 
-## Mathematics and research predecessors
+## Mathematics and formalization
 
-Distinct Formal Frontier agent executions authored the mathematical Lean leaves:
-generic orthogonal-field homotopies, finite-support integral subdivision and
-small chains, ordinary ordered Mayer–Vietoris, nonnegative reduced homology,
-low-degree reduced Mayer–Vietoris, metric circle and two-sphere homology,
-antipodal sign and the standard metric two-sphere continuous-field zero theorem. The
-original service accounts denoted pooled executions, not individual humans.
-Prism integrated the mathematical work and supplied public
-interface/assembly work; collective credits must not turn the original proofs
-into Prism's sole authorship.
+Formal Frontier Agents supplied the generic orthogonal-field homotopies,
+finite-support integral subdivision and small chains, ordinary ordered
+Mayer–Vietoris, nonnegative reduced homology, low-degree reduced
+Mayer–Vietoris, metric circle and two-sphere homology, antipodal sign and the
+standard metric two-sphere continuous-field zero theorem. The normalization,
+cosine–sine homotopy and integral homology obstruction are project proof ideas.
+The arbitrary-universe homology implementations also credit the earlier
+universe-zero formulations and the work reconciling their conventions and
+dependency order. Prism's integration and public-interface work is distinct
+from these mathematical contributions and does not make the original proofs
+Prism's sole authorship. The noncomputable subdivision/prism interfaces and
+proof/style repairs retain the credit of their mathematical predecessors;
+Prism also supplied targeted implementation repairs.
 
-An earlier project proof exposition supplied the normalization and cosine–sine
-homotopy and integral homology-obstruction route. Separate topology/API planning
-supplied interface ideas. Earlier universe-zero Mayer–Vietoris and reduced-
-homology research supplied mathematical expression later reused and reconciled
-for arbitrary universes and the production dependency order. The research
-originals were not themselves the production library. Their original and reconciliation contributions are both credited;
-original scratch not preserved in published inputs cannot be reconstructed or
-assigned a new author from chronology. The original internal exposition and
-research records are *not* public book sources or declared dependencies. The
-citation to Weibel in [formalization.yaml](../formalization.yaml) gives
-mathematical motivation, not formalization authorship or source completion.
+The reduced-homology background and sphere computations follow J. Peter May,
+*A Concise Course in Algebraic Topology*, Chapter 14, §§1, 3 and 5; antipodal
+degree is in Chapter 13, §5. Chapter 16 supplies singular-simplex and boundary
+background, not the project's finite-support cone/prism implementation.
+May uses diagonal then difference in Mayer–Vietoris; this library uses
+difference then sum. The normalized puncture/equator deformations, ordered-
+cover sign computation and fixed coordinates are project constructions, not
+comparisons with May's based-relative, normalized or tensor-coefficient models.
+Joël Riou's Mathlib singular and simplicial homology and Mathlib's homological
+algebra, stereographic projection and contractibility supply foundations.
 
-Later distinct agent executions separately made four subdivision/prism definitions
-explicitly noncomputable and supplied proof/style repairs including the removed
-unused `DecidableEq` binder. Prism authored the subsequent targeted
-build-diagnostic repair. These repairs are neither wholly new mathematical
-bodies nor substitutes for the earlier reviewed theorem statements.
+Charles A. Weibel's *The K-book*, Example I.1.2.2, motivates the sphere-field
+obstruction. Its two-independent-field statement is distinct from the stronger
+one-field zero theorem here. Bibliographic authorship is not Lean-expression
+authorship or a claim of source completion.
 
-The reduced-homology background and sphere computations are described in
-J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §§1, 3 and 5;
-the antipodal-degree result is in Chapter 13, §5. Singular-simplex and boundary
-background is in Chapter 16, not a source for the project's finite-support
-cone/prism implementation. May's Mayer–Vietoris convention is diagonal then
-difference; this library uses difference then sum. The normalized puncture
-and equator deformations, ordered-cover sign computation and fixed coordinates
-are project constructions, not claims of a formal comparison with May's
-based-relative, normalized or tensor-coefficient models. Joël Riou's Mathlib
-singular and simplicial homology, together with Mathlib's homological algebra,
-stereographic projection and contractibility formalizations, supply foundations.
+The circle fundamental-group calculator follows May, Chapter 1, §5, pp. 8–9,
+with integer loops and lifted endpoints generalized to nonzero signed real
+periods. It reuses Junyan Xu's Mathlib quotient-covering and monodromy work,
+Mathlib's additive/complex-circle identifications, paths, contractibility and
+group equivalences. The unbased degree and free-homotopy classification follow
+Chapter 1, §7, p. 10, and the fixed-point consequence follows Problem (2), p. 11.
+The bouquet setting is Chapter 2, §8; no free-group identification is claimed.
 
-The circle fundamental-group calculator follows the integer-loop and
-lifted-endpoint idea in J. Peter May, *A Concise Course in Algebraic Topology*,
-Chapter 1, §5, pp. 8–9, generalized to nonzero signed real periods. It reuses
-Mathlib's quotient-covering and monodromy formalization by Junyan Xu, its
-additive-circle and complex-circle identifications, and its path,
-contractibility and group-equivalence APIs. These are mathematical and
-formalization credits, separate from rights in this library's original
-expression; no expression from May's book is redistributed.
+The generic based covering-lift criterion, point stabilizers, orbits, maps of
+covers, monodromy centralizers and based equal-image equivalences are supplied
+by [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids),
+their canonical home. They follow May, Chapter 3, §§2–4 and §7, and reuse
+Junyan Xu's Mathlib lifting, monodromy and separated-map uniqueness, the
+quotient-cover kernel theorem and Kim Morrison's deck-group formalization.
+Formal Frontier Agents supplied the factorization proofs, characteristic laws
+and circle/disconnected-domain examples originally developed with Sphere.
 
-The based covering-lift criterion follows J. P. May, *A Concise Course in
-Algebraic Topology*, Chapter 3 §7. Its sufficient direction and uniqueness reuse
-Mathlib's lifting formalization, especially Junyan Xu's approach. Formal Frontier
-Agents formalized the fundamental-group factorization argument and the circle
-and disconnected-domain examples.
+The finite-fiber covering transfer follows May, Chapter 16, Problem 3, using
+Mathlib's singular chains, homology, standard simplices, covering maps and
+trivial bundles. Formal Frontier Agents' Simplicial Objects supplies the
+equifibered finite-fiber transfer; Sphere supplies evaluation equivalences for
+singular lifts. Joël Riou and the Mathlib covering/bundle contributors retain
+credit. The example reuses the circle-loop formalization. Its nonzero
+integral basis chain is not a claim of a nonzero homology class. The all-simplex
+categorical-coefficient convention is not May's normalized tensor model.
 
-The covering-space point-stabilizer, orbit and based equal-image equivalence
-results follow J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 3,
-§§2–4 and §7, with the hypotheses and fixed-base interpretation described in the
-modules. They reuse Junyan Xu's Mathlib monodromy, covering-space lifting and
-uniqueness formalization, including the existing quotient-cover kernel result.
-Formal Frontier Agents formalized the proofs, characteristic laws and
-mathematical examples. The original Lean expressions and explanatory prose are
-AI-authored; no book expression or assets are reproduced.
-
-The finite-fiber covering transfer is motivated by May's revised edition,
-Chapter 16, Problem 3. It uses Mathlib's singular chain and homology functors,
-standard simplices, covering maps and trivial bundles, together with Formal
-Frontier Agents' Simplicial Objects equifibered finite-fiber transfer and the
-Sphere Topology singular-lift evaluation equivalences. Joël Riou's singular
-homology formalization and the Mathlib covering and bundle contributors retain
-credit for those foundations. The example uses the circle loop formalization
-above. The all-simplex categorical coefficient convention does not assert a
-comparison with May's normalized tensor-coefficient construction. No expression
-from May's book is redistributed.
+The four integral-coordinate declarations, originally used in Sphere, are
+maintained in released
+[Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean).
+Formal Frontier Agents, including Prism, supplied their expressions. Mathlib's
+simplicial-chain coproducts by Joël Riou and Andrew Yang, module-category
+colimits by Kim Morrison and Joël Riou, and lifted module/linear-equivalence
+APIs supply the construction. Moving the canonical home does not change
+mathematical namespaces, providers, universe scope or original credit.
 
 ## Interfaces and documentation
 
-Prism added public imports and visibility decisions, including public
-`TopCat.path_endpoints_eq_of_totallyDisconnected`, aggregate clients, the
-bounded pre-simp augmentation registration and its compatibility tests. Prism
-wrote 69 definition docstrings from the Lean definitions, 268 separately
-labeled authored API notes and the earlier source-inspected API header/link
-corrections. The 299 historical native docstrings, 567 displayed signatures and
-other mathematical expressions retain their original collective credit. Prism's
-`SphereTopologyTest/AugmentationSimp.lean` clients are distinct from the earlier
-client expressions underlying `SphereTopologyTest/PublicAPIClient.lean`; its
-aggregate/client assembly reuses a source-adapter bundling pattern. Neither the
-older clients nor the mathematical proof bodies become newly authored by Prism.
+Prism supplied public imports and visibility, including
+`TopCat.path_endpoints_eq_of_totallyDisconnected`, aggregate clients and the
+bounded pre-simp augmentation registration with its compatibility clients.
+Prism wrote 69 definition docstrings, 268 separately labeled API notes and
+source-inspected header/link corrections. The 299 original native docstrings,
+567 displayed signatures and mathematical expressions retain collective
+credit. The augmentation clients are distinct from earlier public API clients;
+Prism's client assembly also reuses a source-adapter bundling pattern.
 
-Orrery added the module and headline mathematical references, mathematical-prose
-revisions and bounded current-source docstring/link inspection mode. These edits
-retain the original mathematical and documentation-adapter contributions above.
+Orrery supplied module/headline references, mathematical-prose revisions,
+bounded source-docstring/link correspondence and the coordinate-home
+documentation. These contributions retain the mathematical and documentation
+credits above. The documentation adapter and its tests adapt Anchor's
+algebraic-direct-limits adapter, itself derived from Anchor's ideal-completion
+adapter, as Apache-2.0 project reuse. Prism tailored the inventory,
+source-snapshot identifiers, docstring preservation, generated-owner/local-
+instance explanations and reader guidance; these are not wholly new adapter
+expressions.
 
-The generator and tests adapt Anchor's algebraic-direct-limits documentation
-adapter at `bbdcf43d28dd92312484adba53fe20b5b35a2f75`, which itself derives
-from Anchor's ideal-completion adapter at
-`22c8ea8b5a559df6e5f6257472378a19388f448d`. These expressions are
-project-internal Apache-2.0 reuse, not wholly new Prism code. Prism tailored
-the inventory, source-snapshot contract, native-doc preservation, local-instance
-and generated-owner explanations, controls and reader guidance to this library.
-The original source/research/production/repair contributor identities and
-credit inverses remain in the separately preserved original project record;
-this published library does not require those private records to understand its
-mathematical API.
-
-Lean, Lake, mathlib and doc-gen4 have separate upstream authors and notices and
-are not vendored here. No book excerpt, PDF, scan, external website, figure,
-font, script or dependency implementation is redistributed. Project Apache-2.0
-authorization for verified original expression is not a new license for
-third-party material or evidence of Weibel's endorsement.
+Lean, Lake, Mathlib and doc-gen4 have separate upstream authors and notices.
+No book excerpt, PDF, scan, external website, figure, font or dependency
+implementation is redistributed. The project's Apache-2.0 license grants no
+new rights in third-party material and implies no endorsement by Weibel, May
+or dependency authors.

@@ -753,7 +753,6 @@ theorem twoOpenSmallShortComplexMap_comp_inclusion {X Y : TopCat.{u}}
 abbrev integralSingularHomology (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} ℤ :=
   (integralSingularChains X).homology n
 
-set_option linter.style.haveILetI false in
 /-- A cover-small homology group is canonically isomorphic to ordinary
 singular homology when the family is an open cover. -/
 noncomputable def smallSingularHomologyIso {X : TopCat.{u}} {ι : Type*}
@@ -772,7 +771,6 @@ noncomputable def twoOpenSpaceHomologyIso {X : TopCat.{u}} (U V : Opens X)
   smallSingularHomologyIso (TopCat.twoOpenCover U V)
     (TopCat.isOpenCover_twoOpenCover hUV) n
 
-set_option linter.style.haveILetI false in
 /-- The middle homology term is canonically the direct sum
 `Hₙ(U;ℤ) ⊕ Hₙ(V;ℤ)`. -/
 noncomputable def twoOpenMiddleHomologyIso {X : TopCat.{u}} (U V : Opens X)
@@ -1736,7 +1734,6 @@ theorem integralSingularHomologyMap_eq_neg_id_of_twoOpen_swap
     twoOpenMayerVietorisδ_swap_eq_neg V U hVU hUV n]
   simp
 
-set_option linter.style.haveILetI false in
 /-- If the two outer biproduct terms vanish, the ordinary two-open
 Mayer--Vietoris connecting morphism is an isomorphism. -/
 theorem twoOpenMayerVietorisδ_isIso_of_isZero_outer
@@ -1750,10 +1747,10 @@ theorem twoOpenMayerVietorisδ_isIso_of_isZero_outer
     IsIso (twoOpenMayerVietorisδ U V hUV n) := by
   have hSpace := twoOpenMayerVietoris_exact_at_space U V hUV n
   have hIntersection := twoOpenMayerVietoris_exact_at_intersection U V hUV n
-  letI : Mono (twoOpenMayerVietorisδ U V hUV n) :=
+  let : Mono (twoOpenMayerVietorisδ U V hUV n) :=
     (hSpace.mono_g_iff).2
       (hPrev.eq_of_src (twoOpenMayerVietorisFromBiprod U V hUV (n + 1)) 0)
-  letI : Epi (twoOpenMayerVietorisδ U V hUV n) :=
+  let : Epi (twoOpenMayerVietorisδ U V hUV n) :=
     (hIntersection.epi_f_iff).2
       (hNext.eq_of_tgt (twoOpenMayerVietorisFromIntersection U V n) 0)
   exact isIso_of_mono_of_epi _

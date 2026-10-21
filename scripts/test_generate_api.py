@@ -7,6 +7,7 @@ historical headers after verifying their current source-inspected forms. This
 tests the bounded parser/inventory/refusal contract, not whether native records
 are genuine; actual native generation and source binding are separate evidence.
 """
+import argparse
 import copy
 from html import escape
 import json
@@ -15,11 +16,14 @@ import re
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import generate_api as api
 
 ROOT = Path(__file__).resolve().parent.parent
 REV = "a" * 40
+# Populated only by explicit command-line module-file arguments, never discovery.
+DEPENDENCY_SOURCES = {}
 FIRST = "SphereTopology.Homology.Singular.Circle"
 SECOND = "SphereTopology.Homology.Singular.MayerVietoris"
 AMENDED_HEADERS = {
@@ -123,21 +127,56 @@ class Controls(unittest.TestCase):
         for module in empty:
             self.assertEqual(records[module]["declarations"], [])
             self.assertIn(module, facts["native_record_sha256"])
-        # Current source inspection is separate from historical reproduction.
+
+    def test_current_source_correspondence_requires_released_input(self):
+        # Unlike the historical renderer, this consumer needs the released module.
+        # Absence is an error, not a skipped or locally fabricated current check.
+        sources = {p: (ROOT / p).read_bytes() for p in api.INPUTS}
         page = (ROOT / "docs/API.md").read_bytes()
-        current, inspection = api.inspect_current(page, sources)
+        with self.assertRaisesRegex(ValueError, "missing required released dependency source"):
+            api.inspect_current(page, sources)
+        api.require(set(DEPENDENCY_SOURCES) == api.DEPENDENCY_PATHS,
+                    "full current inspection requires explicit --dependency-source MODULE_PATH=FILE")
+        current, inspection = api.inspect_current(page, sources, DEPENDENCY_SOURCES)
         self.assertEqual(current, page)
-        again, repeated = api.inspect_current(current, sources)
+        again, repeated = api.inspect_current(current, sources, DEPENDENCY_SOURCES)
         self.assertEqual((again, repeated), (current, inspection))
         self.assertEqual(inspection["source_docstrings_displayed"], 299)
         self.assertEqual(inspection["authored_api_notes_displayed"], 268)
         self.assertEqual(inspection["source_links_checked"], 567)
+        self.assertEqual(inspection["local_display_sites"], 563)
+        self.assertEqual(inspection["dependency_display_sites"], 4)
+        self.assertEqual(inspection["source_docstrings_available_under_display_policy"], 301)
+        self.assertEqual(inspection["source_docstrings_not_displayed"], 2)
+        self.assertEqual(inspection["declaration_origins"], api.DEPENDENCY_ORIGINS)
+        self.assertEqual(inspection["dependency_source_inputs"],
+                         {p: api.digest(raw) for p, raw in DEPENDENCY_SOURCES.items()})
+        self.assertEqual(json.loads((ROOT / "docs/source-inspection.json").read_bytes()),
+                         dict(schema_version=2, binding=inspection))
+        self.assertEqual(json.loads((ROOT / "docs/api-manifest.json").read_bytes())[
+                         "current_source_inspection"], api.CURRENT_POINTER)
         self.assertFalse(inspection["proof_certification"])
         self.assertEqual(inspection["source_inputs"],
                          {p: api.digest(sources[p]) for p in sorted(sources)})
         self.assertIn(b"Chapter 13, \xc2\xa75", current)
         with self.assertRaisesRegex(ValueError, "incomplete current display"):
-            api.inspect_current(page.replace(b"### SphereTopology.E2", b"## SphereTopology.E2"), sources)
+            api.inspect_current(page.replace(b"### SphereTopology.E2", b"## SphereTopology.E2"),
+                                sources, DEPENDENCY_SOURCES)
+        name = "AlgebraicTopology.chainGroupIsoFinsupp_hom_ι"
+        path = api.DEPENDENCY_ORIGINS[name]["path"]
+        with self.assertRaisesRegex(ValueError, "dependency source digest differs"):
+            api.released_source(name, sources, {path: b"not the released source"})
+        # An inner named argument is not the end of the theorem's source type.
+        origin = api.DEPENDENCY_ORIGINS[name]
+        truncated = origin["source_type"].split(" :=", 1)[0]
+        with patch.dict(api.DEPENDENCY_ORIGINS, {name: dict(origin, source_type=truncated)}):
+            with self.assertRaisesRegex(ValueError, "declaration type/context differs"):
+                api.released_source(name, sources, DEPENDENCY_SOURCES)
+        bad_pin = json.loads(sources["lake-manifest.json"])
+        bad_pin["packages"] = []
+        with self.assertRaisesRegex(ValueError, "dependency pin differs"):
+            api.released_source(name, dict(sources, **{
+                "lake-manifest.json": json.dumps(bad_pin).encode()}), DEPENDENCY_SOURCES)
         with self.assertRaisesRegex(ValueError, "source declaration absent"):
             api.inspected_source_site("Absent", {"generated_owner": ""}, "")
         with self.assertRaisesRegex(ValueError, "ambiguous source declaration"):
@@ -289,4 +328,8 @@ class Controls(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    parser = argparse.ArgumentParser(description=__doc__, add_help=False)
+    parser.add_argument("--dependency-source", action="append", default=[], metavar="MODULE_PATH=FILE")
+    arguments, unittest_arguments = parser.parse_known_args()
+    DEPENDENCY_SOURCES = api.read_dependency_sources(arguments.dependency_source)
+    unittest.main(argv=[__file__, *unittest_arguments])

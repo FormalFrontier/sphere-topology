@@ -40,11 +40,10 @@ sources:
       source adapter are separate statements, not consequences certified by
       this metadata. No full example, chapter or book coverage is claimed.
       Bibliographic authorship is distinct from Lean expression provenance.
-      The private project library holds the reference asset, but no book PDF,
-      scan, figure or quoted passage is shipped here. No redistribution grant
-      for the book or endorsement by its author is asserted. Internal project
-      proof exposition is separately credited in docs/CREDITS.md, not represented
-      as a publicly accessible bibliographic source.
+      No book PDF, scan, figure or quoted passage is shipped here. No
+      redistribution grant for the book or endorsement by its author is
+      asserted. Mathematical and formalization contributions are separately
+      credited in docs/CREDITS.md.
 
   - title: "A Concise Course in Algebraic Topology"
     authors:
@@ -74,13 +73,18 @@ related_formalizations:
       not original dependency implementation. Project expression origins and
       prior formalization contributions are credited in docs/CREDITS.md; these
       are not additional library dependencies.
-  - id: "https://github.com/FormalFrontier/simplicial-objects/tree/fe4b0a3e8f245c1ba30a640330d66f95ea7dddda"
+  - id: "https://github.com/FormalFrontier/simplicial-objects/tree/143f667bdeb0aeccd02e6475781d5c456f00c95b"
     relationship: "builds-on"
     note: >-
       Supplies finite-fiber coproduct transfers for equifibered simplicial maps,
       the all-simplex chain transfer, and its induced homology transfer.
       The covering construction specializes these maps using evaluation of
-      singular lifts. Dependency authorship and notices remain upstream.
+      singular lifts. Also supplies the four canonical AlgebraicTopology
+      integral-coordinate declarations from SimplicialObjects.ChainCoordinates,
+      publicly re-exported by Sphere SmallChains. Lifted integer coefficients
+      and degreewise all-simplex module coordinates retain their universes and
+      providers; no chain, natural or normalized-chain isomorphism is asserted.
+      Dependency authorship and notices remain upstream.
 
   - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/7a3b69c5c2a88044db6e2f664790913d709ae20b"
     relationship: "builds-on"
@@ -289,14 +293,17 @@ fidelity:
 acknowledgements: >-
   The mathlib community supplies the underlying formal mathematics; its authorship
   and license notices remain with the dependency. Simplicial Objects supplies
-  the simplicial finite-fiber transfer. Fundamental Groupoids is the canonical
+  the simplicial finite-fiber transfer and canonical integral coordinates,
+  originally used in Sphere and formalized by Formal Frontier Agents, including
+  Prism, using Mathlib's simplicial coproduct and lifted module APIs.
+  Fundamental Groupoids is the canonical
   home of the generic covering interfaces originally developed in Sphere,
   building on Mathlib's lifting and monodromy by Junyan Xu and deck groups by
   Kim Morrison. May supplies the covering-transfer
   exercise and its coefficient conventions. Lean and Lake supply the proof
   assistant and build system. Weibel's bibliographic authorship is distinct from
   project formalization authorship. Original project contributions and identified
-  internal adaptations use the operator-selected Apache-2.0 license; no ownership
+  project adaptations use the Apache-2.0 license; no ownership
   of, or permission to relicense, third-party expression is asserted. The
   formalization.yaml standard supplies the field vocabulary; this filled-in
   metadata prose is a project contribution, not upstream schema implementation.

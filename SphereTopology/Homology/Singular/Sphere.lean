@@ -563,7 +563,6 @@ theorem isZero_reducedSingularHomology_sphere2SouthPunctured (n : ℕ) :
   let _ := sphere2SouthPunctured_contractibleSpace
   exact TopCat.isZero_reducedSingularHomology_of_contractible _ _
 
-set_option linter.style.haveILetI false in
 /-- The positive-degree Mayer--Vietoris connecting morphism for the ordered
 north/south cover is an isomorphism in degree two. -/
 theorem sphere2MayerVietorisδOne_isIso :

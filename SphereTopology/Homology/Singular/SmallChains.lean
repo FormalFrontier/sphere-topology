@@ -7,6 +7,7 @@ Authors: Formal Frontier Agents
 -- See docs/CREDITS.md for mathematical and interface credit.
 module
 
+public import SimplicialObjects.ChainCoordinates
 public import SphereTopology.Homology.Singular.Subdivision
 public import Mathlib.AlgebraicTopology.SingularHomology.Basic
 public import Mathlib.AlgebraicTopology.SimplicialSet.Subcomplex
@@ -113,11 +114,6 @@ end TopCat
 
 namespace AlgebraicTopology
 
-/-- Integer coefficients lifted into the universe of the singular simplices.
-The underlying module is canonically linearly equivalent to `ℤ`. -/
-abbrev integerCoefficients : ModuleCat.{u} ℤ :=
-  (ModuleCat.uliftFunctor.{u} ℤ).obj (ModuleCat.of ℤ ℤ)
-
 /-- Every singular zero-simplex is small relative to an open cover. -/
 theorem isCoverSmall_zero {X : TopCat.{u}} {ι : Type*} (U : ι → Opens X)
     (hU : IsOpenCover U) (x : (TopCat.toSSet.obj X) _⦋0⦌) :
@@ -189,52 +185,6 @@ theorem smallSingularChainMap_comp_inclusion {X Y : TopCat.{u}} {ι κ : Type*}
   rw [← Category.assoc, SSet.ι_chainComplexMap_f]
   rw [SSet.ι_chainComplexMap_f]
   rfl
-
-/-- Identify the degree-`n` integer-coefficient simplicial chain group with
-finitely supported integer functions on the `n`-simplices. The construction
-also removes the coefficient `ULift` used to accommodate the universe of `X`. -/
-noncomputable def chainGroupIsoFinsupp (X : SSet.{u}) (n : ℕ) :
-    (X.chainComplex integerCoefficients).X n ≅
-      ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ) := by
-  let e₁ := (X.isColimitChainComplexXCofan integerCoefficients n).coconePointUniqueUpToIso
-    (ModuleCat.finsuppCoconeIsColimit ℤ (ULift ℤ) (X _⦋n⦌))
-  let e₂ : ModuleCat.of ℤ (X _⦋n⦌ →₀ ULift.{u} ℤ) ≅
-      ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ) :=
-    (Finsupp.mapRange.linearEquiv (ULift.moduleEquiv (R := ℤ) (M := ℤ))).toModuleIso
-  exact e₁ ≪≫ e₂
-
-set_option backward.isDefEq.respectTransparency false in
-theorem ι_chainGroupIsoFinsupp_hom (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :
-    X.ιChainComplex (R := integerCoefficients) x ≫ (chainGroupIsoFinsupp X n).hom =
-      ModuleCat.ofHom ((Finsupp.lsingle x).comp ULift.moduleEquiv.toLinearMap) := by
-  let e₂ : ModuleCat.of ℤ (X _⦋n⦌ →₀ ULift.{u} ℤ) ≅
-      ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ) :=
-    (Finsupp.mapRange.linearEquiv (ULift.moduleEquiv (R := ℤ) (M := ℤ))).toModuleIso
-  have h := (X.isColimitChainComplexXCofan integerCoefficients n)
-    |>.comp_coconePointUniqueUpToIso_hom
-      (ModuleCat.finsuppCoconeIsColimit ℤ (ULift ℤ) (X _⦋n⦌)) ⟨x⟩
-  have h' := congrArg (fun f ↦ f ≫ e₂.hom) h
-  calc
-    _ = (ModuleCat.finsuppCocone ℤ (ULift ℤ) (X _⦋n⦌)).ι.app ⟨x⟩ ≫ e₂.hom := by
-      rw [chainGroupIsoFinsupp, Iso.trans_hom, ← Category.assoc]
-      exact h'
-    _ = ModuleCat.ofHom ((Finsupp.lsingle x).comp ULift.moduleEquiv.toLinearMap) := by
-      apply ModuleCat.hom_ext
-      apply LinearMap.ext
-      intro z
-      simp [e₂, ModuleCat.finsuppCocone]
-
-@[simp]
-theorem chainGroupIsoFinsupp_hom_ι (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :
-    (chainGroupIsoFinsupp X n).hom.hom
-        ((X.ιChainComplex (R := integerCoefficients) x).hom (ULift.up (1 : ℤ))) =
-      Finsupp.single x 1 := by
-  have h := ι_chainGroupIsoFinsupp_hom X x
-  have h1 := congr($h (ULift.up (1 : ℤ)))
-  change (chainGroupIsoFinsupp X n).hom.hom
-      ((X.ιChainComplex (R := integerCoefficients) x).hom (ULift.up (1 : ℤ))) =
-        Finsupp.single x 1 at h1
-  exact h1
 
 end AlgebraicTopology
 open CategoryTheory Convexity TopologicalSpace

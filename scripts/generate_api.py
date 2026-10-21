@@ -41,6 +41,10 @@ HERE = Path(__file__).resolve().parent
 EXPECTED = json.loads((HERE / "api_inventory.json").read_bytes())
 NOTES = json.loads((HERE / "api_notes.json").read_bytes())
 SOURCE_PREFIX = "source-snapshot:"
+CURRENT_POINTER = {"schema_version": 2, "source_inspection": "source-inspection.json"}
+DEPENDENCY_ORIGINS = {name: meta["current_source_origin"]
+                      for name, meta in EXPECTED.items() if "current_source_origin" in meta}
+DEPENDENCY_PATHS = {origin["path"] for origin in DEPENDENCY_ORIGINS.values()}
 
 
 def require(ok, message):
@@ -263,30 +267,99 @@ def inspected_source_site(name, meta, source):
     return source.count("\n", 0, site) + 1, doc
 
 
-def inspect_current(markdown, sources):
+def read_dependency_sources(arguments):
+    """Read only explicitly supplied, inventory-allowlisted public module files.
+
+    No workspace search, dependency preparation, Git checkout or network access.
+    File provenance is checked against the released module digest during inspection.
+    """
+    result = {}
+    for argument in arguments:
+        path, separator, filename = argument.partition("=")
+        require(separator and filename and path in DEPENDENCY_PATHS,
+                "expected --dependency-source RELEASED_MODULE_PATH=FILE")
+        require(path not in result, "duplicate dependency source: " + path)
+        result[path] = Path(filename).read_bytes()
+    return result
+
+
+def released_source(name, sources, dependency_sources):
+    """Resolve one explicit released origin, never a guessed local declaration."""
+    origin = DEPENDENCY_ORIGINS[name]
+    path = origin["path"]
+    require(path in dependency_sources, "missing required released dependency source: " + path)
+    raw = dependency_sources[path]
+    require(isinstance(raw, bytes) and digest(raw) == origin["source_sha256"],
+            "released dependency source digest differs: " + path)
+    packages = json.loads(sources["lake-manifest.json"])["packages"]
+    require(any(p.get("url") == origin["repository"] and p.get("type") == "git"
+                and p.get("rev") == origin["revision"]
+                and p.get("inputRev") == origin["revision"]
+                and p.get("inherited") is False and p.get("subDir") is None
+                for p in packages), "released dependency pin differs: " + path)
+    source = raw.decode()
+    # These four complete, release-bound line slices are explicit inventory
+    # data. Do not split at ':=': named arguments such as '(R := ...)' occur
+    # inside the theorem types themselves.
+    declaration = "\n".join(source.splitlines()[
+        origin["declaration_line"] - 1:origin["declaration_end_line"]])
+    require(declaration.removesuffix(" := by") == origin["source_type"]
+            and all(context in source for context in origin["universe_context"]),
+            "released declaration type/context differs: " + name)
+    meta = EXPECTED[name]
+    line, doc = inspected_source_site(name, meta, source)
+    url = (origin["repository"] + "/blob/" + origin["revision"] + "/" + path
+           + "#L" + str(line))
+    require(line == origin["line"] and url == origin["source_url"],
+            "released source location differs: " + name)
+    return line, doc, url
+
+
+def inspect_current(markdown, sources, dependency_sources=None):
     """Refresh only current prose/links; keep historical headers and provenance.
 
     The input is the shipped, five-header-corrected page, not a new native record.
     Later interfaces outside the 567-site inventory remain untouched.
     """
+    require(set(sources) == set(INPUTS), "source/pin inventory differs")
+    dependency_sources = {} if dependency_sources is None else dependency_sources
+    require(set(dependency_sources) <= DEPENDENCY_PATHS, "unexpected dependency source")
     sites = {}
+    origins = {}
     pattern = (r"(?m)^### ([^\n]+)\n\n```lean\n([^\n]+)\n```\n\n"
-               r"(.*?)\[Source\]\(\.\./([^#]+)#L[0-9]+\) "
+               r"(.*?)\[Source\]\(([^)\n]+)\) "
                r"\(retained native site: line ([0-9]+)\)\.")
     def update(match):
-        name, header, body, path, native_line = match.groups()
+        name, header, body, target, native_line = match.groups()
         require(name in EXPECTED and name not in sites, "current display differs")
         meta = EXPECTED[name]
-        require(path == MODULE_PATHS[meta["module"]] and int(native_line) == meta["line"],
-                "historical display selection differs")
-        line, doc = inspected_source_site(name, meta, sources[path].decode())
-        require(bool(doc) == bool(meta["native_doc"].strip()),
-                "current docstring presence differs: " + name)
+        path = MODULE_PATHS[meta["module"]]
+        local_target = re.fullmatch(re.escape("../" + path) + r"#L[0-9]+", target)
+        origin = DEPENDENCY_ORIGINS.get(name)
+        require((local_target is not None or origin and target == origin["source_url"])
+                and int(native_line) == meta["line"], "historical display selection differs")
+        if origin and origin["path"] in dependency_sources:
+            line, doc, url = released_source(name, sources, dependency_sources)
+            origins[name] = origin
+        else:
+            try:
+                line, doc = inspected_source_site(name, meta, sources[path].decode())
+            except ValueError as error:
+                if not origin or str(error) != "source declaration absent: " + name:
+                    raise
+                line, doc, url = released_source(name, sources, dependency_sources)
+                origins[name] = origin
+            else:
+                url = "../" + path + "#L" + str(line)
+        require(name in NOTES or bool(doc), "current source docstring absent: " + name)
         require("```" not in doc, "unsupported source docstring fence")
         # Keep the five previously labeled source-inspected header corrections.
         correction = re.match(r"(\*\*Source-inspected correction:\*\*[^\n]+\n\n)", body)
         content = correction[1] if correction else ""
-        content += doc if doc else "**API note (not a source docstring):** " + NOTES[name]
+        # Display authorship is historical: newly attached dependency docs do not
+        # silently relabel an authored note as source prose.
+        content += ("**API note (not a source docstring):** " + NOTES[name]
+                    if name in NOTES else doc)
         if meta["generated_owner"]:
             content += ("\n\nGenerated `" + meta["generated_attribute"] + "` declaration from `"
                         + meta["generated_owner"] + "`; the source link locates its owner.")
@@ -295,21 +368,33 @@ def inspect_current(markdown, sources):
         if name == "TopCat.isOpenCover_twoOpenCover":
             content += ("\n\nFormal boundary: the displayed theorem supplies the stated implication;"
                         " its docstring does not establish a separate converse.")
-        sites[name] = dict(line=line, source_docstring_sha256=digest(doc.encode()))
+        sites[name] = dict(line=line, has_source_docstring=bool(doc),
+                           source_docstring_sha256=digest(doc.encode()))
         return ("### " + name + "\n\n```lean\n" + header + "\n```\n\n" + content
-                + f"\n\n[Source](../{path}#L{line}) (retained native site: line {native_line}).")
+                + f"\n\n[Source]({url}) (retained native site: line {native_line}).")
     current = re.sub(pattern, update, markdown.decode(), flags=re.S).encode()
     require(set(sites) == set(EXPECTED), "incomplete current display inspection")
-    details = dict(method="Bounded source-docstring/link inspection; no native doc-gen run.",
+    details = dict(method="bounded-source-text-correspondence",
                    source_inputs={p: digest(sources[p]) for p in sorted(sources)},
                    documentation_inputs={str(p.relative_to(HERE.parent)): digest(p.read_bytes())
                        for p in (HERE / "generate_api.py", HERE / "api_inventory.json", HERE / "api_notes.json")},
+                   dependency_source_inputs={p: digest(dependency_sources[p])
+                                             for p in sorted({o["path"] for o in origins.values()})},
+                   declaration_origins=origins,
+                   local_display_sites=len(sites) - len(origins),
+                   dependency_display_sites=len(origins),
                    api_sha256=digest(current), source_links_checked=len(sites),
-                   source_docstrings_displayed=299, authored_api_notes_displayed=268,
+                   source_docstrings_displayed=sum(n not in NOTES for n in sites),
+                   authored_api_notes_displayed=sum(n in NOTES for n in sites),
+                   source_docstrings_available_under_display_policy=sum(
+                       s["has_source_docstring"] for s in sites.values()),
+                   source_docstrings_not_displayed=sum(
+                       s["has_source_docstring"] and n in NOTES for n, s in sites.items()),
                    source_docstrings_differing_from_native=sum(
                        sites[n]["source_docstring_sha256"] != digest(m["native_doc"].strip().encode())
                        for n, m in EXPECTED.items()),
-                   scope="Historical 567-site display selection only; not a whole-library declaration census.",
+                   scope="Historical 567-site display selection only; source-text correspondence, "
+                         "not compiled types, a whole-library declaration census or proof assurance.",
                    proof_certification=False)
     return current, details
 
@@ -321,6 +406,8 @@ def main():
     p.add_argument("--native-data", type=Path,
                    help="native fromDb output doc-data directory")
     p.add_argument("--source-revision")
+    p.add_argument("--dependency-source", action="append", default=[], metavar="MODULE_PATH=FILE",
+                   help="explicit released public module file for current inspection; repeat per module")
     p.add_argument("--check", action="store_true", help="compare, never write")
     args = p.parse_args()
     root = Path(__file__).resolve().parent.parent
@@ -330,23 +417,27 @@ def main():
                 "current inspection does not consume native records or a native revision")
         page = root / "docs/API.md"
         provenance = root / "docs/api-manifest.json"
-        current, details = inspect_current(page.read_bytes(), sources)
+        dependency_sources = read_dependency_sources(args.dependency_source)
+        current, details = inspect_current(page.read_bytes(), sources, dependency_sources)
         manifest = json.loads(provenance.read_bytes())
-        # Every original top-level field and the earlier source_inspection remain
-        # historical. Content hashes, not a fabricated generation revision, bind
-        # the current inspected source and separately edited notes.
-        manifest["current_source_inspection"] = details
-        raw_manifest = (json.dumps(manifest, indent=2) + "\n").encode()
+        # Historical top-level fields and source_inspection are not rebound.
+        # The sidecar hashes its inputs, not itself or the manifest pointer.
+        manifest["current_source_inspection"] = CURRENT_POINTER
+        sidecar = root / "docs/source-inspection.json"
+        binding = dict(schema_version=2, binding=details)
         if args.check:
             require(page.read_bytes() == current, "current API differs")
-            require(json.loads(provenance.read_bytes()) == manifest, "current inspection binding differs")
+            require(json.loads(provenance.read_bytes()) == manifest, "current inspection pointer differs")
+            require(json.loads(sidecar.read_bytes()) == binding, "current inspection binding differs")
         else:
             page.write_bytes(current)
-            provenance.write_bytes(raw_manifest)
+            sidecar.write_text(json.dumps(binding, indent=2, ensure_ascii=False) + "\n")
+            provenance.write_text(json.dumps(manifest, indent=2) + "\n")
         print(json.dumps(dict(status="matched" if args.check else "source-inspected",
-                              declarations=567, api_sha256=digest(current),
+                              display_sites=len(EXPECTED), api_sha256=digest(current),
                               native_generation=False, proof_certification=False)))
         return
+    require(not args.dependency_source, "dependency source inputs are only for current inspection")
     require(args.native_data is not None and args.source_revision is not None,
             "historical generation requires native data and its source revision")
     require(re.fullmatch(r"[0-9a-f]{40}", args.source_revision) is not None,

@@ -312,7 +312,7 @@ instance reducedSingularHomologyZeroToOrdinary_mono (X : TopCat.{u}) :
   infer_instance
 
 /-- The reduced degree-zero inclusion is annihilated by augmentation. -/
-@[reassoc (attr := simp)]
+@[simp, reassoc]
 theorem reducedSingularHomologyZeroToOrdinary_augmentation (X : TopCat.{u}) :
     reducedSingularHomologyZeroToOrdinary X ≫
       X.singularHomology₀ε singularHomologyIntegerCoefficients = 0 := by

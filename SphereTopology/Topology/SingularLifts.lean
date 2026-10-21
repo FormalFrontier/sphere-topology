@@ -163,7 +163,6 @@ theorem singularLiftRestrict_val {k l : SimplexCategoryᵒᵖ} (α : k ⟶ l)
   rfl
 
 /-- Identity restriction leaves the underlying lift unchanged. -/
-@[simp]
 theorem singularLiftRestrict_id_val (k : SimplexCategoryᵒᵖ)
     (s : (toSSet.obj X).obj k)
     (u : {u : (toSSet.obj Y).obj k // (toSSet.map p).app k u = s}) :

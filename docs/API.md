@@ -40,24 +40,33 @@ and the [overview](../README.md). That module and its
 the library; private example modules are separate.
 
 Headers below reuse native doc-gen4 display signatures, not complete declarations
-with proof bodies. Five explicitly labeled headers are corrected by source
-inspection at `f66621f5ff0d90bad849d4f7fcef3c7b96720d55`: four noncomputable
-modifiers and one removed DecidableEq binder. Other native header tokens remain
+with proof bodies. Five explicitly labeled source corrections add four noncomputable
+modifiers and remove one unused DecidableEq binder. Other native header tokens remain
 unchanged. Source links follow the current source; retained native lines are historical.
 Native pretty-printing uses each source namespace, notation and type inference;
 consult the linked source for suppressed inferred types and universe conventions.
 These displayed fragments are not promised to elaborate alone in a fresh namespace.
-Source links are relative to this same checkout.
+Local source links are relative to this checkout. The four coordinate declarations
+are dependency APIs: their source links point at released Simplicial Objects
+`143f667bdeb0aeccd02e6475781d5c456f00c95b`, not at local definitions. Their full
+source types, coefficient RHS and providers are in [coordinates.md](coordinates.md).
 
-The historical native provenance and separate current source inspection are in [api-manifest.json](api-manifest.json).
-See [generation instructions](README.md) and the [library overview](../README.md).
+The historical native provenance and separately recorded source inspection are in
+[api-manifest.json](api-manifest.json).
+See the [display/source contract](README.md) and [library overview](../README.md).
 The 299 docstring displays below follow current attached source prose, including
 mathematical references; recorded generated displays inherit their owner's prose
 where the original inventory did so. They are not fresh native output. The
 historical native docstrings remain unchanged in `scripts/api_inventory.json`.
-Where no source docstring exists, one of the 268 separately authored **API notes**
-is labeled explicitly. The current inspection's file hashes and page hash are
-separate from both historical manifest layers.
+The 268 separately authored **API notes** remain labeled explicitly, including
+the two coordinate laws whose released source now also supplies docstrings.
+Under the explicit generated-owner inheritance policy, 301 sites have usable
+source docstrings: 299 displayed and these two undisplayed law docstrings.
+The current [source-text binding](source-inspection.json) records local and
+released source inputs separately; historical manifest hashes retain their
+historical meaning. The selection is 563 local sites and four dependency
+declarations, not 567 Sphere-owned declarations. Source-text correspondence
+checks neither compiled types nor proofs.
 
 ## SphereTopology.Homology.Singular.Circle
 
@@ -1492,7 +1501,7 @@ noncomputable def AlgebraicTopology.smallSingularHomologyIso {X : TopCat} {ι : 
 A cover-small homology group is canonically isomorphic to ordinary
 singular homology when the family is an open cover.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L757) (retained native site: line 744).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L756) (retained native site: line 744).
 
 ### AlgebraicTopology.twoOpenSpaceHomologyIso
 
@@ -1503,7 +1512,7 @@ noncomputable def AlgebraicTopology.twoOpenSpaceHomologyIso {X : TopCat} (U V : 
 The last term of the two-open short complex has ordinary singular
 homology, via the cover-small inclusion quasi-isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L766) (retained native site: line 753).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L765) (retained native site: line 753).
 
 ### AlgebraicTopology.twoOpenMiddleHomologyIso
 
@@ -1514,7 +1523,7 @@ noncomputable def AlgebraicTopology.twoOpenMiddleHomologyIso {X : TopCat} (U V :
 The middle homology term is canonically the direct sum
 `Hₙ(U;ℤ) ⊕ Hₙ(V;ℤ)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L776) (retained native site: line 763).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L774) (retained native site: line 763).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ
 
@@ -1525,7 +1534,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisδ {X : TopCat} (U V : T
 The ordinary Mayer--Vietoris connecting morphism for the ordered cover
 `(U,V)`, with the chain convention `c ↦ (c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L794) (retained native site: line 781).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L792) (retained native site: line 781).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap
 
@@ -1537,7 +1546,7 @@ The ordinary homology self-map induced by reindexing the ordered cover
 `(U,V)` as `(V,U)`.  It conjugates the cover-small swap map by the canonical
 cover-small/ordinary homology isomorphisms.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L803) (retained native site: line 790).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L801) (retained native site: line 790).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap_eq_id
 
@@ -1548,7 +1557,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisSwapSpaceMap_eq_id {X : TopCat} (U
 Reindexing the two-member cover induces the identity on ordinary singular
 homology of the ambient space.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L813) (retained native site: line 800).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L811) (retained native site: line 800).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_swap
 
@@ -1561,7 +1570,7 @@ connecting morphism by `-1`, after the sign-free transport of the intersection
 term and the canonical cover reindexing on the space term.  Thus the sign from
 the chain convention `c ↦ (c,-c)` remains visible over `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L833) (retained native site: line 820).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L831) (retained native site: line 820).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_swap_eq_neg
 
@@ -1572,7 +1581,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_swap_eq_neg {X : TopCat} (U V :
 In the ordinary formulation, where reindexing the cover acts identically
 on `H(X;ℤ)`, swapping `U` and `V` negates the connecting morphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L868) (retained native site: line 855).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L866) (retained native site: line 855).
 
 ### AlgebraicTopology.twoOpenMayerVietorisToSpace
 
@@ -1582,7 +1591,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisToSpace {X : TopCat} (U 
 
 The map from the middle homology term to ordinary homology of `X`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L880) (retained native site: line 867).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L878) (retained native site: line 867).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection
 
@@ -1593,7 +1602,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisFromIntersection {X : To
 The difference map on homology, displayed with target
 `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L888) (retained native site: line 875).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L886) (retained native site: line 875).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromBiprod
 
@@ -1604,7 +1613,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisFromBiprod {X : TopCat} 
 The sum map on homology, displayed with source
 `Hₙ(U) ⊕ Hₙ(V)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L898) (retained native site: line 885).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L896) (retained native site: line 885).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_comp
 
@@ -1614,7 +1623,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_comp {X : TopCat} (U V : Topolo
 
 **API note (not a source docstring):** For the open cover U union V = X, the connecting map from H_(n+1)(X;Z) to the intersection homology followed by the short complex's ordered difference map on H_n is zero. This uses the fixed (c,-c) convention and is a consecutive-map identity, not an exactness assertion by itself.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L973) (retained native site: line 895).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L971) (retained native site: line 895).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_comp_assoc
 
@@ -1626,7 +1635,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_comp_assoc {X : TopCat} (U V : 
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietorisδ_comp`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L973) (retained native site: line 895).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L971) (retained native site: line 895).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace
 
@@ -1636,7 +1645,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace {X : TopCat} (U V : 
 
 **API note (not a source docstring):** For a two-open cover, the homology map of the ordered difference followed by the map from the middle homology object to ordinary H_n(X;Z) is zero. The middle object is still presented as homology of the chain biproduct.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L981) (retained native site: line 903).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L979) (retained native site: line 903).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace_assoc
 
@@ -1648,7 +1657,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace_assoc {X : TopCat} (
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietoris_comp_toSpace`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L981) (retained native site: line 903).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L979) (retained native site: line 903).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ
 
@@ -1658,7 +1667,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ {X : TopCat} (U V
 
 **API note (not a source docstring):** For the open cover U union V = X, the map from the middle homology object in degree n+1 to ordinary H_(n+1)(X;Z), followed by the connecting morphism into intersection H_n, is zero. This records consecutive-map vanishing with the degree shift explicit.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1004) (retained native site: line 915).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1002) (retained native site: line 915).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ_assoc
 
@@ -1670,7 +1679,7 @@ theorem AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ_assoc {X : TopCat
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenMayerVietoris_toSpace_comp_δ`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1004) (retained native site: line 915).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1002) (retained native site: line 915).
 
 ### AlgebraicTopology.twoOpenMayerVietorisIntersectionMap
 
@@ -1681,7 +1690,7 @@ noncomputable def AlgebraicTopology.twoOpenMayerVietorisIntersectionMap {X Y : T
 The map on the intersection homology term induced by a continuous map
 respecting ordered pairs.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1017) (retained native site: line 928).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1015) (retained native site: line 928).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSpaceMap
 
@@ -1693,7 +1702,7 @@ The ordinary-space homology map obtained naturally from the two-open
 short complexes.  It is defined by conjugating the cover-small map by the
 canonical cover-small/ordinary homology isomorphisms.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1027) (retained native site: line 938).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1025) (retained native site: line 938).
 
 ### AlgebraicTopology.twoOpenMayerVietorisSpaceMap_eq
 
@@ -1704,7 +1713,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisSpaceMap_eq {X Y : TopCat} (f : X 
 The space map used in Mayer--Vietoris naturality is the ordinary singular
 homology map induced by the underlying continuous map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1040) (retained native site: line 951).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1038) (retained native site: line 951).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_naturality
 
@@ -1715,7 +1724,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_naturality {X Y : TopCat} (f : 
 Naturality of the ordinary two-open Mayer--Vietoris connecting
 morphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1066) (retained native site: line 977).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1064) (retained native site: line 977).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_naturality_induced
 
@@ -1726,7 +1735,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_naturality_induced {X Y : TopCa
 Naturality of the connecting morphism with the standard ordinary singular
 homology map of the underlying continuous map displayed explicitly.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1083) (retained native site: line 994).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1081) (retained native site: line 994).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_intersection
 
@@ -1740,7 +1749,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1098) (retained native site: line 1009).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1096) (retained native site: line 1009).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_middle
 
@@ -1754,7 +1763,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1135) (retained native site: line 1042).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1133) (retained native site: line 1042).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_space
 
@@ -1768,7 +1777,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1176) (retained native site: line 1079).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1174) (retained native site: line 1079).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_intersection
 
@@ -1783,7 +1792,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1218) (retained native site: line 1117).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1216) (retained native site: line 1117).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_biprod
 
@@ -1797,7 +1806,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1255) (retained native site: line 1150).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1253) (retained native site: line 1150).
 
 ### AlgebraicTopology.twoOpenMayerVietoris_exact_at_space
 
@@ -1812,7 +1821,7 @@ This is the integral two-open form of Mayer--Vietoris exactness in
 J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 14, §5, using
 this module's difference/sum convention and Mathlib's homology-sequence API.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1289) (retained native site: line 1180).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1287) (retained native site: line 1180).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_fst
 
@@ -1823,7 +1832,7 @@ theorem AlgebraicTopology.twoOpenSmallShortComplex_f_fst {X : TopCat} (U V : Top
 The left projection of the first map in the two-open small short complex
 is induced by the open-subspace inclusion `U ∩ V → U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1351) (retained native site: line 1238).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1349) (retained native site: line 1238).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_snd
 
@@ -1834,7 +1843,7 @@ theorem AlgebraicTopology.twoOpenSmallShortComplex_f_snd {X : TopCat} (U V : Top
 The right projection of the first map in the two-open small short complex
 is minus the map induced by the open-subspace inclusion `U ∩ V → V`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1389) (retained native site: line 1276).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1387) (retained native site: line 1276).
 
 ### AlgebraicTopology.twoOpenSmallShortComplex_f_eq_difference
 
@@ -1845,7 +1854,7 @@ theorem AlgebraicTopology.twoOpenSmallShortComplex_f_eq_difference {X : TopCat} 
 The first map of the two-open small short complex is the ordered
 difference map `c ↦ (c,-c)`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1429) (retained native site: line 1316).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1427) (retained native site: line 1316).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso
 
@@ -1856,7 +1865,7 @@ noncomputable def AlgebraicTopology.twoOpenIntersectionHomologyIso {X : TopCat} 
 The homology of the intersection as an open subspace is canonically the first
 homology object of the two-open small short complex.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1440) (retained native site: line 1327).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1438) (retained native site: line 1327).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection_fst
 
@@ -1867,7 +1876,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisFromIntersection_fst {X : TopCat} 
 The left projection of the displayed ordinary difference map is induced
 by `U ∩ V → U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1448) (retained native site: line 1335).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1446) (retained native site: line 1335).
 
 ### AlgebraicTopology.twoOpenMayerVietorisFromIntersection_snd
 
@@ -1878,7 +1887,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisFromIntersection_snd {X : TopCat} 
 The right projection of the displayed ordinary difference map is minus
 the map induced by `U ∩ V → V`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1464) (retained native site: line 1350).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1462) (retained native site: line 1350).
 
 ### AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionMap
 
@@ -1889,7 +1898,7 @@ theorem AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionMap {X Y :
 The first component of the induced map of two-open small short complexes
 is the chain map induced by the restricted map of open intersections.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1496) (retained native site: line 1381).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1494) (retained native site: line 1381).
 
 ### AlgebraicTopology.twoOpenMayerVietorisIntersectionMap_eq
 
@@ -1900,7 +1909,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisIntersectionMap_eq {X Y : TopCat} 
 The induced map on the intersection homology term is the ordinary
 homology map induced by the restricted open-intersection map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1528) (retained native site: line 1413).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1526) (retained native site: line 1413).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality
 
@@ -1910,7 +1919,7 @@ theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality {X Y : TopCa
 
 Naturality of the open-subspace intersection identification.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1541) (retained native site: line 1426).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1539) (retained native site: line 1426).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality_assoc
 
@@ -1922,7 +1931,7 @@ Naturality of the open-subspace intersection identification.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomologyIso_naturality`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1541) (retained native site: line 1427).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1539) (retained native site: line 1427).
 
 ### AlgebraicTopology.twoOpenIntersectionSwapMap
 
@@ -1933,7 +1942,7 @@ def AlgebraicTopology.twoOpenIntersectionSwapMap {X : TopCat} (U V : Topological
 The sign-free map from the open-subspace intersection `U ∩ V` to the open-subspace
 intersection `V ∩ U`.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1556) (retained native site: line 1441).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1554) (retained native site: line 1441).
 
 ### AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionSwapMap
 
@@ -1944,7 +1953,7 @@ theorem AlgebraicTopology.integralSingularChainMap_twoOpenIntersectionSwapMap {X
 The chain map induced by the sign-free open-subspace intersection swap is the
 intersection swap chain isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1579) (retained native site: line 1464).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1577) (retained native site: line 1464).
 
 ### AlgebraicTopology.integralSingularHomologyMap_twoOpenIntersectionSwapMap
 
@@ -1955,7 +1964,7 @@ theorem AlgebraicTopology.integralSingularHomologyMap_twoOpenIntersectionSwapMap
 On homology, the map induced by the sign-free open-subspace intersection swap is
 the homology swap map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1650) (retained native site: line 1535).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1648) (retained native site: line 1535).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_swap
 
@@ -1966,7 +1975,7 @@ theorem AlgebraicTopology.twoOpenIntersectionHomologyIso_swap {X : TopCat} (U V 
 The open-subspace intersection identification intertwines the sign-free
 swap map with the homology swap map.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1661) (retained native site: line 1546).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1659) (retained native site: line 1546).
 
 ### AlgebraicTopology.twoOpenIntersectionHomologyIso_swap_assoc
 
@@ -1979,7 +1988,7 @@ swap map with the homology swap map.
 
 Generated `reassoc` declaration from `AlgebraicTopology.twoOpenIntersectionHomologyIso_swap`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1661) (retained native site: line 1548).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1659) (retained native site: line 1548).
 
 ### AlgebraicTopology.twoOpenIntersectionSwapMap_comp
 
@@ -1989,7 +1998,7 @@ theorem AlgebraicTopology.twoOpenIntersectionSwapMap_comp {X : TopCat} (U V : To
 
 Swapping the open-subspace intersection twice is the identity.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1676) (retained native site: line 1561).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1674) (retained native site: line 1561).
 
 ### AlgebraicTopology.integralSingularHomologyMap_eq_neg_id_of_twoOpen_swap
 
@@ -2003,7 +2012,7 @@ the next ordinary integral homology group, provided the displayed connecting
 morphism is monic.  The minus sign comes from the ordered Mayer--Vietoris
 convention; it is not part of the intersection transport hypothesis.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1684) (retained native site: line 1569).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1682) (retained native site: line 1569).
 
 ### AlgebraicTopology.twoOpenMayerVietorisδ_isIso_of_isZero_outer
 
@@ -2014,7 +2023,7 @@ theorem AlgebraicTopology.twoOpenMayerVietorisδ_isIso_of_isZero_outer {X : TopC
 If the two outer biproduct terms vanish, the ordinary two-open
 Mayer--Vietoris connecting morphism is an isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1740) (retained native site: line 1625).
+[Source](../SphereTopology/Homology/Singular/MayerVietoris.lean#L1737) (retained native site: line 1625).
 
 ## SphereTopology.Homology.Singular.Reduced
 
@@ -3092,7 +3101,7 @@ theorem AlgebraicTopology.twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_ope
 If both opens have zero reduced homology in degrees zero and one, the
 reduced connecting morphism is an isomorphism.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L688) (retained native site: line 341).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L687) (retained native site: line 341).
 
 ### AlgebraicTopology.twoOpenReducedMayerVietorisIsoOfAcyclicOpens
 
@@ -3103,11 +3112,13 @@ noncomputable def AlgebraicTopology.twoOpenReducedMayerVietorisIsoOfAcyclicOpens
 The reduced Mayer--Vietoris isomorphism furnished by an acyclic ordered
 two-open cover in the adjacent degrees.
 
-[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L737) (retained native site: line 390).
+[Source](../SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L736) (retained native site: line 390).
 
 ## SphereTopology.Homology.Singular.SmallChains
 
-Scope: mathematical library leaf.
+Scope: mathematical library leaf. The four coordinate declarations below are
+provided by released `SimplicialObjects.ChainCoordinates` and re-exported here;
+the heading retains the historical display order, not their current ownership.
 
 ### TopCat.smallSingularSet
 
@@ -3117,7 +3128,7 @@ def TopCat.smallSingularSet {X : TopCat} {ι : Type u_1} (U : ι → Topological
 
 Singular simplices whose range is contained in one member of `U`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L55) (retained native site: line 43).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L56) (retained native site: line 43).
 
 ### TopCat.mem_smallSingularSet_iff
 
@@ -3127,7 +3138,7 @@ theorem TopCat.mem_smallSingularSet_iff {X : TopCat} {ι : Type u_1} (U : ι →
 
 **API note (not a source docstring):** A singular simplex belongs to the small singular subcomplex exactly when its continuous representative has range contained in one member of the family U. U may be any family of opens; this characterization does not require it to cover the space.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L65) (retained native site: line 53).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L66) (retained native site: line 53).
 
 ### TopCat.smallSingularSet_mono
 
@@ -3138,7 +3149,7 @@ theorem TopCat.smallSingularSet_mono {X : TopCat} {ι : Type u_1} {κ : Type u_2
 Refining every member of `U` into a member of `V` gives an inclusion of
 the corresponding small-singular subcomplexes.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L71) (retained native site: line 59).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L72) (retained native site: line 59).
 
 ### TopCat.smallSingularSetHomOfRefinement
 
@@ -3148,7 +3159,7 @@ noncomputable def TopCat.smallSingularSetHomOfRefinement {X : TopCat} {ι : Type
 
 The simplicial map on small singular sets induced by a cover refinement.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L81) (retained native site: line 69).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L82) (retained native site: line 69).
 
 ### TopCat.smallSingularSetMap
 
@@ -3159,7 +3170,7 @@ noncomputable def TopCat.smallSingularSetMap {X Y : TopCat} {ι : Type u_1} {κ 
 A continuous map induces a map of small-singular simplicial sets whenever
 it sends each member of the source cover into a member of the target cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L88) (retained native site: line 76).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L89) (retained native site: line 76).
 
 ### TopCat.smallSingularSetMap_comp_inclusion
 
@@ -3169,7 +3180,7 @@ theorem TopCat.smallSingularSetMap_comp_inclusion {X Y : TopCat} {ι : Type u_1}
 
 **API note (not a source docstring):** The small-singular simplicial map induced by a continuous map respecting the two families of opens commutes with inclusion into all singular simplices. The hypothesis sends each source member into some target member; no covering hypothesis is used.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L104) (retained native site: line 92).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L105) (retained native site: line 92).
 
 ### TopCat.smallSingularSetMap_comp_inclusion_assoc
 
@@ -3181,7 +3192,7 @@ theorem TopCat.smallSingularSetMap_comp_inclusion_assoc {X Y : TopCat} {ι : Typ
 
 Generated `reassoc` declaration from `TopCat.smallSingularSetMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L104) (retained native site: line 92).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L105) (retained native site: line 92).
 
 ### AlgebraicTopology.integerCoefficients
 
@@ -3192,7 +3203,7 @@ abbrev AlgebraicTopology.integerCoefficients : ModuleCat ℤ
 Integer coefficients lifted into the universe of the singular simplices.
 The underlying module is canonically linearly equivalent to `ℤ`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L116) (retained native site: line 104).
+[Source](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L51) (retained native site: line 104).
 
 ### AlgebraicTopology.isCoverSmall_zero
 
@@ -3202,7 +3213,7 @@ theorem AlgebraicTopology.isCoverSmall_zero {X : TopCat} {ι : Type u_1} (U : ι
 
 Every singular zero-simplex is small relative to an open cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L121) (retained native site: line 109).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L117) (retained native site: line 109).
 
 ### AlgebraicTopology.smallSingularChainComplex
 
@@ -3212,7 +3223,7 @@ noncomputable def AlgebraicTopology.smallSingularChainComplex {X : TopCat} {ι :
 
 The integer chain complex generated by singular simplices small in `U`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L131) (retained native site: line 119).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L127) (retained native site: line 119).
 
 ### AlgebraicTopology.smallSingularChainInclusion
 
@@ -3222,7 +3233,7 @@ noncomputable def AlgebraicTopology.smallSingularChainInclusion {X : TopCat} {ι
 
 Inclusion of the `U`-small integer singular chain complex into all chains.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L136) (retained native site: line 124).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L132) (retained native site: line 124).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement
 
@@ -3232,7 +3243,7 @@ noncomputable def AlgebraicTopology.smallSingularChainMapOfRefinement {X : TopCa
 
 The integer-chain map induced by a refinement of open covers.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L142) (retained native site: line 130).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L138) (retained native site: line 130).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion
 
@@ -3242,7 +3253,7 @@ theorem AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion {X : 
 
 **API note (not a source docstring):** A refinement from U to V induces a map of small integer chain complexes whose composite with the V-inclusion is the U-inclusion. Each U member need only lie in some V member; the families need not cover.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L149) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L145) (retained native site: line 137).
 
 ### AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion_assoc
 
@@ -3254,7 +3265,7 @@ theorem AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion_assoc
 
 Generated `reassoc` declaration from `AlgebraicTopology.smallSingularChainMapOfRefinement_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L149) (retained native site: line 137).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L145) (retained native site: line 137).
 
 ### AlgebraicTopology.smallSingularChainMap
 
@@ -3265,7 +3276,7 @@ noncomputable def AlgebraicTopology.smallSingularChainMap {X Y : TopCat} {ι : T
 The chain map on cover-small chains induced by a cover-respecting
 continuous map.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L166) (retained native site: line 154).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L162) (retained native site: line 154).
 
 ### AlgebraicTopology.smallSingularChainMap_comp_inclusion
 
@@ -3275,7 +3286,7 @@ theorem AlgebraicTopology.smallSingularChainMap_comp_inclusion {X Y : TopCat} {�
 
 **API note (not a source docstring):** For a continuous map taking each U member into some V member, the induced map of small integer chains commutes with inclusion and the full singular chain map. Neither family is assumed to cover here.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L174) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L170) (retained native site: line 162).
 
 ### AlgebraicTopology.smallSingularChainMap_comp_inclusion_assoc
 
@@ -3287,7 +3298,7 @@ theorem AlgebraicTopology.smallSingularChainMap_comp_inclusion_assoc {X Y : TopC
 
 Generated `reassoc` declaration from `AlgebraicTopology.smallSingularChainMap_comp_inclusion`; the source link locates its owner.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L174) (retained native site: line 162).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L170) (retained native site: line 162).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp
 
@@ -3299,7 +3310,7 @@ Identify the degree-`n` integer-coefficient simplicial chain group with
 finitely supported integer functions on the `n`-simplices. The construction
 also removes the coefficient `ULift` used to accommodate the universe of `X`.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L193) (retained native site: line 181).
+[Source](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L56) (retained native site: line 181).
 
 ### AlgebraicTopology.ι_chainGroupIsoFinsupp_hom
 
@@ -3309,7 +3320,7 @@ theorem AlgebraicTopology.ι_chainGroupIsoFinsupp_hom (X : SSet) {n : ℕ} (x : 
 
 **API note (not a source docstring):** The coefficient inclusion of a simplex followed by the chain-to-finsupp isomorphism is the linear singleton map at that simplex, composed with removal of the coefficient ULift. This is a morphism-level identity for any simplicial set and degree.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L207) (retained native site: line 195).
+[Source](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L70) (retained native site: line 195).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_hom_ι
 
@@ -3319,7 +3330,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_hom_ι (X : SSet) {n : ℕ} (x : 
 
 **API note (not a source docstring):** Under the chain-to-finsupp isomorphism, the coefficient-one generator at a simplex is its finitely supported singleton with integer coefficient one. The lifted coefficient on the chain side is made explicit.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L227) (retained native site: line 215).
+[Source](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L92) (retained native site: line 215).
 
 ### AlgebraicTopology.moduleCat_quasiIso_of_representatives
 
@@ -3329,7 +3340,7 @@ theorem AlgebraicTopology.moduleCat_quasiIso_of_representatives {S₁ S₂ : Cat
 
 **API note (not a source docstring):** A morphism of integer-module short complexes is a quasi-isomorphism if every target cycle is represented by an image cycle modulo a boundary and every source cycle whose image is a boundary is itself a boundary. The two displayed elementwise hypotheses are the surjectivity and injectivity criteria on homology; both complexes have the displayed homology instances.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L247) (retained native site: line 235).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L197) (retained native site: line 235).
 
 ### AlgebraicTopology.sSetFinsuppBoundary
 
@@ -3340,7 +3351,7 @@ noncomputable def AlgebraicTopology.sSetFinsuppBoundary (Z : SSet) (n : ℕ) : (
 The integer-linear boundary from degree `n + 1` to degree `n`, sending a
 simplex to the alternating face sum with coefficient `(-1)^i` on its `i`th face.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L318) (retained native site: line 306).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L268) (retained native site: line 306).
 
 ### AlgebraicTopology.sSetFinsuppBoundary_single
 
@@ -3350,7 +3361,7 @@ theorem AlgebraicTopology.sSetFinsuppBoundary_single (Z : SSet) (n : ℕ) (x : Z
 
 **API note (not a source docstring):** The boundary of a coefficient-one simplex is the sum of its faces, with integer sign (−1)^i on face i. The input degree is n+1, the output degree is n, and there are n+2 faces.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L325) (retained native site: line 313).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L275) (retained native site: line 313).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_sSet_d
 
@@ -3360,7 +3371,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_sSet_d (Z : SSet) (n : ℕ) : Cat
 
 **API note (not a source docstring):** Conjugating the simplicial integer-chain differential from degree n+1 to n by the two chain-to-finsupp isomorphisms yields the alternating-face linear boundary map. This is an equality of module morphisms for any simplicial set.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L331) (retained native site: line 319).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L281) (retained native site: line 319).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_sSet_d_apply
 
@@ -3370,7 +3381,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_sSet_d_apply (Z : SSet) (n : ℕ)
 
 **API note (not a source docstring):** Elementwise form of chainGroupIsoFinsupp_sSet_d: transporting a finitely supported chain into the simplicial chain group, differentiating and transporting back is the alternating-face boundary.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L358) (retained native site: line 346).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L308) (retained native site: line 346).
 
 ### AlgebraicTopology.mapDomain_smallFinsuppBoundary
 
@@ -3380,7 +3391,7 @@ theorem AlgebraicTopology.mapDomain_smallFinsuppBoundary {X : TopCat} {ι : Type
 
 **API note (not a source docstring):** Forgetting the smallness subtype commutes with the finitely supported alternating-face boundary. This holds for an arbitrary family U of opens, since the faces of a simplex small in U remain small in U.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L369) (retained native site: line 357).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L319) (retained native site: line 357).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_d
 
@@ -3390,7 +3401,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_d (X : TopCat) (n : ℕ) : Catego
 
 **API note (not a source docstring):** For a topological space's singular simplicial set, the transported integer-chain differential is singularFinsuppBoundary. This specializes the general simplicial chain-to-finsupp differential identity to singular chains.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L391) (retained native site: line 379).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L341) (retained native site: line 379).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion
 
@@ -3400,7 +3411,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion {X : TopCat} {ι :
 
 **API note (not a source docstring):** In finitely supported coordinates, inclusion of U-small singular chains is the integer-linear mapDomain along the small-simplex subtype inclusion. No open-cover hypothesis is needed for this morphism-level equality.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L419) (retained native site: line 407).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L369) (retained native site: line 407).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_d_apply
 
@@ -3410,7 +3421,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_d_apply (X : TopCat) (n : ℕ) (c
 
 **API note (not a source docstring):** Elementwise singular-chain specialization: transport a degree-(n+1) finitely supported chain to singular chains, take the differential and transport back to obtain its singularFinsuppBoundary.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L441) (retained native site: line 429).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L391) (retained native site: line 429).
 
 ### AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion_apply
 
@@ -3420,7 +3431,7 @@ theorem AlgebraicTopology.chainGroupIsoFinsupp_smallInclusion_apply {X : TopCat}
 
 **API note (not a source docstring):** Elementwise form of the small-chain inclusion coordinate identity: transport a finitely supported chain on small simplices into small chains and then all chains to obtain mapDomain along Subtype.val.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L452) (retained native site: line 440).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L402) (retained native site: line 440).
 
 ### AlgebraicTopology.smallSingularChainInclusion_f_injective
 
@@ -3430,7 +3441,7 @@ theorem AlgebraicTopology.smallSingularChainInclusion_f_injective {X : TopCat} {
 
 **API note (not a source docstring):** In every nonnegative degree, the map including U-small integer singular chains into all singular chains is injective as a function. U may be any family of opens; surjectivity or an open-cover condition is not asserted.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L467) (retained native site: line 455).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L417) (retained native site: line 455).
 
 ### AlgebraicTopology.smallChainOfSupport
 
@@ -3443,7 +3454,7 @@ small in one member of `U`, discarding any other terms. No support or cover
 hypothesis is required here; `mapDomain_smallChainOfSupport` recovers the original
 chain when every simplex in its support is small.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L494) (retained native site: line 482).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L444) (retained native site: line 482).
 
 ### AlgebraicTopology.mapDomain_smallChainOfSupport
 
@@ -3453,7 +3464,7 @@ theorem AlgebraicTopology.mapDomain_smallChainOfSupport {X : TopCat} {ι : Type 
 
 **API note (not a source docstring):** If every simplex in the support of c is small in U, then forgetting the subtype after restricting c with smallChainOfSupport recovers c. The support hypothesis is essential: without it the restriction discards non-small terms.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L503) (retained native site: line 491).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L453) (retained native site: line 491).
 
 ### AlgebraicTopology.isCoverSmall_of_mem_mapDomain_small
 
@@ -3463,7 +3474,7 @@ theorem AlgebraicTopology.isCoverSmall_of_mem_mapDomain_small {X : TopCat} {ι :
 
 **API note (not a source docstring):** Every simplex in the support of a finitely supported chain obtained by forgetting the small-simplex subtype is small in U. This needs no assertion that U covers the entire space.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L515) (retained native site: line 503).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L465) (retained native site: line 503).
 
 ### AlgebraicTopology.quasiIso_smallSingularChainInclusion
 
@@ -3478,7 +3489,7 @@ construction and Mathlib's singular-homology and quasi-isomorphism APIs.
 For singular-homology background see J. Peter May, *A Concise Course in Algebraic Topology*,
 Chapter 16; no normalized-chain comparison is asserted.
 
-[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L534) (retained native site: line 522).
+[Source](../SphereTopology/Homology/Singular/SmallChains.lean#L484) (retained native site: line 522).
 
 ## SphereTopology.Homology.Singular.Sphere
 
@@ -4151,7 +4162,7 @@ theorem SphereTopology.sphere2MayerVietorisδOne_isIso : CategoryTheory.IsIso (A
 The positive-degree Mayer--Vietoris connecting morphism for the ordered
 north/south cover is an isomorphism in degree two.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L567) (retained native site: line 555).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L566) (retained native site: line 555).
 
 ### SphereTopology.sphere2ReducedMayerVietorisIso
 
@@ -4162,7 +4173,7 @@ noncomputable def SphereTopology.sphere2ReducedMayerVietorisIso : sphere2.reduce
 Positive-degree reduced Mayer--Vietoris for the ordered north/south cover,
 with its target identified with the puncture intersection as an open subspace.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L601) (retained native site: line 589).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L600) (retained native site: line 589).
 
 ### SphereTopology.sphere2ReducedMayerVietorisIso_hom
 
@@ -4172,7 +4183,7 @@ theorem SphereTopology.sphere2ReducedMayerVietorisIso_hom : sphere2ReducedMayerV
 
 **API note (not a source docstring):** The chosen reduced H2-to-H1 isomorphism is reduced-to-ordinary conversion, the north/south ordinary connecting morphism, the inverse intersection homology identification, and conversion back to reduced H1. Native _proof_1/_proof_2 tokens express the required positive-degree witnesses; they are not extra mathematical hypotheses.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L618) (retained native site: line 606).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L617) (retained native site: line 606).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso
 
@@ -4188,7 +4199,7 @@ Chapter 14, §3. The proof here uses the project's ordered Mayer--Vietoris,
 normalized equatorial deformation and fixed circle computation, over Mathlib's
 singular homology; it supplies no comparison with May's based-relative model.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L631) (retained native site: line 619).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L630) (retained native site: line 619).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom
 
@@ -4200,7 +4211,7 @@ The computation uses the ordered Mayer--Vietoris connecting morphism, then the
 open-intersection/equator transport, the coordinate-ordered equator/circle
 transport, and finally the fixed circle integer coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L645) (retained native site: line 628).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L644) (retained native site: line 628).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom_explicit
 
@@ -4211,7 +4222,7 @@ theorem SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_hom_explici
 Fully expanded comparison with the positive-degree Mayer--Vietoris connecting
 morphism and the fixed circle coordinate.
 
-[Source](../SphereTopology/Homology/Singular/Sphere.lean#L656) (retained native site: line 639).
+[Source](../SphereTopology/Homology/Singular/Sphere.lean#L655) (retained native site: line 639).
 
 ## SphereTopology.Homology.Singular.SphereAntipodal
 
@@ -4570,7 +4581,7 @@ The connecting morphism for the reversed south/north cover is an
 isomorphism.  This is derived from the north/south connecting isomorphism and
 the ordered-cover swap theorem.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L390) (retained native site: line 379).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L389) (retained native site: line 379).
 
 ### SphereTopology.integralSingularHomologyMap_sphere2Antipodal_two
 
@@ -4586,7 +4597,7 @@ J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
 The proof here uses the project's ordered-cover swap and equivariant
 equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L425) (retained native site: line 414).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L424) (retained native site: line 414).
 
 ### SphereTopology.reducedSingularHomologyMap_sphere2Antipodal_two
 
@@ -4596,7 +4607,7 @@ theorem SphereTopology.reducedSingularHomologyMap_sphere2Antipodal_two : TopCat.
 
 The matching positive-degree reduced integral homology action is `-1`.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L445) (retained native site: line 429).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L444) (retained native site: line 429).
 
 ### SphereTopology.reducedSingularHomologyTwoSphereTwoIntegerIso_antipodal
 
@@ -4612,7 +4623,7 @@ J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
 The proof here uses the project's ordered-cover swap and equivariant
 equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L450) (retained native site: line 434).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L449) (retained native site: line 434).
 
 ### SphereTopology.sphere2_id_not_homotopic_antipodal
 
@@ -4628,7 +4639,7 @@ J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 13, §5.
 The proof here uses the project's ordered-cover swap and equivariant
 equatorial homotopies, with Mathlib's homotopy-invariant singular homology.
 
-[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L465) (retained native site: line 444).
+[Source](../SphereTopology/Homology/Singular/SphereAntipodal.lean#L464) (retained native site: line 444).
 
 ## SphereTopology.Homology.Singular.Subdivision
 

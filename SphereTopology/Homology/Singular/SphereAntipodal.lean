@@ -386,7 +386,6 @@ theorem sphere2PunctureIntersectionAntipodal_homology_eq_id (n : ℕ) :
     htop AlgebraicTopology.integerCoefficients n
   simpa [AlgebraicTopology.integralSingularChainMap] using h
 
-set_option linter.style.haveILetI false in
 /-- The connecting morphism for the reversed south/north cover is an
 isomorphism.  This is derived from the north/south connecting isomorphism and
 the ordered-cover swap theorem. -/
@@ -394,7 +393,7 @@ theorem sphere2MayerVietorisδOne_reversed_isIso :
     IsIso (AlgebraicTopology.twoOpenMayerVietorisδ
       sphere2SouthPunctured sphere2NorthPunctured
       sphere2Punctured_join_reversed 1) := by
-  letI := sphere2MayerVietorisδOne_isIso
+  let := sphere2MayerVietorisδOne_isIso
   let eSwap := HomologicalComplex.homologyMapIso
     (AlgebraicTopology.twoOpenIntersectionSwapChainIso
       sphere2SouthPunctured sphere2NorthPunctured) 1

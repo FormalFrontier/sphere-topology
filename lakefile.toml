@@ -1,5 +1,6 @@
 name = "sphere-topology"
 version = "0.1.0"
+lintDriver = "batteries/runLinter"
 defaultTargets = ["SphereTopology", "SphereTopologyTest"]
 
 [leanOptions]
@@ -58,7 +59,7 @@ rev = "83abb3e776bdefcbc447a1e44d0debe4010039e5"
 [[require]]
 name = "simplicial-objects"
 git = "https://github.com/FormalFrontier/simplicial-objects"
-rev = "fe4b0a3e8f245c1ba30a640330d66f95ea7dddda"
+rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 
 [[require]]
 name = "fundamental-groupoids"

@@ -159,7 +159,7 @@ private theorem fundamentalGroupEquivInt_eq_iff_liftPath {T : ℝ} (hT : T ≠ 0
   simp only [add_zero, zsmul_eq_mul, mul_comm (n : ℝ) T, eq_comm]
 
 /-- A signed `n`-turn loop has integer coordinate `n`. -/
-@[simp] theorem fundamentalGroupEquivInt_loop {T : ℝ} (hT : T ≠ 0) (n : ℤ) :
+@[simp↓] theorem fundamentalGroupEquivInt_loop {T : ℝ} (hT : T ≠ 0) (n : ℤ) :
     fundamentalGroupEquivInt hT (FundamentalGroup.fromPath ⟦loop T n⟧) =
       Multiplicative.ofAdd n := by
   apply (fundamentalGroupEquivInt_eq_iff_liftPath hT (loop T n) n).mpr
@@ -272,7 +272,7 @@ def fundamentalGroupEquivInt : FundamentalGroup Circle 1 ≃* Multiplicative ℤ
       (AddCircle.fundamentalGroupEquivInt (T := (1 : ℝ)) one_ne_zero)
 
 /-- The complex `n`-turn loop has integer coordinate `n`, with no sign reversal. -/
-@[simp] theorem fundamentalGroupEquivInt_loop (n : ℤ) :
+@[simp↓] theorem fundamentalGroupEquivInt_loop (n : ℤ) :
     fundamentalGroupEquivInt (FundamentalGroup.fromPath ⟦loop n⟧) =
       Multiplicative.ofAdd n := by
   let e := fundamentalGroupEquivOfHomeomorph

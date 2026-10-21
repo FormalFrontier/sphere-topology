@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "binding": {
+    "method": "bounded-source-text-correspondence",
+    "source_inputs": {
+      "SphereTopology.lean": "810d27705ce097680c98bac1631596234cc8daa3efea966819afb35156c7f48f",
+      "SphereTopology/Homology/Singular/Circle.lean": "662d20f534d98ba8e8d7d51b28bf20bf787d1574583fdb372147385d715a6419",
+      "SphereTopology/Homology/Singular/MayerVietoris.lean": "58bfc60191f238922601a5d5ae3cc2208e605c7d2564da00503c82cd26cbfd24",
+      "SphereTopology/Homology/Singular/Reduced.lean": "7fd57ddb6f156bb531642892d9f2e0b11f4722157b76cb9c768ea6d86f283478",
+      "SphereTopology/Homology/Singular/ReducedMayerVietoris.lean": "387e8c5ce0be561ed5774cf31ff007b59276ad9b925d9102682558baaa4c8ac6",
+      "SphereTopology/Homology/Singular/SmallChains.lean": "22d6610cee837017c18e1c57cd146d91565d1b333dc81421d320ba3ba98abeff",
+      "SphereTopology/Homology/Singular/Sphere.lean": "c54935b4e7114d2fa1df919054d8e726f18c4cc8889b19819d1e5653ded271cc",
+      "SphereTopology/Homology/Singular/SphereAntipodal.lean": "6707a8d23fa408c108dbbc9c5fde2f64d8702a687eeb713410ea4f593512459e",
+      "SphereTopology/Homology/Singular/Subdivision.lean": "397554b6b3142cf1ee687cfd528d70ce9509390b1ec1721e1ccec8f669b3f6f8",
+      "SphereTopology/Homotopy/HairyBallSphere2.lean": "3285a2533bdd73f5c5d041694f5db4445fddea58404654c0c5b150e5e87b7345",
+      "SphereTopology/Homotopy/TangentField.lean": "8f18f44f0419252c8bdf414e07d9c9eecab22050fbd1c856ad17c14fe8eec7b1",
+      "SphereTopologyTest/AugmentationSimp.lean": "1bfb93f399a87aea4d67775cd280653c41dcd1ec91bd8a66c1ea2f35f47054d0",
+      "SphereTopologyTest/Axioms.lean": "4d0e4fae4c79b0c43686207fc286ddc7824e68a7eacec7da3000de61103473ff",
+      "SphereTopologyTest/Circle.lean": "53229651b6f530b81b89dadf650a066d54be26935ec4d2b3543f0fc5a7d7416b",
+      "SphereTopologyTest/CircleModuleAxioms.lean": "9e0ccf245e3d9088fb2fe85395000d2fc0b9bb71348245638e19ae385a4a706b",
+      "SphereTopologyTest/Clients.lean": "9242b30fa50d97a4070df7c4cbcf3733059bd2e322ae687a7e81e496a1981090",
+      "SphereTopologyTest/HairyBallSphere2.lean": "94927789ff8f22fd0bd7e2019fc790f90161942d2547c51307d69a2dd3a2c947",
+      "SphereTopologyTest/HairyBallSphere2ModuleAxioms.lean": "565f0088cfb70b930319f02f69ce5bc21398ac1acaa32140ae8e26f3ef3fc294",
+      "SphereTopologyTest/HairyBallSphere2Root.lean": "ef949a973d1ed240abafb518d19fa20fa3047e228c97fe8efcd6d11d4e1cde27",
+      "SphereTopologyTest/MayerVietoris.lean": "433d948fb2093b4d68bca0bd8578cb4566105eacc2ebcd1300d05229f097a372",
+      "SphereTopologyTest/PublicAPIClient.lean": "44d90d5900a72f5ab82471a3f1bcaef2ee83012182035f504841369d7e8dfcdb",
+      "SphereTopologyTest/Reduced.lean": "6d51a5fe4bfcc9d6bf4c570fc592bed82cf51e949a1749214231b159de51e0c2",
+      "SphereTopologyTest/ReducedAxioms.lean": "0c9ecb0ffc6fb91d62215deaa03fd3aa144581a72f80f5835bc3df2ac3ba315c",
+      "SphereTopologyTest/ReducedMayerVietoris.lean": "37ff59d8a214d60a5113c9506fab364a6428171b670d8b1e3005bca0d2f3c016",
+      "SphereTopologyTest/ReducedMayerVietorisModuleAxioms.lean": "7292f93366234e54b439f6da2559a4fc24fe4b19c5a01fcd5ffde65434f04064",
+      "SphereTopologyTest/ReducedModuleAxioms.lean": "d22412b7a037f542f8e7d77d837c95b4067d4eb857f2e25fc64a873f5311017e",
+      "SphereTopologyTest/SmallChains.lean": "79ab26f89d6a05d9b27de118120de50d280216d1b5f54f100b23e48693df4a37",
+      "SphereTopologyTest/Sphere.lean": "74f147aceb834dd5b7ff38d251f711ae82a355f6b882d92b0b5cf97502afa741",
+      "SphereTopologyTest/SphereAntipodal.lean": "42f8f0bc33e2a6a40e0df49acf39756ec62b0b36bcd93cf8fd90a8e7277acebc",
+      "SphereTopologyTest/SphereAntipodalModuleAxioms.lean": "9840cbf5fe9233d127c44cb7801633e0c162b9af93a4949227f75092deba101b",
+      "SphereTopologyTest/SphereAntipodalRoot.lean": "e00a4e968fddb7b1ba7fdf05ca406daa63b825cd0272417e4be8ae397c57631a",
+      "SphereTopologyTest/SphereModuleAxioms.lean": "719ab47799430c459a642effc51c984516465d8fa1bb0c9f41388c1d0f508e67",
+      "lake-manifest.json": "a726120071478222cf128d354eb1e81ab3e2495673a744919dd36496070aee55",
+      "lakefile.toml": "c145e96190a19f31330c8ba0f41cf7d132fab2eab5c978fb8a1a1d765e28e6be",
+      "lean-toolchain": "8190e75a201741065fe508b28955dd64dd72d090babe5f70ce6848879d68ae88"
+    },
+    "documentation_inputs": {
+      "scripts/generate_api.py": "3fbd80c901d47680c33bc96d16ea8830e9ac6c24139031a135faf3e4d03ed256",
+      "scripts/api_inventory.json": "d7d7e1c9980f36a48641a8826383b3e16a61f9d648ea0d6baf64326556b3640f",
+      "scripts/api_notes.json": "fecf94ede8cd90896302b247e02064543ad73b1510c8b8a8c1528197bb598d34"
+    },
+    "dependency_source_inputs": {
+      "SimplicialObjects/ChainCoordinates.lean": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670"
+    },
+    "declaration_origins": {
+      "AlgebraicTopology.chainGroupIsoFinsupp": {
+        "repository": "https://github.com/FormalFrontier/simplicial-objects",
+        "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+        "module": "SimplicialObjects.ChainCoordinates",
+        "path": "SimplicialObjects/ChainCoordinates.lean",
+        "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+        "line": 56,
+        "declaration_line": 59,
+        "source_type": "noncomputable def chainGroupIsoFinsupp (X : SSet.{u}) (n : ℕ) :\n    (X.chainComplex integerCoefficients).X n ≅\n      ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ)",
+        "universe_context": [
+          "open CategoryTheory",
+          "open scoped Simplicial",
+          "noncomputable section",
+          "universe u",
+          "namespace AlgebraicTopology"
+        ],
+        "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L56",
+        "declaration_end_line": 61
+      },
+      "AlgebraicTopology.chainGroupIsoFinsupp_hom_ι": {
+        "repository": "https://github.com/FormalFrontier/simplicial-objects",
+        "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+        "module": "SimplicialObjects.ChainCoordinates",
+        "path": "SimplicialObjects/ChainCoordinates.lean",
+        "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+        "line": 92,
+        "declaration_line": 94,
+        "source_type": "theorem chainGroupIsoFinsupp_hom_ι (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :\n    (chainGroupIsoFinsupp X n).hom.hom\n        ((X.ιChainComplex (R := integerCoefficients) x).hom (ULift.up (1 : ℤ))) =\n      Finsupp.single x 1",
+        "universe_context": [
+          "open CategoryTheory",
+          "open scoped Simplicial",
+          "noncomputable section",
+          "universe u",
+          "namespace AlgebraicTopology"
+        ],
+        "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L92",
+        "declaration_end_line": 97
+      },
+      "AlgebraicTopology.integerCoefficients": {
+        "repository": "https://github.com/FormalFrontier/simplicial-objects",
+        "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+        "module": "SimplicialObjects.ChainCoordinates",
+        "path": "SimplicialObjects/ChainCoordinates.lean",
+        "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+        "line": 51,
+        "declaration_line": 53,
+        "source_type": "abbrev integerCoefficients : ModuleCat.{u} ℤ :=\n  (ModuleCat.uliftFunctor.{u} ℤ).obj (ModuleCat.of ℤ ℤ)",
+        "universe_context": [
+          "open CategoryTheory",
+          "open scoped Simplicial",
+          "noncomputable section",
+          "universe u",
+          "namespace AlgebraicTopology"
+        ],
+        "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L51",
+        "declaration_end_line": 54
+      },
+      "AlgebraicTopology.ι_chainGroupIsoFinsupp_hom": {
+        "repository": "https://github.com/FormalFrontier/simplicial-objects",
+        "revision": "143f667bdeb0aeccd02e6475781d5c456f00c95b",
+        "module": "SimplicialObjects.ChainCoordinates",
+        "path": "SimplicialObjects/ChainCoordinates.lean",
+        "source_sha256": "e7fde1c2f4dc6d298d2dc3ba17b2273d77197728754385b42db831919bfdb670",
+        "line": 70,
+        "declaration_line": 72,
+        "source_type": "theorem ι_chainGroupIsoFinsupp_hom (X : SSet.{u}) {n : ℕ} (x : X _⦋n⦌) :\n    X.ιChainComplex (R := integerCoefficients) x ≫ (chainGroupIsoFinsupp X n).hom =\n      ModuleCat.ofHom ((Finsupp.lsingle x).comp ULift.moduleEquiv.toLinearMap)",
+        "universe_context": [
+          "open CategoryTheory",
+          "open scoped Simplicial",
+          "noncomputable section",
+          "universe u",
+          "namespace AlgebraicTopology"
+        ],
+        "source_url": "https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean#L70",
+        "declaration_end_line": 74
+      }
+    },
+    "local_display_sites": 563,
+    "dependency_display_sites": 4,
+    "api_sha256": "dd5e9fc600159d3d633fe34bbb56b16b163795601cc48d8535c5ca746cc519b8",
+    "source_links_checked": 567,
+    "source_docstrings_displayed": 299,
+    "authored_api_notes_displayed": 268,
+    "source_docstrings_available_under_display_policy": 301,
+    "source_docstrings_not_displayed": 2,
+    "source_docstrings_differing_from_native": 80,
+    "scope": "Historical 567-site display selection only; source-text correspondence, not compiled types, a whole-library declaration census or proof assurance.",
+    "proof_certification": false
+  }
+}

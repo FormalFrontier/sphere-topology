@@ -1,266 +1,155 @@
 # Sphere Topology
 
-A reusable Lean library implementing circle fundamental groups, continuous
-fields on spheres, covering-space lifts of singular simplices, finite-fiber
-singular transfers and integral singular homology. Generic based lifting, deck
-actions, monodromy-centralizer comparisons and based covering equivalences are
-provided by [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids)
-and re-exported through deprecated Sphere module paths. Sphere develops
-finite-support subdivision and cover-small chains,
-ordinary and nonnegative reduced Mayer–Vietoris sequences, and explicit circle
-and standard two-sphere computations. Their antipodal sign obstruction gives a
-continuous-field hairy-ball theorem for the unit two-sphere. Import the aggregate
-`SphereTopology` or the focused modules listed below; no source research
-repository is needed to use the library.
+Lean topology and integral singular homology: circle fundamental groups and
+map degree, continuous fields on spheres, covering-space lifts and finite-fiber
+transfers, subdivision, cover-small chains and Mayer–Vietoris. Explicit circle
+and two-sphere computations give a continuous hairy-ball theorem for S².
 
-Authors: Formal Frontier Agents.
-
-Original project contributions are licensed [Apache-2.0](LICENSE); see
-[credits and provenance](docs/CREDITS.md). See the [API reference](docs/API.md) and [guide](docs/README.md) for the
-constructions and conventions.
+See the [mathematical guide](docs/guide.md) for full hypotheses, formulas,
+examples and conventions, the [API reference](docs/API.md) for a bounded display
+selection, and [credits](docs/CREDITS.md) for mathematical and formalization origins.
 
 ## Headline results
 
-The subdivision, Mayer–Vietoris and sphere computations below use integer
-coefficients; singular chains have finite support. The zeroth augmentation
-criterion and nonbasepoint-component presentation also permit categorical
-coefficient objects. The homology computations
-use the unit spheres in `EuclideanSpace ℝ (Fin 2)` and
-`EuclideanSpace ℝ (Fin 3)`. The fundamental-group calculator uses Mathlib's real
-additive circle and complex unit circle. The covering foundations labelled
-**Fundamental Groupoids** below are supplied by that dependency; Sphere implements
-the singular-lift and transfer constructions and the other results listed here.
-
-- **H-space fundamental groups are commutative.** At the unit of any H-space,
-  [`HSpace.loopMul_homotopic_trans`](SphereTopology/Homotopy/HSpaceFundamentalGroup.lean)
-  compares pointwise loop multiplication with chronological concatenation using
-  only the two relative unit homotopies. No associativity, commutativity or strict
-  unit laws for the H-space multiplication are assumed.
-  `FundamentalGroup.fromPath_loopMul` gives the class `[q] * [p]`, and
-  `FundamentalGroup.mul_comm` proves commutativity for arbitrary classes. The
-  `IsMulCommutative` instance preserves the existing fundamental-group data.
-  For continuous multiplication with a strict unit,
-  `Path.mul_homotopic_trans` gives the comparison using `Path.mul`; no
-  associativity or inverse law is needed.
-
-- **Normalized circle fundamental group.** For every real `T ≠ 0`,
+- **H-space fundamental groups commute.**
+  [`FundamentalGroup.mul_comm`](SphereTopology/Homotopy/HSpaceFundamentalGroup.lean)
+  applies at the unit of any H-space, using only its two relative unit
+  homotopies. No associativity, commutativity or strict unit laws for the
+  multiplication are assumed. Continuous multiplication with a strict unit
+  also gives `Path.mul_homotopic_trans`, without associativity or inverses.
+- **Normalized circle fundamental groups and degree.** For real `T ≠ 0`,
   [`AddCircle.fundamentalGroupEquivInt`](SphereTopology/Homotopy/Circle.lean)
-  identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`. The projected segment
-  `t ↦ T*n*t mod T` has coordinate `n`, and any lift starting at zero ends at
-  `T` times the computed integer. The signed-period homeomorphism to the complex
-  unit `Circle` agrees with its counterclockwise-normalized calculator, also
-  when `T < 0`. `Circle.exp` uses radians, so its lifted endpoint is `2π*n`.
-  The zero-period quotient has trivial fundamental group and is excluded from
-  the integer equivalence, not from the covering-map construction.
+  identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`, including signed
+  periods, lifted endpoints and agreement with the complex unit circle.
+  [`Circle.degree`](SphereTopology/Homotopy/CircleDegree.lean) classifies free
+  homotopy of arbitrary continuous circle self-maps. Composition multiplies
+  degree, `z ↦ z^n` has degree `n : ℤ`, and degree different from `1` is a
+  sufficient, not necessary, fixed-point condition. No based-map premise is needed.
+- **Arbitrary-index circle bouquets.**
+  [`CircleBouquet.space`](SphereTopology/Homotopy/CircleBouquet.lean) is the wide
+  pushout of based complex circles, with a common point even for the empty
+  family and independent index/ambient universes. Inclusions, descent and
+  extensionality give its universal property; retractions detect the positive
+  generators as nonidentity. Bijectivity of `generatorMap` and identification
+  of the fundamental group with `FreeGroup I` are not proved.
+- **Continuous hairy-ball theorem for S².**
+  [`sphere2_exists_zero_of_orthogonal_field`](SphereTopology/Homotopy/HairyBallSphere2.lean)
+  says every `V : C(sphere2, E3)` pointwise orthogonal to the radius has a zero.
+  In any real inner-product space, a nowhere-zero continuous orthogonal field
+  on the metric unit sphere gives an explicit identity-to-antipodal homotopy
+  ([`TangentField`](SphereTopology/Homotopy/TangentField.lean)), without finite
+  dimensionality. Only the zero theorem specializes to Euclidean three-space.
+- **Circle/S² homology and antipodal sign.** Ordered punctures give
+  `H̃₁(S¹; ℤ) ≅ ℤ` and `H̃₂(S²; ℤ) ≅ ℤ`, in the unit-sphere models in
+  `EuclideanSpace ℝ (Fin 2)` and `EuclideanSpace ℝ (Fin 3)`
+  ([`Circle`](SphereTopology/Homology/Singular/Circle.lean),
+  [`Sphere`](SphereTopology/Homology/Singular/Sphere.lean)). The circle basis is
+  upper minus lower; the equator coordinate is ordered `(x,y)`.
+  [`SphereAntipodal`](SphereTopology/Homology/Singular/SphereAntipodal.lean)
+  computes `-id` on ordinary and reduced integral `H₂`, hence multiplication
+  by `-1` in the fixed integer coordinate and nonhomotopy to identity.
+- **Covering-space lifts of simplices.** For a covering `p : Y ⟶ X`,
+  [`IsCoveringMap.singularLiftEquiv`](SphereTopology/Topology/SingularLifts.lean)
+  identifies the lift fiber of a singular simplex with a point fiber by
+  evaluation at any point. Restriction is bijective for every simplex
+  operator, including degeneracies and faces omitting vertex zero. There are
+  no nonemptiness, connectedness, local connectedness, surjectivity or finite-
+  sheet assumptions on the base or total space. The singular map is equifibered.
+- **Finite-fiber covering transfer.** For `p : Y ⟶ X`, `IsCoveringMap p` and
+  finite point fibers,
+  [`singularChainComplexTransfer`](SphereTopology/Homology/Singular/Transfer.lean)
+  uses coefficient objects in any preadditive category with coproducts indexed
+  in the space universe; object and morphism universes are independent.
+  Ordinary homology adds only `CategoryWithHomology` and uses `q : ℕ`.
+  A simplex maps to the sum of its lifts. Transfer then pushforward is
+  `d • id` if every point fiber has cardinality `d`; finiteness is a separate
+  premise. No constant degree, nonemptiness, surjectivity or connectedness is
+  needed for the construction.
+- **Subdivision and cover-small chains.** Integral signed subdivision `Sd`
+  and its support-preserving prism `H` satisfy `∂H + H∂ = id − Sd`
+  ([`Subdivision`](SphereTopology/Homology/Singular/Subdivision.lean)). For an
+  open cover, inclusion of finite-support chains small in a cover member is a
+  quasi-isomorphism
+  ([`SmallChains`](SphereTopology/Homology/Singular/SmallChains.lean)). Space
+  and cover-index universes may differ; no global nonemptiness is assumed.
+  Cover-respecting continuous maps and refinements induce compatible chain maps.
+- **Ordered ordinary and reduced Mayer–Vietoris.** Two opens covering a space
+  give difference `(c,−c)` followed by sum, all three successive ordinary
+  exactness positions, ordered-cover naturality and cover-swap minus sign
+  ([`MayerVietoris`](SphereTopology/Homology/Singular/MayerVietoris.lean)).
+  The reduced low-degree boundary uses open-intersection homology and is an
+  isomorphism when both `H̃₀` and `H̃₁` vanish on each open. The reduced
+  degree-zero sequence is exact at the biproduct for every two-open cover;
+  its final map is epic when the intersection is nonempty, not unconditionally
+  ([`ReducedMayerVietoris`](SphereTopology/Homology/Singular/ReducedMayerVietoris.lean)).
+- **Components and path connectedness.**
+  [`Components`](SphereTopology/Homology/Singular/Components.lean) presents the
+  augmentation kernel by nonbasepoint path components, with categorical
+  coefficients. In a preadditive category with the requisite coproducts and
+  homology, `H₀(X; R) ⟶ R` is invertible exactly when `X` is path connected
+  if `R` is nonzero; nonemptiness is a conclusion
+  ([`Connectedness`](SphereTopology/Homology/Singular/Connectedness.lean)).
+  For nonempty `X`, integral `H̃₀(X)=0` is equivalent to path connectedness.
+  Reduced homology is nonnegative, with augmentation kernel in degree zero,
+  ordinary homology in positive degrees and `H̃₀(∅)=0`; no degree-minus-one
+  convention is asserted. Contractible-space premises include nonemptiness.
+- **Covering foundations from Fundamental Groupoids.** The dependency supplies
+  based unique lifting, monodromy, maps of covers, deck actions and based
+  equal-image equivalences; Sphere re-exports the five deprecated covering
+  module paths below. The [guide](docs/guide.md#headline-results) gives the
+  distinct connectedness and local path connectedness hypotheses for each
+  result. These are not a general classification of coverings.
 
-- **Circle-bouquet construction and positive generators.** For any index type,
-  [`CircleBouquet.space`](SphereTopology/Homotopy/CircleBouquet.lean) is the
-  wide pushout of copies of the complex unit circle at one, retaining a common
-  point even for the empty family. The index and ambient universes are independent.
-  Inclusions, descent and extensionality express its universal property.
-  `CircleBouquet.generatorMap` maps `FreeGroup I` to its fundamental group by
-  the included counterclockwise loops. Retractions onto individual circles
-  detect their positive generators as nonidentity. Bijectivity of this map
-  and the free-group identification of the bouquet's fundamental group are not proved here.
+## Using the library
 
-- **Integer degree and free homotopy of circle maps.** Every continuous
-  self-map `f : C(Circle, Circle)` has an integer degree in the fixed positive
-  fundamental-group coordinate:
-  [`Circle.degree`](SphereTopology/Homotopy/CircleDegree.lean).
-  Identity has degree `1`, every constant has degree `0`, composition multiplies
-  degrees, and `z ↦ z^n` has degree `n` for all `n : ℤ`.
-  Two maps are freely homotopic exactly when their degrees agree.
-  Degree different from `1` guarantees a fixed point; this is sufficient,
-  not necessary. No basepoint-preserving hypothesis is required.
+```toml
+[[require]]
+name = "sphere-topology"
+git = "https://github.com/FormalFrontier/sphere-topology.git"
+rev = "main"
+```
 
-- **Continuous hairy-ball theorem for S².** Every bundled continuous
-  field `V : C(sphere2, E3)` pointwise orthogonal to the radius vanishes
-  somewhere: [`sphere2_exists_zero_of_orthogonal_field`](SphereTopology/Homotopy/HairyBallSphere2.lean#L46).
-  On the unit sphere in **any** real inner-product space, a nowhere-zero
-  continuous radius-orthogonal field yields an explicit identity-to-antipodal
-  homotopy, without a finite-dimensional assumption:
-  [`Metric.Sphere.homotopyAntipodalOfNowhereZeroOrthogonal`](SphereTopology/Homotopy/TangentField.lean#L114).
-  Only the zero theorem specializes to the three-dimensional model.
-- **Circle/S² homology and antipodal sign.** Ordered east/west punctures on the
-  circle and north/south punctures on S² yield `H̃₁(S¹; ℤ) ≅ ℤ` and
-  `H̃₂(S²; ℤ) ≅ ℤ`:
-  [`reducedSingularHomologyOneSphereOneIntegerIso`](SphereTopology/Homology/Singular/Circle.lean),
-  [`reducedSingularHomologyTwoSphereTwoIntegerIso`](SphereTopology/Homology/Singular/Sphere.lean).
-  The circle's two-point basis is upper minus lower (`false` minus `true`);
-  the sphere deformation fixes its equator and the equator-to-circle
-  homeomorphism uses ordered coordinates `(x,y)`. Cover-swap naturality gives
-  `-id` on ordinary and positive-degree reduced integral `H₂` for the
-  antipodal map, hence multiplication by `-1` in the fixed `ℤ` coordinate and
-  nonhomotopy to identity:
-  [`integralSingularHomologyMap_sphere2Antipodal_two`](SphereTopology/Homology/Singular/SphereAntipodal.lean).
-- **Fundamental Groupoids: based covering-map lifting criterion.** A continuous
-  map from a path connected, locally path connected domain has a unique lift
-  with a prescribed value exactly when its fundamental-group image lies in that
-  of the covering map:
-  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Lifting.lean).
-  The three spaces have independent universes; neither global surjectivity nor
-  connectedness or local path connectedness of the base or total space is required.
-- **Covering-space lifts of singular simplices.** For `p : Y ⟶ X` between
-  spaces in a common ambient universe and `IsCoveringMap p`, evaluation at
-  **any** point of a simplex identifies its lift fiber under
-  `TopCat.toSSet.map p` with the corresponding point fiber:
-  [`IsCoveringMap.singularLiftEquiv`](SphereTopology/Topology/SingularLifts.lean).
-  Restriction is bijective for **every** simplex operator, including faces
-  that omit vertex zero and degeneracies:
-  `IsCoveringMap.bijective_singularLiftRestrict`. There are no nonemptiness,
-  connectedness, local connectedness, surjectivity or finite-sheet assumptions
-  on the base or total space. A finite point fiber gives finitely many lifts.
-  The induced singular simplicial map is equifibered:
-  `IsCoveringMap.toSSet_map_equifibered` makes every naturality square a
-  pullback. The continuous-map version allows independent universes and a simply
-  connected, locally path connected domain; finite nonempty real standard
-  simplices have the required domain instances.
-- **Fundamental Groupoids: deck transformations on fibers.** For any map
-  `p : E → B` with a topology on `E`, Mathlib's `deck p` acts on each point
-  fiber `p ⁻¹' {b}`. If `p` is separated and locally injective and `E` is
-  preconnected, evaluation at a specified `e : E` embeds the deck group into
-  `p ⁻¹' {p e}`, and a deck transformation fixing a point is the identity:
-  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckGroup.lean).
-  The generic interfaces need no topology on `B` or continuity of `p`.
-  Covering maps supply separation and local injectivity; no Hausdorff total
-  space, base connectedness/local path connectedness, surjectivity, or
-  transitivity of the deck action is assumed. General lift uniqueness is reused
-  from Mathlib's `IsSeparatedMap.eq_of_comp_eq` and `IsCoveringMap.eq_of_comp_eq`,
-  not redefined.
-- **Fundamental Groupoids: maps of covers and equivariant fiber maps.**
-  For coverings `p : E → B` and `q : F → B`, with the three spaces in
-  independent universes,
-  [`IsCoveringMap.fiberMap`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean)
-  restricts `{f : C(E, F) // q ∘ f = p}` to Mathlib's `MulActionHom` between
-  the fibers over `b`, over the identity of `FundamentalGroup B b`, using the
-  covers' canonical monodromy actions. Restriction needs no connectedness,
-  local path connectedness or surjectivity, and is injective if `B` is path connected.
-  [`IsCoveringMap.fiberMapEquivOfPathConnected`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
-  is an equivalence of these map spaces over `p e₀` for path-connected, locally
-  path-connected `E` and a supplied `e₀ : E`, with no connectedness or local path
-  connectedness assumption on `B`.
-  [`IsCoveringMap.fiberMapEquiv`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
-  instead requires only path-connected `B` and locally path-connected `E`, at
-  any `b : B`, allowing empty or disconnected `E`. Neither equivalence requires
-  connectedness or local path connectedness of `F`, or surjectivity of the covers.
-  The inverse is the unique continuous map over the base with the prescribed
-  whole-fiber values; restriction preserves identities and composition. These
-  are equivalences between map spaces, not assertions that individual maps are
-  bijections or homeomorphisms; nonbijective equivariant fiber maps are allowed.
-- **Fundamental Groupoids: deck groups as monodromy centralizers.** For any
-  covering `p : E → B`, restriction to the point fiber gives
-  [`IsCoveringMap.deckMonodromyHom`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean),
-  a homomorphism into the centralizer of the monodromy image in
-  `Equiv.Perm (p ⁻¹' {b})`. With path-connected base it is faithful, without
-  local path connectedness or total-space connectedness. If in addition `E`
-  is locally path connected, `IsCoveringMap.deckMonodromyEquiv` is a
-  multiplicative equivalence for every `b : B`; disconnected and empty total
-  spaces are allowed, with no nonemptiness or surjectivity premise.
-  Alternatively, with path-connected, locally path-connected `E` and a
-  specified `e : E`, `IsCoveringMap.deckMonodromyEquivOfPathConnected` uses the
-  fiber over `p e` without connectedness or local path connectedness of `B`.
-  Both constructions restrict the original deck action, their inverse extends
-  the permutation on the whole fiber, and they agree wherever both apply.
-  The centralizer is a subgroup of the fiber's permutation group, distinct
-  from a point stabilizer or the monodromy kernel in the fundamental group.
-- **Fundamental Groupoids: covering-space monodromy and based equivalences.**
-  For any covering map, the stabilizer of a point in a fiber is the image of
-  the fundamental group based at that point, and two fiber points share a
-  monodromy orbit exactly when they are joined in the total space:
-  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean),
-  `IsCoveringMap.exists_monodromy_eq_iff_joined`. These need no global
-  connectedness or local path connectedness. For quotient coverings,
-  `IsQuotientCoveringMap.ker_monodromyPerm_eq_comap_stabilizer` identifies the
-  permutation kernel with the preimage of any point stabilizer; no such kernel
-  identification is asserted for arbitrary covers.
-  A continuous map over a fixed common base between covers is surjective
-  when its source is nonempty and its target total space is path connected:
-  [`IsCoveringMap.surjective_of_comp_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Equivalence.lean).
-  When both total spaces are path connected and only the source is locally
-  path connected, equality of their based fundamental-group images constructs
-  `IsCoveringMap.homeomorphOfRangeEq`, a homeomorphism over that base. The second
-  image is transported along the inverse of the chosen projection equality.
-  The total spaces and base have three independent universes; no global base
-  connectedness, local path connectedness or surjectivity of the covers is
-  required. Four chosen-point and projection laws, and
-  `IsCoveringMap.homeomorphOfRangeEq_eq_iff`, characterize the construction and
-  its inverse. This is the based equal-image case, not a general classification
-  of coverings or a classification by bare homeomorphism of total spaces.
-- **Finite-fiber covering transfer.** For `p : Y ⟶ X`, `IsCoveringMap p`
-  and finite point fibers, [`IsCoveringMap.singularChainComplexTransfer`](SphereTopology/Homology/Singular/Transfer.lean)
-  maps all-simplex singular chains on `X` to those on `Y`. Coefficients are
-  objects of any preadditive category with coproducts indexed in the space
-  universe; the category's object and morphism universes remain independent.
-  [`IsCoveringMap.singularHomologyTransfer`](SphereTopology/Homology/Singular/Transfer.lean)
-  adds only `CategoryWithHomology` and uses degrees `q : ℕ`. The API specifies
-  a simplex's image as the sum of its lifts and transfer followed by pushforward
-  as `d • id` when every point fiber has cardinality `d`. Finiteness is separate
-  from that cardinality equality. Neither construction requires a constant
-  degree, nonemptiness, surjectivity or connectedness. The example
-  `Circle × Fin 2 → Circle` uses the one-turn loop and integral degree-one
-  chains, with two lift coefficients equal to one.
-- **Subdivision and cover-small chains.** Signed barycentric subdivision `Sd`
-  and its support-preserving prism `H` obey `∂H + H∂ = id − Sd`:
-  [`singularHomotopy_boundary`](SphereTopology/Homology/Singular/Subdivision.lean#L1609).
-  The iterated prism is a *telescoping sum* of degree-raising maps, not iteration
-  of a degree-raising function. For an open cover, inclusion of finite-support
-  chains small in some cover member is a quasi-isomorphism:
-  [`quasiIso_smallSingularChainInclusion`](SphereTopology/Homology/Singular/SmallChains.lean#L540).
-  The ambient and cover-index universes may differ; empty cases are permitted
-  where the stated cover hypotheses allow them. Continuous maps and cover
-  refinements have compatible chain maps.
-- **Ordered integral Mayer–Vietoris.** For two opens covering a space, the
-  first chain map is `(c,−c)`, followed by addition. Connecting maps satisfy
-  all three successive exactness positions, ordered-cover naturality and the
-  minus sign under cover swap:
-  [`twoOpenMayerVietoris_exact_intersection`](SphereTopology/Homology/Singular/MayerVietoris.lean#L1103),
-  [`twoOpenMayerVietorisδ_naturality_induced`](SphereTopology/Homology/Singular/MayerVietoris.lean#L1085),
-  [`twoOpenMayerVietorisδ_swap_eq_neg`](SphereTopology/Homology/Singular/MayerVietoris.lean#L870).
-  The connecting morphism lands in small-chain intersection homology, with an
-  explicit comparison to homology of the intersection as an open subspace. The general minus-identity criterion additionally requires the
-  transported-intersection identity and a monic connecting map.
-- **Nonbasepoint path components.** Given `x : X`, the coproduct of a coefficient
-  object `R` over `{c : ZerothHomotopy X // c ≠ .mk x}` maps to `H₀(X; R)` by
-  component minus basepoint-component injections:
-  [`singularHomologyZeroComponentInclusion`](SphereTopology/Homology/Singular/Components.lean).
-  This uses Mathlib's independent space/category universes, coproducts,
-  preadditivity and `CategoryWithHomology`, with no nonzero-coefficient,
-  path-connectedness or finiteness assumption. Its kernel universal property gives
-  the integral comparison
-  [`reducedSingularHomologyZeroComponentsIso`](SphereTopology/Homology/Singular/Reduced.lean).
-  The three-point presentation has inverse generators `[1]−[0]`
-  and `[2]−[0]`; basepoint `true` on the two-point space recovers the existing
-  false-minus-true basis.
-- **Nonnegative reduced homology.** Degree zero is the augmentation kernel;
-  positive degrees agree with ordinary homology. It is homotopy invariant,
-  vanishes for contractible **nonempty** spaces, and `H̃₀(∅)=0` does not
-  assert a degree-minus-one theory:
-  [`reducedSingularHomologyFunctor`](SphereTopology/Homology/Singular/Reduced.lean),
-  [`isZero_reducedSingularHomologyZero_empty`](SphereTopology/Homology/Singular/Reduced.lean).
-  The two-point transposition acts by `-1` in the upper-minus-lower basis.
-  For every two-open cover, the reduced difference/sum sequence is exact at
-  `H̃₀(U) ⊕ H̃₀(V)`; the sum is epic when `U ∩ V` is nonempty:
-  [`twoOpenReducedMayerVietoris_exact_biprodZero`](SphereTopology/Homology/Singular/ReducedMayerVietoris.lean),
-  [`twoOpenReducedMayerVietorisFromBiprodZero_epi`](SphereTopology/Homology/Singular/ReducedMayerVietoris.lean).
-  Disjoint nonempty opens can instead have zero reduced homology on each open
-  and nonzero ambient reduced `H̃₀`, so epimorphy is not unconditional.
-  The reduced low-degree Mayer–Vietoris boundary is an isomorphism if **both**
-  `H̃₀` and `H̃₁` vanish on **each** open, with naturality and cover-swap sign:
-  [`twoOpenReducedMayerVietorisIsoOfAcyclicOpens`](SphereTopology/Homology/Singular/ReducedMayerVietoris.lean#L739).
+GitHub `main` contains published releases; Lake records the resolved commit in
+`lake-manifest.json`. To select a fixed release, use its full commit instead.
+Import `SphereTopology` or a focused module from the table. For example, the
+following interfaces are also used by the library's existing clients:
 
-- **Path connectedness from degree-zero homology.** In a preadditive category
-  with the requisite small coproducts and homology, the total augmentation
-  `H₀(X; R) ⟶ R` is invertible exactly when `X` is path connected, provided
-  the coefficient object `R` is nonzero:
-  [`isIso_singularHomology₀ε_iff_pathConnectedSpace`](SphereTopology/Homology/Singular/Connectedness.lean).
-  Nonemptiness of `X` is part of the conclusion, not an assumption. For
-  **nonempty** `X`, integral reduced `H₀` vanishes exactly when `X` is path
-  connected:
-  [`isZero_reducedSingularHomologyZero_iff_pathConnectedSpace`](SphereTopology/Homology/Singular/Connectedness.lean).
-  The empty space still has zero reduced `H₀`; with zero coefficients the
-  augmentation can also be invertible on disconnected spaces.
+```lean
+module
+import SphereTopology
 
-## Modules and client conventions
+open CategoryTheory
+open scoped RealInnerProductSpace
+open SphereTopology
+
+private theorem field_has_zero (V : C(sphere2, E3))
+    (hOrth : ∀ p, inner ℝ p.1 (V p) = 0) : ∃ p, V p = 0 :=
+  sphere2_exists_zero_of_orthogonal_field V hOrth
+
+private noncomputable def sphere_homology :
+    TopCat.reducedSingularHomology sphere2 2 ≅ ModuleCat.of ℤ ℤ :=
+  reducedSingularHomologyTwoSphereTwoIntegerIso
+```
+
+## Building
+
+The toolchain and dependency graph are pinned in `lean-toolchain` and
+`lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
+`83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
+`143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
+`7a3b69c5c2a88044db6e2f664790913d709ae20b`.
+Fetch the matching precompiled Mathlib cache successfully before building:
+
+```sh
+lake exe cache get
+LEAN_NUM_THREADS=2 lake -Kjobs=2 --wfail build
+lake env lean -DwarningAsError=true SphereTopologyTest/PublicAPIClient.lean
+```
+
+`SphereTopology` and `SphereTopologyTest` are default Lake libraries; the
+production aggregate imports no tests. Routine use does not need `lake update`.
+
+## Contents
 
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
@@ -283,164 +172,34 @@ the singular-lift and transfer constructions and the other results listed here.
 | `Homology.Singular.Connectedness` | Total-augmentation and nonempty integral reduced-zero criteria for path connectedness. |
 | `Homology.Singular.Circle`, `Sphere`, `SphereAntipodal` | Fixed models, integer coordinates and antipodal obstruction. |
 
-**Breaking covering-import migration.** The five old `SphereTopology.Topology`
-paths in the table are public-import shims, deprecated since 2026-10-17 and
-supported for at least three months from that date. Their canonical home is the
-released [Fundamental Groupoids revision
-`7a3b69c5c2a88044db6e2f664790913d709ae20b`](https://github.com/FormalFrontier/fundamental-groupoids/commit/7a3b69c5c2a88044db6e2f664790913d709ae20b);
-declaration names and mathematical namespaces are unchanged.
+## Conventions and limitations
 
-The new Fundamental Groupoids covering modules **cannot be co-imported with a
-legacy Sphere release that still defines its own copies**. Joint consumers must
-use a Sphere version providing these shims and the compatible Fundamental
-Groupoids pin **together**. Existing pins are not upgraded automatically;
-arbitrary version pairs are not promised compatible.
-
-The covering-space evaluation equivalences supply the finite vertex fibers for
-Simplicial Objects' equifibered transfer. The resulting maps use Mathlib's
-singular chain and homology functors. A simply connected simplex domain does
-not impose connectedness assumptions on the base space. These interfaces make
-no normalized-chain, tensor-coefficient, CGWH, negative-degree, reduced,
-relative or deck-equivariant transfer comparison.
-
-The subdivision and small-chain boundary is the alternating face sum, not an
-arbitrary-coefficient chain theory. The component leaf instead reuses Mathlib's
-categorical-coefficient singular `H₀`. Its augmentation-kernel/all-simplex model
-generalizes the integral calculation in J. P. May's *A Concise Course in Algebraic
-Topology*, Chapters 13 and 15, using Joël Riou's Mathlib formalization. It does not
-supply based-relative or primed reduced-homology comparisons, normalized-chain/
-tensor-coefficient comparisons, or CGWH/k-ification correspondences.
-Open-cover small-chain interfaces allow independently universed
-cover indices; ordered Mayer–Vietoris naturality compares spaces in a common
-ambient universe. No global nonemptiness assumption is implicit for covers.
-The reduced low-degree target uses the open-intersection comparison. The
-library does not compute all homology groups of all spheres or prove an
-arbitrary-sphere, characteristic-two, smooth tangent-bundle or general-degree
-hairy-ball theorem.
-
-Four explicitly `noncomputable` definitions—
-`Convexity.StdSimplex.subdivideSimplex`, `Convexity.StdSimplex.homotopySimplex`,
-`AlgebraicTopology.singularSubdivisionIterate` and
-`AlgebraicTopology.singularHomotopyIterate`—expose equations rather than
-executable extraction. The removed four compiler-generated partial companions
-narrow the runtime interface; no external runtime-client equivalence is
-promised. `Convexity.StdSimplex.exists_mem_support_of_mem_support_sum` no longer
-needs `[DecidableEq α]`; explicit positional or named-class callers may need
-to adjust even though ordinary use preserves the result.
-
-`TopCat.openSingularSetIso` and
-`AlgebraicTopology.twoOpenReducedMayerVietorisδZero` are public interfaces
-with private implementation helpers: ordinary imports support their public
-lemmas, not unfolding or diagnostic `import all` as a promised client API.
-`TopCat.path_endpoints_eq_of_totallyDisconnected` is public. The
-`@[simp↓]` registration of
-`Convexity.StdSimplex.affineAugmentation_subdivide_zero` is part of the
-current interface; restricted simplifier clients sometimes need to disable
-`subdivideSimplex_zero` and `affineAugmentation_single`. The accompanying
-regressions do not promise every custom downstream simp set behaves alike.
-
-## Pinned build and use
-
-Use Git, elan, dependency-network access and the committed manifest: Lean
-`leanprover/lean4:v4.34.0-rc2`, mathlib
-`83abb3e776bdefcbc447a1e44d0debe4010039e5`,
-[Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
-`fe4b0a3e8f245c1ba30a640330d66f95ea7dddda`,
-[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
-`7a3b69c5c2a88044db6e2f664790913d709ae20b`, and the resolved transitive packages.
-These are the three direct dependencies of this library.
-Routine use does not require `lake update`.
-Fetch the matching precompiled mathlib cache **successfully before building**;
-repeat after changing pins or replacing `.lake`:
-
-```sh
-lake exe cache get
-LEAN_NUM_THREADS=2 lake -Kjobs=2 --wfail build
-lake env lean -DwarningAsError=true SphereTopologyTest/PublicAPIClient.lean
-```
-
-Both `SphereTopology` and `SphereTopologyTest` are default Lake libraries. All
-test/audit modules are explicit test roots; the production aggregate
-imports no tests. Focused builds can use the module names in the table.
-For another Lake project, pin an independently reviewed exact revision at
-`https://github.com/FormalFrontier/sphere-topology.git` and retain matching
-Lean/mathlib pins.
-Ordinary imports need neither private research notes nor implementation-body
-unfolding, for example:
-
-```lean
-module
-import SphereTopology
-
-open CategoryTheory
-open scoped RealInnerProductSpace
-open SphereTopology
-
-private theorem field_has_zero (V : C(sphere2, E3))
-    (hOrth : ∀ p, inner ℝ p.1 (V p) = 0) : ∃ p, V p = 0 :=
-  sphere2_exists_zero_of_orthogonal_field V hOrth
-
-private noncomputable def sphere_homology :
-    TopCat.reducedSingularHomology sphere2 2 ≅ ModuleCat.of ℤ ℤ :=
-  reducedSingularHomologyTwoSphereTwoIntegerIso
-```
+Integral coordinates are supplied by released
+[`SimplicialObjects.ChainCoordinates`](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean).
+The four `AlgebraicTopology` names are re-exported by `SmallChains` without
+renaming. For `X : SSet.{u}`, coefficients are `(ModuleCat.uliftFunctor.{u} ℤ).obj
+(ModuleCat.of ℤ ℤ)`. The degree-`n` coordinate module is
+`ModuleCat.of ℤ (X _⦋n⦌ →₀ ℤ)`, on all simplices, including degenerate ones.
+This is degreewise, not a chain or natural isomorphism; no normalized-chain
+comparison or nonzero-homology consequence follows from a nonzero chain.
+See the [coordinate guide](docs/coordinates.md) for full types, providers and
+source origins, and the [mathematical guide](docs/guide.md) for all other
+scope and compatibility qualifications.
 
 ## References
 
-- J. Peter May, *A Concise Course in Algebraic Topology*, revised edition:
-  Chapter 1, §5 and Problem 3 (circle and H-spaces), Chapter 2, §8
-  (circle-bouquet setting, without its fundamental-group calculation), Chapter 3 (coverings),
-  Chapter 13, §5 (antipodal degree), Chapter 14, §§1, 3 and 5 (reduced homology,
-  sphere homology and Mayer--Vietoris), Chapters 13 and 15 (components),
-  and Chapter 16 (singular homology and Problem 3 on covering transfer).
-- Charles A. Weibel, *The K-book: An Introduction to Algebraic K-theory*,
-  Example I.1.2.2, for the sphere-field motivation, with the distinction below.
-- Mathlib's singular homology and simplicial foundations (Joël Riou),
-  covering and monodromy formalization (Junyan Xu), deck groups (Kim Morrison),
-  and stereographic projection, contractibility, analytic and categorical APIs.
-- [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids),
-  the canonical home of the generic covering interfaces originally developed in
-  Sphere, retaining their source and Mathlib credits.
-- Formal Frontier Agents' project constructions, earlier sphere-field proof
-  exposition and Simplicial Objects finite-fiber transfer; see
-  [credits](docs/CREDITS.md) for distinct original, reconciliation, Prism and
-  documentation-adapter contributions.
+- J. Peter May, *A Concise Course in Algebraic Topology*: Chapters 1–3 and
+  13–16; exact sections and conventions are in the guide and module references.
+- Charles A. Weibel, *The K-book*, Example I.1.2.2: sphere-field motivation.
+  Its two-independent-field obstruction is distinct from the stronger one-field
+  zero theorem here; no algebraic kernel, row-completion or whole-book claim is made.
+- Mathlib, [Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects)
+  and [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids).
 
-## Source, rights and credit
+## Credits and license
 
-The covering transfer follows J. Peter May, *A Concise Course in Algebraic
-Topology*, revised edition, §16, Problem 3, using all-simplex categorical
-coefficients rather than the book's normalized tensor-coefficient model.
-Mathlib supplies singular chains, homology, simplices and covering theory;
-Simplicial Objects supplies the equifibered finite-fiber transfer. Their authors
-retain credit for those constructions. Project code and documentation are
-AI-authored; see the credits for the earlier mathematical and interface work,
-including Prism's contributions.
-
-The sphere-field motivation is Charles A. Weibel, *The K-book: An Introduction
-to Algebraic K-theory*, complete-book build dated August 29, 2013, Example
-I.1.2.2. The book passage rules out **two independent tangent fields**; this
-library proves a **stronger one-field** zero theorem for continuous orthogonal
-fields on the standard metric S². It does not certify the source's algebraic kernel,
-unimodular-row or completion statements, and asserts no full book coverage.
-See [formalization.yaml](formalization.yaml) for the public bibliographic
-record and [credits](docs/CREDITS.md) for the distinct mathematical authors,
-research/production reconciliations, interface and documentation contributions.
-
-The based covering-lift criterion follows J. P. May, *A Concise Course in
-Algebraic Topology*, Chapter 3 §7, printed pp. 28–29 (PDF pp. 36–37), and reuses
-Mathlib's lifting formalization, especially Junyan Xu's approach. The
-covering-map fixed-point corollary specializes uniqueness of maps of covers
-there, printed p. 29 (PDF p. 37), by comparing a deck transformation with the
-identity. The deck interfaces reuse Mathlib's deck group formalized by Kim
-Morrison and sharp separated-map uniqueness formalized by Junyan Xu. This is
-not a claim of a separately stated fixed-point theorem or complete coverage of
-May's text. The restriction-to-fiber comparison with the monodromy centralizer
-follows the deck-automorphism comparison in the same section, using based
-lifting and open path components to allow disconnected or empty total spaces.
-These generic covering constructions are now supplied by Fundamental Groupoids;
-Sphere's deprecated covering module paths re-export them rather than maintain
-separate implementations.
-
-No book assets, third-party source excerpts or mathlib implementation are
-bundled; dependency and book authors retain their own rights and notices.
+Authors: Formal Frontier Agents. Project Lean and documentation are AI-authored.
+Mathematical sources, Mathlib contributors and original project, Prism and
+Orrery contributions retain their distinct credit in [CREDITS.md](docs/CREDITS.md).
+Licensed under [Apache-2.0](LICENSE); dependency and book authors retain their
+own rights and notices. No book assets or excerpts are bundled.

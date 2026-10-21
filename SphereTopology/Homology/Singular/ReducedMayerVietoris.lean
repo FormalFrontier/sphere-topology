@@ -684,7 +684,6 @@ theorem twoOpenReducedMayerVietorisδZero_swap_eq_neg {X : TopCat.{u}}
   simp only [Preadditive.comp_neg, Preadditive.neg_comp]
   rw [twoOpenReducedMayerVietorisδZero_ordinary]
 
-set_option linter.style.haveILetI false in
 /-- If both opens have zero reduced homology in degrees zero and one, the
 reduced connecting morphism is an isomorphism. -/
 theorem twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_opens
@@ -704,7 +703,7 @@ theorem twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_opens
       (TopCat.reducedSingularHomology ((Opens.toTopCat X).obj U) 0 ⊞
         TopCat.reducedSingularHomology ((Opens.toTopCat X).obj V) 0) :=
     (biprod_isZero_iff _ _).2 ⟨hU₀, hV₀⟩
-  letI : Epi (twoOpenReducedMayerVietorisδZero U V hUV) :=
+  let : Epi (twoOpenReducedMayerVietorisδZero U V hUV) :=
     (hReducedExact.epi_f_iff).2
       (hReducedTarget.eq_of_tgt
         (twoOpenReducedMayerVietorisFromIntersectionZero U V) 0)
@@ -723,14 +722,14 @@ theorem twoOpenReducedMayerVietorisδZero_isIso_of_acyclic_opens
         integralSingularHomology ((Opens.toTopCat X).obj V) 1) :=
     (biprod_isZero_iff _ _).2 ⟨hU₁', hV₁'⟩
   have hSpace := twoOpenMayerVietoris_exact_at_space U V hUV 0
-  letI hOrdinaryMono : Mono (twoOpenMayerVietorisδ U V hUV 0) :=
+  let hOrdinaryMono : Mono (twoOpenMayerVietorisδ U V hUV 0) :=
     (hSpace.mono_g_iff).2
       (hOrdinarySource.eq_of_src
         (twoOpenMayerVietorisFromBiprod U V hUV 1) 0)
-  letI hCompositeMono : Mono
+  let hCompositeMono : Mono
       ((TopCat.reducedSingularHomologyIsoOfNeZero X 1 (by simp)).hom ≫
         twoOpenMayerVietorisδ U V hUV 0) := mono_comp _ _
-  letI : Mono (twoOpenReducedMayerVietorisδZero U V hUV) :=
+  let : Mono (twoOpenReducedMayerVietorisδZero U V hUV) :=
     mono_of_mono_fac (twoOpenReducedMayerVietorisδZero_ordinary U V hUV)
   exact isIso_of_mono_of_epi _
 
