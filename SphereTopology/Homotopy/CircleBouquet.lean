@@ -5,6 +5,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.Circle
+public import SphereTopology.Topology.WidePushoutRetraction
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
@@ -27,11 +28,14 @@ first. No inversion is inserted in the positive generators.
 
 The descent and extensionality API is the universal property of the categorical wide
 pushout. Retraction onto any one circle independently detects its positive loop
-using `Circle.fundamentalGroupEquivInt` and its positive normalization.
+using `Circle.fundamentalGroupEquivInt` and its positive normalization. The
+retraction specializes `TopCat.widePushoutPointRetraction` on the already-lifted
+circle diagram, as recorded by `retraction_eq_widePushoutPointRetraction`.
 
 ## Implementation notes
 
-The lifted-circle diagram is private. The public constructions are used through
+The head and factor helpers are private; `space` exposes their categorical diagram.
+The other public constructions are used through
 `inclusion_basepoint`, `inclusion_desc`, `desc_basepoint` and `hom_ext`, rather than
 by unfolding the chosen colimit or its universe transport.
 
@@ -68,8 +72,10 @@ private def attach (I : Type v) (_i : I) : point.{max u v} ⟶ circle.{max u v} 
   TopCat.const (ULift.up (1 : Circle))
 
 /-- The bouquet, formed by the categorical wide pushout of the based circles. -/
-def space (I : Type v) : TopCat.{max u v} :=
-  widePushout point.{max u v} (fun _ : I ↦ circle.{max u v}) (attach.{u, v} I)
+@[expose] def space (I : Type v) : TopCat.{max u v} :=
+  widePushout (TopCat.of PUnit.{max u v + 1})
+    (fun _ : I ↦ TopCat.of (ULift.{max u v} Circle))
+    (fun _ ↦ TopCat.const (ULift.up (1 : Circle)))
 
 /-- The map from the one-point head of the diagram. -/
 private def head (I : Type v) : point.{max u v} ⟶ space.{u, v} I :=
@@ -178,55 +184,30 @@ def generatorMap (I : Type v) :
     generatorMap.{u, v} I (FreeGroup.of i) = positiveGenerator.{u, v} i :=
   FreeGroup.lift_apply_of
 
-/-- The factor maps for retraction onto one circle: identity on that circle and
-constant at one on all other circles. -/
-private def retractionFactor {I : Type v} (i j : I) :
-    circle.{max u v} ⟶ circle.{max u v} := by
-  classical
-  exact if j = i then 𝟙 _ else TopCat.const (ULift.up (1 : Circle))
-
-/-- The chosen factor is unchanged by its retraction map. -/
-private theorem retractionFactor_self {I : Type v} (i : I) :
-    retractionFactor.{u, v} i i = 𝟙 circle.{max u v} := by
-  classical
-  simp [retractionFactor]
-
-/-- Other factors are sent to one. -/
-private theorem retractionFactor_of_ne {I : Type v} (i j : I) (h : j ≠ i) :
-    retractionFactor.{u, v} i j = TopCat.const (ULift.up (1 : Circle)) := by
-  classical
-  simp [retractionFactor, h]
-
-/-- Retraction onto the universe-lifted circle, constructed by `WidePushout.desc`. -/
-private def retractionLifted {I : Type v} (i : I) :
-    space.{u, v} I ⟶ circle.{max u v} :=
-  WidePushout.desc (arrows := attach.{u, v} I)
-    (TopCat.const (ULift.up (1 : Circle))) (retractionFactor.{u, v} i)
-    (by
-      classical
-      intro j
-      apply TopCat.ext
-      intro x
-      by_cases h : j = i <;> simp [retractionFactor, h, attach]
-      rfl)
-
-/-- The descent equation for a retraction. -/
-private theorem factorInclusion_retractionLifted {I : Type v} (i j : I) :
-    factorInclusion.{u, v} j ≫ retractionLifted.{u, v} i =
-      retractionFactor.{u, v} i j :=
-  WidePushout.ι_desc (attach.{u, v} I) _ _ _ j
-
-/-- Retraction to the original circle, using `Homeomorph.ulift`. -/
-def retraction {I : Type v} (i : I) : C(space.{u, v} I, Circle) :=
+/-- Retraction to the original circle, using the point-wide-pushout retraction
+and `Homeomorph.ulift`. -/
+@[expose] def retraction {I : Type v} (i : I) : C(space.{u, v} I, Circle) :=
   (Homeomorph.ulift.{max u v, 0} (X := Circle) :
-    C(ULift.{max u v} Circle, Circle)).comp (retractionLifted.{u, v} i).hom
+    C(ULift.{max u v} Circle, Circle)).comp
+      (TopCat.widePushoutPointRetraction.{u, v}
+        (fun _ : I ↦ TopCat.of (ULift.{max u v} Circle))
+        (fun _ ↦ ULift.up (1 : Circle)) i).hom
+
+/-- The bouquet retraction is the general point-wide-pushout retraction on the
+already-lifted circle diagram, followed by the homeomorphism to the original circle. -/
+theorem retraction_eq_widePushoutPointRetraction {I : Type v} (i : I) :
+    retraction.{u, v} i =
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) :
+        C(ULift.{max u v} Circle, Circle)).comp
+        (TopCat.widePushoutPointRetraction.{u, v}
+          (fun _ : I ↦ TopCat.of (ULift.{max u v} Circle))
+          (fun _ ↦ ULift.up (1 : Circle)) i).hom := rfl
 
 /-- Retraction composed with its circle inclusion is the identity. -/
 @[simp] theorem retraction_inclusion {I : Type v} (i : I) :
     (retraction.{u, v} i).comp (inclusion.{u, v} i) = ContinuousMap.id Circle := by
-  have h : factorInclusion.{u, v} i ≫ retractionLifted.{u, v} i =
-      𝟙 circle.{max u v} := by
-    rw [factorInclusion_retractionLifted, retractionFactor_self]
+  have h := TopCat.widePushoutPointRetraction_ι.{u, v} (fun _ : I ↦ circle.{max u v})
+    (fun _ ↦ ULift.up (1 : Circle)) i
   apply ContinuousMap.ext
   intro z
   exact congrArg (fun k : circle.{max u v} ⟶ circle.{max u v} ↦
@@ -235,9 +216,8 @@ def retraction {I : Type v} (i : I) : C(space.{u, v} I, Circle) :=
 /-- Retraction is constant at one on each other circle. -/
 theorem retraction_inclusion_of_ne {I : Type v} (i j : I) (hji : j ≠ i) :
     (retraction.{u, v} i).comp (inclusion.{u, v} j) = ContinuousMap.const Circle 1 := by
-  have h : factorInclusion.{u, v} j ≫ retractionLifted.{u, v} i =
-      TopCat.const (ULift.up (1 : Circle)) := by
-    rw [factorInclusion_retractionLifted, retractionFactor_of_ne i j hji]
+  have h := TopCat.widePushoutPointRetraction_ι_of_ne.{u, v} (fun _ : I ↦ circle.{max u v})
+    (fun _ ↦ ULift.up (1 : Circle)) i j hji
   apply ContinuousMap.ext
   intro z
   exact congrArg (fun k : circle.{max u v} ⟶ circle.{max u v} ↦

@@ -32,6 +32,13 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   preserving the head and every factor. Continuity and descent have an
   independent target universe; empty and singleton families need no separation,
   compactness or homotopy assumptions.
+- **Factor retractions and embeddings for point-wide-pushouts.**
+  [`TopCat.widePushoutPointRetraction`](SphereTopology/Topology/WidePushoutRetraction.lean)
+  retracts the categorical wide pushout of arbitrary chosen-point spaces onto
+  any selected factor. It fixes that factor, collapses every other factor to
+  the chosen point and computes the head; each factor inclusion is an embedding.
+  Index and space universes are independent, with no separation or finiteness
+  hypotheses. The circle-bouquet retractions specialize this construction.
 - **Compact subsets meet finitely many pointed factors.**
   [`finite_widePushoutPointSupport`](SphereTopology/Topology/WidePushout/Compactness.lean)
   applies to arbitrary indexed T₁ spaces attached at chosen points. A compact
@@ -175,6 +182,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
+| `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |

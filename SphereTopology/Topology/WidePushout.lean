@@ -4,6 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
+public import SphereTopology.Topology.WidePushoutRetraction
 public import Mathlib.CategoryTheory.Limits.Shapes.ConcreteCategory
 public import Mathlib.CategoryTheory.Limits.Types.Pushouts
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
