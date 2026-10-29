@@ -45,6 +45,14 @@ Mathlib's additive/complex-circle identifications, paths, contractibility and
 group equivalences. The unbased degree and free-homotopy classification follow
 Chapter 1, §7, p. 10, and the fixed-point consequence follows Problem (2), p. 11.
 The bouquet setting is Chapter 2, §8; no free-group identification is claimed.
+The generic wide-pushout quotient presentation reuses Joël Riou's Mathlib
+`Types.Pushout` and the Mathlib topological-colimit interface. The finite-support
+theorem for compact subsets of arbitrary point-attached T₁ spaces is stronger
+than that source setting: Formal Frontier Agents supplied its quotient-fiber
+and closed-discrete-selection argument, using Mathlib's compactness and discrete-
+subset criteria. The stock complex-circle example reuses Heather Macbeth's
+Mathlib circle and its topological instances. These contributions use no
+textbook quotation, figure or asset.
 
 The generic based covering-lift criterion, point stabilizers, orbits, maps of
 covers, monodromy centralizers and based equal-image equivalences are supplied

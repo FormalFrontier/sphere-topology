@@ -52,6 +52,26 @@ the singular-lift and transfer constructions and the other results listed here.
   The zero-period quotient has trivial fundamental group and is excluded from
   the integer equivalence, not from the covering-map construction.
 
+- **Compact support in point-attached wide pushouts.** For arbitrary
+  `I : Type v`, factors `X i : TopCat.{max u v}` and chosen points `a i`,
+  [`widePushoutPointSupport`](../SphereTopology/Topology/WidePushout/Compactness.lean)
+  is the set of indices admitting `x ≠ a i` whose canonical factor image lies
+  in a given set `K`. For every `S : Set I`, its characteristic equivalence is
+  `support K ⊆ S` iff `K` is contained in the common head singleton together
+  with the ranges of the factors in `S`. No topology hypothesis is needed for
+  this equivalence, and the singleton cannot be dropped for the empty family.
+  If every factor is T₁ and `K` is compact, the support is finite. The proof
+  uses closed discrete selections inside `K`, not a Hausdorff assumption or
+  compactness of the factors. `exists_finite_widePushout_point_range` gives
+  the resulting covering for a continuous map from a compact domain in any
+  universe; this includes path images. For original factors in `TopCat.{u}`,
+  `exists_finite_widePushout_point_range_ulift` transports them once into the
+  maximum universe and expresses the covering using maps from their original
+  domains. The infinite family of stock complex circles supplies a useful
+  example: a whole circle factor is compact and has singleton support, whereas
+  the common point has empty support. This arbitrary-T₁ theorem is not a
+  free-group computation or an assertion of CW closure.
+
 - **Circle-bouquet construction and positive generators.** For any index type,
   [`CircleBouquet.space`](../SphereTopology/Homotopy/CircleBouquet.lean) is the
   wide pushout of copies of the complex unit circle at one, retaining a common
