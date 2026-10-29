@@ -5,6 +5,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.Circle
+public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
@@ -37,7 +38,9 @@ circle diagram, as recorded by `retraction_eq_widePushoutPointRetraction`.
 The head and factor helpers are private; `space` exposes their categorical diagram.
 The other public constructions are used through
 `inclusion_basepoint`, `inclusion_desc`, `desc_basepoint` and `hom_ext`, rather than
-by unfolding the chosen colimit or its universe transport.
+by unfolding the chosen colimit or its universe transport. Likewise, `prodDesc`
+and `homotopy` keep this diagram hidden; their common-point and original-circle
+computation and uniqueness lemmas characterize the descended families.
 
 Bijectivity of `generatorMap` and the resulting identification of the bouquet's
 fundamental group with `FreeGroup I` are not proved here.
@@ -158,6 +161,133 @@ theorem hom_ext {I : Type v} {Y : TopCat.{max u v}}
     intro x
     cases x
     exact hb
+
+/-- Functions on a bouquet are determined by the common point and the
+restrictions to the original circles, with no topology on the target. -/
+theorem funext {I : Type v} {Y : Sort*} {f g : space.{u, v} I → Y}
+    (hi : ∀ i z, f (inclusion.{u, v} i z) = g (inclusion.{u, v} i z))
+    (hb : f (basepoint.{u, v} I) = g (basepoint.{u, v} I)) : f = g := by
+  apply TopCat.widePushout_funext (attach.{u, v} I)
+  · intro x
+    cases x
+    exact hb
+  · intro i z
+    exact hi i z.down
+
+/-- Descend jointly continuous families on the original circles with a moving
+common-point value. The parameter and target universes are independent. -/
+def prodDesc {I : Type v} {P Y : Type*}
+    [TopologicalSpace P] [TopologicalSpace Y] [LocallyCompactPair P Y]
+    (g : C(P, Y)) (h : I → C(P × Circle, Y))
+    (w : ∀ i t, h i (t, 1) = g t) : C(P × space.{u, v} I, Y) :=
+  TopCat.widePushoutProdDesc (attach.{u, v} I) (g.comp ContinuousMap.fst)
+    (fun i ↦ (h i).comp ((ContinuousMap.id P).prodMap
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) : C(ULift.{max u v} Circle, Circle))))
+    (fun i t _ ↦ w i t)
+
+/-- Circle-family descent has the prescribed moving value at the common point. -/
+@[simp] theorem prodDesc_basepoint {I : Type v} {P Y : Type*}
+    [TopologicalSpace P] [TopologicalSpace Y] [LocallyCompactPair P Y]
+    (g : C(P, Y)) (h : I → C(P × Circle, Y))
+    (w : ∀ i t, h i (t, 1) = g t) (t : P) :
+    prodDesc.{u, v} g h w (t, basepoint.{u, v} I) = g t :=
+  TopCat.widePushoutProdDesc_head (attach.{u, v} I) (g.comp ContinuousMap.fst)
+    (fun i ↦ (h i).comp ((ContinuousMap.id P).prodMap
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) : C(ULift.{max u v} Circle, Circle))))
+    (fun i t _ ↦ w i t) t PUnit.unit
+
+/-- Circle-family descent restricts to each prescribed original-circle family. -/
+@[simp] theorem prodDesc_inclusion {I : Type v} {P Y : Type*}
+    [TopologicalSpace P] [TopologicalSpace Y] [LocallyCompactPair P Y]
+    (g : C(P, Y)) (h : I → C(P × Circle, Y))
+    (w : ∀ i t, h i (t, 1) = g t) (i : I) (t : P) (z : Circle) :
+    prodDesc.{u, v} g h w (t, inclusion.{u, v} i z) = h i (t, z) :=
+  TopCat.widePushoutProdDesc_ι (attach.{u, v} I) (g.comp ContinuousMap.fst)
+    (fun i ↦ (h i).comp ((ContinuousMap.id P).prodMap
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) : C(ULift.{max u v} Circle, Circle))))
+    (fun i t _ ↦ w i t) i t (ULift.up z)
+
+/-- The moving common-point and circle equations uniquely determine descent. -/
+theorem prodDesc_unique {I : Type v} {P Y : Type*}
+    [TopologicalSpace P] [TopologicalSpace Y] [LocallyCompactPair P Y]
+    (g : C(P, Y)) (h : I → C(P × Circle, Y))
+    (w : ∀ i t, h i (t, 1) = g t) (a : C(P × space.{u, v} I, Y))
+    (hi : ∀ i t z, a (t, inclusion.{u, v} i z) = h i (t, z))
+    (hb : ∀ t, a (t, basepoint.{u, v} I) = g t) : a = prodDesc.{u, v} g h w := by
+  apply ContinuousMap.ext
+  rintro ⟨t, x⟩
+  exact congrFun (CircleBouquet.funext
+    (f := fun x ↦ a (t, x)) (g := fun x ↦ prodDesc.{u, v} g h w (t, x))
+    (fun i z ↦ (hi i t z).trans (prodDesc_inclusion g h w i t z).symm)
+    ((hb t).trans (prodDesc_basepoint g h w t).symm)) x
+
+section Homotopy
+
+variable {I : Type v} {Y : Type*} [TopologicalSpace Y]
+  {a₀ a₁ : C(space.{u, v} I, Y)}
+  (g : ContinuousMap.Homotopy
+    (ContinuousMap.const PUnit.{1} (a₀ (basepoint.{u, v} I)))
+    (ContinuousMap.const PUnit.{1} (a₁ (basepoint.{u, v} I))))
+  (h : ∀ i, ContinuousMap.Homotopy (a₀.comp (inclusion.{u, v} i))
+    (a₁.comp (inclusion.{u, v} i)))
+  (w : ∀ i t, h i (t, 1) = g (t, PUnit.unit))
+
+/-- Transport a common-point path to the universe-lifted head. -/
+private def homotopyHead : ContinuousMap.Homotopy
+    (a₀.comp (head.{u, v} I).hom) (a₁.comp (head.{u, v} I).hom) where
+  toContinuousMap := g.toContinuousMap.comp
+    ((ContinuousMap.id unitInterval).prodMap (ContinuousMap.const _ PUnit.unit))
+  map_zero_left := by
+    intro b
+    cases b
+    exact g.map_zero_left PUnit.unit
+  map_one_left := by
+    intro b
+    cases b
+    exact g.map_one_left PUnit.unit
+
+/-- Transport a circle homotopy to its universe-lifted factor. -/
+private def homotopyFactor (i : I) : ContinuousMap.Homotopy
+    (a₀.comp (factorInclusion.{u, v} i).hom)
+    (a₁.comp (factorInclusion.{u, v} i).hom) where
+  toContinuousMap := (h i).toContinuousMap.comp
+    ((ContinuousMap.id unitInterval).prodMap
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) : C(ULift.{max u v} Circle, Circle)))
+  map_zero_left := fun z ↦ (h i).map_zero_left z.down
+  map_one_left := fun z ↦ (h i).map_one_left z.down
+
+/-- Glue homotopies on the original circles, with a prescribed common-point
+path and agreement at one throughout time. The common point may move. -/
+def homotopy : ContinuousMap.Homotopy a₀ a₁ :=
+  TopCat.widePushoutHomotopy (attach.{u, v} I) (homotopyHead g) (homotopyFactor h)
+    (fun i t _ ↦ w i t)
+
+/-- The glued bouquet homotopy has its prescribed common-point path. -/
+@[simp] theorem homotopy_basepoint (t : unitInterval) :
+    homotopy.{u, v} g h w (t, basepoint.{u, v} I) = g (t, PUnit.unit) :=
+  TopCat.widePushoutHomotopy_head (attach.{u, v} I) (homotopyHead g) (homotopyFactor h)
+    (fun i t _ ↦ w i t) t PUnit.unit
+
+/-- The glued bouquet homotopy restricts to every original-circle homotopy. -/
+@[simp] theorem homotopy_inclusion (i : I) (t : unitInterval) (z : Circle) :
+    homotopy.{u, v} g h w (t, inclusion.{u, v} i z) = h i (t, z) :=
+  TopCat.widePushoutHomotopy_ι (attach.{u, v} I) (homotopyHead g) (homotopyFactor h)
+    (fun i t _ ↦ w i t) i t (ULift.up z)
+
+/-- The common-point and original-circle equations uniquely characterize the
+bouquet homotopy at every time. -/
+theorem homotopy_unique (H : ContinuousMap.Homotopy a₀ a₁)
+    (hi : ∀ i t z, H (t, inclusion.{u, v} i z) = h i (t, z))
+    (hb : ∀ t, H (t, basepoint.{u, v} I) = g (t, PUnit.unit)) :
+    H = homotopy.{u, v} g h w := by
+  apply ContinuousMap.Homotopy.ext
+  rintro ⟨t, x⟩
+  exact congrFun (CircleBouquet.funext
+    (f := fun x ↦ H (t, x)) (g := fun x ↦ homotopy.{u, v} g h w (t, x))
+    (fun i z ↦ (hi i t z).trans (homotopy_inclusion g h w i t z).symm)
+    ((hb t).trans (homotopy_basepoint g h w t).symm)) x
+
+end Homotopy
 
 /-- The induced image of the positive loop `Circle.loop 1`. -/
 def positiveGenerator {I : Type v} (i : I) :

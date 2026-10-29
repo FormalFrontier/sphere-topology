@@ -54,6 +54,17 @@ subset criteria. The stock complex-circle example reuses Heather Macbeth's
 Mathlib circle and its topological instances. These contributions use no
 textbook quotation, figure or asset.
 
+The parametrized final-topology and wide-pushout descent interface reuses
+Mathlib's topological colimits by Patrick Massot, Kim Morrison, Mario Carneiro
+and Andrew Yang, Reid Barton's compact-open currying, the evaluation and
+locally compact pair APIs, and Shing Tak Lam's homotopies. The shared
+free-path-space transposition approach and its gluing application were developed
+by Formal Frontier Agents. The moving-height family on the countable circle
+bouquet is a separate construction. Its common point is not fixed, in keeping
+with the based/unbased distinction in May, Chapter 2, §4. The pair-hypothesis
+criterion and its universe-general descent API are generalizations, not claims
+that May states these results or that a free-group calculation is complete.
+
 The generic based covering-lift criterion, point stabilizers, orbits, maps of
 covers, monodromy centralizers and based equal-image equivalences are supplied
 by [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids),

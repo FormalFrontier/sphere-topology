@@ -13,6 +13,7 @@ public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
 public import SphereTopology.Topology.WidePushout
 public import SphereTopology.Topology.WidePushout.Compactness
+public import SphereTopology.Topology.WidePushoutHomotopy
 public import FundamentalGroupoids.Topology.Covering.DeckGroup
 public import FundamentalGroupoids.Topology.Covering.DeckMonodromy
 public import FundamentalGroupoids.Topology.Covering.Monodromy

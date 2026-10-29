@@ -38,7 +38,8 @@ roots = [
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.SphereModuleAxioms",
-  "SphereTopologyTest.WidePushoutCompactness"
+  "SphereTopologyTest.WidePushoutCompactness",
+  "SphereTopologyTest.WidePushoutHomotopy"
 ]
 globs = [
   "SphereTopologyTest.AugmentationSimp",
@@ -70,7 +71,8 @@ globs = [
   "SphereTopologyTest.SphereAntipodalModuleAxioms",
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.SphereModuleAxioms",
-  "SphereTopologyTest.WidePushoutCompactness"
+  "SphereTopologyTest.WidePushoutCompactness",
+  "SphereTopologyTest.WidePushoutHomotopy"
 ]
 
 # Verification declarations are intentionally private.

@@ -32,6 +32,15 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   preserving the head and every factor. Continuity and descent have an
   independent target universe; empty and singleton families need no separation,
   compactness or homotopy assumptions.
+- **Parametrized continuity and homotopy gluing.**
+  [`TopCat.continuous_prod_iff_of_isColimit`](SphereTopology/Topology/WidePushoutHomotopy.lean)
+  checks joint continuity on the legs of any supplied topological colimit under
+  Mathlib's `LocallyCompactPair P Y` hypothesis; a locally compact parameter
+  suffices, with no separation condition on the target. Parameter and target
+  universes are independent. Compatible families on a wide pushout's head and
+  every factor descend continuously, with computation, uniqueness, fixed-parameter
+  and reparametrization laws. Compatible interval homotopies glue at all times,
+  without requiring the common point to stay fixed.
 - **Factor retractions and embeddings for point-wide-pushouts.**
   [`TopCat.widePushoutPointRetraction`](SphereTopology/Topology/WidePushoutRetraction.lean)
   retracts the categorical wide pushout of arbitrary chosen-point spaces onto
@@ -184,6 +193,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
+| `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Equivalence`. Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
