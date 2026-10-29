@@ -25,6 +25,13 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   homotopy of arbitrary continuous circle self-maps. Composition multiplies
   degree, `z ↦ z^n` has degree `n : ℤ`, and degree different from `1` is a
   sufficient, not necessary, fixed-point condition. No based-map premise is needed.
+- **Quotient presentations of topological wide pushouts.**
+  [`TopCat.widePushoutHomeomorph`](SphereTopology/Topology/WidePushout.lean)
+  identifies the quotient of `B ⊕ Σ i, X i` by `b ∼ (i, f i b)` with the
+  categorical wide pushout of arbitrary continuous maps `f i : B ⟶ X i`,
+  preserving the head and every factor. Continuity and descent have an
+  independent target universe; empty and singleton families need no separation,
+  compactness or homotopy assumptions.
 - **Arbitrary-index circle bouquets.**
   [`CircleBouquet.space`](SphereTopology/Homotopy/CircleBouquet.lean) is the wide
   pushout of based complex circles, with a common point even for the empty
@@ -160,6 +167,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
+| `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Equivalence`. Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
 | `Topology.DeckMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.DeckMonodromy`. Equivalences between continuous maps of covers and equivariant fiber maps with locally path-connected source and either path-connected base or path-connected source at a supplied point; deck-centralizer restriction, path-connected-base faithfulness and the corresponding deck-group equivalences. |
