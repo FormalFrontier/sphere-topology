@@ -56,6 +56,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   common point plus factor ranges; every continuous map from a compact domain,
   including a path, has such a finite-factor covering. There is no Hausdorff,
   compact-factor, countability or finite-index assumption.
+- **Subfamily retractions and continuous factorization.**
+  [`TopCat.widePushoutPointSubfamilyRetraction`](SphereTopology/Topology/WidePushout/Subfamily.lean)
+  retracts onto any subfamily, with an embedding inclusion whose range includes
+  the common point. A continuous map factors through that inclusion exactly
+  when its support lies in the subfamily, without separation or compactness
+  assumptions. For T₁ factors, every compact-domain map factors through a finite
+  subfamily. The circle-bouquet application retains the endpoints of based loops,
+  including included positive original-circle loops.
 - **Arbitrary-index circle bouquets.**
   [`CircleBouquet.space`](SphereTopology/Homotopy/CircleBouquet.lean) is the wide
   pushout of based complex circles, with a common point even for the empty
@@ -195,6 +203,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
+| `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Equivalence`. Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |
 | `Topology.DeckMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.DeckMonodromy`. Equivalences between continuous maps of covers and equivariant fiber maps with locally path-connected source and either path-connected base or path-connected source at a supplied point; deck-centralizer restriction, path-connected-base faithfulness and the corresponding deck-group equivalences. |

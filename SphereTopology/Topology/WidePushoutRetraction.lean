@@ -100,6 +100,26 @@ theorem widePushoutPointRetraction_ι_of_ne (i j : I) (hji : j ≠ i) :
   rw [WidePushout.ι_desc]
   simp [hji]
 
+/-- Pointwise computation on the head. -/
+@[simp] theorem widePushoutPointRetraction_head_apply (i : I)
+    (b : PUnit.{max u v + 1}) :
+    widePushoutPointRetraction X x i
+      (WidePushout.head (fun j ↦ TopCat.const (x j)) b) = x i :=
+  congrArg (fun k : TopCat.of PUnit.{max u v + 1} ⟶ X i ↦ k b)
+    (widePushoutPointRetraction_head X x i)
+
+/-- Pointwise computation on the retained factor. -/
+@[simp] theorem widePushoutPointRetraction_ι_apply (i : I) (t : X i) :
+    widePushoutPointRetraction X x i
+      (WidePushout.ι (fun j ↦ TopCat.const (x j)) i t) = t :=
+  congrArg (fun k : X i ⟶ X i ↦ k t) (widePushoutPointRetraction_ι X x i)
+
+/-- Pointwise computation on an omitted factor. -/
+theorem widePushoutPointRetraction_ι_of_ne_apply (i j : I) (hji : j ≠ i) (t : X j) :
+    widePushoutPointRetraction X x i
+      (WidePushout.ι (fun k ↦ TopCat.const (x k)) j t) = x i :=
+  congrArg (fun k : X j ⟶ X i ↦ k t) (widePushoutPointRetraction_ι_of_ne X x i j hji)
+
 /-- Every factor of a point-wide-pushout embeds, since it has a continuous left inverse. -/
 theorem isEmbedding_widePushout_point_ι (i : I) :
     Topology.IsEmbedding (WidePushout.ι (B := TopCat.of PUnit.{max u v + 1})

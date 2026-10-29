@@ -7,10 +7,12 @@ module
 public import SphereTopology.Homotopy.Circle
 public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
+public import SphereTopology.Topology.WidePushout.Subfamily
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
 public import Mathlib.Topology.Homeomorph.Lemmas
+public import Mathlib.Topology.Separation.Basic
 
 /-!
 # Bouquets of circles and their positive generators
@@ -32,6 +34,8 @@ pushout. Retraction onto any one circle independently detects its positive loop
 using `Circle.fundamentalGroupEquivInt` and its positive normalization. The
 retraction specializes `TopCat.widePushoutPointRetraction` on the already-lifted
 circle diagram, as recorded by `retraction_eq_widePushoutPointRetraction`.
+Subfamilies include and retract by the general point-wide-pushout maps; every
+based loop factors through a finite subbouquet with both endpoints preserved.
 
 ## Implementation notes
 
@@ -383,6 +387,93 @@ theorem positiveGenerator_ne_one {I : Type v} (i : I) :
   rw [retraction_positiveGenerator, map_one] at h'
   exact Circle.loop_one_ne_one h'
 
+/-- The canonical inclusion of a subfamily of circles into the bouquet. -/
+def subfamilyInclusion {I : Type v} (S : Set I) :
+    C(space.{u, v} S, space.{u, v} I) :=
+  TopCat.widePushoutPointSubfamilyInclusion.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S
+
+/-- Retraction onto a subfamily of circles, collapsing omitted circles to the
+common point. -/
+def subfamilyRetraction {I : Type v} (S : Set I) :
+    C(space.{u, v} I, space.{u, v} S) :=
+  TopCat.widePushoutPointSubfamilyRetraction.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S
+
+/-- Subfamily inclusion preserves the common point. -/
+@[simp] theorem subfamilyInclusion_basepoint {I : Type v} (S : Set I) :
+    subfamilyInclusion.{u, v} S (basepoint.{u, v} S) = basepoint.{u, v} I :=
+  TopCat.widePushoutPointSubfamilyInclusion_head.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S PUnit.unit
+
+/-- Subfamily retraction preserves the common point. -/
+@[simp] theorem subfamilyRetraction_basepoint {I : Type v} (S : Set I) :
+    subfamilyRetraction.{u, v} S (basepoint.{u, v} I) = basepoint.{u, v} S :=
+  TopCat.widePushoutPointSubfamilyRetraction_head.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S PUnit.unit
+
+/-- Subfamily inclusion agrees with every original-circle inclusion. -/
+@[simp] theorem subfamilyInclusion_inclusion {I : Type v} (S : Set I) (i : S) :
+    (subfamilyInclusion.{u, v} S).comp (inclusion.{u, v} i) = inclusion.{u, v} i.1 := by
+  apply ContinuousMap.ext
+  intro z
+  exact TopCat.widePushoutPointSubfamilyInclusion_ι.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S i (ULift.up z)
+
+/-- Retraction retains the original circle belonging to the subfamily. -/
+@[simp] theorem subfamilyRetraction_inclusion_of_mem {I : Type v}
+    (S : Set I) (i : I) (hi : i ∈ S) :
+    (subfamilyRetraction.{u, v} S).comp (inclusion.{u, v} i) =
+      inclusion.{u, v} (⟨i, hi⟩ : S) := by
+  apply ContinuousMap.ext
+  intro z
+  exact TopCat.widePushoutPointSubfamilyRetraction_ι_of_mem.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S i hi (ULift.up z)
+
+/-- Retraction collapses every omitted original circle to the common point. -/
+theorem subfamilyRetraction_inclusion_of_not_mem {I : Type v}
+    (S : Set I) (i : I) (hi : i ∉ S) :
+    (subfamilyRetraction.{u, v} S).comp (inclusion.{u, v} i) =
+      ContinuousMap.const Circle (basepoint.{u, v} S) := by
+  apply ContinuousMap.ext
+  intro z
+  exact TopCat.widePushoutPointSubfamilyRetraction_ι_of_not_mem.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S i hi (ULift.up z)
+
+/-- Retraction to a subbouquet is a left inverse to its inclusion. -/
+@[simp] theorem subfamilyRetraction_comp_subfamilyInclusion {I : Type v} (S : Set I) :
+    (subfamilyRetraction.{u, v} S).comp (subfamilyInclusion.{u, v} S) =
+      ContinuousMap.id (space.{u, v} S) :=
+  TopCat.widePushoutPointSubfamilyRetraction_comp_inclusion.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S
+
+/-- Every based loop in the bouquet factors through a finite subbouquet, with
+both endpoints at its common point. In particular this applies to the included
+positive original-circle loops, whose classes are detected by
+`positiveGenerator_ne_one`; no free-group calculation is required. -/
+theorem exists_finite_subfamily_loop {I : Type v}
+    (γ : Path (basepoint.{u, v} I) (basepoint.{u, v} I)) :
+    ∃ S : Set I, S.Finite ∧
+      ∃ δ : Path (basepoint.{u, v} S) (basepoint.{u, v} S),
+        ∀ t, subfamilyInclusion.{u, v} S (δ t) = γ t := by
+  let a : ∀ _ : I, circle.{max u v} := fun _ ↦ ULift.up (1 : Circle)
+  let S := TopCat.widePushoutPointSupport (X := fun _ : I ↦ circle.{max u v})
+    a (Set.range γ)
+  let : T1Space circle.{max u v} := by
+    change T1Space (ULift.{max u v} Circle)
+    exact (Homeomorph.ulift.{max u v, 0} (X := Circle)).symm.t1Space
+  have hS : S.Finite := TopCat.finite_widePushoutPointSupport
+    (X := fun _ : I ↦ circle.{max u v}) a (isCompact_range γ.continuous)
+  have hfactor := (TopCat.widePushoutPointSubfamily_factorization_iff
+    (X := fun _ : I ↦ circle.{max u v}) a S γ.toContinuousMap).2 Set.Subset.rfl
+  let δ : Path (basepoint.{u, v} S) (basepoint.{u, v} S) :=
+    (γ.map (subfamilyRetraction.{u, v} S).continuous).cast
+      (subfamilyRetraction_basepoint.{u, v} S).symm
+      (subfamilyRetraction_basepoint.{u, v} S).symm
+  refine ⟨S, hS, δ, ?_⟩
+  intro t
+  exact congrArg (fun k : C(Set.Icc (0 : ℝ) 1, space.{u, v} I) ↦ k t) hfactor
+
 end CircleBouquet
 
 end
@@ -427,6 +518,18 @@ private theorem empty_bouquet_point (x : CircleBouquet.space.{u, 0} Empty) :
     · rfl
   exact congrArg (fun f : CircleBouquet.space.{u, 0} Empty ⟶
     CircleBouquet.space.{u, 0} Empty ↦ f x) h
+
+/-- The countable bouquet's included positive circle loop factors through a
+finite subbouquet, without replacing it by a constant loop. -/
+private theorem countable_positive_loop_subfamily :
+    ∃ S : Set ℕ, S.Finite ∧
+      ∃ δ : Path (CircleBouquet.basepoint.{u, 0} S) (CircleBouquet.basepoint.{u, 0} S),
+        ∀ t, CircleBouquet.subfamilyInclusion.{u, 0} S (δ t) =
+          CircleBouquet.inclusion.{u, 0} (0 : ℕ) (Circle.loop 1 t) := by
+  let γ := ((Circle.loop 1).map (CircleBouquet.inclusion.{u, 0} (0 : ℕ)).continuous).cast
+    (CircleBouquet.inclusion_basepoint.{u, 0} (0 : ℕ)).symm
+    (CircleBouquet.inclusion_basepoint.{u, 0} (0 : ℕ)).symm
+  exact CircleBouquet.exists_finite_subfamily_loop.{u, 0} γ
 
 end SphereTopologyTest
 
