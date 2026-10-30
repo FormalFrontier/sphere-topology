@@ -17,6 +17,10 @@ inverse homotopies of the factors give relative inverse homotopies of the
 resulting maps, and hence an ordinary `ContinuousMap.HomotopyEquiv`.
 The selected relative homotopies retain their head and factor equations.
 
+Chosen-point-relative homotopies between the restrictions of arbitrary maps
+descend uniquely to a homotopy relative to the head. The explicit equality of
+the maps at the head includes the empty-index case.
+
 Contractions fixing the chosen points give a contraction fixing the common
 head. Supplying these fixed-point contractions is stronger than merely
 assuming that each factor is contractible. No finiteness, separation,
@@ -25,7 +29,8 @@ cofibration or nonempty-index hypothesis is imposed.
 ## References
 
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 2, §8,
-  p. 19, for point wedges and the distinction from ordinary contractibility.
+  p. 19, for the point-wedge setting. The supplied relative contractions used
+  here are stronger data than ordinary contractibility in that discussion.
 * `SphereTopology.Topology.WidePushoutHomotopy` supplies homotopy descent.
 * Mathlib supplies relative homotopies and homotopy equivalences.
 -/
@@ -36,7 +41,7 @@ noncomputable section
 
 open CategoryTheory CategoryTheory.Limits
 
-universe u v w
+universe u v w z
 
 namespace TopCat
 
@@ -69,6 +74,164 @@ local notation "hy" => (WidePushout.head aY PUnit.unit)
     _ = hx := congrArg
       (fun k : TopCat.of PUnit.{max u w + 1} ⟶ WX ↦ k PUnit.unit)
       (WidePushout.arrow_ι aX j)
+
+section RelativeHomotopy
+
+/-- Chosen-point-relative factor homotopies descend to a homotopy relative to the
+common head. Equality of the endpoint maps at the head is explicit, including
+when the index type is empty. -/
+def widePushoutPointHomotopyRel
+    {J : Type w} {X : J → TopCat.{max u w}} (x : ∀ j, X j)
+    {Z : Type z} [TopologicalSpace Z]
+    {f g : C((widePushout (TopCat.of PUnit.{max u w + 1}) X
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) : TopCat.{max u w}), Z)}
+    (headEq : f (WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) =
+      g (WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit))
+    (factorHomotopyRel : ∀ j : J, ContinuousMap.HomotopyRel
+      (f.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom)
+      (g.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom) {x j}) :
+    ContinuousMap.HomotopyRel f g {WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit} := by
+  let a : ∀ j : J, TopCat.of PUnit.{max u w + 1} ⟶ X j := fun j ↦ TopCat.const (x j)
+  let HB : ContinuousMap.Homotopy (f.comp (WidePushout.head a).hom)
+      (g.comp (WidePushout.head a).hom) :=
+    (ContinuousMap.Homotopy.refl
+      (ContinuousMap.const _ (f (WidePushout.head a PUnit.unit)))).cast
+      (by ext b; cases b; rfl)
+      (by ext b; cases b; exact headEq)
+  have h : ∀ j t b, factorHomotopyRel j (t, a j b) = HB (t, b) := by
+    intro j t b
+    cases b
+    change factorHomotopyRel j (t, x j) = f (WidePushout.head a PUnit.unit)
+    calc
+      _ = f (WidePushout.ι a j (x j)) := (factorHomotopyRel j).eq_fst t (by simp)
+      _ = f (WidePushout.head a PUnit.unit) :=
+        congrArg f (widePushoutPoint_ι_basepoint x j)
+  refine
+    { toHomotopy := widePushoutHomotopy a HB (fun j ↦ (factorHomotopyRel j).toHomotopy) h
+      prop' := ?_ }
+  intro t z hz
+  have hz : z = WidePushout.head a PUnit.unit := Set.mem_singleton_iff.mp hz
+  subst z
+  change widePushoutHomotopy a HB (fun j ↦ (factorHomotopyRel j).toHomotopy) h
+    (t, WidePushout.head a PUnit.unit) = f (WidePushout.head a PUnit.unit)
+  exact (widePushoutHomotopy_head a HB
+    (fun j ↦ (factorHomotopyRel j).toHomotopy) h t PUnit.unit).trans rfl
+
+/-- The descended relative homotopy fixes the common head at every time. -/
+@[simp] theorem widePushoutPointHomotopyRel_head
+    {J : Type w} {X : J → TopCat.{max u w}} (x : ∀ j, X j)
+    {Z : Type z} [TopologicalSpace Z]
+    {f g : C((widePushout (TopCat.of PUnit.{max u w + 1}) X
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) : TopCat.{max u w}), Z)}
+    (headEq : f (WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) =
+      g (WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit))
+    (factorHomotopyRel : ∀ j : J, ContinuousMap.HomotopyRel
+      (f.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom)
+      (g.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom) {x j}) (t : unitInterval) :
+    widePushoutPointHomotopyRel x headEq factorHomotopyRel
+      (t, WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) =
+      f (WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) := by
+  exact (widePushoutPointHomotopyRel x headEq factorHomotopyRel).eq_fst t (by simp)
+
+/-- The descended relative homotopy has the prescribed values on every factor. -/
+@[simp] theorem widePushoutPointHomotopyRel_ι
+    {J : Type w} {X : J → TopCat.{max u w}} (x : ∀ j, X j)
+    {Z : Type z} [TopologicalSpace Z]
+    {f g : C((widePushout (TopCat.of PUnit.{max u w + 1}) X
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) : TopCat.{max u w}), Z)}
+    (headEq : f (WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) =
+      g (WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit))
+    (factorHomotopyRel : ∀ j : J, ContinuousMap.HomotopyRel
+      (f.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom)
+      (g.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom) {x j})
+    (j : J) (t : unitInterval) (a : X j) :
+    widePushoutPointHomotopyRel x headEq factorHomotopyRel
+      (t, WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j a) =
+      factorHomotopyRel j (t, a) := by
+  change (widePushoutPointHomotopyRel x headEq factorHomotopyRel).toHomotopy
+    (t, WidePushout.ι
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) j a) = _
+  dsimp only [widePushoutPointHomotopyRel]
+  rw [widePushoutHomotopy_ι]
+  rfl
+
+/-- A homotopy relative to the head is determined by its restrictions to all
+factors, including when the index type is empty. -/
+theorem widePushoutPointHomotopyRel_unique
+    {J : Type w} {X : J → TopCat.{max u w}} (x : ∀ j, X j)
+    {Z : Type z} [TopologicalSpace Z]
+    {f g : C((widePushout (TopCat.of PUnit.{max u w + 1}) X
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) : TopCat.{max u w}), Z)}
+    (headEq : f (WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit) =
+      g (WidePushout.head
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit))
+    (factorHomotopyRel : ∀ j : J, ContinuousMap.HomotopyRel
+      (f.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom)
+      (g.comp (WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j).hom) {x j})
+    (K : ContinuousMap.HomotopyRel f g {WidePushout.head
+      (fun j : J ↦ (TopCat.const (x j) :
+        TopCat.of PUnit.{max u w + 1} ⟶ X j)) PUnit.unit})
+    (hK : ∀ (j : J) (t : unitInterval) (a : X j),
+      K (t, WidePushout.ι
+        (fun j : J ↦ (TopCat.const (x j) :
+          TopCat.of PUnit.{max u w + 1} ⟶ X j)) j a) = factorHomotopyRel j (t, a)) :
+    K = widePushoutPointHomotopyRel x headEq factorHomotopyRel := by
+  apply DFunLike.coe_injective
+  apply widePushout_prod_funext
+    (fun j : J ↦ (TopCat.const (x j) : TopCat.of PUnit.{max u w + 1} ⟶ X j))
+  · intro t b
+    cases b
+    exact (K.eq_fst t (by simp)).trans
+      (widePushoutPointHomotopyRel_head x headEq factorHomotopyRel t).symm
+  · intro j t a
+    exact (hK j t a).trans
+      (widePushoutPointHomotopyRel_ι x headEq factorHomotopyRel j t a).symm
+
+end RelativeHomotopy
 
 /-- Descent of point-preserving factor maps sends the common head to the common head.
 This is `widePushoutDesc_point_head` specialized to `PUnit.unit`. -/
@@ -111,38 +274,11 @@ def widePushoutPointCompHomotopy :
     exact (congrArg (fun z : WY ↦ (G) z)
       (widePushoutDesc_point_head x y f hf PUnit.unit)).trans
       (widePushoutDesc_point_head y x g (by exact point_inverse x y f hf g L) PUnit.unit)
-  let HB : ContinuousMap.Homotopy (((G).comp (F)).comp (WidePushout.head aX).hom)
-      ((ContinuousMap.id WX).comp (WidePushout.head aX).hom) :=
-    (ContinuousMap.Homotopy.refl (ContinuousMap.const _ hx)).cast
-      (by
-        ext b
-        cases b
-        change hx = (G) ((F) hx)
-        exact hGF.symm)
-      (by ext b; cases b; rfl)
-  let HX : ∀ j, ContinuousMap.Homotopy (((G).comp (F)).comp (WidePushout.ι aX j).hom)
-      ((ContinuousMap.id WX).comp (WidePushout.ι aX j).hom) := fun j ↦
-    ((ContinuousMap.Homotopy.refl (WidePushout.ι aX j).hom).comp
-      (L j).toHomotopy).cast
-      (by ext z; simp [ContinuousMap.comp_apply])
-      (by ext z; rfl)
-  have h : ∀ j t b, HX j (t, aX j b) = HB (t, b) := by
-    intro j t b
-    change WidePushout.ι aX j (L j (t, x j)) = hx
-    rw [(L j).eq_snd t (x := x j) (by simp)]
-    exact widePushoutPoint_ι_basepoint x j
-  refine { toHomotopy := widePushoutHomotopy aX HB HX h, prop' := ?_ }
-  intro t z hz
-  have hz : z = hx := Set.mem_singleton_iff.mp hz
-  subst z
-  change widePushoutHomotopy aX HB HX h (t, hx) = (G) ((F) hx)
-  calc
-    _ = HB (t, PUnit.unit) :=
-      widePushoutHomotopy_head (a₀ := (G).comp (F)) (a₁ := ContinuousMap.id WX)
-        aX HB HX h t PUnit.unit
-    _ = _ := by
-      change hx = (G) ((F) hx)
-      exact hGF.symm
+  refine widePushoutPointHomotopyRel x hGF (fun j ↦ ?_)
+  exact ContinuousMap.HomotopyRel.cast
+    ((L j).compContinuousMap (WidePushout.ι aX j).hom)
+    (by ext z; simp [ContinuousMap.comp_apply])
+    (by ext z; rfl)
 
 /-- The selected left-inverse homotopy fixes the common head at all times. -/
 @[simp] theorem widePushoutPointCompHomotopy_head (t : unitInterval) :
@@ -154,11 +290,9 @@ def widePushoutPointCompHomotopy :
 @[simp] theorem widePushoutPointCompHomotopy_ι (j : J) (t : unitInterval) (z : X j) :
     widePushoutPointCompHomotopy x y f hf g L (t, WidePushout.ι aX j z) =
       WidePushout.ι aX j (L j (t, z)) := by
-  change (widePushoutPointCompHomotopy x y f hf g L).toHomotopy
-    (t, WidePushout.ι aX j z) = _
-  dsimp only [widePushoutPointCompHomotopy]
-  rw [widePushoutHomotopy_ι]
-  rfl
+  exact (widePushoutPointHomotopyRel_ι x
+    ((widePushoutPointCompHomotopy x y f hf g L).fst_eq_snd (x := hx) (by simp))
+    _ j t z).trans (by rfl)
 
 /-- Point-preserving factor maps with supplied point-relative inverse homotopies
 induce an ordinary homotopy equivalence of their wide pushouts. The chosen
@@ -211,30 +345,11 @@ def widePushoutPointContraction
     (K : ∀ j, ContinuousMap.HomotopyRel (ContinuousMap.id (X j))
       (ContinuousMap.const (X j) (x j)) {x j}) :
     ContinuousMap.HomotopyRel (ContinuousMap.id WX) (ContinuousMap.const WX hx) {hx} := by
-  let HB : ContinuousMap.Homotopy ((ContinuousMap.id WX).comp (WidePushout.head aX).hom)
-      ((ContinuousMap.const WX hx).comp (WidePushout.head aX).hom) :=
-    (ContinuousMap.Homotopy.refl (ContinuousMap.const _ hx)).cast
-      (by ext b; cases b; rfl) (by ext b; rfl)
-  let HX : ∀ j, ContinuousMap.Homotopy ((ContinuousMap.id WX).comp (WidePushout.ι aX j).hom)
-      ((ContinuousMap.const WX hx).comp (WidePushout.ι aX j).hom) := fun j ↦
-    ((ContinuousMap.Homotopy.refl (WidePushout.ι aX j).hom).comp
-      (K j).toHomotopy).cast
-      (by ext z; rfl) (by ext z; exact widePushoutPoint_ι_basepoint x j)
-  have h : ∀ j t b, HX j (t, aX j b) = HB (t, b) := by
-    intro j t b
-    change WidePushout.ι aX j (K j (t, x j)) = hx
-    rw [(K j).eq_snd t (x := x j) (by simp)]
-    exact widePushoutPoint_ι_basepoint x j
-  refine { toHomotopy := widePushoutHomotopy aX HB HX h, prop' := ?_ }
-  intro t z hz
-  have hz : z = hx := Set.mem_singleton_iff.mp hz
-  subst z
-  change widePushoutHomotopy aX HB HX h (t, hx) = hx
-  calc
-    _ = HB (t, PUnit.unit) :=
-      widePushoutHomotopy_head (a₀ := ContinuousMap.id WX)
-        (a₁ := ContinuousMap.const WX hx) aX HB HX h t PUnit.unit
-    _ = hx := rfl
+  refine widePushoutPointHomotopyRel x rfl (fun j ↦ ?_)
+  exact ContinuousMap.HomotopyRel.cast
+    ((K j).compContinuousMap (WidePushout.ι aX j).hom)
+    (by ext z; rfl)
+    (by ext z; exact widePushoutPoint_ι_basepoint x j)
 
 variable (K : ∀ j, ContinuousMap.HomotopyRel (ContinuousMap.id (X j))
   (ContinuousMap.const (X j) (x j)) {x j})
@@ -249,10 +364,8 @@ variable (K : ∀ j, ContinuousMap.HomotopyRel (ContinuousMap.id (X j))
 @[simp] theorem widePushoutPointContraction_ι (j : J) (t : unitInterval) (z : X j) :
     widePushoutPointContraction x K (t, WidePushout.ι aX j z) =
       WidePushout.ι aX j (K j (t, z)) := by
-  change (widePushoutPointContraction x K).toHomotopy (t, WidePushout.ι aX j z) = _
-  dsimp only [widePushoutPointContraction]
-  rw [widePushoutHomotopy_ι]
-  rfl
+  exact (widePushoutPointHomotopyRel_ι x
+    (f := ContinuousMap.id WX) (g := ContinuousMap.const WX hx) rfl _ j t z).trans (by rfl)
 
 include K in
 /-- A wide pushout is contractible when supplied with contractions of its factors
