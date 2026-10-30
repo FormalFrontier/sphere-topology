@@ -4,15 +4,17 @@ Authors: Formal Frontier Agents
 -/
 module
 
-import SphereTopology.Topology.WidePushout.Compactness
+import SphereTopology.Topology.WidePushout.SubsetRetraction
 import Mathlib.Analysis.Complex.Circle
 
 /-!
-# Compact support in an infinite family of circles
+# Support and factor preimages in an infinite family of circles
 
 An entire circle factor is a compact subset with nonempty singleton support;
-the common point has empty support. The examples use the stock complex circle
-and the public support API, without any alternative circle or wedge model.
+the common point has empty support. A path-connected subset containing that
+point has path-connected factor preimages and continuous retractions onto them.
+The examples use the stock complex circle and the public support and retraction
+APIs, without any alternative circle or wedge model.
 -/
 
 open CategoryTheory CategoryTheory.Limits Set
@@ -50,3 +52,12 @@ private theorem empty_family_needs_head :
   intro h
   have he := h (mem_singleton (WidePushout.head emptyArrows PUnit.unit))
   simp at he
+
+private theorem path_connected_factor_preimage
+    {C : Set (widePushout (TopCat.of PUnit) circles arrows : TopCat)}
+    (hC : WidePushout.head arrows PUnit.unit ∈ C) (h : IsPathConnected C) (i : ℕ) :
+    IsPathConnected (WidePushout.ι arrows i ⁻¹' C) ∧
+      Function.LeftInverse (TopCat.widePushoutPointSubsetRetraction points hC i)
+        ((WidePushout.ι arrows i).hom.restrictPreimage C) :=
+  ⟨(TopCat.isPathConnected_widePushout_point_preimage_iff points hC).mp h i,
+    TopCat.leftInverse_widePushoutPointSubsetRetraction points hC i⟩
