@@ -6,13 +6,19 @@ module
 
 import SphereTopology.Topology.WidePushout.OpenNeighborhood
 import SphereTopology.Topology.WidePushout.PointLift
+import Mathlib.Topology.Algebra.Ring.Real
+import Mathlib.Topology.Order.DenselyOrdered
 
 /-!
-# A proper two-factor open neighborhood
+# Proper two-factor open and closed embeddings
 
-Both target factors are discrete three-point spaces. Each source omits the
-third point but retains a non-basepoint. The canonical descent is an open
-embedding, misses a specified target point and retains a specified non-head.
+For discrete three-point target factors, each source omits the third point but
+retains a non-basepoint. The canonical descent is an open embedding, misses a
+specified target point and retains a specified non-head.
+
+For real target factors, the closed rays based at zero instead give a proper
+closed embedding whose range is not open. Its factor preimage is `[0, ∞)`, so
+the closed-embedding theorem is not just an open-neighborhood consequence.
 -/
 
 noncomputable section
@@ -20,6 +26,8 @@ noncomputable section
 open CategoryTheory CategoryTheory.Limits TopCat Set
 
 namespace SphereTopologyTest.WidePushoutOpenEmbedding
+
+section
 
 local instance : TopologicalSpace (Fin 3) := ⊥
 local instance : DiscreteTopology (Fin 3) := ⟨rfl⟩
@@ -97,5 +105,52 @@ private theorem proper_open_neighborhood :
         aU point inclusion (fun _ ↦ rfl) true ⟨1, one_mem_neighborhood true⟩).symm.trans he
     have h10 : (1 : Fin 3) = 0 := (widePushout_point_ι_eq_head_iff point true 1).1 he'
     exact (by decide : (1 : Fin 3) ≠ 0) h10
+
+end
+
+namespace ClosedRay
+
+private abbrev family : Bool → TopCat := fun _ ↦ TopCat.of ℝ
+private abbrev point : ∀ i, family i := fun _ ↦ 0
+private abbrev rays : Bool → TopCat := fun _ ↦ TopCat.of (Ici (0 : ℝ))
+private abbrev rayPoint : ∀ i, rays i := fun _ ↦ ⟨0, mem_Ici.mpr le_rfl⟩
+private abbrev inclusion (i : Bool) : C(rays i, family i) :=
+  ⟨Subtype.val, continuous_subtype_val⟩
+
+set_option quotPrecheck false in
+local notation "P" => TopCat.of PUnit
+set_option quotPrecheck false in
+local notation "α" => (fun i ↦ (TopCat.const (rayPoint i) : P ⟶ rays i))
+set_option quotPrecheck false in
+local notation "β" => (fun i ↦ (TopCat.const (point i) : P ⟶ family i))
+set_option quotPrecheck false in
+local notation "F" => widePushoutDesc α
+  (ContinuousMap.const P (WidePushout.head β PUnit.unit))
+  (fun i ↦ (WidePushout.ι β i).hom.comp (inclusion i))
+  (widePushoutDesc_point_condition rayPoint point inclusion (fun _ ↦ rfl))
+
+private theorem proper_closed_nonopen :
+    Topology.IsClosedEmbedding F ∧
+    WidePushout.ι β false (-1 : ℝ) ∉ range F ∧ ¬ IsOpen (range F) := by
+  have hpre : WidePushout.ι β false ⁻¹' range F = Ici (0 : ℝ) := by
+    rw [preimage_range_widePushoutDesc_point rayPoint point inclusion (fun _ ↦ rfl)]
+    exact Subtype.range_val
+  refine ⟨isClosedEmbedding_widePushoutDesc_point rayPoint point inclusion (fun _ ↦ rfl)
+    (fun _ ↦ isClosed_Ici.isClosedEmbedding_subtypeVal), ?_, ?_⟩
+  · intro hneg
+    have h : (-1 : ℝ) ∈ WidePushout.ι β false ⁻¹' range F := hneg
+    rw [hpre] at h
+    exact (not_le_of_gt (neg_one_lt_zero : (-1 : ℝ) < 0)) h
+  · intro hopen
+    have hray : IsOpen (Ici (0 : ℝ)) := by
+      rw [← hpre]
+      exact hopen.preimage (WidePushout.ι β false).hom.continuous
+    have hzero : (0 : ℝ) ∈ interior (Ici (0 : ℝ)) := by
+      rw [hray.interior_eq]
+      exact mem_Ici.mpr le_rfl
+    rw [interior_Ici] at hzero
+    exact (lt_irrefl (0 : ℝ)) hzero
+
+end ClosedRay
 
 end SphereTopologyTest.WidePushoutOpenEmbedding

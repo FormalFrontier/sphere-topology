@@ -32,13 +32,16 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   preserving the head and every factor. Continuity and descent have an
   independent target universe; empty and singleton families need no separation,
   compactness or homotopy assumptions.
-- **Open embeddings and neighborhoods of point-wide-pushouts.**
-  [`TopCat.isOpenEmbedding_widePushoutDesc_point`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean)
-  promotes point-preserving component open embeddings to an open embedding of
-  the canonical wide pushouts. The index may be arbitrary or empty; source,
-  target and index universes are independent via the
-  [ULift caller](SphereTopology/Topology/WidePushout/PointLift.lean), with no
-  separation assumptions. For open neighborhoods of the attaching points,
+- **Embeddings and neighborhoods of point-wide-pushouts.**
+  [`TopCat.isEmbedding_widePushoutDesc_point`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean)
+  promotes point-preserving component embeddings to an embedding of the
+  canonical wide pushouts; open or closed component embeddings give an open or
+  closed embedding, respectively. Point reflection and component open or closed
+  maps also suffice for the corresponding map property. The index may be
+  arbitrary or empty, and source and target universes are independent, with no
+  separation assumptions. The [ULift caller](SphereTopology/Topology/WidePushout/PointLift.lean)
+  accommodates smaller original factors. Closed rays based at zero give a proper
+  closed embedding that is not open. For open neighborhoods of the attaching points,
   [`TopCat.widePushoutPointNeighborhoodHomeomorph`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean)
   identifies their wide pushout with its open range in the ordinary subtype topology.
 - **Parametrized continuity and homotopy gluing.**
@@ -247,7 +250,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | [`Topology.WidePushout.PointMap`](SphereTopology/Topology/WidePushout/PointMap.lean) | Point-preserving descent, characteristic equations, identity/composition, final topology and the head-retaining range union. |
-| [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity/open-map identities at their natural hypotheses and componentwise open embeddings. |
+| [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity identities, componentwise embeddings, and open/closed map and embedding criteria at their natural hypotheses. |
 | [`Topology.WidePushout.OpenNeighborhood`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean) | Arbitrary-subset neighborhoods, local factor pullbacks and the ordinary open-subtype neighborhood homeomorphism. |
 | [`Topology.WidePushout.PointLift`](SphereTopology/Topology/WidePushout/PointLift.lean) | Original-domain conjugation and the independent factor/index universe ULift caller. |
 | `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
