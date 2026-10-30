@@ -116,7 +116,7 @@ the singular-lift and transfer constructions and the other results listed here.
   map from a path connected, locally path connected domain has a unique lift
   with a prescribed value exactly when its fundamental-group image lies in that
   of the covering map:
-  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Lifting.lean).
+  [`IsCoveringMap.existsUnique_continuousMap_lifts_iff_range_le`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/Lifting.lean).
   The three spaces have independent universes; neither global surjectivity nor
   connectedness or local path connectedness of the base or total space is required.
 - **Covering-space lifts of singular simplices.** For `p : Y ⟶ X` between
@@ -139,7 +139,7 @@ the singular-lift and transfer constructions and the other results listed here.
   fiber `p ⁻¹' {b}`. If `p` is separated and locally injective and `E` is
   preconnected, evaluation at a specified `e : E` embeds the deck group into
   `p ⁻¹' {p e}`, and a deck transformation fixing a point is the identity:
-  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckGroup.lean).
+  [`deck.evalEmbedding`, `deck.eq_one_of_smul_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/DeckGroup.lean).
   The generic interfaces need no topology on `B` or continuity of `p`.
   Covering maps supply separation and local injectivity; no Hausdorff total
   space, base connectedness/local path connectedness, surjectivity, or
@@ -149,16 +149,16 @@ the singular-lift and transfer constructions and the other results listed here.
 - **Fundamental Groupoids: maps of covers and equivariant fiber maps.**
   For coverings `p : E → B` and `q : F → B`, with the three spaces in
   independent universes,
-  [`IsCoveringMap.fiberMap`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean)
+  [`IsCoveringMap.fiberMap`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/Monodromy.lean)
   restricts `{f : C(E, F) // q ∘ f = p}` to Mathlib's `MulActionHom` between
   the fibers over `b`, over the identity of `FundamentalGroup B b`, using the
   covers' canonical monodromy actions. Restriction needs no connectedness,
   local path connectedness or surjectivity, and is injective if `B` is path connected.
-  [`IsCoveringMap.fiberMapEquivOfPathConnected`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
+  [`IsCoveringMap.fiberMapEquivOfPathConnected`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
   is an equivalence of these map spaces over `p e₀` for path-connected, locally
   path-connected `E` and a supplied `e₀ : E`, with no connectedness or local path
   connectedness assumption on `B`.
-  [`IsCoveringMap.fiberMapEquiv`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
+  [`IsCoveringMap.fiberMapEquiv`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean)
   instead requires only path-connected `B` and locally path-connected `E`, at
   any `b : B`, allowing empty or disconnected `E`. Neither equivalence requires
   connectedness or local path connectedness of `F`, or surjectivity of the covers.
@@ -168,7 +168,7 @@ the singular-lift and transfer constructions and the other results listed here.
   bijections or homeomorphisms; nonbijective equivariant fiber maps are allowed.
 - **Fundamental Groupoids: deck groups as monodromy centralizers.** For any
   covering `p : E → B`, restriction to the point fiber gives
-  [`IsCoveringMap.deckMonodromyHom`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean),
+  [`IsCoveringMap.deckMonodromyHom`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/DeckMonodromy.lean),
   a homomorphism into the centralizer of the monodromy image in
   `Equiv.Perm (p ⁻¹' {b})`. With path-connected base it is faithful, without
   local path connectedness or total-space connectedness. If in addition `E`
@@ -186,7 +186,7 @@ the singular-lift and transfer constructions and the other results listed here.
   For any covering map, the stabilizer of a point in a fiber is the image of
   the fundamental group based at that point, and two fiber points share a
   monodromy orbit exactly when they are joined in the total space:
-  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Monodromy.lean),
+  [`IsCoveringMap.monodromy_eq_self_iff_mem_range`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/Monodromy.lean),
   `IsCoveringMap.exists_monodromy_eq_iff_joined`. These need no global
   connectedness or local path connectedness. For quotient coverings,
   `IsQuotientCoveringMap.ker_monodromyPerm_eq_comap_stabilizer` identifies the
@@ -194,7 +194,7 @@ the singular-lift and transfer constructions and the other results listed here.
   identification is asserted for arbitrary covers.
   A continuous map over a fixed common base between covers is surjective
   when its source is nonempty and its target total space is path connected:
-  [`IsCoveringMap.surjective_of_comp_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/7a3b69c5c2a88044db6e2f664790913d709ae20b/FundamentalGroupoids/Topology/Covering/Equivalence.lean).
+  [`IsCoveringMap.surjective_of_comp_eq`](https://github.com/FormalFrontier/fundamental-groupoids/blob/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e/FundamentalGroupoids/Topology/Covering/Equivalence.lean).
   When both total spaces are path connected and only the source is locally
   path connected, equality of their based fundamental-group images constructs
   `IsCoveringMap.homeomorphOfRangeEq`, a homeomorphism over that base. The second
@@ -304,16 +304,18 @@ the singular-lift and transfer constructions and the other results listed here.
 
 **Breaking covering-import migration.** The five old `SphereTopology.Topology`
 paths in the table are public-import shims, deprecated since 2026-10-17 and
-supported for at least three months from that date. Their canonical home is the
-released [Fundamental Groupoids revision
-`7a3b69c5c2a88044db6e2f664790913d709ae20b`](https://github.com/FormalFrontier/fundamental-groupoids/commit/7a3b69c5c2a88044db6e2f664790913d709ae20b);
+supported for at least three months from that date. Their canonical home is
+Fundamental Groupoids, currently pinned to released revision
+[`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`](https://github.com/FormalFrontier/fundamental-groupoids/commit/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e);
 declaration names and mathematical namespaces are unchanged.
 
-The new Fundamental Groupoids covering modules **cannot be co-imported with a
+The Fundamental Groupoids covering modules **cannot be co-imported with a
 legacy Sphere release that still defines its own copies**. Joint consumers must
-use a Sphere version providing these shims and the compatible Fundamental
-Groupoids pin **together**. Existing pins are not upgraded automatically;
-arbitrary version pairs are not promised compatible.
+use a Sphere version providing these shims **together** with the Fundamental
+Groupoids pin and resolved dependency graph recorded in that Sphere version's
+`lakefile.toml` and `lake-manifest.json`. Current pins are summarized below.
+Existing pins are not upgraded automatically; arbitrary version pairs are not
+promised compatible.
 
 The covering-space evaluation equivalences supply the finite vertex fibers for
 Simplicial Objects' equifibered transfer. The resulting maps use Mathlib's
@@ -365,8 +367,11 @@ Use Git, elan, dependency-network access and the committed manifest: Lean
 [Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
 `143f667bdeb0aeccd02e6475781d5c456f00c95b`,
 [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
-`7a3b69c5c2a88044db6e2f664790913d709ae20b`, and the resolved transitive packages.
-These are the three direct dependencies of this library.
+`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`.
+These are the three direct dependencies of this library. The resolved graph also
+includes inherited [Group Theory](https://github.com/FormalFrontier/group-theory)
+at `12ea07a60c5e6c219d8996eb56d7485139041e15`; the committed manifest fixes all
+remaining transitive packages.
 Routine use does not require `lake update`.
 Fetch the matching precompiled mathlib cache **successfully before building**;
 repeat after changing pins or replacing `.lake`:

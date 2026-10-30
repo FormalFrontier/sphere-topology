@@ -86,7 +86,7 @@ related_formalizations:
       providers; no chain, natural or normalized-chain isomorphism is asserted.
       Dependency authorship and notices remain upstream.
 
-  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/7a3b69c5c2a88044db6e2f664790913d709ae20b"
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e"
     relationship: "builds-on"
     note: >-
       Canonical home of the generic based covering-lift criterion, based
@@ -95,10 +95,12 @@ related_formalizations:
       Declaration names and mathematical namespaces are unchanged. The five
       old covering module paths are public-import shims, deprecated since
       2026-10-17 and supported for at least three months from that date.
-      Joint use requires a Sphere version providing these shims and this
-      compatible Fundamental Groupoids pin together; the new covering modules
-      cannot be co-imported with legacy Sphere releases defining duplicate
-      copies.
+      Joint use requires a Sphere version providing these shims together with
+      the Fundamental Groupoids revision recorded here and the resolved graph
+      in lake-manifest.json, including inherited Group Theory at
+      12ea07a60c5e6c219d8996eb56d7485139041e15. The covering modules cannot be
+      co-imported with legacy Sphere releases defining duplicate copies;
+      arbitrary version pairs are not promised compatible.
       Dependency authorship and source and Mathlib credits remain intact.
 
 status:

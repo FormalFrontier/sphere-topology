@@ -40,6 +40,7 @@ roots = [
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.SphereModuleAxioms",
   "SphereTopologyTest.WidePushoutCompactness",
+  "SphereTopologyTest.WidePushoutFundamentalGroup",
   "SphereTopologyTest.WidePushoutHomotopy"
 ]
 globs = [
@@ -74,6 +75,7 @@ globs = [
   "SphereTopologyTest.SphereAntipodalRoot",
   "SphereTopologyTest.SphereModuleAxioms",
   "SphereTopologyTest.WidePushoutCompactness",
+  "SphereTopologyTest.WidePushoutFundamentalGroup",
   "SphereTopologyTest.WidePushoutHomotopy"
 ]
 
@@ -94,4 +96,4 @@ rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 [[require]]
 name = "fundamental-groupoids"
 git = "https://github.com/FormalFrontier/fundamental-groupoids"
-rev = "7a3b69c5c2a88044db6e2f664790913d709ae20b"
+rev = "edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e"

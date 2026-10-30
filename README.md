@@ -72,6 +72,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   inverse images makes the common subset path connected; a chart then needs
   path connectedness only of its own whole factor. An open common subset gives
   open charts, with no separation assumptions.
+- **Fundamental groups of factor-plus-core charts.**
+  [`TopCat.widePushoutPointChartFundamentalGroupDesc`](SphereTopology/Topology/WidePushout/FundamentalGroup.lean)
+  glues homomorphisms on an arbitrary path-connected open neighborhood of the
+  common point and its charts, assuming path connectedness of each whole
+  factor. Only agreement on the core is required. The inclusion-induced
+  core and chart restrictions characterize the result, for arbitrary target
+  groups in an independent universe, empty index families and coincident
+  charts. No free-product identification is asserted.
 - **Subfamily retractions and continuous factorization.**
   [`TopCat.widePushoutPointSubfamilyRetraction`](SphereTopology/Topology/WidePushout/Subfamily.lean)
   retracts onto any subfamily, with an embedding inclusion whose range includes
@@ -203,7 +211,8 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`7a3b69c5c2a88044db6e2f664790913d709ae20b`.
+`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`, with Group Theory
+`12ea07a60c5e6c219d8996eb56d7485139041e15`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
 ```sh
@@ -232,6 +241,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.WidePushoutPointHomotopy` | Point-preserving factor equivalences with singleton-relative inverse witnesses, head and factor equations, and contractions fixing the common point. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
 | `Topology.WidePushout.Chart` | Factor-plus-subset charts, exact inverse images and intersections, an empty-family-compatible cover, factorwise path connectedness, and openness for an open common subset containing the head. |
+| `Topology.WidePushout.FundamentalGroup` | Open-neighborhood charts, their common-overlap cover and inclusion-induced fundamental-group descent, characteristic restrictions and extensionality. |
 | `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.WidePushout.SubfamilyHomotopy` | Support criterion and object-level recovery for relative homotopies, strict compact-image finite-stage factorization with prescribed finite initial data, and fixed-stage reflection without separation assumptions. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |

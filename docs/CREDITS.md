@@ -111,6 +111,16 @@ colimits by Kim Morrison and Joël Riou, and lifted module/linear-equivalence
 APIs supply the construction. Moving the canonical home does not change
 mathematical namespaces, providers, universe scope or original credit.
 
+The point-chart fundamental-group application reuses the existing Sphere chart
+geometry and the released Fundamental Groupoids common-overlap theorem, its
+open-neighborhood inclusion functor and cocone. May, Chapter 2, §§7–8 supplies
+the fundamental-group and point-wedge setting; the arbitrary-open-core scope
+is a generalization and does not compute a free product. Formal Frontier Agents
+supplied the neighborhood packaging, characteristic descent interface and
+postcomposition client. Mathlib's open-neighborhood
+formalization by Kim Morrison and fundamental groups by Mark Lavrentyev supply
+the underlying interfaces.
+
 ## Interfaces and documentation
 
 Prism supplied public imports and visibility, including
