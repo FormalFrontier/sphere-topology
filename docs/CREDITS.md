@@ -8,6 +8,14 @@ ownership of external expression or permission to redistribute it.
 
 ## Mathematics and formalization
 
+The chosen-point wide-pushout equivalences and relative contractions are
+Formal Frontier contributions using Mathlib's homotopy equivalences and relative
+homotopies, together with the library's parametrized homotopy descent. May's
+Chapter 2, §8, p. 19 supplies the point-wedge setting; the supplied contractions
+fixing attaching points are explicitly stronger data than ordinary
+contractibility. The countable interval client uses endpoint-zero linear
+contractions and the existing factor embeddings.
+
 Formal Frontier Agents supplied the generic orthogonal-field homotopies,
 finite-support integral subdivision and small chains, ordinary ordered
 Mayer–Vietoris, nonnegative reduced homology, low-degree reduced

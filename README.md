@@ -41,6 +41,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   every factor descend continuously, with computation, uniqueness, fixed-parameter
   and reparametrization laws. Compatible interval homotopies glue at all times,
   without requiring the common point to stay fixed.
+- **Point-relative equivalences and contractions.**
+  [`TopCat.widePushoutPointHomotopyEquiv`](SphereTopology/Topology/WidePushoutPointHomotopy.lean)
+  descends point-preserving factor maps and supplied relative inverse homotopies.
+  Inverse point preservation follows from the forward maps and left relative
+  homotopies. The chosen relative witnesses compute on the head and every factor.
+  Supplied contractions fixing the attaching points contract the wide pushout,
+  including an empty index family. This is stronger data than ordinary factor
+  contractibility; countably many endpoint-zero intervals give a nontrivial client.
 - **Factor retractions and embeddings for point-wide-pushouts.**
   [`TopCat.widePushoutPointRetraction`](SphereTopology/Topology/WidePushoutRetraction.lean)
   retracts the categorical wide pushout of arbitrary chosen-point spaces onto
@@ -202,6 +210,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
+| `Topology.WidePushoutPointHomotopy` | Point-preserving factor equivalences with singleton-relative inverse witnesses, head and factor equations, and contractions fixing the common point. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
 | `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
