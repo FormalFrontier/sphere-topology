@@ -36,7 +36,7 @@
       "SphereTopologyTest/SphereAntipodalRoot.lean": "e00a4e968fddb7b1ba7fdf05ca406daa63b825cd0272417e4be8ae397c57631a",
       "SphereTopologyTest/SphereModuleAxioms.lean": "719ab47799430c459a642effc51c984516465d8fa1bb0c9f41388c1d0f508e67",
       "lake-manifest.json": "ec6743c3cc6e370be77f93affdc26ccab4fede21b292e15a235bd6ee22c7260d",
-      "lakefile.toml": "092f01439fe02ed2f1af9bec0613489a78eaead3b875da190650d8aabfe022de",
+      "lakefile.toml": "fee4c21ef73dfdb6930d7311d97422097993e3b23196ecbfb571dc8e0ecd8044",
       "lean-toolchain": "8190e75a201741065fe508b28955dd64dd72d090babe5f70ce6848879d68ae88"
     },
     "documentation_inputs": {
