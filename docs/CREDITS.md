@@ -62,6 +62,17 @@ subset criteria. The stock complex-circle example reuses Heather Macbeth's
 Mathlib circle and its topological instances. These contributions use no
 textbook quotation, figure or asset.
 
+The strict compact-homotopy factorization and finite-stage detection arguments
+reuse the project's support, compactness and subfamily formalizations. Formal
+Frontier Agents supplied the finite-stage enlargement and strict recovery
+proofs, with arbitrary relative subsets and an independent domain universe.
+These generalizations are stronger than May's point-wedge setting, not literal
+statements attributed to the book. Shing Tak Lam's Mathlib relative and path
+homotopies provide postcomposition, endpoint casts and the squaring-
+reparametrization homotopy. The nonidentity client retains the existing positive
+circle loop and its generator calculation. Original proof expression and prose
+are used; no dependency implementation or external expression is bundled.
+
 The parametrized final-topology and wide-pushout descent interface reuses
 Mathlib's topological colimits by Patrick Massot, Kim Morrison, Mario Carneiro
 and Andrew Yang, Reid Barton's compact-open currying, the evaluation and

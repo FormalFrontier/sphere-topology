@@ -225,6 +225,27 @@ theorem widePushoutPointSubfamily_factor_unique
     congrArg (fun m : C(A, W) ↦ widePushoutPointSubfamilyRetraction a S (m x)) hk
   exact (leftInverse_widePushoutPointSubfamilyRetraction a S (k x)).symm.trans h
 
+/-- For nested subfamilies, retracting an included point to the larger stage
+and then including it again leaves the original inclusion unchanged. This
+triangle uses the existing maps as transition maps, without another diagram. -/
+theorem widePushoutPointSubfamilyInclusion_comp_retraction_inclusion
+    {T : Set I} (hST : S ⊆ T) :
+    (widePushoutPointSubfamilyInclusion a T).comp
+      ((widePushoutPointSubfamilyRetraction a T).comp
+        (widePushoutPointSubfamilyInclusion a S)) =
+      widePushoutPointSubfamilyInclusion a S := by
+  apply DFunLike.coe_injective
+  apply widePushout_funext fS
+  · intro b
+    simp only [ContinuousMap.comp_apply,
+      widePushoutPointSubfamilyInclusion_head a S,
+      widePushoutPointSubfamilyRetraction_head a T,
+      widePushoutPointSubfamilyInclusion_head a T]
+  · intro i x
+    simp only [ContinuousMap.comp_apply,
+      widePushoutPointSubfamilyInclusion_ι,
+      widePushoutPointSubfamilyRetraction_ι_of_mem a T i.1 (hST i.property)]
+
 /-- Every compact-domain map into a point-wide-pushout of T₁ factors factors
 through a finite subfamily. Factors and the pushout need not be compact. -/
 theorem exists_finite_widePushout_point_subfamily_factor

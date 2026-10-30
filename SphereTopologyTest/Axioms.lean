@@ -9,11 +9,16 @@ module
 
 import all SphereTopology
 import all SphereTopology.Homology.Singular.MayerVietoris
+import all SphereTopology.Homotopy.CircleBouquet
+import all SphereTopology.Topology.WidePushout.Subfamily
+import all SphereTopology.Topology.WidePushout.SubfamilyHomotopy
 
 /-!
 # Axioms regression checks
 
 Persistent private clients preserve the earlier example statements and proofs.
+The subfamily and circle-bouquet modules include their private declarations, so
+the relative-homotopy results and the nontrivial loop client are covered.
 Axiom diagnostics are scoped to names visible in the imported environment; they
 do not establish a full stored-occurrence census or separate proof recheck.
 -/
@@ -26,26 +31,31 @@ open Lean
 explicit list below. This is not a raw stored-occurrence census. -/
 run_cmd do
   let env ← getEnv
-  let moduleName := `SphereTopology.Homology.Singular.MayerVietoris
-  let some moduleIdx := env.getModuleIdx? moduleName
-    | throwError "module not found in environment: {moduleName}"
-  let declarations := env.checked.get.constants.fold
-    (fun names name _ ↦
-      if env.getModuleIdxFor? name == some moduleIdx then names.push name else names)
-    (#[] : Array Name)
-  if declarations.isEmpty then
-    throwError "empty module-attributed diagnostic inventory"
-  let allowed : Array Name := #[``propext, ``Classical.choice, ``Quot.sound]
-  let mut failures : Array (Name × Array Name) := #[]
-  for name in declarations do
-    let axioms ← collectAxioms name
-    let unexpected := axioms.filter fun ax ↦ !allowed.contains ax
-    unless unexpected.isEmpty do
-      failures := failures.push (name, unexpected)
-  unless failures.isEmpty do
-    throwError "unexpected axioms in {moduleName}: {failures}"
-  logInfo m!"module-attributed axiom audit: {moduleName}: \
-    {declarations.size} declarations; allowed only {allowed}"
+  let modules : Array Name := #[
+    `SphereTopology.Homology.Singular.MayerVietoris,
+    `SphereTopology.Topology.WidePushout.Subfamily,
+    `SphereTopology.Topology.WidePushout.SubfamilyHomotopy,
+    `SphereTopology.Homotopy.CircleBouquet]
+  for moduleName in modules do
+    let some moduleIdx := env.getModuleIdx? moduleName
+      | throwError "module not found in environment: {moduleName}"
+    let declarations := env.checked.get.constants.fold
+      (fun names name _ ↦
+        if env.getModuleIdxFor? name == some moduleIdx then names.push name else names)
+      (#[] : Array Name)
+    if declarations.isEmpty then
+      throwError "empty module-attributed diagnostic inventory"
+    let allowed : Array Name := #[``propext, ``Classical.choice, ``Quot.sound]
+    let mut failures : Array (Name × Array Name) := #[]
+    for name in declarations do
+      let axioms ← collectAxioms name
+      let unexpected := axioms.filter fun ax ↦ !allowed.contains ax
+      unless unexpected.isEmpty do
+        failures := failures.push (name, unexpected)
+    unless failures.isEmpty do
+      throwError "unexpected axioms in {moduleName}: {failures}"
+    logInfo m!"module-attributed axiom audit: {moduleName}: \
+      {declarations.size} declarations; allowed only {allowed}"
 
 #print axioms ContinuousMap.normalizeOfNoZero
 #print axioms ContinuousMap.norm_normalizeOfNoZero

@@ -7,7 +7,8 @@ module
 public import SphereTopology.Homotopy.Circle
 public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
-public import SphereTopology.Topology.WidePushout.Subfamily
+public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy
+import Mathlib.Tactic.Linarith
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
@@ -36,6 +37,10 @@ retraction specializes `TopCat.widePushoutPointRetraction` on the already-lifted
 circle diagram, as recorded by `retraction_eq_widePushoutPointRetraction`.
 Subfamilies include and retract by the general point-wide-pushout maps; every
 based loop factors through a finite subbouquet with both endpoints preserved.
+A prescribed based homotopy factors strictly at every pair of parameters,
+through a finite stage containing any prescribed finite set. Consequently
+based loop homotopy is detected at a finite stage. For loops already in a fixed
+stage, reflection needs no enlargement or compactness argument.
 
 ## Implementation notes
 
@@ -55,7 +60,11 @@ fundamental group with `FreeGroup I` are not proved here.
   p. 19, for the circle-bouquet setting; the fundamental-group calculation is
   not established in this module.
 * Mathlib's wide pushouts, topological colimits, path homotopy quotients and
-  free groups supply the constructions used here.
+  free groups supply the constructions used here. Shing Tak Lam's path-homotopy
+  and reparametrization APIs supply the homotopy operations.
+* The project's point-wide-pushout support, compactness and subfamily APIs supply
+  strict finite-stage homotopy factorization. The arbitrary-T₁ and relative
+  generalizations are not literal statements from May.
 -/
 
 public section
@@ -474,6 +483,85 @@ theorem exists_finite_subfamily_loop {I : Type v}
   intro t
   exact congrArg (fun k : C(Set.Icc (0 : ℝ) 1, space.{u, v} I) ↦ k t) hfactor
 
+/-- A supplied based homotopy factors through a finite subbouquet containing
+any prescribed finite set. The witness recovers that homotopy at every pair of
+parameters, not merely its class or some other homotopy of the endpoints. -/
+theorem exists_finite_subfamily_homotopy {I : Type v}
+    {p q : Path (basepoint.{u, v} I) (basepoint.{u, v} I)}
+    (H : p.Homotopy q) (F : Set I) (hF : F.Finite) :
+    ∃ S : Set I, S.Finite ∧ F ⊆ S ∧
+      ∃ pS qS : Path (basepoint.{u, v} S) (basepoint.{u, v} S),
+        (∀ s, subfamilyInclusion.{u, v} S (pS s) = p s) ∧
+        (∀ s, subfamilyInclusion.{u, v} S (qS s) = q s) ∧
+        ∃ HS : pS.Homotopy qS,
+          ∀ t s, subfamilyInclusion.{u, v} S (HS (t, s)) = H (t, s) := by
+  let a : ∀ _ : I, circle.{max u v} := fun _ ↦ ULift.up (1 : Circle)
+  let : T1Space circle.{max u v} := by
+    change T1Space (ULift.{max u v} Circle)
+    exact (Homeomorph.ulift.{max u v, 0} (X := Circle)).symm.t1Space
+  obtain ⟨S, hS, hFS, hrec⟩ :=
+    TopCat.exists_finite_widePushout_point_subfamily_homotopyRel_of_compactSpace
+      (X := fun _ : I ↦ circle.{max u v}) a H F hF
+  have hsupport := (TopCat.widePushoutPointSubfamily_homotopyRel_factorization_iff
+    (X := fun _ : I ↦ circle.{max u v}) a S H).1 hrec
+  let pS := (p.map (subfamilyRetraction.{u, v} S).continuous).cast
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+  let qS := (q.map (subfamilyRetraction.{u, v} S).continuous).cast
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+  let HS : pS.Homotopy qS := (H.map (subfamilyRetraction.{u, v} S)).pathCast
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+    (subfamilyRetraction_basepoint.{u, v} S).symm
+  refine ⟨S, hS, hFS, pS, qS, ?_, ?_, HS, ?_⟩
+  · intro s
+    change subfamilyInclusion S (subfamilyRetraction S (p s)) = p s
+    exact DFunLike.congr_fun (TopCat.widePushoutPointSubfamily_homotopyRel_start
+      (X := fun _ : I ↦ circle.{max u v}) a S H hsupport) s
+  · intro s
+    change subfamilyInclusion S (subfamilyRetraction S (q s)) = q s
+    exact DFunLike.congr_fun (TopCat.widePushoutPointSubfamily_homotopyRel_end
+      (X := fun _ : I ↦ circle.{max u v}) a S H hsupport) s
+  · exact hrec
+
+/-- Based loop homotopy in a fixed subbouquet is reflected by inclusion.
+This uses the strict continuous left inverse, with no finite-stage enlargement
+or separation hypothesis. -/
+theorem subfamily_loop_homotopic_iff {I : Type v} (S : Set I)
+    (p q : Path (basepoint.{u, v} S) (basepoint.{u, v} S)) :
+    ((p.map (subfamilyInclusion.{u, v} S).continuous).cast
+      (subfamilyInclusion_basepoint.{u, v} S).symm
+      (subfamilyInclusion_basepoint.{u, v} S).symm).Homotopic
+    ((q.map (subfamilyInclusion.{u, v} S).continuous).cast
+      (subfamilyInclusion_basepoint.{u, v} S).symm
+      (subfamilyInclusion_basepoint.{u, v} S).symm) ↔ p.Homotopic q :=
+  TopCat.widePushoutPointSubfamily_path_homotopic_iff
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S p q
+
+/-- Two based loops in an arbitrary circle bouquet are homotopic exactly when
+they strictly come from homotopic loops in one finite stage. The stage may
+contain any prescribed finite set; no free-group calculation is used. -/
+theorem loop_homotopic_iff_exists_finite_subfamily {I : Type v}
+    (p q : Path (basepoint.{u, v} I) (basepoint.{u, v} I))
+    (F : Set I) (hF : F.Finite) :
+    p.Homotopic q ↔ ∃ S : Set I, S.Finite ∧ F ⊆ S ∧
+      ∃ pS qS : Path (basepoint.{u, v} S) (basepoint.{u, v} S),
+        (∀ s, subfamilyInclusion.{u, v} S (pS s) = p s) ∧
+        (∀ s, subfamilyInclusion.{u, v} S (qS s) = q s) ∧ pS.Homotopic qS := by
+  constructor
+  · rintro ⟨H⟩
+    obtain ⟨S, hS, hFS, pS, qS, hp, hq, HS, _⟩ :=
+      exists_finite_subfamily_homotopy H F hF
+    exact ⟨S, hS, hFS, pS, qS, hp, hq, ⟨HS⟩⟩
+  · rintro ⟨S, _, _, pS, qS, hp, hq, ⟨HS⟩⟩
+    refine ⟨((HS.map (subfamilyInclusion.{u, v} S)).pathCast
+      (subfamilyInclusion_basepoint.{u, v} S).symm
+      (subfamilyInclusion_basepoint.{u, v} S).symm).cast ?_ ?_⟩
+    · ext s
+      exact hp s
+    · ext s
+      exact hq s
+
 end CircleBouquet
 
 end
@@ -519,17 +607,70 @@ private theorem empty_bouquet_point (x : CircleBouquet.space.{u, 0} Empty) :
   exact congrArg (fun f : CircleBouquet.space.{u, 0} Empty ⟶
     CircleBouquet.space.{u, 0} Empty ↦ f x) h
 
-/-- The countable bouquet's included positive circle loop factors through a
-finite subbouquet, without replacing it by a constant loop. -/
-private theorem countable_positive_loop_subfamily :
-    ∃ S : Set ℕ, S.Finite ∧
-      ∃ δ : Path (CircleBouquet.basepoint.{u, 0} S) (CircleBouquet.basepoint.{u, 0} S),
-        ∀ t, CircleBouquet.subfamilyInclusion.{u, 0} S (δ t) =
-          CircleBouquet.inclusion.{u, 0} (0 : ℕ) (Circle.loop 1 t) := by
-  let γ := ((Circle.loop 1).map (CircleBouquet.inclusion.{u, 0} (0 : ℕ)).continuous).cast
+/-- Squaring the path parameter gives a genuinely time-dependent homotopy
+of the existing positive loop in the countable bouquet. Its strict finite-stage
+factor retains a nonidentity starting class. -/
+private theorem countable_positive_loop_homotopy_subfamily :
+    ∃ p q : Path (CircleBouquet.basepoint.{u, 0} ℕ) (CircleBouquet.basepoint.{u, 0} ℕ),
+      FundamentalGroup.fromPath ⟦p⟧ = CircleBouquet.positiveGenerator.{u, 0} (0 : ℕ) ∧
+      ∃ H : p.Homotopy q, (∃ s, H (0, s) ≠ H (1, s)) ∧
+        ∃ S : Set ℕ, S.Finite ∧ (0 : ℕ) ∈ S ∧
+          ∃ pS qS : Path (CircleBouquet.basepoint.{u, 0} S)
+              (CircleBouquet.basepoint.{u, 0} S),
+            (∀ s, CircleBouquet.subfamilyInclusion.{u, 0} S (pS s) = p s) ∧
+            (∀ s, CircleBouquet.subfamilyInclusion.{u, 0} S (qS s) = q s) ∧
+            ∃ HS : pS.Homotopy qS,
+              (∀ t s, CircleBouquet.subfamilyInclusion.{u, 0} S (HS (t, s)) = H (t, s)) ∧
+              FundamentalGroup.fromPath ⟦pS⟧ ≠ 1 := by
+  let p := ((Circle.loop 1).map (CircleBouquet.inclusion.{u, 0} (0 : ℕ)).continuous).cast
     (CircleBouquet.inclusion_basepoint.{u, 0} (0 : ℕ)).symm
     (CircleBouquet.inclusion_basepoint.{u, 0} (0 : ℕ)).symm
-  exact CircleBouquet.exists_finite_subfamily_loop.{u, 0} γ
+  let H := Path.Homotopy.reparam p (fun s ↦ s * s) (by fun_prop) (by simp) (by simp)
+  refine ⟨p, _, (CircleBouquet.positiveGenerator_eq_loop (0 : ℕ)).symm, H, ?_, ?_⟩
+  · let m : unitInterval := ⟨1 / 2, by norm_num⟩
+    refine ⟨m, ?_⟩
+    intro he
+    have h₀ : H (0, m) = p m := H.apply_zero m
+    have h₁ : H (1, m) = p (m * m) := H.apply_one m
+    have hr (s : unitInterval) :
+        CircleBouquet.retraction.{u, 0} (0 : ℕ) (p s) = Circle.loop 1 s :=
+      congrArg (fun k : C(Circle, Circle) ↦ k (Circle.loop 1 s))
+        (CircleBouquet.retraction_inclusion.{u, 0} (0 : ℕ))
+    have hc := congrArg (CircleBouquet.retraction.{u, 0} (0 : ℕ))
+      (h₀.symm.trans (he.trans h₁))
+    simp only [hr, Circle.loop_apply] at hc
+    have hm₀ : 2 * Real.pi * ((1 : ℤ) : ℝ) * (m : ℝ) = Real.pi := by
+      dsimp [m]
+      ring
+    have hm₁ : 2 * Real.pi * ((1 : ℤ) : ℝ) * ((m * m : unitInterval) : ℝ) =
+        Real.pi / 2 := by
+      dsimp [m]
+      ring
+    rw [hm₀, hm₁] at hc
+    have ha := congrArg (fun z : Circle ↦ Complex.arg (z : ℂ)) hc
+    rw [Circle.arg_exp (x := Real.pi) (by linarith [Real.pi_pos]) le_rfl,
+      Circle.arg_exp (x := Real.pi / 2) (by linarith [Real.pi_pos])
+        (by linarith [Real.pi_pos])] at ha
+    linarith [Real.pi_pos]
+  · obtain ⟨S, hS, hFS, pS, qS, hp, hq, HS, hHS⟩ :=
+      CircleBouquet.exists_finite_subfamily_homotopy.{u, 0}
+        H ({0} : Set ℕ) (Set.finite_singleton 0)
+    refine ⟨S, hS, hFS (Set.mem_singleton 0), pS, qS, hp, hq, HS, hHS, ?_⟩
+    intro hclass
+    have hm := congrArg
+      (FundamentalGroup.mapOfEq (CircleBouquet.subfamilyInclusion.{u, 0} S)
+        (CircleBouquet.subfamilyInclusion_basepoint.{u, 0} S)) hclass
+    rw [map_one] at hm
+    have he : FundamentalGroup.mapOfEq (CircleBouquet.subfamilyInclusion.{u, 0} S)
+        (CircleBouquet.subfamilyInclusion_basepoint.{u, 0} S)
+        (FundamentalGroup.fromPath ⟦pS⟧) =
+          CircleBouquet.positiveGenerator.{u, 0} (0 : ℕ) := by
+      rw [FundamentalGroup.mapOfEq_apply, CircleBouquet.positiveGenerator_eq_loop]
+      change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+      apply congrArg Path.Homotopic.Quotient.mk
+      ext s
+      exact hp s
+    exact CircleBouquet.positiveGenerator_ne_one (0 : ℕ) (he.symm.trans hm)
 
 end SphereTopologyTest
 
