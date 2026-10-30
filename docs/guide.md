@@ -52,6 +52,22 @@ the singular-lift and transfer constructions and the other results listed here.
   The zero-period quotient has trivial fundamental group and is excluded from
   the integer equivalence, not from the covering-map construction.
 
+- **Joint factor coordinates and separation axioms.** For arbitrary
+  `I : Type v`, factors `X i : TopCat.{max u v}` and chosen points `x i`,
+  [`TopCat.widePushoutPointRetraction_jointly_injective`](../SphereTopology/Topology/WidePushout/Separation.lean)
+  says that equality of every selected-factor retraction value implies equality
+  in the categorical wide pushout over `PUnit.{max u v + 1}`. No separation or
+  finiteness assumption is needed. When `I` is empty the head is the only point,
+  so the empty coordinate family still distinguishes points. For each of T₀,
+  T₁ and T₂, the pushout satisfies the axiom exactly when every factor does.
+  The `t0Space_widePushoutPoint_iff`, `t1Space_widePushoutPoint_iff` and
+  `t2Space_widePushoutPoint_iff` lemmas have no separation premise on either
+  side. Inheritance is by canonical instances, using a continuous injection into
+  the dependent product; reflection uses the existing factor embeddings, not
+  reverse instances. No inducing or embedding property of the product map is
+  claimed. Original smaller-space universes use the ULift/homeomorphism
+  transport documented in the [retraction core](../SphereTopology/Topology/WidePushoutRetraction.lean).
+
 - **Compact support in point-attached wide pushouts.** For arbitrary
   `I : Type v`, factors `X i : TopCat.{max u v}` and chosen points `a i`,
   [`widePushoutPointSupport`](../SphereTopology/Topology/WidePushout/Compactness.lean)

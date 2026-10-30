@@ -61,13 +61,16 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   Supplied contractions fixing the attaching points contract the wide pushout,
   including an empty index family. This is stronger data than ordinary factor
   contractibility; countably many endpoint-zero intervals give a nontrivial client.
-- **Factor retractions and embeddings for point-wide-pushouts.**
+- **Factor retractions and separation of point-wide-pushouts.**
   [`TopCat.widePushoutPointRetraction`](SphereTopology/Topology/WidePushoutRetraction.lean)
   retracts the categorical wide pushout of arbitrary chosen-point spaces onto
-  any selected factor. It fixes that factor, collapses every other factor to
-  the chosen point and computes the head; each factor inclusion is an embedding.
-  Index and space universes are independent, with no separation or finiteness
-  hypotheses. The circle-bouquet retractions specialize this construction.
+  any selected factor, and each factor inclusion is an embedding. The
+  [retractions jointly distinguish points](SphereTopology/Topology/WidePushout/Separation.lean),
+  without separation or finiteness assumptions, even for the empty index family.
+  The pushout is T₀, T₁ or Hausdorff exactly when every factor has that property;
+  factorwise inheritance is available by instance inference. Index and space
+  universes are independent. No embedding into the product is asserted.
+  The circle-bouquet retractions specialize this construction.
 - **Compact subsets meet finitely many pointed factors.**
   [`finite_widePushoutPointSupport`](SphereTopology/Topology/WidePushout/Compactness.lean)
   applies to arbitrary indexed T₁ spaces attached at chosen points. A compact
@@ -248,6 +251,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
+| `Topology.WidePushout.Separation` | Joint injectivity of factor retractions, including empty families; canonical T₀/T₁/T₂ inheritance and factorwise iff/reflection via factor embeddings. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | [`Topology.WidePushout.PointMap`](SphereTopology/Topology/WidePushout/PointMap.lean) | Point-preserving descent, characteristic equations, identity/composition, final topology and the head-retaining range union. |
 | [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity identities, componentwise embeddings, and open/closed map and embedding criteria at their natural hypotheses. |

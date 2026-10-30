@@ -65,11 +65,6 @@ def widePushoutPointSupport (K : Set W) : Set I :=
     i ∈ widePushoutPointSupport a K ↔
       ∃ x : X i, x ≠ a i ∧ WidePushout.ι f i x ∈ K := Iff.rfl
 
-/-- The chosen point of each factor is the common head point. -/
-@[simp] theorem widePushout_point_ι_point (i : I) :
-    WidePushout.ι f i (a i) = WidePushout.head f PUnit.unit :=
-  congrArg (fun k : P ⟶ W ↦ k PUnit.unit) (WidePushout.arrow_ι f i)
-
 private theorem pointQuotient_nonpoint_fiber (i : I) (x : X i) (hx : x ≠ a i)
     (s : P ⊕ Σ j, X j)
     (h : (Quot.mk _ (Sum.inr ⟨i, x⟩) : Types.Pushout

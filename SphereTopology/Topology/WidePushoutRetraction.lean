@@ -60,6 +60,21 @@ namespace TopCat
 
 variable {I : Type v} (X : I → TopCat.{max u v}) (x : ∀ j, X j)
 
+section
+
+variable {X}
+
+/-- The chosen point of each factor is the common head point. -/
+@[simp] theorem widePushout_point_ι_point (a : ∀ i, X i) (i : I) :
+    WidePushout.ι (B := TopCat.of PUnit.{max u v + 1})
+      (fun j ↦ TopCat.const (a j)) i (a i) =
+        WidePushout.head (fun j ↦ TopCat.const (a j)) PUnit.unit :=
+  congrArg (fun k : TopCat.of PUnit.{max u v + 1} ⟶
+      widePushout (TopCat.of PUnit.{max u v + 1}) X (fun j ↦ TopCat.const (a j)) ↦
+    k PUnit.unit) (WidePushout.arrow_ι (fun j ↦ TopCat.const (a j)) i)
+
+end
+
 /-- Retract a wide pushout of chosen-point spaces onto its selected factor. -/
 def widePushoutPointRetraction (i : I) :
     widePushout (TopCat.of PUnit.{max u v + 1}) X

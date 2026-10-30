@@ -62,6 +62,17 @@ subset criteria. The stock complex-circle example reuses Heather Macbeth's
 Mathlib circle and its topological instances. These contributions use no
 textbook quotation, figure or asset.
 
+The jointly injective factor retractions and T₀/T₁/T₂ classification of arbitrary
+chosen-point wide pushouts are Formal Frontier contributions. Their representative
+argument reuses the project's factor retractions and Mathlib's concrete-colimit
+representatives and attaching equations, independently of quotient comparison.
+Mathlib's dependent-product topology, separation instances and continuous-injective
+transfer theorems supply inheritance; its embedding transfer theorems and the
+project's factor embeddings supply reflection. May's point-wedge setting is
+background, not an exact source for these arbitrary-family results. The proof
+expression and prose are original project contributions; no external passage or
+asset is reproduced.
+
 The strict compact-homotopy factorization and finite-stage detection arguments
 reuse the project's support, compactness and subfamily formalizations. Formal
 Frontier Agents supplied the finite-stage enlargement and strict recovery

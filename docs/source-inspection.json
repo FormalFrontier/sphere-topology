@@ -3,7 +3,7 @@
   "binding": {
     "method": "bounded-source-text-correspondence",
     "source_inputs": {
-      "SphereTopology.lean": "d2f9a8f1d8ed53ce2880cad8866a89182791922732ac2686f1b0cf83d1c4940a",
+      "SphereTopology.lean": "af377ca6c9428a773d967b7282389d0c3e1e907a335be788accae6a3fff77e3d",
       "SphereTopology/Homology/Singular/Circle.lean": "662d20f534d98ba8e8d7d51b28bf20bf787d1574583fdb372147385d715a6419",
       "SphereTopology/Homology/Singular/MayerVietoris.lean": "58bfc60191f238922601a5d5ae3cc2208e605c7d2564da00503c82cd26cbfd24",
       "SphereTopology/Homology/Singular/Reduced.lean": "cc8e6a27d1193e9d215f2ad8084f6053d0251580b540122c16f663618599f4b0",

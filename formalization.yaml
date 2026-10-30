@@ -5,7 +5,9 @@ project:
   description: >-
     Reusable Lean topology and singular homology: arbitrary-index circle bouquets,
     inclusions, positive-generator homomorphisms, retractions and generator
-    nonidentity, without a free-group identification; normalization of nowhere-zero
+    nonidentity, without a free-group identification; jointly injective factor
+    retractions and factorwise T0/T1/T2 classification for arbitrary chosen-point
+    wide pushouts, including empty families; normalization of nowhere-zero
     continuous fields, identity-to-antipodal homotopies from orthogonal fields,
     integral subdivision, cover-small chains and two-open Mayer-Vietoris,
     nonnegative reduced integral homology and degree-zero criteria for path
@@ -64,8 +66,9 @@ related_formalizations:
   - id: "https://github.com/leanprover-community/mathlib4/tree/83abb3e776bdefcbc447a1e44d0debe4010039e5"
     relationship: "builds-on"
     note: >-
-      Reuses continuous maps and homotopies,
-      real inner-product spaces, standard simplices, simplicial sets, integral
+      Reuses continuous maps and homotopies, concrete topological colimits,
+      dependent-product topology and separation transfer along continuous injections
+      and embeddings, real inner-product spaces, standard simplices, simplicial sets, integral
       singular chains, chain complexes, homology, short exact sequences,
       category-theoretic kernels, stereographic projection and contractibility.
       Dependency implementation is not vendored; upstream authorship and notices
@@ -108,6 +111,10 @@ status:
     Arbitrary-index circle bouquets with inclusions, descent, positive-generator
     homomorphisms, circle retractions and generator nonidentity; bijectivity of
     the generator map and its free-group identification are not established here.
+    Retractions onto chosen-point factors jointly distinguish points without
+    separation or finiteness assumptions, including an empty index family.
+    The same wide pushout is T0, T1 or T2 exactly when each factor is, with
+    canonical inheritance instances and reflection through factor embeddings.
     Continuous-field topology, integral subdivision and cover-small chains,
     ordinary two-open Mayer-Vietoris, nonnegative reduced integral homology,
     explicit circle and two-sphere calculations, and the unit two-sphere
@@ -129,6 +136,18 @@ status:
     Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "TopCat.widePushoutPointRetraction_jointly_injective"
+      file: "SphereTopology/Topology/WidePushout/Separation.lean"
+      note: "The selected-factor retractions jointly distinguish points of an arbitrary chosen-point wide pushout, including the empty family, without separation or finiteness assumptions."
+    - declaration: "TopCat.t0Space_widePushoutPoint_iff"
+      file: "SphereTopology/Topology/WidePushout/Separation.lean"
+      note: "A chosen-point wide pushout is T0 exactly when every factor is T0, with no separation premise on either side."
+    - declaration: "TopCat.t1Space_widePushoutPoint_iff"
+      file: "SphereTopology/Topology/WidePushout/Separation.lean"
+      note: "A chosen-point wide pushout is T1 exactly when every factor is T1, with no separation premise on either side."
+    - declaration: "TopCat.t2Space_widePushoutPoint_iff"
+      file: "SphereTopology/Topology/WidePushout/Separation.lean"
+      note: "A chosen-point wide pushout is Hausdorff exactly when every factor is Hausdorff, with no separation premise on either side."
     - declaration: "IsCoveringMap.singularChainComplexTransfer"
       file: "SphereTopology/Homology/Singular/Transfer.lean"
       note: "All-simplex singular chain transfer for a covering map with finite point fibers, with a coefficient object in a preadditive category with the requisite coproducts."
@@ -269,7 +288,11 @@ review:
 
 fidelity:
   divergences: >-
-    The covering transfer uses Mathlib's all-simplex singular chain and homology
+    The chosen-point wide-pushout separation results apply to arbitrary indexed
+    families, not only circle bouquets. Independent index and space universes use
+    the existing maximum-universe point diagram and documented ULift transport.
+    Joint injectivity asserts no embedding into the coordinate product and no
+    stronger separation axiom. The covering transfer uses Mathlib's all-simplex singular chain and homology
     functors, not normalized chains or May's tensor-coefficient construction.
     It makes no CGWH, negative-degree, reduced, relative or deck-equivariant
     transfer comparison. Generic small-chain and two-open homology results retain arbitrary TopCat
