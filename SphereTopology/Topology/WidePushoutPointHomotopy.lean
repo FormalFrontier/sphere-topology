@@ -4,6 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
+public import SphereTopology.Topology.WidePushout.PointMap
 public import SphereTopology.Topology.WidePushoutHomotopy
 public import Mathlib.Topology.Homotopy.Equiv
 public import Mathlib.Topology.Homotopy.Contractible
@@ -69,24 +70,15 @@ local notation "hy" => (WidePushout.head aY PUnit.unit)
       (fun k : TopCat.of PUnit.{max u w + 1} ⟶ WX ↦ k PUnit.unit)
       (WidePushout.arrow_ι aX j)
 
-private theorem pointDesc_condition (f : ∀ j, C(X j, Y j))
-    (hf : ∀ j, f j (x j) = y j) (j : J) (b : PUnit.{max u w + 1}) :
-    ((WidePushout.ι aY j).hom.comp (f j)) (aX j b) =
-      (ContinuousMap.const _ hy) b := by
-  change WidePushout.ι aY j (f j (x j)) = hy
-  rw [hf j]
-  exact widePushoutPoint_ι_basepoint y j
-
-/-- Descent of point-preserving factor maps sends the common head to the common head. -/
-@[simp] theorem widePushoutPointDesc_head (f : ∀ j, C(X j, Y j))
+/-- Descent of point-preserving factor maps sends the common head to the common head.
+This is `widePushoutDesc_point_head` specialized to `PUnit.unit`. -/
+@[deprecated widePushoutDesc_point_head (since := "2026-10-30")]
+theorem widePushoutPointDesc_head (f : ∀ j, C(X j, Y j))
     (hf : ∀ j, f j (x j) = y j) :
     widePushoutDesc aX (ContinuousMap.const _ hy)
       (fun j ↦ (WidePushout.ι aY j).hom.comp (f j))
-      (by exact pointDesc_condition x y f hf) hx = hy := by
-  exact (widePushoutDesc_head aX (ContinuousMap.const _ hy)
-    (fun j ↦ (WidePushout.ι aY j).hom.comp (f j))
-    (pointDesc_condition x y f hf) PUnit.unit).trans
-      (ContinuousMap.const_apply (α := PUnit.{max u w + 1}) hy PUnit.unit)
+      (widePushoutDesc_point_condition x y f hf) hx = hy :=
+  widePushoutDesc_point_head x y f hf PUnit.unit
 
 private theorem point_inverse (f : ∀ j, C(X j, Y j))
     (hf : ∀ j, f j (x j) = y j) (g : ∀ j, C(Y j, X j))
@@ -104,19 +96,21 @@ variable (f : ∀ j, C(X j, Y j)) (hf : ∀ j, f j (x j) = y j)
 
 set_option quotPrecheck false in
 local notation "F" => widePushoutDesc aX (ContinuousMap.const _ hy)
-  (fun j ↦ (WidePushout.ι aY j).hom.comp (f j)) (by exact pointDesc_condition x y f hf)
+  (fun j ↦ (WidePushout.ι aY j).hom.comp (f j))
+  (widePushoutDesc_point_condition x y f hf)
 set_option quotPrecheck false in
 local notation "G" => widePushoutDesc aY (ContinuousMap.const _ hx)
   (fun j ↦ (WidePushout.ι aX j).hom.comp (g j))
-  (by exact pointDesc_condition y x g (point_inverse x y f hf g L))
+  (by exact widePushoutDesc_point_condition y x g (point_inverse x y f hf g L))
 
 /-- Relative left-inverse homotopies of chosen-point factor maps descend to the
 wide pushouts. Inverse point preservation is derived from the supplied data. -/
 def widePushoutPointCompHomotopy :
     ContinuousMap.HomotopyRel ((G).comp (F)) (ContinuousMap.id WX) {hx} := by
   have hGF : (G) ((F) hx) = hx := by
-    exact (congrArg (fun z : WY ↦ (G) z) (widePushoutPointDesc_head x y f hf)).trans
-      (widePushoutPointDesc_head y x g (by exact point_inverse x y f hf g L))
+    exact (congrArg (fun z : WY ↦ (G) z)
+      (widePushoutDesc_point_head x y f hf PUnit.unit)).trans
+      (widePushoutDesc_point_head y x g (by exact point_inverse x y f hf g L) PUnit.unit)
   let HB : ContinuousMap.Homotopy (((G).comp (F)).comp (WidePushout.head aX).hom)
       ((ContinuousMap.id WX).comp (WidePushout.head aX).hom) :=
     (ContinuousMap.Homotopy.refl (ContinuousMap.const _ hx)).cast
@@ -186,13 +180,13 @@ variable (R : ∀ j, ContinuousMap.HomotopyRel ((f j).comp (g j))
 @[simp] theorem widePushoutPointHomotopyEquiv_head :
     widePushoutPointHomotopyEquiv x y f hf g L R hx = hy := by
   change (F) hx = hy
-  exact widePushoutPointDesc_head x y f hf
+  exact widePushoutDesc_point_head x y f hf PUnit.unit
 
 /-- The inverse equivalence preserves the common head. -/
 @[simp] theorem widePushoutPointHomotopyEquiv_symm_head :
     (widePushoutPointHomotopyEquiv x y f hf g L R).symm hy = hx := by
   change (G) hy = hx
-  exact widePushoutPointDesc_head y x g (point_inverse x y f hf g L)
+  exact widePushoutDesc_point_head y x g (point_inverse x y f hf g L) PUnit.unit
 
 /-- The equivalence restricts to the prescribed map on each factor. -/
 @[simp] theorem widePushoutPointHomotopyEquiv_ι (j : J) (z : X j) :

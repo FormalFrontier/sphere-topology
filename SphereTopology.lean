@@ -13,6 +13,8 @@ public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
 public import SphereTopology.Topology.WidePushout
 public import SphereTopology.Topology.WidePushout.Compactness
+public import SphereTopology.Topology.WidePushout.OpenNeighborhood
+public import SphereTopology.Topology.WidePushout.PointLift
 public import SphereTopology.Topology.WidePushout.Chart
 public import SphereTopology.Topology.WidePushout.FundamentalGroup
 public import SphereTopology.Topology.WidePushout.SubsetRetraction
