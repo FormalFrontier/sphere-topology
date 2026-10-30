@@ -64,6 +64,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   common point plus factor ranges; every continuous map from a compact domain,
   including a path, has such a finite-factor covering. There is no Hausdorff,
   compact-factor, countability or finite-index assumption.
+- **Charts around a common subset.**
+  [`TopCat.widePushoutPointChart`](SphereTopology/Topology/WidePushout/Chart.lean)
+  adjoins one factor to a subset containing the common point. Distinct charts
+  intersect in that subset, and the subset together with the charts covers the
+  pushout, including an empty family. Factorwise path connectedness of its
+  inverse images makes the common subset path connected; a chart then needs
+  path connectedness only of its own whole factor. An open common subset gives
+  open charts, with no separation assumptions.
 - **Subfamily retractions and continuous factorization.**
   [`TopCat.widePushoutPointSubfamilyRetraction`](SphereTopology/Topology/WidePushout/Subfamily.lean)
   retracts onto any subfamily, with an embedding inclusion whose range includes
@@ -223,6 +231,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
 | `Topology.WidePushoutPointHomotopy` | Point-preserving factor equivalences with singleton-relative inverse witnesses, head and factor equations, and contractions fixing the common point. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
+| `Topology.WidePushout.Chart` | Factor-plus-subset charts, exact inverse images and intersections, an empty-family-compatible cover, factorwise path connectedness, and openness for an open common subset containing the head. |
 | `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.WidePushout.SubfamilyHomotopy` | Support criterion and object-level recovery for relative homotopies, strict compact-image finite-stage factorization with prescribed finite initial data, and fixed-stage reflection without separation assumptions. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |

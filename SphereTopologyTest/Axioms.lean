@@ -10,6 +10,7 @@ module
 import all SphereTopology
 import all SphereTopology.Homology.Singular.MayerVietoris
 import all SphereTopology.Homotopy.CircleBouquet
+import all SphereTopology.Topology.WidePushout.Chart
 import all SphereTopology.Topology.WidePushout.Subfamily
 import all SphereTopology.Topology.WidePushout.SubfamilyHomotopy
 
@@ -17,8 +18,8 @@ import all SphereTopology.Topology.WidePushout.SubfamilyHomotopy
 # Axioms regression checks
 
 Persistent private clients preserve the earlier example statements and proofs.
-The subfamily and circle-bouquet modules include their private declarations, so
-the relative-homotopy results and the nontrivial loop client are covered.
+The chart, subfamily and circle-bouquet modules include their private declarations,
+so the chart geometry, relative-homotopy results and nontrivial loop client are covered.
 Axiom diagnostics are scoped to names visible in the imported environment; they
 do not establish a full stored-occurrence census or separate proof recheck.
 -/
@@ -33,6 +34,7 @@ run_cmd do
   let env ← getEnv
   let modules : Array Name := #[
     `SphereTopology.Homology.Singular.MayerVietoris,
+    `SphereTopology.Topology.WidePushout.Chart,
     `SphereTopology.Topology.WidePushout.Subfamily,
     `SphereTopology.Topology.WidePushout.SubfamilyHomotopy,
     `SphereTopology.Homotopy.CircleBouquet]
