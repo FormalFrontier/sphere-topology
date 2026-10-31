@@ -4,15 +4,14 @@ Authors: Formal Frontier Agents
 -/
 module
 
-public import SphereTopologyTest.CircleHSpace
+public import SphereTopology.Homotopy.Circle
 
 /-!
 # HSpaceFundamentalGroup compatibility import
 
-The characteristic checks live in `SphereTopologyTest.CircleHSpace`, which
-publicly re-exports `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`.
-This deprecated import remains supported for at least three months after
-2026-10-20.
+The characteristic examples now live beside the theory in
+`SphereTopology.Homotopy.Circle`. This deprecated import remains supported
+for at least three months after 2026-10-20.
 -/
 
 deprecated_module (since := "2026-10-20")

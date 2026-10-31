@@ -1,11 +1,10 @@
 # Mathematical guide
 
-A reusable Lean library implementing circle-map degree, continuous fields on
-spheres, covering-space lifts of singular simplices, finite-fiber singular
-transfers and integral singular homology. Circle fundamental-group coordinates,
-generic based lifting, deck actions, monodromy-centralizer comparisons and based
-covering equivalences are provided by
-[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids)
+A reusable Lean library implementing circle fundamental groups, continuous
+fields on spheres, covering-space lifts of singular simplices, finite-fiber
+singular transfers and integral singular homology. Generic based lifting, deck
+actions, monodromy-centralizer comparisons and based covering equivalences are
+provided by [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids)
 and re-exported through deprecated Sphere module paths. Sphere develops
 finite-support subdivision and cover-small chains,
 ordinary and nonnegative reduced Mayer–Vietoris sequences, and explicit circle
@@ -27,10 +26,9 @@ criterion and nonbasepoint-component presentation also permit categorical
 coefficient objects. The homology computations
 use the unit spheres in `EuclideanSpace ℝ (Fin 2)` and
 `EuclideanSpace ℝ (Fin 3)`. The fundamental-group calculator uses Mathlib's real
-additive circle and complex unit circle. The circle coordinates and the covering
-foundations labelled **Fundamental Groupoids** below are supplied by that dependency;
-Sphere implements H-space loop multiplication, circle degree, the singular-lift
-and transfer constructions and the other results listed here.
+additive circle and complex unit circle. The covering foundations labelled
+**Fundamental Groupoids** below are supplied by that dependency; Sphere implements
+the singular-lift and transfer constructions and the other results listed here.
 
 - **H-space fundamental groups are commutative.** At the unit of any H-space,
   [`HSpace.loopMul_homotopic_trans`](../SphereTopology/Homotopy/HSpaceFundamentalGroup.lean)
@@ -44,8 +42,8 @@ and transfer constructions and the other results listed here.
   `Path.mul_homotopic_trans` gives the comparison using `Path.mul`; no
   associativity or inverse law is needed.
 
-- **Normalized circle fundamental group (Fundamental Groupoids).** For every real `T ≠ 0`,
-  [`AddCircle.fundamentalGroupEquivInt`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/AlgebraicTopology/FundamentalGroup/Circle.lean)
+- **Normalized circle fundamental group.** For every real `T ≠ 0`,
+  [`AddCircle.fundamentalGroupEquivInt`](../SphereTopology/Homotopy/Circle.lean)
   identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`. The projected segment
   `t ↦ T*n*t mod T` has coordinate `n`, and any lift starting at zero ends at
   `T` times the computed integer. The signed-period homeomorphism to the complex
@@ -352,7 +350,7 @@ and transfer constructions and the other results listed here.
 | --- | --- |
 | `Geometry.Stereographic` | Inner-product-space charts for the unit sphere minus one or two poles, with the arbitrary second pole's stereographic image deleted; forward/inverse laws and inverse-zero antipode. |
 | `Homotopy.Sphere` | Generic real-normed sphere homotopies and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
-| `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
+| `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
@@ -372,26 +370,11 @@ and transfer constructions and the other results listed here.
 | `Homology.Singular.Connectedness` | Total-augmentation and nonempty integral reduced-zero criteria for path connectedness. |
 | `Homology.Singular.Circle`, `Sphere`, `SphereAntipodal` | Fixed models, integer coordinates and antipodal obstruction. |
 
-The canonical circle-coordinate module is
-`FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`.
-`SphereTopology.Homotopy.Circle` publicly re-exports it through a deprecated shim,
-retained for at least three months after its deprecation date. H-space loop
-multiplication remains in `SphereTopology.Homotopy.HSpaceFundamentalGroup`;
-circle degree, free homotopy, fixed points and disk results remain in Sphere.
-The coordinate, zero-period and full-turn H-space verification is private to
-[`SphereTopologyTest.CircleHSpace`](../SphereTopologyTest/CircleHSpace.lean).
-The historical `SphereTopologyTest.CircleFundamentalGroup` and
-`SphereTopologyTest.HSpaceFundamentalGroup` imports publicly re-export that test
-module, including its public import of the canonical coordinates. No production
-module imports these tests. The canonical circle module cannot be co-imported
-with a legacy Sphere release defining the same coordinates locally; use the
-matching dependency graph recorded by the Sphere version.
-
 **Breaking covering-import migration.** The five old `SphereTopology.Topology`
 paths in the table are public-import shims, deprecated since 2026-10-17 and
 supported for at least three months from that date. Their canonical home is
 Fundamental Groupoids, currently pinned to released revision
-[`be822d2fe115c4176eee16a7478f6535914efef4`](https://github.com/FormalFrontier/fundamental-groupoids/commit/be822d2fe115c4176eee16a7478f6535914efef4);
+[`999cc8977b5cdad2f1c1d075066e08f0f04447f1`](https://github.com/FormalFrontier/fundamental-groupoids/commit/999cc8977b5cdad2f1c1d075066e08f0f04447f1);
 declaration names and mathematical namespaces are unchanged. The covering API
 links above retain their earlier implementation revision, not a separate current
 dependency pin.
@@ -454,7 +437,7 @@ Use Git, elan, dependency-network access and the committed manifest: Lean
 [Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
 `143f667bdeb0aeccd02e6475781d5c456f00c95b`,
 [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
-`be822d2fe115c4176eee16a7478f6535914efef4`.
+`999cc8977b5cdad2f1c1d075066e08f0f04447f1`.
 These are the three direct dependencies of this library. The resolved graph also
 includes inherited [Group Theory](https://github.com/FormalFrontier/group-theory)
 at `da81dc691eabf38306f427465ea8a4af350f0aef`, with no direct override; the

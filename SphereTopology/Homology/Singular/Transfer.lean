@@ -9,7 +9,7 @@ public import SimplicialObjects.FiniteFiberTransfer
 public import Mathlib.AlgebraicTopology.SingularHomology.Basic
 
 import SimplicialObjects.ChainCoordinates
-import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
+import SphereTopology.Homotopy.Circle
 import Mathlib.Topology.FiberBundle.Constructions
 import Mathlib.Geometry.Convex.ConvexSpace.PathConnectedSpaceStdSimplex
 

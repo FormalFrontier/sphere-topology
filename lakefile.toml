@@ -20,7 +20,6 @@ roots = [
   "SphereTopologyTest.Axioms",
   "SphereTopologyTest.BoundaryFixedPoint",
   "SphereTopologyTest.Circle",
-  "SphereTopologyTest.CircleHSpace",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
   "SphereTopologyTest.HairyBallSphere2",
@@ -28,7 +27,6 @@ roots = [
   "SphereTopologyTest.HairyBallSphere2Root",
   "SphereTopologyTest.MayerVietoris",
   "SphereTopologyTest.NonAntipodalDiagonal",
-  "SphereTopologyTest.ProjectiveLiftEndpoint",
   "SphereTopologyTest.PublicAPIClient",
   "SphereTopologyTest.WidePushoutPointHomotopy",
   "SphereTopologyTest.Reduced",
@@ -57,7 +55,6 @@ globs = [
   "SphereTopologyTest.CircleBouquet",
   "SphereTopologyTest.CircleDegree",
   "SphereTopologyTest.CircleFundamentalGroup",
-  "SphereTopologyTest.CircleHSpace",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
   "SphereTopologyTest.Components",
@@ -69,7 +66,6 @@ globs = [
   "SphereTopologyTest.HSpaceFundamentalGroup",
   "SphereTopologyTest.MayerVietoris",
   "SphereTopologyTest.NonAntipodalDiagonal",
-  "SphereTopologyTest.ProjectiveLiftEndpoint",
   "SphereTopologyTest.PublicAPIClient",
   "SphereTopologyTest.WidePushoutPointHomotopy",
   "SphereTopologyTest.Reduced",
@@ -109,4 +105,4 @@ rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 [[require]]
 name = "fundamental-groupoids"
 git = "https://github.com/FormalFrontier/fundamental-groupoids"
-rev = "be822d2fe115c4176eee16a7478f6535914efef4"
+rev = "999cc8977b5cdad2f1c1d075066e08f0f04447f1"

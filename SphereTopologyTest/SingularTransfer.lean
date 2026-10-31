@@ -6,7 +6,7 @@ module
 
 import SphereTopology.Homology.Singular.Transfer
 import SphereTopology.Homology.Singular.SmallChains
-import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
+import SphereTopology.Homotopy.Circle
 import Mathlib.Topology.FiberBundle.Constructions
 import Mathlib.Geometry.Convex.ConvexSpace.PathConnectedSpaceStdSimplex
 

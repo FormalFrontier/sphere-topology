@@ -4,7 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
-public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
+public import SphereTopology.Homotopy.Circle
 import SphereTopology.Homotopy.Sphere
 public import Mathlib.Algebra.BigOperators.Group.Multiset.Defs
 public import Mathlib.Topology.ContinuousMap.Algebra
@@ -35,8 +35,7 @@ and including the empty product.
   classification, constants and signed power maps; Problem (2), p. 11,
   for the fixed-point consequence.
 * The integer coordinates and positive generator are those of
-  `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`, following
-  May's Chapter 1, §5.
+  `SphereTopology.Homotopy.Circle`, following May's Chapter 1, §5.
   Mathlib's fundamental-groupoid, basepoint-transport, complex-circle and
   continuous-map group APIs supply the constructions used here.
 -/
