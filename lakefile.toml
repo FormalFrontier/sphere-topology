@@ -46,6 +46,7 @@ roots = [
   "SphereTopologyTest.WidePushoutOpenEmbedding",
   "SphereTopologyTest.WidePushoutCompactness",
   "SphereTopologyTest.WidePushoutFundamentalGroup",
+  "SphereTopologyTest.WidePushoutFundamentalGroupKernelAxioms",
   "SphereTopologyTest.WidePushoutNontrivialOverlap",
   "SphereTopologyTest.WidePushoutHomotopy"
 ]
@@ -88,6 +89,7 @@ globs = [
   "SphereTopologyTest.WidePushoutOpenEmbedding",
   "SphereTopologyTest.WidePushoutCompactness",
   "SphereTopologyTest.WidePushoutFundamentalGroup",
+  "SphereTopologyTest.WidePushoutFundamentalGroupKernelAxioms",
   "SphereTopologyTest.WidePushoutNontrivialOverlap",
   "SphereTopologyTest.WidePushoutHomotopy"
 ]
@@ -110,3 +112,8 @@ rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 name = "fundamental-groupoids"
 git = "https://github.com/FormalFrontier/fundamental-groupoids"
 rev = "be822d2fe115c4176eee16a7478f6535914efef4"
+
+[[require]]
+name = "groupTheory"
+git = "https://github.com/FormalFrontier/group-theory.git"
+rev = "729b89bd2e66269fa081d7a6ef238a10dd1d48d5"

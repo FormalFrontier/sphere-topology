@@ -194,6 +194,17 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   identifies the raw group colimit of the core-to-chart star with the ambient
   fundamental group. Both directions preserve every core and chart inclusion
   map, including for an empty index family; no core-preimage nullity is needed.
+  With the split-injectivity hypotheses above,
+  [`FundamentalGroupKernel`](SphereTopology/Topology/WidePushout/FundamentalGroupKernel.lean)
+  identifies the kernel of the ambient-to-original-factor-coproduct retraction
+  `ρ` with the ambient algebraic normal closure of `⋃ i, γᵢ(ker pᵢ)`.
+  Here `γᵢ` is induced by chart inclusion; `pᵢ` comes from restricting the
+  ambient factor collapse to that chart and then applying the inverse ULift
+  homeomorphism to the original factor. No simply connected core, path-connected
+  core preimages or chart–factor homotopy equivalences are required. Index and
+  space universes are independent, and an empty family retains its point head.
+  No vanishing of these chart defects or free-product computation from ordinary
+  contractibility of chosen factor neighborhoods is asserted.
 - **Subfamily retractions and continuous factorization.**
   [`TopCat.widePushoutPointSubfamilyRetraction`](SphereTopology/Topology/WidePushout/Subfamily.lean)
   retracts onto any subfamily, with an embedding inclusion whose range includes
@@ -330,8 +341,9 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`be822d2fe115c4176eee16a7478f6535914efef4`, with the single inherited Group Theory
-`da81dc691eabf38306f427465ea8a4af350f0aef`.
+`be822d2fe115c4176eee16a7478f6535914efef4`, and Group Theory
+`729b89bd2e66269fa081d7a6ef238a10dd1d48d5`. The resolved graph also includes
+Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a` through Group Theory.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
 ```sh
@@ -380,6 +392,7 @@ verification module. Routine use does not need `lake update`.
 | `Topology.WidePushout.Chart` | Factor-plus-subset charts, exact inverse images and intersections, an empty-family-compatible cover, factorwise path connectedness, and openness for an open common subset containing the head. |
 | `Topology.WidePushout.FundamentalGroup` | Open-neighborhood charts, common-overlap fundamental-group descent and extensionality; inclusion-induced coproduct map, conditional split injection and monoid-target extensions. |
 | `Topology.WidePushout.FundamentalGroupColimit` | Core-to-chart fundamental-group star, ambient inclusion cocone, its colimit universal property and raw-colimit multiplicative equivalence preserving every leg in both directions; path-connected core and whole factors suffice. |
+| [`Topology.WidePushout.FundamentalGroupKernel`](SphereTopology/Topology/WidePushout/FundamentalGroupKernel.lean) | Kernel of the original-factor-coproduct retraction as the ambient algebraic normal closure of chart-collapse kernel images under chart inclusions, under the split-injectivity hypotheses; independent index/space universes and empty families. |
 | `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.WidePushout.SubfamilyHomotopy` | Support criterion and object-level recovery for relative homotopies, strict compact-image finite-stage factorization with prescribed finite initial data, and fixed-stage reflection without separation assumptions. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
