@@ -134,6 +134,29 @@ the singular-lift and transfer constructions and the other results listed here.
   fixes the singleton. This generalizes May's Chapter 1, §6, p. 10 unit-disk
   self-map theorem, not a higher-dimensional Brouwer theorem.
 
+- **Stereographic coordinates and normed-sphere topology.** For a real
+  inner-product space `E : Type u`,
+  [`stereographicHomeomorph p`](../SphereTopology/Geometry/Stereographic.lean)
+  identifies the canonical unit sphere minus `p` with `(ℝ ∙ (p : E))ᗮ`.
+  For `p ≠ q`, `stereographicOverlapHomeomorph p q` removes the stereographic
+  image of `q` from that orthogonal complement, not generally zero. The maps
+  retain Mathlib's factor-2 convention: the deleted pole is `p`, and zero
+  corresponds to `-p`.
+  The topology-only statements live in
+  [`Homotopy.Sphere`](../SphereTopology/Homotopy/Sphere.lean) and require only
+  `[NormedAddCommGroup E] [NormedSpace ℝ E]` with the original norm.
+  `contractibleSpace_sphere_compl_singleton p` states contractibility of a
+  one-point complement with no rank premise. Under `2 < Module.rank ℝ E`,
+  `pathConnectedSpace_sphere_compl_poles p q` states path connectedness of a
+  two-point complement, allowing equal poles, and `simplyConnectedSpace_unitSphere`
+  states simple connectivity of the whole unit sphere. No completeness,
+  finite-dimensionality, supplied pole for the whole sphere, ambient path
+  connectedness or overlap-nonemptiness hypothesis is imposed. These generalize
+  May's finite Euclidean sphere setting using the existing generic sphere
+  homotopies, Mathlib's topology and linear algebra, and Fundamental Groupoids'
+  two-open simple-connectivity criterion; no published proof in this full
+  normed-space generality is being cited.
+
 - **Continuous hairy-ball theorem for S².** Every bundled continuous
   field `V : C(sphere2, E3)` pointwise orthogonal to the radius vanishes
   somewhere: [`sphere2_exists_zero_of_orthogonal_field`](../SphereTopology/Homotopy/HairyBallSphere2.lean).
@@ -325,6 +348,8 @@ the singular-lift and transfer constructions and the other results listed here.
 
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
+| `Geometry.Stereographic` | Inner-product-space charts for the unit sphere minus one or two poles, with the arbitrary second pole's stereographic image deleted; forward/inverse laws and inverse-zero antipode. |
+| `Homotopy.Sphere` | Generic real-normed sphere homotopies and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
@@ -349,8 +374,10 @@ the singular-lift and transfer constructions and the other results listed here.
 paths in the table are public-import shims, deprecated since 2026-10-17 and
 supported for at least three months from that date. Their canonical home is
 Fundamental Groupoids, currently pinned to released revision
-[`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`](https://github.com/FormalFrontier/fundamental-groupoids/commit/edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e);
-declaration names and mathematical namespaces are unchanged.
+[`999cc8977b5cdad2f1c1d075066e08f0f04447f1`](https://github.com/FormalFrontier/fundamental-groupoids/commit/999cc8977b5cdad2f1c1d075066e08f0f04447f1);
+declaration names and mathematical namespaces are unchanged. The covering API
+links above retain their earlier implementation revision, not a separate current
+dependency pin.
 
 The Fundamental Groupoids covering modules **cannot be co-imported with a
 legacy Sphere release that still defines its own copies**. Joint consumers must
@@ -410,11 +437,11 @@ Use Git, elan, dependency-network access and the committed manifest: Lean
 [Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
 `143f667bdeb0aeccd02e6475781d5c456f00c95b`,
 [Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
-`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`.
+`999cc8977b5cdad2f1c1d075066e08f0f04447f1`.
 These are the three direct dependencies of this library. The resolved graph also
 includes inherited [Group Theory](https://github.com/FormalFrontier/group-theory)
-at `12ea07a60c5e6c219d8996eb56d7485139041e15`; the committed manifest fixes all
-remaining transitive packages.
+at `da81dc691eabf38306f427465ea8a4af350f0aef`, with no direct override; the
+committed manifest fixes all remaining transitive packages.
 Routine use does not require `lake update`.
 Fetch the matching precompiled mathlib cache **successfully before building**;
 repeat after changing pins or replacing `.lake`:

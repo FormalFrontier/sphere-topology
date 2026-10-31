@@ -105,4 +105,4 @@ rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 [[require]]
 name = "fundamental-groupoids"
 git = "https://github.com/FormalFrontier/fundamental-groupoids"
-rev = "edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e"
+rev = "999cc8977b5cdad2f1c1d075066e08f0f04447f1"

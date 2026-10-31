@@ -25,6 +25,28 @@ namespace SphereTopologyPublicClient
 
 universe u
 
+private theorem puncturedSphereSimplyConnected
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (p : Metric.sphere (0 : E) 1) :
+    SimplyConnectedSpace ({p}ᶜ : Set (Metric.sphere (0 : E) 1)) := by
+  let := contractibleSpace_sphere_compl_singleton p
+  exact SimplyConnectedSpace.ofContractible _
+
+-- For a distinct, non-antipodal second pole, zero remains in the chart image.
+private theorem stereographicOverlap_contains_zero
+    {E : Type u} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    (p q : Metric.sphere (0 : E) 1) (hpq : p ≠ q) (hq : q ≠ -p) :
+    ∃ x : ({p}ᶜ ∩ {q}ᶜ : Set (Metric.sphere (0 : E) 1)),
+      ((stereographicOverlapHomeomorph p q hpq x : (ℝ ∙ (p : E))ᗮ) : E) = 0 := by
+  let x : ({p}ᶜ ∩ {q}ᶜ : Set (Metric.sphere (0 : E) 1)) := ⟨-p, by
+    constructor
+    · simpa only [Set.mem_compl_iff, Set.mem_singleton_iff] using
+        (ne_neg_of_mem_unit_sphere ℝ p).symm
+    · simpa only [Set.mem_compl_iff, Set.mem_singleton_iff] using hq.symm⟩
+  refine ⟨x, ?_⟩
+  simp only [stereographicOverlapHomeomorph_apply_coe, x, stereographic_apply_neg,
+    Submodule.coe_zero]
+
 private theorem normalize {X E : Type*} [TopologicalSpace X]
     [NormedAddCommGroup E] [NormedSpace ℝ E]
     (V : C(X, E)) (hV : ∀ x, V x ≠ 0) (x : X) :

@@ -9,14 +9,20 @@ public import Mathlib.Analysis.Normed.Module.Normalize
 public import Mathlib.Analysis.Normed.Group.BallSphere
 public import Mathlib.Topology.Homotopy.Affine
 public import Mathlib.Topology.Homotopy.Equiv
+public import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
+public import Mathlib.LinearAlgebra.Dimension.Basic
+import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.OpenCover
+import Mathlib.Algebra.Module.Submodule.Union
 import Mathlib.Analysis.Normed.Module.Ball.Action
+import Mathlib.Analysis.Normed.Module.RCLike.Basic
+import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.Tactic.Abel
 import Mathlib.Tactic.FunProp
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 
 /-!
-# Homotopies on real unit spheres
+# Homotopies and simple connectivity of real unit spheres
 
 Normalizing a segment joins two non-antipodal unit-sphere maps. The same
 construction gives a homotopy equivalence from the unit sphere to the subspace
@@ -24,16 +30,34 @@ of pairs of unit vectors which are not antipodal. Its forward map is the
 diagonal and its inverse is the first projection; the homotopy fixes the
 diagonal pointwise.
 
-These results hold in any real normed vector space, including the zero space,
-without finite-dimensionality or nonemptiness assumptions. Taking the ambient
-space to be Euclidean `(n + 1)`-space recovers the statement for the usual
-`n`-sphere.
+The non-antipodal homotopies hold in any real normed vector space, including the
+zero space, without finite-dimensionality or nonemptiness assumptions. Taking
+the ambient space to be Euclidean `(n + 1)`-space recovers the statement for the
+usual `n`-sphere.
+
+The topology-only APIs concern the unit sphere for the given norm in an arbitrary
+real normed space: a one-point complement is contractible, and a two-point
+complement is path connected when the ambient cardinal rank exceeds two. The
+same rank bound gives simple connectivity of the whole sphere. Neither
+completeness nor finite-dimensionality is required. The one-point statement has
+no rank premise, and the two removed points may coincide. Orthogonal-coordinate
+charts belong instead to `SphereTopology.Geometry.Stereographic`.
 
 ## References
 
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 2, §8,
   Problem (3), p. 20, asks for the diagonal homotopy equivalence for Euclidean
   spheres. The real-normed-space formulation here is a generalization.
+* The two-open argument is from May, Chapter 2, §8. Chapter 3, §2 uses simple
+  connectivity of the finite Euclidean spheres of dimension at least two in
+  its universal-cover example.
+* The puncture and connectivity statements here concern arbitrary real normed
+  spaces with their original norm, extending the finite-dimensional setting.
+  They use the generic sphere homotopies in this module and Mathlib's
+  linear-algebra, path and contractibility APIs; no published proof in this
+  full normed-space generality is being cited.
+* Fundamental Groupoids supplies the general two-open simple-connectivity
+  criterion `FundamentalGroup.simplyConnectedSpace_of_isOpenCover`.
 * Mathlib's vector normalization, affine homotopy, sphere subtype and continuous
   homotopy APIs supply the analytic and topological foundations.
 * The continuous normalization and sphere interpolation constructions are those
@@ -299,3 +323,220 @@ def diagonalHomotopyEquiv :
   rfl
 
 end Metric.Sphere
+
+universe w
+
+/-- The complement of any point on a real normed unit sphere is contractible.
+
+The construction uses this module's non-antipodal sphere homotopies and
+Mathlib's contractibility API, with the original norm and without a rank,
+completeness or finite-dimensionality hypothesis. -/
+theorem contractibleSpace_sphere_compl_singleton
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (p : Metric.sphere (0 : E) 1) :
+    ContractibleSpace ({p}ᶜ : Set (Metric.sphere (0 : E) 1)) := by
+  let A : Set (Metric.sphere (0 : E) 1) := {p}ᶜ
+  let a : A := ⟨-p, by
+    change -p ≠ p
+    exact (ne_neg_of_mem_unit_sphere ℝ p).symm⟩
+  let f : C(A, Metric.sphere (0 : E) 1) := ContinuousMap.const A (-p)
+  let g : C(A, Metric.sphere (0 : E) 1) := ContinuousMap.subtypeVal A
+  have hfg : ∀ x, f x ≠ -g x := by
+    intro x hx
+    have hx' : p = x.val := neg_injective hx
+    exact x.property hx'.symm
+  let K := Metric.Sphere.homotopyOfNonAntipodal f g hfg
+  have hK (z : unitInterval × A) : K z ∈ A := by
+    change K z ≠ p
+    intro hz
+    apply Metric.Sphere.homotopyOfNonAntipodal_ne_neg f g hfg z.1 z.2
+    change (K z : E) = -(-(p : E))
+    simpa only [neg_neg] using congrArg Subtype.val hz
+  let H : (ContinuousMap.const A a).Homotopy (ContinuousMap.id A) := {
+    toFun z := ⟨K z, hK z⟩
+    continuous_toFun := K.continuous.subtype_mk _
+    map_zero_left x := Subtype.ext (K.apply_zero x)
+    map_one_left x := Subtype.ext (K.apply_one x) }
+  exact (contractible_iff_id_nullhomotopic A).mpr ⟨a, ⟨H.symm⟩⟩
+
+private theorem span_pair_ne_top_of_two_lt_rank
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (h : 2 < Module.rank ℝ E) (a b : E) :
+    Submodule.span ℝ ({a, b} : Set E) ≠ ⊤ := by
+  intro htop
+  have hcard : Cardinal.mk ({a, b} : Set E) ≤ 2 := by
+    simpa only [Cardinal.mk_singleton, one_add_one_eq_two] using
+      (Cardinal.mk_insert_le (a := a) (s := {b}))
+  have hrank := (rank_span_le (R := ℝ) ({a, b} : Set E)).trans hcard
+  rw [htop, rank_top] at hrank
+  exact (not_lt_of_ge hrank) h
+
+private theorem normalize_notMem_submodule
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (P : Submodule ℝ E) {v : E} (hv : v ∉ P) :
+    NormedSpace.normalize v ∉ P := by
+  intro hnorm
+  apply hv
+  rw [← NormedSpace.norm_smul_normalize v]
+  exact P.smul_mem ‖v‖ hnorm
+
+private theorem normalize_affine_ne_of_notMem_span
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (p x r : Metric.sphere (0 : E) 1) (hxp : x ≠ p)
+    (hr : (r : E) ∉ Submodule.span ℝ ({(p : E), (x : E)} : Set E))
+    (t : unitInterval) :
+    NormedSpace.normalize ((1 - (t : ℝ)) • (x : E) + (t : ℝ) • (r : E)) ≠
+      (p : E) := by
+  intro heq
+  by_cases ht : (t : ℝ) = 0
+  · apply hxp
+    apply Subtype.ext
+    simpa only [ht, sub_zero, one_smul, zero_smul, add_zero,
+      NormedSpace.normalize_eq_self_of_norm_eq_one
+        (mem_sphere_zero_iff_norm.mp x.property)] using heq
+  · let P := Submodule.span ℝ ({(p : E), (x : E)} : Set E)
+    have hp : (p : E) ∈ P := Submodule.subset_span (by simp)
+    have hx : (x : E) ∈ P := Submodule.subset_span (by simp)
+    have hv : (1 - (t : ℝ)) • (x : E) + (t : ℝ) • (r : E) ∈ P := by
+      rw [← NormedSpace.norm_smul_normalize
+        ((1 - (t : ℝ)) • (x : E) + (t : ℝ) • (r : E)), heq]
+      exact P.smul_mem _ hp
+    have htr : (t : ℝ) • (r : E) ∈ P := by
+      simpa only [add_sub_cancel_left] using
+        P.sub_mem hv (P.smul_mem (1 - (t : ℝ)) hx)
+    exact hr ((P.smul_mem_iff ht).mp htr)
+
+private theorem joinedIn_sphere_compl_poles_of_notMem_span
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (p q x r : Metric.sphere (0 : E) 1) (hxp : x ≠ p) (hxq : x ≠ q)
+    (hrp : (r : E) ∉ Submodule.span ℝ ({(p : E), (x : E)} : Set E))
+    (hrq : (r : E) ∉ Submodule.span ℝ ({(q : E), (x : E)} : Set E)) :
+    JoinedIn ({p}ᶜ ∩ {q}ᶜ : Set (Metric.sphere (0 : E) 1)) x r := by
+  have hxr : x ≠ -r := by
+    intro heq
+    apply hrp
+    have hval : (x : E) = -(r : E) := congrArg Subtype.val heq
+    have hr_eq : (r : E) = -(x : E) := by
+      simpa only [neg_neg] using (congrArg Neg.neg hval).symm
+    rw [hr_eq]
+    exact (Submodule.span ℝ ({(p : E), (x : E)} : Set E)).neg_mem
+      (Submodule.subset_span (by simp))
+  let f := ContinuousMap.const Unit x
+  let g := ContinuousMap.const Unit r
+  let H := Metric.Sphere.homotopyOfNonAntipodal f g (fun _ => hxr)
+  have hH (t : unitInterval) :
+      ((H.evalAt ()) t : E) =
+        NormedSpace.normalize ((1 - (t : ℝ)) • (x : E) + (t : ℝ) • (r : E)) :=
+    Metric.Sphere.homotopyOfNonAntipodal_apply f g (fun _ => hxr) t ()
+  refine ⟨H.evalAt (), ?_⟩
+  intro t
+  simp only [Set.mem_inter_iff, Set.mem_compl_iff, Set.mem_singleton_iff]
+  constructor
+  · intro heq
+    apply normalize_affine_ne_of_notMem_span p x r hxp hrp t
+    exact (hH t).symm.trans (congrArg Subtype.val heq)
+  · intro heq
+    apply normalize_affine_ne_of_notMem_span q x r hxq hrq t
+    exact (hH t).symm.trans (congrArg Subtype.val heq)
+
+/-- The complement of any two points on a real normed unit sphere is path
+connected when the ambient cardinal rank exceeds two. The points may coincide.
+
+The construction uses the generic sphere homotopies and Mathlib's
+linear-algebra and path APIs in the original norm. Neither completeness nor
+finite-dimensionality is required. -/
+theorem pathConnectedSpace_sphere_compl_poles
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (p q : Metric.sphere (0 : E) 1) (h : 2 < Module.rank ℝ E) :
+    PathConnectedSpace ({p}ᶜ ∩ {q}ᶜ : Set (Metric.sphere (0 : E) 1)) := by
+  classical
+  apply isPathConnected_iff_pathConnectedSpace.mp
+  rw [isPathConnected_iff]
+  constructor
+  · obtain ⟨v, hv⟩ := SetLike.exists_not_mem_of_ne_top
+      (Submodule.span ℝ ({(p : E), (q : E)} : Set E))
+      (span_pair_ne_top_of_two_lt_rank h (p : E) (q : E))
+    have hv0 : v ≠ 0 := by
+      rintro rfl
+      exact hv (Submodule.zero_mem _)
+    let r : Metric.sphere (0 : E) 1 :=
+      ⟨NormedSpace.normalize v, mem_sphere_zero_iff_norm.mpr
+        (NormedSpace.norm_normalize hv0)⟩
+    have hr : (r : E) ∉ Submodule.span ℝ ({(p : E), (q : E)} : Set E) :=
+      normalize_notMem_submodule _ hv
+    refine ⟨r, ?_⟩
+    simp only [Set.mem_inter_iff, Set.mem_compl_iff, Set.mem_singleton_iff]
+    constructor
+    · intro heq
+      apply hr
+      rw [heq]
+      exact Submodule.subset_span (by simp)
+    · intro heq
+      apply hr
+      rw [heq]
+      exact Submodule.subset_span (by simp)
+  · intro x hx y hy
+    simp only [Set.mem_inter_iff, Set.mem_compl_iff, Set.mem_singleton_iff] at hx hy
+    -- Avoid the four endpoint-pole planes; repetitions among them do not matter.
+    let planes : Fin 4 → Submodule ℝ E := fun i =>
+      if i = 0 then Submodule.span ℝ ({(p : E), (x : E)} : Set E)
+      else if i = 1 then Submodule.span ℝ ({(q : E), (x : E)} : Set E)
+      else if i = 2 then Submodule.span ℝ ({(p : E), (y : E)} : Set E)
+      else Submodule.span ℝ ({(q : E), (y : E)} : Set E)
+    have hplanes (i : Fin 4) : planes i ≠ ⊤ := by
+      dsimp only [planes]
+      split_ifs <;> exact span_pair_ne_top_of_two_lt_rank h _ _
+    obtain ⟨v, hv⟩ := Submodule.exists_forall_notMem_of_forall_ne_top planes hplanes
+    have hv0 : v ≠ 0 := by
+      rintro rfl
+      exact hv 0 (Submodule.zero_mem _)
+    let r : Metric.sphere (0 : E) 1 :=
+      ⟨NormedSpace.normalize v, mem_sphere_zero_iff_norm.mpr
+        (NormedSpace.norm_normalize hv0)⟩
+    have hr (i : Fin 4) : (r : E) ∉ planes i :=
+      normalize_notMem_submodule (planes i) (hv i)
+    have hxr := joinedIn_sphere_compl_poles_of_notMem_span p q x r hx.1 hx.2
+      (by simpa [planes] using hr 0) (by simpa [planes] using hr 1)
+    have hyr := joinedIn_sphere_compl_poles_of_notMem_span p q y r hy.1 hy.2
+      (by simpa [planes] using hr 2) (by simpa [planes] using hr 3)
+    exact hxr.trans hyr.symm
+
+/-- The unit sphere in a real normed space of rank greater than two is simply
+connected.
+
+The two-open argument is from May, *A Concise Course in Algebraic Topology*,
+Chapter 2, §8. Chapter 3, §2 uses simple connectivity of finite Euclidean spheres
+of dimension at least two in its universal-cover example. The formulation here
+extends that finite-dimensional setting to arbitrary real normed spaces with
+their original norm, without completeness or finite-dimensionality assumptions.
+The underlying interfaces are the generic sphere homotopies, Mathlib's topology
+APIs and Fundamental Groupoids' two-open simple-connectivity criterion. -/
+theorem simplyConnectedSpace_unitSphere
+    {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (h : 2 < Module.rank ℝ E) :
+    SimplyConnectedSpace (Metric.sphere (0 : E) 1) := by
+  classical
+  let : Nontrivial E :=
+    (rank_pos_iff_nontrivial (R := ℝ) (M := E)).mp (lt_trans (by norm_num) h)
+  obtain ⟨p⟩ := NormedSpace.sphere_nonempty_rclike (E := E) ℝ (show (0 : ℝ) ≤ 1 by norm_num)
+  let U : TopologicalSpace.Opens (Metric.sphere (0 : E) 1) :=
+    ⟨{p}ᶜ, isOpen_compl_singleton⟩
+  let V : TopologicalSpace.Opens (Metric.sphere (0 : E) 1) :=
+    ⟨{-p}ᶜ, isOpen_compl_singleton⟩
+  have hcover : U ⊔ V = ⊤ := by
+    apply TopologicalSpace.Opens.ext
+    apply Set.eq_univ_of_forall
+    intro x
+    change x ≠ p ∨ x ≠ -p
+    by_cases hx : x = p
+    · exact Or.inr (hx ▸ ne_neg_of_mem_unit_sphere ℝ p)
+    · exact Or.inl hx
+  refine FundamentalGroup.simplyConnectedSpace_of_isOpenCover U V hcover ?_ ?_ ?_
+  · let : ContractibleSpace ({p}ᶜ : Set (Metric.sphere (0 : E) 1)) :=
+      contractibleSpace_sphere_compl_singleton p
+    exact SimplyConnectedSpace.ofContractible _
+  · let : ContractibleSpace ({-p}ᶜ : Set (Metric.sphere (0 : E) 1)) :=
+      contractibleSpace_sphere_compl_singleton (-p)
+    exact SimplyConnectedSpace.ofContractible _
+  · exact isPathConnected_iff_pathConnectedSpace.mpr
+      (pathConnectedSpace_sphere_compl_poles p (-p) h)

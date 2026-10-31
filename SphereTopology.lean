@@ -9,6 +9,7 @@ module
 
 public import SphereTopology.Geometry.ForwardRay
 public import SphereTopology.Geometry.ForwardRayMap
+public import SphereTopology.Geometry.Stereographic
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField

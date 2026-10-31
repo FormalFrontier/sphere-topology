@@ -56,6 +56,34 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   numbers, with no finite-dimensionality, completeness or nontriviality premise.
   This generalizes the boundary-fixing construction in May's closed-disk
   argument (Chapter 1, §6), not a fixed-point theorem in this generality.
+- **Generic stereographic geometry.** For
+  `E : Type u` with `[NormedAddCommGroup E]` and `[InnerProductSpace ℝ E]`,
+  let `S := Metric.sphere (0 : E) 1` be the canonical sphere subtype,
+  `p q : S`, `H := (ℝ ∙ (p : E))ᗮ` and
+  `σ := stereographic (norm_eq_of_mem_sphere p)`.
+  [`stereographicHomeomorph p`](SphereTopology/Geometry/Stereographic.lean)
+  identifies `({p}ᶜ : Set S)` with `H`; for `hpq : p ≠ q`,
+  `stereographicOverlapHomeomorph p q hpq` identifies
+  `({p}ᶜ ∩ {q}ᶜ : Set S)` with `H \ {σ q}`.
+  These retain Mathlib's factor-2 stereographic map: the excluded pole is
+  `+p`, and the one-pole inverse sends `0` to `-p`. The overlap target deletes
+  zero exactly when `q = -p`.
+- **Topology of real normed unit spheres.** The topology-only APIs in
+  [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
+  `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
+  original norm and `S := Metric.sphere (0 : E) 1`.
+  `contractibleSpace_sphere_compl_singleton p` gives
+  `ContractibleSpace ({p}ᶜ : Set S)` without a rank premise; simple connectivity
+  follows from Mathlib's `SimplyConnectedSpace.ofContractible`.
+  `pathConnectedSpace_sphere_compl_poles p q h` gives
+  `PathConnectedSpace ({p}ᶜ ∩ {q}ᶜ : Set S)` for all `p,q`, including equal
+  poles, when `h : 2 < Module.rank ℝ E` (cardinal rank).
+  `simplyConnectedSpace_unitSphere h` gives `SimplyConnectedSpace S` under the
+  same rank bound, including the usual `Sⁿ` for `n ≥ 2` and infinite-dimensional
+  spaces. No completeness, finite-dimensionality, supplied pole for the whole
+  sphere, ambient connectivity or overlap-nonemptiness assumption is needed.
+  These statements generalize May's finite Euclidean sphere setting; the
+  orthogonal-coordinate charts above still require an inner product.
 - **Boundary-only fixed points on complex closed balls.** A continuous map
   `F : C(Metric.closedBall c r, ℂ)`, with `c : ℂ` and `0 ≤ r`, has a fixed
   point if its sphere-boundary images lie in that ball
@@ -272,8 +300,8 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`edbef2ae0d8a0871b0bbfbc47214e8d6542a2b8e`, with Group Theory
-`12ea07a60c5e6c219d8996eb56d7485139041e15`.
+`999cc8977b5cdad2f1c1d075066e08f0f04447f1`, with the single inherited Group Theory
+`da81dc691eabf38306f427465ea8a4af350f0aef`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
 ```sh
@@ -291,12 +319,13 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | --- | --- |
 | `Geometry.ForwardRay` | Total upper-root ray parameter and affine intersection point, sphere membership and positive-parameter characterization, boundary identities, joint off-diagonal continuity and agreement with Mathlib's boundary-start construction. |
 | `Geometry.ForwardRayMap` | Sphere-valued continuous ray maps for inclusion-avoiding ambient-valued maps on closed balls in real inner-product affine torsors; boundary-only closed-ball images give a strict boundary retraction, with the closed-ball selfmap specialization, independent vector/point universes and arbitrary real radii. |
+| [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
-| `Homotopy.Sphere` | Continuous normalization, non-antipodal sphere interpolation, and the diagonal/first-projection homotopy equivalence for non-antipodal pairs. |
+| `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
@@ -355,5 +384,9 @@ scope and compatibility qualifications.
 Authors: Formal Frontier Agents. Project Lean and documentation are AI-authored.
 Mathematical sources, Mathlib contributors and original project, Prism and
 Orrery contributions retain their distinct credit in [CREDITS.md](docs/CREDITS.md).
+The generic stereographic API reuses Heather Macbeth's Mathlib sphere charts
+and follows the library's earlier sphere/circle chart constructions. The normed
+sphere topology APIs build on the existing generic sphere homotopies, Mathlib's
+topology and linear algebra, and Fundamental Groupoids' two-open criterion.
 Licensed under [Apache-2.0](LICENSE); dependency and book authors retain their
 own rights and notices. No book assets or excerpts are bundled.
