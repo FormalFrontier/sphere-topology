@@ -13,7 +13,7 @@ public import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 public import Mathlib.LinearAlgebra.Dimension.Basic
 import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.OpenCover
 import Mathlib.Algebra.Module.Submodule.Union
-import Mathlib.Analysis.Normed.Module.Ball.Action
+public import Mathlib.Analysis.Normed.Module.Ball.Action
 import Mathlib.Analysis.Normed.Module.RCLike.Basic
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.Tactic.Abel
@@ -322,6 +322,77 @@ def diagonalHomotopyEquiv :
     (diagonalHomotopyEquiv (E := E)).symm z = z.val.1 :=
   rfl
 
+/-- Contract the complement of a unit-sphere point to its antipode, fixing that
+antipode throughout. The sphere carries its given real norm; no rank,
+completeness or finite-dimensionality hypothesis is needed. -/
+def complSingletonContraction (p : S) :
+    ContinuousMap.HomotopyRel
+      (ContinuousMap.id ({p}ᶜ : Set S))
+      (ContinuousMap.const ({p}ᶜ : Set S)
+        ⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩)
+      {⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩} := by
+  let A : Set S := {p}ᶜ
+  let a : A := ⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩
+  let f : C(A, S) := ContinuousMap.const A (-p)
+  let g : C(A, S) := ContinuousMap.subtypeVal A
+  have hfg : ∀ x, f x ≠ -g x := by
+    intro x hx
+    have hx' : p = x.val := neg_injective hx
+    exact x.property hx'.symm
+  let K := homotopyOfNonAntipodal f g hfg
+  have hK (z : unitInterval × A) : K z ∈ A := by
+    change K z ≠ p
+    intro hz
+    apply homotopyOfNonAntipodal_ne_neg f g hfg z.1 z.2
+    change (K z : E) = -(-(p : E))
+    simpa only [neg_neg] using congrArg Subtype.val hz
+  let H : ContinuousMap.HomotopyRel
+      (ContinuousMap.const A a) (ContinuousMap.id A) {a} := {
+    toFun z := ⟨K z, hK z⟩
+    continuous_toFun := K.continuous.subtype_mk _
+    map_zero_left x := Subtype.ext (K.apply_zero x)
+    map_one_left x := Subtype.ext (K.apply_one x)
+    prop' t x hx := by
+      have hx : x = a := Set.mem_singleton_iff.mp hx
+      subst x
+      apply Subtype.ext
+      exact homotopyOfNonAntipodal_apply_of_eq f g hfg t a rfl }
+  exact H.symm
+
+/-- In the whole sphere, the puncture contraction is the reversed non-antipodal
+homotopy from the antipode to the subtype inclusion. -/
+theorem complSingletonContraction_coe_apply (p : S) (t : unitInterval)
+    (x : ({p}ᶜ : Set S)) :
+    (complSingletonContraction p (t, x) : S) =
+      homotopyOfNonAntipodal
+        (ContinuousMap.const ({p}ᶜ : Set S) (-p))
+        (ContinuousMap.subtypeVal ({p}ᶜ : Set S))
+        (by
+          intro y hy
+          exact y.property (neg_injective hy).symm)
+        (unitInterval.symm t, x) :=
+  rfl
+
+/-- The puncture contraction is normalized affine interpolation from the
+original point to the antipode of the deleted point. -/
+theorem complSingletonContraction_apply (p : S) (t : unitInterval)
+    (x : ({p}ᶜ : Set S)) :
+    ((complSingletonContraction p (t, x) : S) : E) =
+      NormedSpace.normalize
+        ((1 - (t : ℝ)) • ((x : S) : E) + (t : ℝ) • (-(p : E))) := by
+  rw [complSingletonContraction_coe_apply, homotopyOfNonAntipodal_apply]
+  change NormedSpace.normalize
+    ((1 - (unitInterval.symm t : ℝ)) • (-(p : E)) +
+      (unitInterval.symm t : ℝ) • ((x : S) : E)) = _
+  simp only [unitInterval.coe_symm_eq, sub_sub_cancel]
+  exact congrArg NormedSpace.normalize (add_comm _ _)
+
+/-- The puncture contraction fixes the antipode of its deleted point. -/
+@[simp] theorem complSingletonContraction_apply_antipode (p : S) (t : unitInterval) :
+    complSingletonContraction p (t, ⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩) =
+      ⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩ :=
+  (complSingletonContraction p).eq_fst t (by simp)
+
 end Metric.Sphere
 
 universe w
@@ -335,29 +406,9 @@ theorem contractibleSpace_sphere_compl_singleton
     {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]
     (p : Metric.sphere (0 : E) 1) :
     ContractibleSpace ({p}ᶜ : Set (Metric.sphere (0 : E) 1)) := by
-  let A : Set (Metric.sphere (0 : E) 1) := {p}ᶜ
-  let a : A := ⟨-p, by
-    change -p ≠ p
-    exact (ne_neg_of_mem_unit_sphere ℝ p).symm⟩
-  let f : C(A, Metric.sphere (0 : E) 1) := ContinuousMap.const A (-p)
-  let g : C(A, Metric.sphere (0 : E) 1) := ContinuousMap.subtypeVal A
-  have hfg : ∀ x, f x ≠ -g x := by
-    intro x hx
-    have hx' : p = x.val := neg_injective hx
-    exact x.property hx'.symm
-  let K := Metric.Sphere.homotopyOfNonAntipodal f g hfg
-  have hK (z : unitInterval × A) : K z ∈ A := by
-    change K z ≠ p
-    intro hz
-    apply Metric.Sphere.homotopyOfNonAntipodal_ne_neg f g hfg z.1 z.2
-    change (K z : E) = -(-(p : E))
-    simpa only [neg_neg] using congrArg Subtype.val hz
-  let H : (ContinuousMap.const A a).Homotopy (ContinuousMap.id A) := {
-    toFun z := ⟨K z, hK z⟩
-    continuous_toFun := K.continuous.subtype_mk _
-    map_zero_left x := Subtype.ext (K.apply_zero x)
-    map_one_left x := Subtype.ext (K.apply_one x) }
-  exact (contractible_iff_id_nullhomotopic A).mpr ⟨a, ⟨H.symm⟩⟩
+  exact (contractible_iff_id_nullhomotopic _).mpr
+    ⟨⟨-p, (ne_neg_of_mem_unit_sphere ℝ p).symm⟩,
+      ⟨(Metric.Sphere.complSingletonContraction p).toHomotopy⟩⟩
 
 private theorem span_pair_ne_top_of_two_lt_rank
     {E : Type w} [NormedAddCommGroup E] [NormedSpace ℝ E]

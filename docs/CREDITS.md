@@ -48,10 +48,16 @@ authorship or a claim of source completion.
 
 The circle fundamental-group calculator follows May, Chapter 1, §5, pp. 8–9,
 with integer loops and lifted endpoints generalized to nonzero signed real
-periods. It reuses Junyan Xu's Mathlib quotient-covering and monodromy work,
+periods. Formal Frontier Agents' calculator, originally developed in Sphere,
+is supplied by
+[`FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/AlgebraicTopology/FundamentalGroup/Circle.lean).
+It reuses Junyan Xu's Mathlib quotient-covering and monodromy work,
 Mathlib's additive/complex-circle identifications, paths, contractibility and
-group equivalences. The unbased degree and free-homotopy classification follow
-Chapter 1, §7, p. 10, and the fixed-point consequence follows Problem (2), p. 11.
+group equivalences. Sphere retains its H-space loop-multiplication theory and
+private signed-period, zero-period and circle full-turn verification in
+`SphereTopologyTest.CircleHSpace`. The unbased degree and free-homotopy
+classification follow Chapter 1, §7, p. 10, and the fixed-point consequence
+follows Problem (2), p. 11.
 The complex closed-unit-disk boundary-degree obstruction and non-retraction
 follow Chapter 1, §6, p. 10, using the circle degree of §7. Their proofs reuse
 Yury Kudryashov's Mathlib convex-set contractibility, the Mathlib free-nullhomotopy

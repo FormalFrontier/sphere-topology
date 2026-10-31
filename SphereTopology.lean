@@ -12,6 +12,7 @@ public import SphereTopology.Geometry.ForwardRayMap
 public import SphereTopology.Geometry.Projectivization
 public import SphereTopology.Geometry.Stereographic
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
+public import SphereTopology.Homotopy.Projectivization
 public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField
 public import FundamentalGroupoids.Topology.Covering.Lifting
@@ -33,7 +34,7 @@ public import FundamentalGroupoids.Topology.Covering.DeckMonodromy
 public import FundamentalGroupoids.Topology.Covering.Monodromy
 public import FundamentalGroupoids.Topology.Covering.Equivalence
 public import SphereTopology.Homology.Singular.Transfer
-public import SphereTopology.Homotopy.Circle
+public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Homotopy.CircleBouquet
 public import SphereTopology.Homotopy.CircleDegree
 public import SphereTopology.Homotopy.Disk

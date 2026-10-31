@@ -16,9 +16,12 @@ project:
     nonnegative reduced integral homology and degree-zero criteria for path
     connectedness. Finite-fiber coverings give transfers on all-simplex singular
     chains and ordinary homology with categorical coefficient objects.
-    Generic based lifting, monodromy, maps of covers and deck-group comparisons
-    are supplied by Fundamental Groupoids, their canonical home, and re-exported
-    through deprecated Sphere covering module paths.
+    Signed-period circle fundamental-group coordinates, generic based lifting,
+    monodromy, maps of covers and deck-group comparisons are supplied by
+    Fundamental Groupoids, their canonical home, and re-exported through
+    deprecated Sphere circle and covering module paths. H-space loop multiplication,
+    circle degree, free homotopy and disk results remain in Sphere; private
+    coordinate and circle H-space checks are in SphereTopologyTest.CircleHSpace.
     Explicit circle and two-sphere calculations give
     the antipodal action on H2 of the standard two-sphere and its
     continuous orthogonal-field hairy-ball theorem.
@@ -94,12 +97,17 @@ related_formalizations:
       providers; no chain, natural or normalized-chain isomorphism is asserted.
       Dependency authorship and notices remain upstream.
 
-  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/999cc8977b5cdad2f1c1d075066e08f0f04447f1"
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/be822d2fe115c4176eee16a7478f6535914efef4"
     relationship: "builds-on"
     note: >-
-      Canonical home of the generic based covering-lift criterion, based
-      equivalences, monodromy and equivariant fiber maps, deck actions and
-      monodromy-centralizer comparisons originally developed in Sphere.
+      Canonical home of signed-period integer loops, normalized circle
+      fundamental-group coordinates, lifted endpoints and complex-circle
+      agreement in FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle,
+      as well as the generic based covering-lift criterion, based equivalences,
+      monodromy and equivariant fiber maps, deck actions and monodromy-centralizer
+      comparisons originally developed in Sphere. SphereTopology.Homotopy.Circle
+      is a deprecated public-import shim, retained for at least three months
+      after its deprecation date; H-space loop multiplication remains in Sphere.
       Also supplies the two-open simple-connectivity criterion used by the
       real-normed unit-sphere topology APIs.
       Declaration names and mathematical namespaces are unchanged. The five
@@ -109,7 +117,7 @@ related_formalizations:
       the Fundamental Groupoids revision recorded here and the resolved graph
       in lake-manifest.json, including inherited Group Theory at
       da81dc691eabf38306f427465ea8a4af350f0aef. There is no direct Group Theory
-      override. The covering modules cannot be
+      override. The circle and covering modules cannot be
       co-imported with legacy Sphere releases defining duplicate copies;
       arbitrary version pairs are not promised compatible.
       Dependency authorship and source and Mathlib credits remain intact.
@@ -148,8 +156,9 @@ status:
     CategoryWithHomology. Its lift-sum and fixed-sheet formulas concern transfer
     followed by pushforward; finite point fibers and their uniform cardinality
     are separate hypotheses. Nonempty, surjective and connected coverings are
-    not required. Generic covering foundations are supplied by Fundamental
-    Groupoids rather than implemented twice; the based equal-image comparison
+    not required. Circle fundamental-group coordinates and generic covering
+    foundations are supplied by Fundamental Groupoids rather than implemented
+    twice; the based equal-image comparison
     is not a general covering-space classification. No complete coverage of
     Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
@@ -370,9 +379,11 @@ acknowledgements: >-
   originally used in Sphere and formalized by Formal Frontier Agents, including
   Prism, using Mathlib's simplicial coproduct and lifted module APIs.
   Fundamental Groupoids is the canonical
-  home of the generic covering interfaces originally developed in Sphere,
-  building on Mathlib's lifting and monodromy by Junyan Xu and deck groups by
-  Kim Morrison. May supplies the disk non-retraction and unit-disk fixed-point
+  home of signed-period circle coordinates and generic covering interfaces
+  originally developed in Sphere, building on Mathlib's circle identifications,
+  lifting and monodromy by Junyan Xu and deck groups by Kim Morrison. The circle
+  coordinates follow May, Chapter 1, §5, pp. 8–9, with signed real periods.
+  May supplies the disk non-retraction and unit-disk fixed-point
   theorems and circle-degree background, as well as the covering-transfer exercise
   and its coefficient conventions. Mathlib's convex-set contractibility and
   free-nullhomotopy composition support the boundary-degree obstruction; the
