@@ -52,6 +52,11 @@ periods. It reuses Junyan Xu's Mathlib quotient-covering and monodromy work,
 Mathlib's additive/complex-circle identifications, paths, contractibility and
 group equivalences. The unbased degree and free-homotopy classification follow
 Chapter 1, §7, p. 10, and the fixed-point consequence follows Problem (2), p. 11.
+The complex closed-unit-disk boundary-degree obstruction and non-retraction
+follow Chapter 1, §6, p. 10, using the circle degree of §7. Their proofs reuse
+Yury Kudryashov's Mathlib convex-set contractibility, the Mathlib free-nullhomotopy
+composition API and this library's unbased circle-degree laws. They concern the
+complex disk, not arbitrary-dimensional disks or a converse extension theorem.
 The bouquet setting is Chapter 2, §8; no free-group identification is claimed.
 The generic wide-pushout quotient presentation reuses Joël Riou's Mathlib
 `Types.Pushout` and the Mathlib topological-colimit interface. The finite-support

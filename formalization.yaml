@@ -3,7 +3,8 @@ version: "v0.4"
 project:
   name: "Sphere topology"
   description: >-
-    Reusable Lean topology and singular homology: arbitrary-index circle bouquets,
+    Reusable Lean topology and singular homology: degree-zero boundary restrictions
+    and non-retraction for the complex closed unit disk; arbitrary-index circle bouquets,
     inclusions, positive-generator homomorphisms, retractions and generator
     nonidentity, without a free-group identification; jointly injective factor
     retractions and factorwise T0/T1/T2 classification for arbitrary chosen-point
@@ -52,12 +53,13 @@ sources:
       - "J. Peter May"
     id: "https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf"
     type: "book"
-    location: "Revised edition, Chapter 2, §8; Chapter 16, Problem 3."
+    location: "Revised edition, Chapter 1, §§5–7; Chapter 2, §8; Chapter 16, Problem 3."
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
-      Motivates the circle-bouquet setting, covering transfer and its sheet
-      formula. The bouquet fundamental-group calculation is not established here. The coefficient
+      Supplies circle fundamental-group and degree background and the disk
+      non-retraction theorem, and motivates the circle-bouquet setting, covering
+      transfer and its sheet formula. The bouquet fundamental-group calculation is not established here. The coefficient
       objects and all-simplex chain complex differ from the normalized
       tensor-coefficient convention of the book. No book expression or asset
       is redistributed.
@@ -70,7 +72,8 @@ related_formalizations:
       dependent-product topology and separation transfer along continuous injections
       and embeddings, real inner-product spaces, standard simplices, simplicial sets, integral
       singular chains, chain complexes, homology, short exact sequences,
-      category-theoretic kernels, stereographic projection and contractibility.
+      category-theoretic kernels, stereographic projection, convex-set contractibility
+      and free-nullhomotopy composition.
       Dependency implementation is not vendored; upstream authorship and notices
       remain upstream. The generated Lake manifest records the resolved graph,
       not original dependency implementation. Project expression origins and
@@ -108,6 +111,10 @@ related_formalizations:
 
 status:
   scope: >-
+    Every continuous map from the complex closed unit disk to Circle restricts
+    along the coordinate-preserving boundary inclusion to a map of degree zero,
+    hence not the identity, with no basedness hypothesis. No arbitrary-dimensional
+    disk theorem or converse extension criterion is asserted.
     Arbitrary-index circle bouquets with inclusions, descent, positive-generator
     homomorphisms, circle retractions and generator nonidentity; bijectivity of
     the generator map and its free-group identification are not established here.
@@ -136,6 +143,12 @@ status:
     Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Circle.degree_comp_closedBall_inclusion"
+      file: "SphereTopology/Homotopy/Disk.lean"
+      note: "Every continuous map from the complex closed unit disk to Circle has degree-zero boundary restriction along the stock sphere-to-closed-ball inclusion, without a basedness premise."
+    - declaration: "Circle.comp_closedBall_inclusion_ne_id"
+      file: "SphereTopology/Homotopy/Disk.lean"
+      note: "The same boundary restriction is not the identity of Circle; this is the complex unit-disk non-retraction theorem."
     - declaration: "TopCat.widePushoutPointRetraction_jointly_injective"
       file: "SphereTopology/Topology/WidePushout/Separation.lean"
       note: "The selected-factor retractions jointly distinguish points of an arbitrary chosen-point wide pushout, including the empty family, without separation or finiteness assumptions."
@@ -288,6 +301,10 @@ review:
 
 fidelity:
   divergences: >-
+    The disk boundary theorems use the complex closed unit disk, the stock
+    sphere-to-closed-ball inclusion and unbased circle degree. They do not
+    establish higher-dimensional disk non-retraction, Brouwer's fixed-point theorem
+    or the converse extension criterion for degree-zero circle maps.
     The chosen-point wide-pushout separation results apply to arbitrary indexed
     families, not only circle bouquets. Independent index and space universes use
     the existing maximum-universe point diagram and documented ULift transport.
@@ -324,8 +341,10 @@ acknowledgements: >-
   Fundamental Groupoids is the canonical
   home of the generic covering interfaces originally developed in Sphere,
   building on Mathlib's lifting and monodromy by Junyan Xu and deck groups by
-  Kim Morrison. May supplies the covering-transfer
-  exercise and its coefficient conventions. Lean and Lake supply the proof
+  Kim Morrison. May supplies the disk non-retraction theorem and circle-degree
+  background, as well as the covering-transfer exercise and its coefficient
+  conventions. Mathlib's convex-set contractibility and free-nullhomotopy
+  composition support the complex-disk proofs. Lean and Lake supply the proof
   assistant and build system. Weibel's bibliographic authorship is distinct from
   project formalization authorship. Original project contributions and identified
   project adaptations use the Apache-2.0 license; no ownership

@@ -27,6 +27,13 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   with repeated factors. The map `z ↦ z^n` has degree `n : ℤ`, and degree different
   from `1` is a sufficient, not necessary, fixed-point condition. No based-map
   premise is needed.
+- **Disk boundary degree and non-retraction.** Every continuous map
+  `G : C(Metric.closedBall (0 : ℂ) 1, Circle)` has boundary restriction of
+  degree zero, so that restriction is not the identity on `Circle`
+  ([`Disk`](SphereTopology/Homotopy/Disk.lean)). The boundary map is the
+  coordinate-preserving inclusion of the complex unit circle into the closed
+  unit disk; no basedness premise is imposed. This is not a theorem about
+  arbitrary-dimensional disks or an extension converse.
 - **Quotient presentations of topological wide pushouts.**
   [`TopCat.widePushoutHomeomorph`](SphereTopology/Topology/WidePushout.lean)
   identifies the quotient of `B ⊕ Σ i, X i` by `b ∼ (i, f i b)` with the
@@ -253,6 +260,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
+| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for continuous maps from the complex closed unit disk to its unit-circle boundary. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.Sphere` | Continuous normalization, non-antipodal sphere interpolation, and the diagonal/first-projection homotopy equivalence for non-antipodal pairs. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |

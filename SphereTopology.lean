@@ -32,6 +32,7 @@ public import SphereTopology.Homology.Singular.Transfer
 public import SphereTopology.Homotopy.Circle
 public import SphereTopology.Homotopy.CircleBouquet
 public import SphereTopology.Homotopy.CircleDegree
+public import SphereTopology.Homotopy.Disk
 public import SphereTopology.Homology.Singular.SmallChains
 public import SphereTopology.Homology.Singular.MayerVietoris
 public import SphereTopology.Homology.Singular.Components

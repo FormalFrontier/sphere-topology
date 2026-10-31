@@ -108,6 +108,18 @@ the singular-lift and transfer constructions and the other results listed here.
   Degree different from `1` guarantees a fixed point; this is sufficient,
   not necessary. No basepoint-preserving hypothesis is required.
 
+- **Complex-disk boundary obstruction.** For every
+  `G : C(Metric.closedBall (0 : ℂ) 1, Circle)`,
+  [`Circle.degree_comp_closedBall_inclusion`](../SphereTopology/Homotopy/Disk.lean)
+  gives degree zero after restriction along the stock coordinate-preserving
+  sphere-to-closed-ball inclusion. Thus
+  `Circle.comp_closedBall_inclusion_ne_id` rules out identity on that boundary.
+  The proof contracts the convex disk and restricts the resulting free
+  nullhomotopy; it uses no basepoint-preserving premise. This is May's
+  Chapter 1, §6, p. 10 non-retraction result for the complex unit disk, using
+  §7 degree. It does not assert arbitrary-dimensional non-retraction,
+  Brouwer's fixed-point theorem or the converse extension criterion.
+
 - **Continuous hairy-ball theorem for S².** Every bundled continuous
   field `V : C(sphere2, E3)` pointwise orthogonal to the radius vanishes
   somewhere: [`sphere2_exists_zero_of_orthogonal_field`](../SphereTopology/Homotopy/HairyBallSphere2.lean).
@@ -302,6 +314,7 @@ the singular-lift and transfer constructions and the other results listed here.
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
+| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for continuous maps from the complex closed unit disk to its unit-circle boundary. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
