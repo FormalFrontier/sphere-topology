@@ -4,7 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
-public import SphereTopology.Homotopy.Circle
+public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
 public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy

@@ -18,9 +18,10 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   multiplication are assumed. Continuous multiplication with a strict unit
   also gives `Path.mul_homotopic_trans`, without associativity or inverses.
 - **Normalized circle fundamental groups and degree.** For real `T ≠ 0`,
-  [`AddCircle.fundamentalGroupEquivInt`](SphereTopology/Homotopy/Circle.lean)
-  identifies `π₁(AddCircle T, 0)` with `Multiplicative ℤ`, including signed
-  periods, lifted endpoints and agreement with the complex unit circle.
+  [`AddCircle.fundamentalGroupEquivInt`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/AlgebraicTopology/FundamentalGroup/Circle.lean)
+  is supplied by Fundamental Groupoids and identifies `π₁(AddCircle T, 0)`
+  with `Multiplicative ℤ`, including signed periods, lifted endpoints and
+  agreement with the complex unit circle.
   [`Circle.degree`](SphereTopology/Homotopy/CircleDegree.lean) classifies free
   homotopy of arbitrary continuous circle self-maps. Composition multiplies
   degree, while pointwise multiplication adds it, including multiset products
@@ -320,7 +321,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`999cc8977b5cdad2f1c1d075066e08f0f04447f1`, with the single inherited Group Theory
+`be822d2fe115c4176eee16a7478f6535914efef4`, with the single inherited Group Theory
 `da81dc691eabf38306f427465ea8a4af350f0aef`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
@@ -331,7 +332,12 @@ lake env lean -DwarningAsError=true SphereTopologyTest/PublicAPIClient.lean
 ```
 
 `SphereTopology` and `SphereTopologyTest` are default Lake libraries; the
-production aggregate imports no tests. Routine use does not need `lake update`.
+production aggregate imports no tests. The private coordinate, zero-period and
+circle H-space checks are in
+[`SphereTopologyTest.CircleHSpace`](SphereTopologyTest/CircleHSpace.lean).
+The historical `SphereTopologyTest.CircleFundamentalGroup` and
+`SphereTopologyTest.HSpaceFundamentalGroup` imports publicly re-export this
+verification module. Routine use does not need `lake update`.
 
 ## Contents
 
@@ -341,7 +347,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Geometry.ForwardRayMap` | Sphere-valued continuous ray maps for inclusion-avoiding ambient-valued maps on closed balls in real inner-product affine torsors; boundary-only closed-ball images give a strict boundary retraction, with the closed-ball selfmap specialization, independent vector/point universes and arbitrary real radii. |
 | [`Geometry.Projectivization`](SphereTopology/Geometry/Projectivization.lean) | Canonical real unit-sphere projection for the given norm, quotient-map and equal-or-antipodal fiber criteria, negation law, and quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`. |
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
-| `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
+| `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |

@@ -6,7 +6,7 @@ module
 
 import SphereTopology.Topology.WidePushout.SubsetRetraction
 import SphereTopology.Topology.WidePushout.FundamentalGroup
-import SphereTopology.Homotopy.Circle
+import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 import FundamentalGroupoids.FundamentalGroup
 
 /-!
