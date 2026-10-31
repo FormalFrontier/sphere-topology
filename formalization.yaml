@@ -3,8 +3,9 @@ version: "v0.4"
 project:
   name: "Sphere topology"
   description: >-
-    Reusable Lean topology and singular homology: fixed points of continuous
-    self-maps of nonempty complex closed balls; degree-zero boundary restrictions
+    Reusable Lean topology and singular homology: fixed points of complex-valued
+    continuous maps on closed balls of nonnegative radius whose sphere-boundary
+    images lie in the ball, with no interior image bound; degree-zero boundary restrictions
     and non-retraction for the complex closed unit disk; arbitrary-index circle bouquets,
     inclusions, positive-generator homomorphisms, retractions and generator
     nonidentity, without a free-group identification; jointly injective factor
@@ -59,7 +60,7 @@ sources:
     author_endorsement: "not-contacted"
     note: >-
       Supplies circle fundamental-group and degree background, disk non-retraction
-      and the unit-disk fixed-point theorem, and motivates the circle-bouquet setting, covering
+      and the unit-disk self-map fixed-point theorem, and motivates the circle-bouquet setting, covering
       transfer and its sheet formula. The bouquet fundamental-group calculation is not established here. The coefficient
       objects and all-simplex chain complex differ from the normalized
       tensor-coefficient convention of the book. No book expression or asset
@@ -112,9 +113,11 @@ related_formalizations:
 
 status:
   scope: >-
-    Every continuous self-map of a complex closed ball of nonnegative radius has
-    a fixed point, including arbitrary centers and the radius-zero singleton.
-    This is the complex-disk case of Brouwer's theorem, without contraction,
+    A complex-valued continuous map on a closed ball of nonnegative radius has
+    a fixed point if its sphere-boundary images lie in that ball. Centers are
+    arbitrary, no interior image bound or extension to the plane is assumed,
+    and radius zero is included. Continuous self-maps specialize this result,
+    giving the complex-disk case of Brouwer's theorem without contraction,
     smoothness or boundary-preservation assumptions.
     Every continuous map from the complex closed unit disk to Circle restricts
     along the coordinate-preserving boundary inclusion to a map of degree zero,
@@ -148,6 +151,9 @@ status:
     Weibel or any other source is claimed. See README.md
     for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo"
+      file: "SphereTopology/Homotopy/Disk.lean"
+      note: "A complex-valued continuous map on a closed ball with arbitrary center and nonnegative radius has a fixed point if its sphere-boundary images lie in that ball; no interior image bound or extension to the plane is assumed."
     - declaration: "Complex.exists_fixedPoint_closedBall"
       file: "SphereTopology/Homotopy/Disk.lean"
       note: "Every continuous self-map of a complex closed ball with arbitrary center and nonnegative radius has a fixed point in that same ball, including the radius-zero case."
@@ -311,11 +317,13 @@ fidelity:
   divergences: >-
     The disk boundary theorems use the complex closed unit disk, the stock
     sphere-to-closed-ball inclusion and unbased circle degree. The fixed-point
-    theorem extends May's unit-disk statement to arbitrary complex centers and
-    nonnegative radii. It uses normalized displacement and degree rather than
-    constructing the source's ray-to-boundary retraction. No higher-dimensional
-    disk theorem or converse extension criterion for degree-zero circle maps
-    is asserted.
+    theorem generalizes May's unit-disk self-map statement to arbitrary complex
+    centers, nonnegative radii and a sphere-boundary-only image condition. It
+    requires no interior image bound or ambient extension. The proof follows
+    May's forward-ray construction, using circle degree rather than his
+    fundamental-group obstruction. The continuous self-map theorem is a
+    specialization. No higher-dimensional disk theorem or converse extension
+    criterion for degree-zero circle maps is asserted.
     The chosen-point wide-pushout separation results apply to arbitrary indexed
     families, not only circle bouquets. Independent index and space universes use
     the existing maximum-universe point diagram and documented ULift transport.
@@ -356,8 +364,9 @@ acknowledgements: >-
   theorems and circle-degree background, as well as the covering-transfer exercise
   and its coefficient conventions. Mathlib's convex-set contractibility and
   free-nullhomotopy composition support the boundary-degree obstruction; the
-  fixed-point argument reuses continuous normalization, sphere interpolation
-  and affine closed-ball transport. Lean and Lake supply the proof
+  fixed-point argument follows May's forward-ray construction, formalized by
+  Formal Frontier Agents with a boundary-only image condition, circle degree
+  and Mathlib's affine closed-ball transport. Lean and Lake supply the proof
   assistant and build system. Weibel's bibliographic authorship is distinct from
   project formalization authorship. Original project contributions and identified
   project adaptations use the Apache-2.0 license; no ownership

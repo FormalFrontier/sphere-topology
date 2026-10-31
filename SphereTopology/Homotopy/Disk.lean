@@ -5,32 +5,47 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.CircleDegree
-import SphereTopology.Homotopy.Sphere
+import SphereTopology.Geometry.ForwardRayMap
 import Mathlib.Analysis.Convex.Contractible
 import Mathlib.Analysis.Normed.Module.Ball.Pointwise
 import Mathlib.Analysis.Normed.Module.Convex
 import Mathlib.Topology.Homeomorph.Lemmas
 import Mathlib.Topology.MetricSpace.IsometricSMul
-import Mathlib.Tactic.Abel
-import Mathlib.Tactic.Linarith
 
 /-!
 # Closed complex disks and circle boundary degree
 
 The boundary restriction of a continuous map from the complex closed unit disk
 into the circle has degree zero. Consequently, no such map restricts to the
-identity on the boundary. Every continuous self-map of a nonempty complex
-closed ball has a fixed point.
+identity on the boundary. A continuous complex-valued map on a closed ball
+of nonnegative radius has a fixed point if its boundary images lie in that
+ball; no bound is imposed on its interior values.
 
 The disk is `Metric.closedBall (0 : ℂ) 1`, and its boundary inclusion is the
 stock `ContinuousMap.inclusion` associated to `Metric.sphere_subset_closedBall`.
 The circle and degree are the existing `Circle` and `Circle.degree`.
 
-The proof contracts the convex closed ball, postcomposes by the given map,
-and restricts the nullhomotopy to the boundary. Free-homotopy invariance of
-degree gives zero; the identity has degree one. No basedness is required.
-The fixed-point theorem uses this degree obstruction via normalized displacement,
-followed by affine transport to arbitrary nonempty complex closed balls.
+## Main results
+
+* `Circle.degree_comp_closedBall_inclusion`: a circle-valued map on the closed
+  unit disk has boundary restriction of degree zero.
+* `Circle.comp_closedBall_inclusion_ne_id`: there is no retraction of the closed
+  unit disk onto its circle boundary.
+* `Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo`: a complex-valued
+  continuous map on a closed ball, with arbitrary center and nonnegative radius,
+  has a fixed point if its boundary images lie in that ball.
+* `Complex.exists_fixedPoint_closedBall`: the continuous self-map specialization.
+
+The degree-zero boundary restriction is proved by contracting the convex closed
+ball, postcomposing by the given map, and restricting the nullhomotopy to the
+boundary. Free-homotopy invariance of degree gives zero; the identity has degree
+one. No basedness is required. If a complex-valued disk map has no fixed point,
+the forward-ray map from its image through each point is circle-valued. The
+boundary-image condition makes it the identity on the boundary, contradicting
+the degree obstruction. Affine transport and the radius-zero singleton case give
+the result for arbitrary centers and nonnegative radii. This generalizes May's
+unit-disk self-map theorem and follows his forward-ray construction, using circle
+degree rather than his fundamental-group obstruction.
 
 ## Limitations
 
@@ -41,7 +56,10 @@ converse extension criterion for circle maps of degree zero.
 ## References
 
 * J. Peter May, *A Concise Course in Algebraic Topology*, Chapter 1, §6,
-  p. 10, for the disk non-retraction theorem, and §7 for circle-map degree.
+  p. 10, for the closed unit disk self-map theorem and its forward-ray and
+  non-retraction argument, and §7 for circle-map degree.
+* `SphereTopology.Geometry.ForwardRayMap` supplies the continuous sphere-valued
+  forward-ray map and its boundary identity under a boundary-only image condition.
 * Mathlib's convex-set contractibility and nullhomotopy composition APIs,
   together with `SphereTopology.Homotopy.CircleDegree`, supply the underlying
   objects and comparison APIs.
@@ -90,18 +108,29 @@ end Circle
 
 namespace Complex
 
-/-- Transfer the unit-disk fixed-point theorem to nonempty complex closed balls. -/
+/-- Transfer the boundary-only unit-disk fixed-point theorem to complex closed balls. -/
 private theorem exists_fixedPoint_closedBall_of_unit
-    (hunit : ∀ g : C(Metric.closedBall (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1),
-      ∃ z, g z = z)
+    (hunit : ∀ g : C(Metric.closedBall (0 : ℂ) 1, ℂ),
+      (∀ y : Metric.sphere (0 : ℂ) 1,
+        g ((ContinuousMap.inclusion
+          (Metric.sphere_subset_closedBall (x := (0 : ℂ)) (ε := 1)) :
+            C(Metric.sphere (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1)) y) ∈
+          Metric.closedBall (0 : ℂ) 1) →
+      ∃ z : Metric.closedBall (0 : ℂ) 1, g z = (z : ℂ))
     (c : ℂ) {r : ℝ} (hr : 0 ≤ r)
-    (f : C(Metric.closedBall c r, Metric.closedBall c r)) :
-    ∃ z, f z = z := by
+    (F : C(Metric.closedBall c r, ℂ))
+    (hboundary : ∀ y : Metric.sphere c r,
+      F ((ContinuousMap.inclusion
+        (Metric.sphere_subset_closedBall (x := c) (ε := r)) :
+          C(Metric.sphere c r, Metric.closedBall c r)) y) ∈
+        Metric.closedBall c r) :
+    ∃ z : Metric.closedBall c r, F z = (z : ℂ) := by
   by_cases hr0 : r = 0
   · subst r
     let z : Metric.closedBall c 0 := ⟨c, Metric.mem_closedBall_self le_rfl⟩
-    refine ⟨z, Subtype.ext ?_⟩
-    simpa only [Metric.closedBall_zero, Set.mem_singleton_iff] using (f z).property
+    have h := hboundary ⟨c, by simp only [Metric.sphere_zero, Set.mem_singleton_iff]⟩
+    change F z ∈ Metric.closedBall c 0 at h
+    exact ⟨z, by simpa only [Metric.closedBall_zero, Set.mem_singleton_iff] using h⟩
   · let e : ℂ ≃ₜ ℂ :=
       (Homeomorph.smulOfNeZero r hr0).trans
         (IsometryEquiv.constVAdd c).toHomeomorph
@@ -110,69 +139,62 @@ private theorem exists_fixedPoint_closedBall_of_unit
         Metric.closedBall (0 : ℂ) 1 = Metric.closedBall c r
       rw [Set.image_comp, Set.image_smul, Set.image_vadd]
       exact affinity_unitClosedBall hr c
+    have hs : e '' Metric.sphere (0 : ℂ) 1 = Metric.sphere c r := by
+      change ((fun z : ℂ => c +ᵥ z) ∘ (fun z : ℂ => r • z)) ''
+        Metric.sphere (0 : ℂ) 1 = Metric.sphere c r
+      rw [Set.image_comp, Set.image_smul, Set.image_vadd, smul_sphere' hr0]
+      simp only [smul_zero, Real.norm_of_nonneg hr, mul_one, Metric.vadd_sphere,
+        vadd_eq_add, add_zero]
     let eball : Metric.closedBall (0 : ℂ) 1 ≃ₜ Metric.closedBall c r :=
       (e.image _).trans (Homeomorph.setCongr he)
-    obtain ⟨z, hz⟩ := hunit
-      ((toContinuousMap eball.symm).comp (f.comp (toContinuousMap eball)))
+    let g : C(Metric.closedBall (0 : ℂ) 1, ℂ) :=
+      (toContinuousMap e.symm).comp (F.comp (toContinuousMap eball))
+    let inclusion : C(Metric.sphere (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1) :=
+      ContinuousMap.inclusion
+        (Metric.sphere_subset_closedBall (x := (0 : ℂ)) (ε := 1))
+    have hg (y : Metric.sphere (0 : ℂ) 1) :
+        g (inclusion y) ∈ Metric.closedBall (0 : ℂ) 1 := by
+      let y' : Metric.sphere c r :=
+        ⟨e (y : ℂ), hs ▸ Set.mem_image_of_mem e y.property⟩
+      change F (eball (inclusion y)) ∈ e.symm ⁻¹' Metric.closedBall (0 : ℂ) 1
+      rw [← e.image_eq_preimage_symm, he]
+      exact hboundary y'
+    obtain ⟨z, hz⟩ := hunit g hg
     refine ⟨eball z, ?_⟩
-    exact eball.symm_apply_eq.mp hz
-
--- An antipodal normalized displacement would put the image outside the unit disk.
-private theorem normalize_sub_ne_neg_of_norm_le_one {E : Type*}
-    [NormedAddCommGroup E] [NormedSpace ℝ E] {z w : E}
-    (hz : ‖z‖ = 1) (hw : ‖w‖ ≤ 1) (hzw : z - w ≠ 0) :
-    NormedSpace.normalize (z - w) ≠ -z := by
-  intro h
-  have hpos : 0 < ‖z - w‖ := norm_pos_iff.mpr hzw
-  have hdiff : z - w = -(‖z - w‖ • z) := by
-    calc
-      z - w = ‖z - w‖ • NormedSpace.normalize (z - w) :=
-        (NormedSpace.norm_smul_normalize (z - w)).symm
-      _ = -(‖z - w‖ • z) := by rw [h, smul_neg]
-  have hw_eq : w = (1 + ‖z - w‖) • z := by
-    calc
-      w = z - (z - w) := by abel
-      _ = z - -(‖z - w‖ • z) := congrArg (fun u : E => z - u) hdiff
-      _ = z + ‖z - w‖ • z := sub_neg_eq_add z _
-      _ = (1 + ‖z - w‖) • z := by rw [add_smul, one_smul]
-  have hn : ‖w‖ = 1 + ‖z - w‖ := by
-    simpa only [norm_smul, Real.norm_eq_abs,
-      abs_of_nonneg (add_nonneg zero_le_one (norm_nonneg (z - w))), hz, mul_one]
-      using congrArg norm hw_eq
-  linarith
+    change e.symm (F (eball z)) = (z : ℂ) at hz
+    exact e.symm_apply_eq.mp hz
 
 private theorem exists_fixedPoint_unitClosedBall
-    (f : C(Metric.closedBall (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1)) :
-    ∃ z, f z = z := by
+    (F : C(Metric.closedBall (0 : ℂ) 1, ℂ))
+    (hboundary : ∀ y : Metric.sphere (0 : ℂ) 1,
+      F ((ContinuousMap.inclusion
+        (Metric.sphere_subset_closedBall (x := (0 : ℂ)) (ε := 1)) :
+          C(Metric.sphere (0 : ℂ) 1, Metric.closedBall (0 : ℂ) 1)) y) ∈
+        Metric.closedBall (0 : ℂ) 1) :
+    ∃ z : Metric.closedBall (0 : ℂ) 1, F z = (z : ℂ) := by
   by_contra hfixed
-  let V : C(Metric.closedBall (0 : ℂ) 1, ℂ) :=
-    ⟨fun z => (z : ℂ) - (f z : ℂ),
-      continuous_subtype_val.sub (continuous_subtype_val.comp f.continuous)⟩
-  have hV : ∀ z, V z ≠ 0 := by
-    intro z hz
-    change (z : ℂ) - (f z : ℂ) = 0 at hz
-    exact hfixed ⟨z, Subtype.ext (sub_eq_zero.mp hz).symm⟩
-  let N := ContinuousMap.normalizeOfNoZero V hV
-  let G : C(Metric.closedBall (0 : ℂ) 1, Circle) := {
-    toFun z := ⟨N z, mem_sphere_zero_iff_norm.mpr
-      (ContinuousMap.norm_normalizeOfNoZero V hV z)⟩
-    continuous_toFun := N.continuous.subtype_mk _ }
-  let inclusion : C(Circle, Metric.closedBall (0 : ℂ) 1) :=
-    ContinuousMap.inclusion
-      (Metric.sphere_subset_closedBall (x := (0 : ℂ)) (ε := 1))
-  let g := G.comp inclusion
-  have hnonantipodal : ∀ z, g z ≠ -(ContinuousMap.id Circle z) := by
-    intro z hz
-    have hn : NormedSpace.normalize ((z : ℂ) - (f (inclusion z) : ℂ)) = -(z : ℂ) := by
-      change N (inclusion z) = -(z : ℂ)
-      exact congrArg (fun w : Circle => (w : ℂ)) hz
-    exact normalize_sub_ne_neg_of_norm_le_one (Circle.norm_coe z)
-      (mem_closedBall_zero_iff.mp (f (inclusion z)).property) (hV (inclusion z)) hn
-  let H : g.Homotopy (ContinuousMap.id Circle) :=
-    Metric.Sphere.homotopyOfNonAntipodal (E := ℂ) g (ContinuousMap.id Circle) hnonantipodal
-  have hdegree : Circle.degree g = 1 :=
-    (Circle.degree_eq_of_homotopic ⟨H⟩).trans Circle.degree_id
-  exact zero_ne_one ((Circle.degree_comp_closedBall_inclusion G).symm.trans hdegree)
+  have hF : ∀ x, F x ≠ (x : ℂ) := fun x h => hfixed ⟨x, h⟩
+  let s : EuclideanGeometry.Sphere ℂ := ⟨0, 1⟩
+  apply Circle.comp_closedBall_inclusion_ne_id (s.rayInterMap F hF)
+  exact s.rayInterMap_comp_inclusion F hF hboundary
+
+/-- A continuous complex-valued map on a closed ball with nonnegative radius has a
+fixed point if it sends the sphere boundary into that ball. No image bound is
+required at interior points.
+
+This generalizes the closed unit disk self-map theorem in May, Chapter 1, §6,
+p. 10, to arbitrary centers, nonnegative radii and a boundary-only image condition.
+The ordinary closed-ball self-map theorem is a specialization. -/
+theorem exists_fixedPoint_closedBall_of_boundary_mapsTo
+    (c : ℂ) {r : ℝ} (hr : 0 ≤ r)
+    (F : C(Metric.closedBall c r, ℂ))
+    (hboundary : ∀ y : Metric.sphere c r,
+      F ((ContinuousMap.inclusion
+        (Metric.sphere_subset_closedBall (x := c) (ε := r)) :
+          C(Metric.sphere c r, Metric.closedBall c r)) y) ∈
+        Metric.closedBall c r) :
+    ∃ x : Metric.closedBall c r, F x = (x : ℂ) := by
+  exact exists_fixedPoint_closedBall_of_unit exists_fixedPoint_unitClosedBall c hr F hboundary
 
 /-- Every continuous self-map of a nonempty complex closed ball has a fixed point.
 This is the disk case of Brouwer's fixed-point theorem. The unit-disk statement is
@@ -181,6 +203,10 @@ transport and the radius-zero singleton case. -/
 theorem exists_fixedPoint_closedBall (c : ℂ) {r : ℝ} (hr : 0 ≤ r)
     (f : C(Metric.closedBall c r, Metric.closedBall c r)) :
     ∃ z, f z = z := by
-  exact exists_fixedPoint_closedBall_of_unit exists_fixedPoint_unitClosedBall c hr f
+  obtain ⟨z, hz⟩ := exists_fixedPoint_closedBall_of_boundary_mapsTo c hr
+    ((ContinuousMap.subtypeVal _).comp f)
+    (fun y => (f (ContinuousMap.inclusion
+      (Metric.sphere_subset_closedBall (x := c) (ε := r)) y)).property)
+  exact ⟨z, Subtype.ext hz⟩
 
 end Complex

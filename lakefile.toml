@@ -18,6 +18,7 @@ name = "SphereTopologyTest"
 roots = [
   "SphereTopologyTest.AugmentationSimp",
   "SphereTopologyTest.Axioms",
+  "SphereTopologyTest.BoundaryFixedPoint",
   "SphereTopologyTest.Circle",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
@@ -49,6 +50,7 @@ roots = [
 globs = [
   "SphereTopologyTest.AugmentationSimp",
   "SphereTopologyTest.Axioms",
+  "SphereTopologyTest.BoundaryFixedPoint",
   "SphereTopologyTest.Circle",
   "SphereTopologyTest.CircleBouquet",
   "SphereTopologyTest.CircleDegree",

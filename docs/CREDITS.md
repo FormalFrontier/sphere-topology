@@ -57,12 +57,15 @@ follow Chapter 1, §6, p. 10, using the circle degree of §7. Their proofs reuse
 Yury Kudryashov's Mathlib convex-set contractibility, the Mathlib free-nullhomotopy
 composition API and this library's unbased circle-degree laws. They concern the
 complex disk, not arbitrary-dimensional disks or a converse extension theorem.
-The closed-unit-disk fixed-point theorem also follows May, Chapter 1, §6, p. 10.
-Its proof instead uses normalized displacement, the boundary-degree obstruction
-and this library's non-antipodal sphere homotopy. Formal Frontier Agents supplied
-this degree-based argument, using the existing normalization API and Mathlib's
-affine, homeomorphism and closed-ball APIs for arbitrary centers and nonnegative
-radii. It does not construct the source's ray-to-boundary retraction.
+The closed-unit-disk self-map fixed-point theorem and its ray-to-boundary
+construction follow May, Chapter 1, §6, p. 10. The proof uses this library's
+continuous forward-ray map under a temporary no-fixed-point assumption and the
+preceding degree obstruction, rather than May's fundamental-group obstruction.
+Formal Frontier Agents supplied the boundary-only formulation, its forward-ray
+formalization and affine transport to arbitrary centers and nonnegative radii,
+using Mathlib's real inner-product, continuity, affine and homeomorphism APIs.
+Only sphere-boundary images must lie in the ball; no interior image bound is
+imposed. The ordinary continuous self-map theorem is a specialization.
 The bouquet setting is Chapter 2, §8; no free-group identification is claimed.
 The generic wide-pushout quotient presentation reuses Joël Riou's Mathlib
 `Types.Pushout` and the Mathlib topological-colimit interface. The finite-support

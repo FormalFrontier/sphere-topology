@@ -56,12 +56,16 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   numbers, with no finite-dimensionality, completeness or nontriviality premise.
   This generalizes the boundary-fixing construction in May's closed-disk
   argument (Chapter 1, §6), not a fixed-point theorem in this generality.
-- **Fixed points on complex closed balls.** Every continuous self-map of
-  `Metric.closedBall c r` has a fixed point when `c : ℂ` and `0 ≤ r`
-  ([`Complex.exists_fixedPoint_closedBall`](SphereTopology/Homotopy/Disk.lean)).
-  This includes the closed unit disk and the radius-zero singleton, without
-  contraction, smoothness or boundary-preservation assumptions. It is the
-  complex-disk case of Brouwer's theorem, not a higher-dimensional theorem.
+- **Boundary-only fixed points on complex closed balls.** A continuous map
+  `F : C(Metric.closedBall c r, ℂ)`, with `c : ℂ` and `0 ≤ r`, has a fixed
+  point if its sphere-boundary images lie in that ball
+  ([`Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo`](SphereTopology/Homotopy/Disk.lean)).
+  No image bound is imposed on interior points, and no ambient extension is
+  assumed. The continuous self-map case retains the API
+  [`Complex.exists_fixedPoint_closedBall`](SphereTopology/Homotopy/Disk.lean).
+  This includes the radius-zero singleton and generalizes May's closed unit
+  disk self-map theorem (Chapter 1, §6, p. 10); it is not a higher-dimensional
+  fixed-point theorem.
 - **Quotient presentations of topological wide pushouts.**
   [`TopCat.widePushoutHomeomorph`](SphereTopology/Topology/WidePushout.lean)
   identifies the quotient of `B ⊕ Σ i, X i` by `b ∼ (i, f i b)` with the
@@ -290,7 +294,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
-| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; fixed points of continuous self-maps of every nonempty complex closed ball. |
+| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.Sphere` | Continuous normalization, non-antipodal sphere interpolation, and the diagonal/first-projection homotopy equivalence for non-antipodal pairs. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
