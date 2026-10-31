@@ -147,4 +147,57 @@ private theorem zeroField : ∃ p : sphere2, (ContinuousMap.const sphere2 (0 : E
   intro p
   simp
 
+-- The real unit sphere has distinct antipodes with the same projective image.
+-- This uses the maker's scalar-equivalence API, not the covering theorem.
+private theorem realProjectivization_antipodalFiber :
+    ∃ p : Metric.sphere (0 : ℝ) 1,
+      p ≠ -p ∧
+        Metric.Sphere.toProjectivization p = Metric.Sphere.toProjectivization (-p) := by
+  let p : Metric.sphere (0 : ℝ) 1 := ⟨1, by simp⟩
+  refine ⟨p, ne_neg_of_mem_unit_sphere ℝ p, ?_⟩
+  exact (Metric.Sphere.toProjectivization_neg p).symm
+
+-- With the stock product norm, the coordinate unit vectors have projective images
+-- separated by a proper nonempty open set. Its preimage is the saturated open
+-- predicate that the first coordinate is nonzero, so this also checks the topology.
+private theorem realPlaneProjectivization_axisOpen :
+    let e₁ : Metric.sphere (0 : ℝ × ℝ) 1 :=
+      ⟨(1, 0), by simp [Prod.norm_def]⟩
+    let e₂ : Metric.sphere (0 : ℝ × ℝ) 1 :=
+      ⟨(0, 1), by simp [Prod.norm_def]⟩
+    ∃ U : Set (Projectivization ℝ (ℝ × ℝ)),
+      IsOpen U ∧ Metric.Sphere.toProjectivization e₁ ∈ U ∧
+        Metric.Sphere.toProjectivization e₂ ∉ U := by
+  dsimp only
+  let A : Set {v : ℝ × ℝ // v ≠ 0} := {v | v.1.1 ≠ 0}
+  let U : Set (Projectivization ℝ (ℝ × ℝ)) := Projectivization.mk' ℝ '' A
+  have hpre : (Projectivization.mk' ℝ (V := ℝ × ℝ)) ⁻¹' U = A := by
+    ext v
+    constructor
+    · rintro ⟨w, hw, hwv⟩
+      have hmk : Projectivization.mk ℝ (w : ℝ × ℝ) w.2 =
+          Projectivization.mk ℝ (v : ℝ × ℝ) v.2 := hwv
+      obtain ⟨a, ha⟩ :=
+        (Projectivization.mk_eq_mk_iff ℝ (w : ℝ × ℝ) (v : ℝ × ℝ) w.2 v.2).mp hmk
+      change v.1.1 ≠ 0
+      intro hv
+      apply hw
+      have hcoord := congrArg Prod.fst ha
+      simpa [Units.smul_def, hv] using hcoord.symm
+    · intro hv
+      exact ⟨v, hv, rfl⟩
+  have hU : IsOpen U := by
+    apply (Projectivization.isQuotientMap_mk' ℝ (V := ℝ × ℝ)).isCoinducing.isOpen_preimage.mp
+    rw [hpre]
+    exact isOpen_ne.preimage (continuous_fst.comp continuous_subtype_val)
+  refine ⟨U, hU, ?_, ?_⟩
+  · rw [Metric.Sphere.toProjectivization_apply]
+    exact ⟨⟨(1, 0), by simp⟩, by simp [A], rfl⟩
+  · rw [Metric.Sphere.toProjectivization_apply]
+    intro h
+    have hz : (⟨(0, 1), by simp⟩ : {v : ℝ × ℝ // v ≠ 0}) ∈ A := by
+      rw [← hpre]
+      exact h
+    simp [A] at hz
+
 end SphereTopologyPublicClient

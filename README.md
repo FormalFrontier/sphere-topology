@@ -84,6 +84,17 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   sphere, ambient connectivity or overlap-nonemptiness assumption is needed.
   These statements generalize May's finite Euclidean sphere setting; the
   orthogonal-coordinate charts above still require an inner product.
+- **Canonical antipodal quotient covering.** For `E : Type w` with
+  `[NormedAddCommGroup E] [NormedSpace ℝ E]`,
+  [`Metric.Sphere.isQuotientCoveringMap_toProjectivization`](SphereTopology/Geometry/Projectivization.lean)
+  makes the canonical continuous map
+  `Metric.Sphere.toProjectivization : C(Metric.sphere (0 : E) 1, Projectivization ℝ E)`
+  a quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`,
+  whose elements act by identity and negation. The sphere uses the original norm;
+  the target has the quotient topology from nonzero vectors. No inner product,
+  dimension, completeness, local compactness, nonemptiness, nontriviality or
+  freeness hypothesis is required. This includes the zero space's empty-to-empty
+  map and the two-point-to-one-point map for `E = ℝ`.
 - **Boundary-only fixed points on complex closed balls.** A continuous map
   `F : C(Metric.closedBall c r, ℂ)`, with `c : ℂ` and `0 ≤ r`, has a fixed
   point if its sphere-boundary images lie in that ball
@@ -319,6 +330,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | --- | --- |
 | `Geometry.ForwardRay` | Total upper-root ray parameter and affine intersection point, sphere membership and positive-parameter characterization, boundary identities, joint off-diagonal continuity and agreement with Mathlib's boundary-start construction. |
 | `Geometry.ForwardRayMap` | Sphere-valued continuous ray maps for inclusion-avoiding ambient-valued maps on closed balls in real inner-product affine torsors; boundary-only closed-ball images give a strict boundary retraction, with the closed-ball selfmap specialization, independent vector/point universes and arbitrary real radii. |
+| [`Geometry.Projectivization`](SphereTopology/Geometry/Projectivization.lean) | Canonical real unit-sphere projection for the given norm, quotient-map and equal-or-antipodal fiber criteria, negation law, and quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`. |
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
@@ -328,6 +340,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
+| [`Topology.Projectivization`](SphereTopology/Topology/Projectivization.lean) | Quotient topology from nonzero vectors of a module over any division ring, assuming only a topology on the module; quotient-maker and continuity APIs, with no scalar topology or action-continuity premise. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout.Separation` | Joint injectivity of factor retractions, including empty families; canonical T₀/T₁/T₂ inheritance and factorwise iff/reflection via factor embeddings. |
