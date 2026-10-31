@@ -12,6 +12,7 @@ public import SphereTopology.Geometry.ForwardRayMap
 public import SphereTopology.Geometry.Projectivization
 public import SphereTopology.Geometry.Stereographic
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
+public import SphereTopology.Homotopy.Projectivization
 public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField
 public import FundamentalGroupoids.Topology.Covering.Lifting

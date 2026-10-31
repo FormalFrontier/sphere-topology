@@ -95,6 +95,15 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   dimension, completeness, local compactness, nonemptiness, nontriviality or
   freeness hypothesis is required. This includes the zero space's empty-to-empty
   map and the two-point-to-one-point map for `E = ℝ`.
+- **Real projective fundamental groups and lifted endpoints.** For a real
+  normed space `E` with `2 < Module.rank ℝ E`,
+  [`Projectivization.fundamentalGroupEquivZModTwo`](SphereTopology/Homotopy/Projectivization.lean)
+  identifies `π₁(Projectivization ℝ E, b)` with `Multiplicative (ZMod 2)`.
+  A chosen unit lift over the supplied basepoint fixes the lift description,
+  but not the resulting coordinate. The identity means returning to that lift;
+  `Multiplicative.ofAdd (1 : ZMod 2)` means reaching its antipode. The sphere
+  uses the given norm, with no inner-product, finite-dimensionality or
+  completeness assumption, including infinite cardinal rank.
 - **Boundary-only fixed points on complex closed balls.** A continuous map
   `F : C(Metric.closedBall c r, ℂ)`, with `c : ℂ` and `0 ≤ r`, has a fixed
   point if its sphere-boundary images lie in that ball
@@ -337,6 +346,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
+| [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
