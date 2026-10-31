@@ -6,9 +6,8 @@ Authors: Formal Frontier Agents
 -- Contributors: Formal Frontier Agents, including Prism; see docs/CREDITS.md.
 module
 
+public import SphereTopology.Homotopy.Sphere
 public import Mathlib.Analysis.InnerProductSpace.Basic
-public import Mathlib.Analysis.Normed.Module.Normalize
-public import Mathlib.Analysis.Normed.Group.BallSphere
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Mathlib.Topology.Homotopy.Basic
 public import Mathlib.Tactic.FunProp
@@ -39,27 +38,6 @@ antipodal map. The homotopy rotates each point through an orthogonal unit field.
 noncomputable section
 
 open scoped RealInnerProductSpace
-
-namespace ContinuousMap
-
-/-- Pointwise normalization of a nowhere-zero continuous vector-valued map. -/
-noncomputable def normalizeOfNoZero
-    {X E : Type*} [TopologicalSpace X]
-    [NormedAddCommGroup E] [NormedSpace ℝ E]
-    (V : C(X, E)) (hV : ∀ x, V x ≠ 0) : C(X, E) where
-  toFun x := NormedSpace.normalize (V x)
-  continuous_toFun := by
-    change Continuous ((fun x => ‖V x‖)⁻¹ • (V : X → E))
-    exact (V.continuous.norm.inv₀ (fun x hx => hV x (norm_eq_zero.mp hx))).smul V.continuous
-
-@[simp] theorem norm_normalizeOfNoZero
-    {X E : Type*} [TopologicalSpace X]
-    [NormedAddCommGroup E] [NormedSpace ℝ E]
-    (V : C(X, E)) (hV : ∀ x, V x ≠ 0) (x : X) :
-    ‖normalizeOfNoZero V hV x‖ = 1 :=
-  NormedSpace.norm_normalize (hV x)
-
-end ContinuousMap
 
 namespace Metric.Sphere
 

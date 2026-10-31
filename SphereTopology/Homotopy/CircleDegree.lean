@@ -5,9 +5,9 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.Circle
-import SphereTopology.Homotopy.TangentField
+import SphereTopology.Homotopy.Sphere
+public import Mathlib.Algebra.BigOperators.Group.Multiset.Defs
 public import Mathlib.Topology.ContinuousMap.Algebra
-import Mathlib.Topology.Homotopy.Affine
 
 /-!
 # Degree of continuous circle self-maps
@@ -22,6 +22,11 @@ No condition on the image of one is imposed.
 integer coordinates for every return path from `f 1` to `1`. The degree classifies
 free homotopy classes of circle self-maps. Degree different from one is a
 sufficient condition for a fixed point, not a necessary condition.
+
+`Circle.degree_mul` makes degree additive for pointwise multiplication, in
+contrast to multiplication of degrees under composition. Its multiset-product
+corollary sums one contribution for every factor, retaining repeated factors
+and including the empty product.
 
 ## References
 
@@ -416,65 +421,6 @@ theorem homotopic_iff_degree_eq (f g : C(Circle, Circle)) :
       (degree_eq_of_homotopic hf).symm.trans (h.trans (degree_eq_of_homotopic hg))
     exact hf.trans ((homotopic_of_degree_eq_of_map_one_eq_one f₀ g₀ hf₀ hg₀ h₀).trans hg.symm)
 
-/-- A segment between non-antipodal unit vectors does not pass through zero. -/
-private theorem unitSphere_affine_ne_zero
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    (x y : Metric.sphere (0 : E) 1) (hxy : x ≠ -y) (t : unitInterval) :
-    (1 - (t : ℝ)) • (x : E) + (t : ℝ) • (y : E) ≠ 0 := by
-  intro hz
-  have heq : (1 - (t : ℝ)) • (x : E) = -((t : ℝ) • (y : E)) :=
-    eq_neg_of_add_eq_zero_left hz
-  have hx : ‖(x : E)‖ = 1 := mem_sphere_zero_iff_norm.mp x.property
-  have hy : ‖(y : E)‖ = 1 := mem_sphere_zero_iff_norm.mp y.property
-  have ht : 1 - (t : ℝ) = (t : ℝ) := by
-    have hn := congrArg norm heq
-    simpa only [norm_smul, norm_neg, Real.norm_eq_abs,
-      abs_of_nonneg (sub_nonneg.mpr t.property.2), abs_of_nonneg t.property.1,
-      hx, hy, mul_one] using hn
-  have ht_ne : (t : ℝ) ≠ 0 := by
-    intro ht_zero
-    rw [ht_zero] at ht
-    norm_num at ht
-  apply hxy
-  apply Subtype.ext
-  apply smul_right_injective E ht_ne
-  simpa only [ht, coe_neg_sphere, smul_neg] using heq
-
-/-- Normalizing the affine homotopy joins non-antipodal unit-sphere maps.
-The normalization and its joint continuity are supplied by
-`ContinuousMap.normalizeOfNoZero`. -/
-private def unitSphereHomotopyOfNonantipodal
-    {X E : Type*} [TopologicalSpace X]
-    [NormedAddCommGroup E] [NormedSpace ℝ E]
-    (f g : C(X, Metric.sphere (0 : E) 1)) (hfg : ∀ x, f x ≠ -g x) :
-    f.Homotopy g := by
-  let f' : C(X, E) := ⟨fun x => (f x : E), continuous_subtype_val.comp f.continuous⟩
-  let g' : C(X, E) := ⟨fun x => (g x : E), continuous_subtype_val.comp g.continuous⟩
-  let A := ContinuousMap.Homotopy.affine f' g'
-  let V := A.toContinuousMap
-  have hV : ∀ q, V q ≠ 0 := by
-    rintro ⟨t, x⟩
-    change AffineMap.lineMap (f x : E) (g x : E) (t : ℝ) ≠ 0
-    rw [AffineMap.lineMap_apply_module]
-    exact unitSphere_affine_ne_zero (f x) (g x) (hfg x) t
-  let N := ContinuousMap.normalizeOfNoZero V hV
-  exact {
-    toFun q := ⟨N q, mem_sphere_zero_iff_norm.mpr
-      (ContinuousMap.norm_normalizeOfNoZero V hV q)⟩
-    continuous_toFun := N.continuous.subtype_mk _
-    map_zero_left x := by
-      apply Subtype.ext
-      change NormedSpace.normalize (A (0, x)) = (f x : E)
-      rw [A.apply_zero]
-      exact NormedSpace.normalize_eq_self_of_norm_eq_one
-        (mem_sphere_zero_iff_norm.mp (f x).property)
-    map_one_left x := by
-      apply Subtype.ext
-      change NormedSpace.normalize (A (1, x)) = (g x : E)
-      rw [A.apply_one]
-      exact NormedSpace.normalize_eq_self_of_norm_eq_one
-        (mem_sphere_zero_iff_norm.mp (g x).property) }
-
 /-- A continuous circle self-map of degree different from one has a fixed point.
 This is May, Chapter 1, Problem (2); only sufficiency is asserted. -/
 theorem exists_fixedPoint_of_degree_ne_one (f : C(Circle, Circle))
@@ -488,7 +434,7 @@ theorem exists_fixedPoint_of_degree_ne_one (f : C(Circle, Circle))
     change f z = -(-z) at hz
     simpa only [neg_neg] using hz
   let H : f.Homotopy antipodal :=
-    unitSphereHomotopyOfNonantipodal (E := ℂ) f antipodal hnonantipodal
+    Metric.Sphere.homotopyOfNonAntipodal (E := ℂ) f antipodal hnonantipodal
   let p := path (-1) 1
   let R : antipodal.Homotopy (ContinuousMap.id Circle) := {
     toFun q := p q.1 * q.2
@@ -501,6 +447,35 @@ theorem exists_fixedPoint_of_degree_ne_one (f : C(Circle, Circle))
       simp only [p, Path.target, one_mul] }
   apply h
   exact (degree_eq_of_homotopic ⟨H.trans R⟩).trans degree_id
+
+/-- Degree is additive under pointwise multiplication of arbitrary circle self-maps. -/
+theorem degree_mul (f g : C(Circle, Circle)) :
+    degree (f * g) = degree f + degree g := by
+  have hf : f.Homotopic ((ContinuousMap.id Circle) ^ degree f) :=
+    (homotopic_iff_degree_eq _ _).mpr (degree_zpow (degree f)).symm
+  have hg : g.Homotopic ((ContinuousMap.id Circle) ^ degree g) :=
+    (homotopic_iff_degree_eq _ _).mpr (degree_zpow (degree g)).symm
+  let m : C(Circle × Circle, Circle) := ContinuousMap.fst * ContinuousMap.snd
+  have h : (f * g).Homotopic
+      (((ContinuousMap.id Circle) ^ degree f) *
+        ((ContinuousMap.id Circle) ^ degree g)) :=
+    (ContinuousMap.Homotopic.refl m).comp (hf.prodMk hg)
+  calc
+    degree (f * g) = degree (((ContinuousMap.id Circle) ^ degree f) *
+        ((ContinuousMap.id Circle) ^ degree g)) := degree_eq_of_homotopic h
+    _ = degree ((ContinuousMap.id Circle) ^ (degree f + degree g)) := by rw [zpow_add]
+    _ = degree f + degree g := degree_zpow _
+
+/-- The degree of a multiset product is the sum of the factors' degrees,
+retaining repetitions and including the empty product. -/
+theorem degree_multiset_prod (s : Multiset C(Circle, Circle)) :
+    degree s.prod = (s.map degree).sum := by
+  induction s using Multiset.induction_on with
+  | empty =>
+    simpa only [Multiset.prod_zero, Multiset.map_zero, Multiset.sum_zero,
+      ContinuousMap.const_one] using degree_const (1 : Circle)
+  | cons f s ih =>
+    simp only [Multiset.prod_cons, degree_mul, Multiset.map_cons, Multiset.sum_cons, ih]
 
 end Circle
 

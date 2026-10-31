@@ -23,8 +23,10 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   periods, lifted endpoints and agreement with the complex unit circle.
   [`Circle.degree`](SphereTopology/Homotopy/CircleDegree.lean) classifies free
   homotopy of arbitrary continuous circle self-maps. Composition multiplies
-  degree, `z ↦ z^n` has degree `n : ℤ`, and degree different from `1` is a
-  sufficient, not necessary, fixed-point condition. No based-map premise is needed.
+  degree, while pointwise multiplication adds it, including multiset products
+  with repeated factors. The map `z ↦ z^n` has degree `n : ℤ`, and degree different
+  from `1` is a sufficient, not necessary, fixed-point condition. No based-map
+  premise is needed.
 - **Quotient presentations of topological wide pushouts.**
   [`TopCat.widePushoutHomeomorph`](SphereTopology/Topology/WidePushout.lean)
   identifies the quotient of `B ⊕ Σ i, X i` by `b ∼ (i, f i b)` with the
@@ -121,6 +123,11 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   extensionality give its universal property; retractions detect the positive
   generators as nonidentity. Bijectivity of `generatorMap` and identification
   of the fundamental group with `FreeGroup I` are not proved.
+- **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
+  space, [`Metric.Sphere.diagonalHomotopyEquiv`](SphereTopology/Homotopy/Sphere.lean)
+  has the diagonal as its forward map and first projection as its inverse.
+  Normalized affine interpolation stays in the non-antipodal-pair subspace and
+  fixes the diagonal. No finite-dimensionality or nonemptiness hypothesis is needed.
 - **Continuous hairy-ball theorem for S².**
   [`sphere2_exists_zero_of_orthogonal_field`](SphereTopology/Homotopy/HairyBallSphere2.lean)
   says every `V : C(sphere2, E3)` pointwise orthogonal to the radius has a zero.
@@ -247,7 +254,8 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
-| `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
+| `Homotopy.Sphere` | Continuous normalization, non-antipodal sphere interpolation, and the diagonal/first-projection homotopy equivalence for non-antipodal pairs. |
+| `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |

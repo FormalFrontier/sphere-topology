@@ -8,6 +8,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
+public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField
 public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
