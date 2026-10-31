@@ -117,8 +117,19 @@ the singular-lift and transfer constructions and the other results listed here.
   The proof contracts the convex disk and restricts the resulting free
   nullhomotopy; it uses no basepoint-preserving premise. This is May's
   Chapter 1, §6, p. 10 non-retraction result for the complex unit disk, using
-  §7 degree. It does not assert arbitrary-dimensional non-retraction,
-  Brouwer's fixed-point theorem or the converse extension criterion.
+  §7 degree. It does not assert arbitrary-dimensional non-retraction
+  or the converse extension criterion.
+
+- **Fixed points on complex closed balls.** For `c : ℂ`, `0 ≤ r` and
+  `f : C(Metric.closedBall c r, Metric.closedBall c r)`,
+  [`Complex.exists_fixedPoint_closedBall`](../SphereTopology/Homotopy/Disk.lean)
+  gives `∃ z, f z = z` in the same closed-ball subtype. No contraction,
+  smoothness, basedness or boundary-preservation hypothesis is required.
+  The unit-disk case uses normalized displacement and the boundary-degree
+  obstruction; positive-radius balls follow by affine transport, and radius
+  zero is a singleton. This proves May's Chapter 1, §6 fixed-point conclusion
+  by a different method, without constructing his ray-to-boundary retraction.
+  It is not a higher-dimensional Brouwer theorem.
 
 - **Continuous hairy-ball theorem for S².** Every bundled continuous
   field `V : C(sphere2, E3)` pointwise orthogonal to the radius vanishes
@@ -314,7 +325,7 @@ the singular-lift and transfer constructions and the other results listed here.
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
-| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for continuous maps from the complex closed unit disk to its unit-circle boundary. |
+| `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; fixed points of continuous self-maps of every nonempty complex closed ball. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Generic normalization/homotopy and the standard S² continuous-field zero theorem. |
 | `Topology.CoveringLifting` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Lifting`. Based unique lifting iff fundamental-group image containment, using Mathlib's sufficient criterion. |
