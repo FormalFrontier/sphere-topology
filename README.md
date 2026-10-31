@@ -34,6 +34,16 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   coordinate-preserving inclusion of the complex unit circle into the closed
   unit disk; no basedness premise is imposed. This is not a theorem about
   arbitrary-dimensional disks or an extension converse.
+- **Forward intersections with spheres.** In a real inner-product affine space,
+  [`Sphere.rayInter`](SphereTopology/Geometry/ForwardRay.lean) continues from
+  `q` through a distinct closed-ball point `x` to the sphere, with parameter
+  at least one even when `q` is outside the ball. For a closed-ball start,
+  positive sphere-intersection parameters are characterized by the upper root,
+  and a boundary second point is fixed, including the diagonal. The total
+  parameter and point formulas are jointly continuous on the whole off-diagonal;
+  boundary starts agree with Mathlib's `Sphere.secondInter` when `x` is in the
+  closed ball. No finite-dimensionality, completeness or global radius-sign
+  assumption is needed.
 - **Fixed points on complex closed balls.** Every continuous self-map of
   `Metric.closedBall c r` has a fixed point when `c : ℂ` and `0 ≤ r`
   ([`Complex.exists_fixedPoint_closedBall`](SphereTopology/Homotopy/Disk.lean)).
@@ -263,6 +273,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
+| `Geometry.ForwardRay` | Total upper-root ray parameter and affine intersection point, sphere membership and positive-parameter characterization, boundary identities, joint off-diagonal continuity and agreement with Mathlib's boundary-start construction. |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
