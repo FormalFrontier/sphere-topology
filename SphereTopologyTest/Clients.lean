@@ -7,6 +7,7 @@ Authors: Formal Frontier Agents
 module
 
 import SphereTopology
+import SphereTopologyTest.ForwardRayMap
 import Mathlib.Analysis.InnerProductSpace.PiL2
 
 /-!

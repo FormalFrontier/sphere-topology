@@ -8,6 +8,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Geometry.ForwardRay
+public import SphereTopology.Geometry.ForwardRayMap
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField

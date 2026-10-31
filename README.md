@@ -44,6 +44,18 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   boundary starts agree with Mathlib's `Sphere.secondInter` when `x` is in the
   closed ball. No finite-dimensionality, completeness or global radius-sign
   assumption is needed.
+- **Continuous ray maps and boundary-only strict retractions.** In a real
+  inner-product affine torsor,
+  [`Sphere.rayInterMap`](SphereTopology/Geometry/ForwardRayMap.lean) turns an
+  ambient-valued continuous map `f` on a closed ball, with `f x ≠ x` at every
+  point, into a continuous map to its sphere. If boundary points have images
+  in the closed ball, composition with the boundary inclusion is exactly the
+  identity. No image condition is imposed on interior points; a fixed-point-free
+  continuous closed-ball selfmap is a specialization.
+  Vector and point universes are independent, and radii are arbitrary real
+  numbers, with no finite-dimensionality, completeness or nontriviality premise.
+  This generalizes the boundary-fixing construction in May's closed-disk
+  argument (Chapter 1, §6), not a fixed-point theorem in this generality.
 - **Fixed points on complex closed balls.** Every continuous self-map of
   `Metric.closedBall c r` has a fixed point when `c : ℂ` and `0 ≤ r`
   ([`Complex.exists_fixedPoint_closedBall`](SphereTopology/Homotopy/Disk.lean)).
@@ -274,6 +286,7 @@ production aggregate imports no tests. Routine use does not need `lake update`.
 | Module beneath `SphereTopology` | Public role |
 | --- | --- |
 | `Geometry.ForwardRay` | Total upper-root ray parameter and affine intersection point, sphere membership and positive-parameter characterization, boundary identities, joint off-diagonal continuity and agreement with Mathlib's boundary-start construction. |
+| `Geometry.ForwardRayMap` | Sphere-valued continuous ray maps for inclusion-avoiding ambient-valued maps on closed balls in real inner-product affine torsors; boundary-only closed-ball images give a strict boundary retraction, with the closed-ball selfmap specialization, independent vector/point universes and arbitrary real radii. |
 | `Homotopy.Circle` | Signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
