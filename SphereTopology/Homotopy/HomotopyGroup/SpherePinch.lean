@@ -15,14 +15,17 @@ The left-then-right convention of `Metric.Sphere.pinch` corresponds to the
 `HomotopyGroup.mul_spec`. No multiplication on sphere-map components is defined
 by transport. Each of the two existing factor retractions composed with the
 pinch is homotopic to the identity relative to the specified north pole.
+Folding three based maps is associative up to homotopy relative to that pole
+in every positive sphere dimension. Its original three-inclusion specialization
+gives coassociativity of the iterated pinch into the three-factor point-wide-pushout.
 In sphere dimension at least two, exchanging two based factor maps after the
 pinch preserves relative homotopy. In particular, the original factor swap
 after the pinch is homotopic to the pinch relative to the north pole.
 
 ## Limitations
 
-The counits and cocommutativity assert relative homotopy, without choosing
-homotopy data. Cocommutativity is restricted to sphere dimensions at least two;
+The counits, coassociativity and cocommutativity assert relative homotopy, without
+choosing homotopy data. Cocommutativity is restricted to sphere dimensions at least two;
 the fold-class order in dimension one remains unchanged. A full cogroup
 structure, a pinch on the zero-dimensional sphere, and source coverage are not
 asserted. Targets of the folded-map results have independent universe and
@@ -31,8 +34,8 @@ require only a topology.
 ## References
 
 * Mathlib's homotopy groups, due to Roberto Alvarez, supply their existing
-  multiplication, including its reversed concatenation convention, and
-  commutativity in dimensions at least two.
+  multiplication, including its reversed concatenation convention, associativity
+  in every positive dimension, and commutativity in dimensions at least two.
 * The sphere-class comparison and the boundary-relative to pole-relative
   homotopy comparison are those of `SphereTopology.Homotopy.HomotopyGroup.Sphere`.
 -/
@@ -107,6 +110,37 @@ public theorem pinch_fold_class {X : Type v} [TopologicalSpace X] (x : X)
         (HomotopyGroup.equivSphereClasses_symm_mk (n + 1) x G).symm
         (HomotopyGroup.equivSphereClasses_symm_mk (n + 1) x F).symm)))
 
+variable {X : Type v} [TopologicalSpace X] (x : X)
+
+local notation "P" =>
+  (fun (F G : {F : C(S, X) // F a = x}) ↦
+    (Subtype.mk
+      (ContinuousMap.comp
+        (TopCat.widePushoutDesc α
+          (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+          (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+          (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+        (pinch n))
+      (pinch_fold_northPoint n x F G) : {F : C(S, X) // F a = x}))
+
+/-- Folding three arbitrary based maps in either nesting is north-relative
+homotopic, in every positive sphere dimension and every target universe. -/
+theorem pinch_fold_homotopicRel_assoc
+    (F G H : {F : C(S, X) // F a = x}) :
+    (P (P F G) H).val.HomotopicRel (P F (P G H)).val ({a} : Set S) := by
+  let J : {F : C(S, X) // F a = x} → HomotopyGroup (Fin (n + 1)) X x :=
+    fun A ↦ (HomotopyGroup.equivSphereClasses (n + 1) x).symm (ZerothHomotopy.mk A)
+  have hP (A B : {F : C(S, X) // F a = x}) : J (P A B) = J B * J A :=
+    pinch_fold_class n x A B
+  apply (ZerothHomotopy.sphere_mk_eq_mk_iff_homotopicRel (n + 1) x
+    (P (P F G) H) (P F (P G H))).mp
+  apply (HomotopyGroup.equivSphereClasses (n + 1) x).symm.injective
+  change J (P (P F G) H) = J (P F (P G H))
+  calc
+    J (P (P F G) H) = J H * (J G * J F) := by rw [hP, hP]
+    _ = (J H * J G) * J F := (mul_assoc (J H) (J G) (J F)).symm
+    _ = J (P F (P G H)) := by rw [hP, hP]
+
 end Fold
 
 /-- Each of the two existing factor retractions after the pinch is homotopic to
@@ -161,6 +195,40 @@ theorem pinch_retraction_homotopicRel (j : Fin 2) :
   by_cases hj : j = 0
   · simp only [F, G, ite_eq_left hj, hconst, one_mul]
   · simp only [F, G, ite_eq_right hj, hconst, mul_one]
+
+section ThreeFactors
+
+local notation "D₃" => (fun _ : Fin 3 ↦ TopCat.of S)
+local notation "β" =>
+  (fun j : Fin 3 ↦ (TopCat.const a : TopCat.of (PUnit : Type) ⟶ D₃ j))
+local notation "V" => (widePushout (TopCat.of (PUnit : Type)) D₃ β : TopCat)
+local notation "b₃" => WidePushout.head β PUnit.unit
+local notation "ι₃" => (fun j : Fin 3 ↦ TopCat.Hom.hom (WidePushout.ι β j))
+local notation "I₃" =>
+  (fun j : Fin 3 ↦
+    (Subtype.mk (ι₃ j)
+      (TopCat.widePushout_point_ι_point (X := D₃) (fun _ : Fin 3 ↦ a) j) :
+        {F : C(S, V) // F a = b₃}))
+local notation "P₃" =>
+  (fun (F G : {F : C(S, V) // F a = b₃}) ↦
+    (Subtype.mk
+      (ContinuousMap.comp
+        (TopCat.widePushoutDesc α
+          (ContinuousMap.const (TopCat.of (PUnit : Type)) b₃)
+          (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+          (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+        (pinch n))
+      (pinch_fold_northPoint n b₃ F G) : {F : C(S, V) // F a = b₃}))
+local notation "L₃" => Subtype.val (P₃ (P₃ (I₃ 0) (I₃ 1)) (I₃ 2))
+local notation "R₃" => Subtype.val (P₃ (I₃ 0) (P₃ (I₃ 1) (I₃ 2)))
+
+/-- The two iterated pinches into the existing original three-factor point-wide-
+pushout are homotopic relative to the original last-axis north pole. -/
+theorem pinch_homotopicRel_coassoc :
+    ContinuousMap.HomotopicRel L₃ R₃ ({a} : Set S) := by
+  exact pinch_fold_homotopicRel_assoc n b₃ (I₃ 0) (I₃ 1) (I₃ 2)
+
+end ThreeFactors
 
 section Cocommutativity
 

@@ -20,7 +20,10 @@ carrier is introduced.
 
 The characteristic statements describe the pullback, its two closed half-cubes,
 explicit quarter-point values, and descent to arbitrary independently universed
-targets by `TopCat.widePushoutDesc`.
+targets by `TopCat.widePushoutDesc`. The closed-half formulas also compute raw
+folds. The two iterated folds of the original three-factor inclusions are distinct
+maps: the left nesting visits three pairwise distinct nonhead values at cube
+times `1/8`, `3/8` and `3/4`, and the two nestings differ at time `3/8`.
 
 ## Limitations
 
@@ -273,6 +276,52 @@ public theorem pinch_fold_northPoint {X : Type v} [TopologicalSpace X] (x : X)
       (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
       (fun j _ ↦ Subtype.property (ite (j = 0) F G)) PUnit.unit)
 
+/-- On the left closed half-cube, folding after the pinch evaluates the first
+factor map at the compressed cube coordinate. -/
+theorem pinch_fold_apply_collapseToSphere_of_le
+    {X : Type v} [TopologicalSpace X] (x : X)
+    (F G : {F : C(S, X) // F a = x}) (t : I^(Fin (n + 1)))
+    (ht : (t 0 : ℝ) ≤ 1 / 2) :
+    (ContinuousMap.comp
+      (TopCat.widePushoutDesc α
+        (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+        (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+        (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+      (pinch n)) (Cube.collapseToSphere (n + 1) t) =
+      F.val (Cube.collapseToSphere (n + 1)
+        (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0)))) := by
+  rw [ContinuousMap.comp_apply, pinch_apply_collapseToSphere_of_le n t ht]
+  simpa only [ite_true] using
+    (TopCat.widePushoutDesc_ι α
+      (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+      (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+      (fun j _ ↦ Subtype.property (ite (j = 0) F G)) 0
+      (Cube.collapseToSphere (n + 1)
+        (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0)))))
+
+/-- On the right closed half-cube, folding after the pinch evaluates the second
+factor map at the compressed cube coordinate. -/
+theorem pinch_fold_apply_collapseToSphere_of_ge
+    {X : Type v} [TopologicalSpace X] (x : X)
+    (F G : {F : C(S, X) // F a = x}) (t : I^(Fin (n + 1)))
+    (ht : 1 / 2 ≤ (t 0 : ℝ)) :
+    (ContinuousMap.comp
+      (TopCat.widePushoutDesc α
+        (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+        (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+        (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+      (pinch n)) (Cube.collapseToSphere (n + 1) t) =
+      G.val (Cube.collapseToSphere (n + 1)
+        (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0 - 1)))) := by
+  rw [ContinuousMap.comp_apply, pinch_apply_collapseToSphere_of_ge n t ht]
+  simpa only [ite_eq_right (by decide : (1 : Fin 2) ≠ 0)] using
+    (TopCat.widePushoutDesc_ι α
+      (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+      (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+      (fun j _ ↦ Subtype.property (ite (j = 0) F G)) 1
+      (Cube.collapseToSphere (n + 1)
+        (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0 - 1)))))
+
 /-- Descent of arbitrary pointed factor maps after the pinch is exactly the
 sphere extension of their raw coordinate-zero concatenation. The target has
 an independent universe and needs only a topology. -/
@@ -389,5 +438,164 @@ public theorem pinch_postcomp {X : Type v} [TopologicalSpace X] (x : X)
   rw [← ContinuousMap.comp_assoc, pinch_fold_postcomp n x F G h hy]
 
 end Fold
+
+section ThreeFactors
+
+local notation "D₃" => (fun _ : Fin 3 ↦ TopCat.of S)
+local notation "β" =>
+  (fun j : Fin 3 ↦ (TopCat.const a : TopCat.of (PUnit : Type) ⟶ D₃ j))
+local notation "V" => (widePushout (TopCat.of (PUnit : Type)) D₃ β : TopCat)
+local notation "b₃" => WidePushout.head β PUnit.unit
+local notation "ι₃" => (fun j : Fin 3 ↦ TopCat.Hom.hom (WidePushout.ι β j))
+local notation "I₃" =>
+  (fun j : Fin 3 ↦
+    (Subtype.mk (ι₃ j)
+      (TopCat.widePushout_point_ι_point (X := D₃) (fun _ : Fin 3 ↦ a) j) :
+        {F : C(S, V) // F a = b₃}))
+local notation "P₃" =>
+  (fun (F G : {F : C(S, V) // F a = b₃}) ↦
+    (Subtype.mk
+      (ContinuousMap.comp
+        (TopCat.widePushoutDesc α
+          (ContinuousMap.const (TopCat.of (PUnit : Type)) b₃)
+          (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+          (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+        (pinch n))
+      (pinch_fold_northPoint n b₃ F G) : {F : C(S, V) // F a = b₃}))
+local notation "L₃" => Subtype.val (P₃ (P₃ (I₃ 0) (I₃ 1)) (I₃ 2))
+local notation "R₃" => Subtype.val (P₃ (I₃ 0) (P₃ (I₃ 1) (I₃ 2)))
+
+/-- The original three-factor caller is not reflexivity: the same maps visit
+three distinct nonhead inclusion values and differ at cube time three-eighths. -/
+theorem pinch_coassoc_nondegenerate :
+    let c : I^(Fin (n + 1)) := fun _ ↦ Set.projIcc 0 1 zero_le_one (1 / 2)
+    let t : I → I^(Fin (n + 1)) := fun s ↦ Function.update c 0 s
+    let e : I := Set.projIcc 0 1 zero_le_one (1 / 8)
+    let u : I := Set.projIcc 0 1 zero_le_one (3 / 8)
+    let v : I := Set.projIcc 0 1 zero_le_one (3 / 4)
+    let z := Cube.collapseToSphere (n + 1) c
+    let zR := Cube.collapseToSphere (n + 1) (t v)
+    z ≠ a ∧ zR ≠ a ∧
+      (∀ j : Fin 3, ι₃ j z ≠ b₃) ∧
+      (∀ i j : Fin 3, i ≠ j → ι₃ i z ≠ ι₃ j z) ∧
+      L₃ (Cube.collapseToSphere (n + 1) (t e)) = ι₃ 0 z ∧
+      L₃ (Cube.collapseToSphere (n + 1) (t u)) = ι₃ 1 z ∧
+      L₃ (Cube.collapseToSphere (n + 1) (t v)) = ι₃ 2 z ∧
+      R₃ (Cube.collapseToSphere (n + 1) (t u)) = ι₃ 0 zR ∧
+      L₃ (Cube.collapseToSphere (n + 1) (t u)) ≠
+        R₃ (Cube.collapseToSphere (n + 1) (t u)) := by
+  let c : I^(Fin (n + 1)) := fun _ ↦ Set.projIcc 0 1 zero_le_one (1 / 2)
+  let t : I → I^(Fin (n + 1)) := fun s ↦ Function.update c 0 s
+  let e : I := Set.projIcc 0 1 zero_le_one (1 / 8)
+  let u : I := Set.projIcc 0 1 zero_le_one (3 / 8)
+  let v : I := Set.projIcc 0 1 zero_le_one (3 / 4)
+  let z := Cube.collapseToSphere (n + 1) c
+  let zR := Cube.collapseToSphere (n + 1) (t v)
+  let l : I := Set.projIcc 0 1 zero_le_one (1 / 4)
+  let m : I := Set.projIcc 0 1 zero_le_one (1 / 2)
+  have htm : t m = c := Function.update_eq_self 0 c
+  have hz : z ≠ a := by
+    intro h
+    have hc : c ∉ Cube.boundary (Fin (n + 1)) :=
+      Cube.mem_boundary_compl_iff.mpr (fun _ ↦ by norm_num [c, Set.coe_projIcc])
+    exact hc ((Cube.collapseToSphere_eq_northPoint_iff (n + 1) c).mp h)
+  have hzR : zR ≠ a := by
+    intro h
+    have hc : t v ∉ Cube.boundary (Fin (n + 1)) := by
+      apply Cube.mem_boundary_compl_iff.mpr
+      intro i
+      by_cases hi : i = 0
+      · subst i
+        norm_num [t, v, Set.coe_projIcc]
+      · simp only [t, Function.update_of_ne hi]
+        norm_num [c, Set.coe_projIcc]
+    exact hc ((Cube.collapseToSphere_eq_northPoint_iff (n + 1) (t v)).mp h)
+  have hleft (F G : {F : C(S, V) // F a = b₃}) (s r : I)
+      (hs : (s : ℝ) ≤ 1 / 2)
+      (hr : Set.projIcc 0 1 zero_le_one (2 * (s : ℝ)) = r) :
+      (P₃ F G).val (Cube.collapseToSphere (n + 1) (t s)) =
+        F.val (Cube.collapseToSphere (n + 1) (t r)) := by
+    simpa only [t, Function.update_self, hr, Function.update_idem] using
+      (pinch_fold_apply_collapseToSphere_of_le n b₃ F G (t s)
+        (by simpa only [t, Function.update_self] using hs))
+  have hright (F G : {F : C(S, V) // F a = b₃}) (s r : I)
+      (hs : 1 / 2 ≤ (s : ℝ))
+      (hr : Set.projIcc 0 1 zero_le_one (2 * (s : ℝ) - 1) = r) :
+      (P₃ F G).val (Cube.collapseToSphere (n + 1) (t s)) =
+        G.val (Cube.collapseToSphere (n + 1) (t r)) := by
+    simpa only [t, Function.update_self, hr, Function.update_idem] using
+      (pinch_fold_apply_collapseToSphere_of_ge n b₃ F G (t s)
+        (by simpa only [t, Function.update_self] using hs))
+  have hel : Set.projIcc 0 1 zero_le_one (2 * (e : ℝ)) = l := by
+    apply Subtype.ext
+    norm_num [e, l, Set.coe_projIcc]
+  have hlm : Set.projIcc 0 1 zero_le_one (2 * (l : ℝ)) = m := by
+    apply Subtype.ext
+    norm_num [l, m, Set.coe_projIcc]
+  have huv : Set.projIcc 0 1 zero_le_one (2 * (u : ℝ)) = v := by
+    apply Subtype.ext
+    norm_num [u, v, Set.coe_projIcc]
+  have hvm : Set.projIcc 0 1 zero_le_one (2 * (v : ℝ) - 1) = m := by
+    apply Subtype.ext
+    norm_num [v, m, Set.coe_projIcc]
+  have hLe : L₃ (Cube.collapseToSphere (n + 1) (t e)) = ι₃ 0 z := by
+    calc
+      _ = (P₃ (I₃ 0) (I₃ 1)).val (Cube.collapseToSphere (n + 1) (t l)) :=
+        hleft (P₃ (I₃ 0) (I₃ 1)) (I₃ 2) e l
+          (by norm_num [e, Set.coe_projIcc]) hel
+      _ = ι₃ 0 z := by
+        simpa only [htm] using
+          (hleft (I₃ 0) (I₃ 1) l m (by norm_num [l, Set.coe_projIcc]) hlm)
+  have hLu : L₃ (Cube.collapseToSphere (n + 1) (t u)) = ι₃ 1 z := by
+    calc
+      _ = (P₃ (I₃ 0) (I₃ 1)).val (Cube.collapseToSphere (n + 1) (t v)) :=
+        hleft (P₃ (I₃ 0) (I₃ 1)) (I₃ 2) u v
+          (by norm_num [u, Set.coe_projIcc]) huv
+      _ = ι₃ 1 z := by
+        simpa only [htm] using
+          (hright (I₃ 0) (I₃ 1) v m (by norm_num [v, Set.coe_projIcc]) hvm)
+  have hLv : L₃ (Cube.collapseToSphere (n + 1) (t v)) = ι₃ 2 z := by
+    simpa only [htm] using
+      (hright (P₃ (I₃ 0) (I₃ 1)) (I₃ 2) v m
+        (by norm_num [v, Set.coe_projIcc]) hvm)
+  have hRu : R₃ (Cube.collapseToSphere (n + 1) (t u)) = ι₃ 0 zR :=
+    hleft (I₃ 0) (P₃ (I₃ 1) (I₃ 2)) u v
+      (by norm_num [u, Set.coe_projIcc]) huv
+  refine ⟨hz, hzR, ?_, ?_, hLe, hLu, hLv, hRu, ?_⟩
+  · intro j h
+    apply hz
+    calc
+      z = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) j).hom
+          (ι₃ j z) :=
+        (TopCat.widePushoutPointRetraction_ι_apply D₃ (fun _ : Fin 3 ↦ a) j z).symm
+      _ = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) j).hom b₃ :=
+        congrArg (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) j).hom h
+      _ = a := TopCat.widePushoutPointRetraction_head_apply D₃
+        (fun _ : Fin 3 ↦ a) j PUnit.unit
+  · intro i j hij h
+    apply hz
+    calc
+      z = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) i).hom
+          (ι₃ i z) :=
+        (TopCat.widePushoutPointRetraction_ι_apply D₃ (fun _ : Fin 3 ↦ a) i z).symm
+      _ = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) i).hom
+          (ι₃ j z) :=
+        congrArg (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) i).hom h
+      _ = a := TopCat.widePushoutPointRetraction_ι_of_ne_apply D₃
+        (fun _ : Fin 3 ↦ a) i j (Ne.symm hij) z
+  · intro h
+    apply hz
+    calc
+      z = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) 1).hom
+          (ι₃ 1 z) :=
+        (TopCat.widePushoutPointRetraction_ι_apply D₃ (fun _ : Fin 3 ↦ a) 1 z).symm
+      _ = (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) 1).hom
+          (ι₃ 0 zR) :=
+        congrArg (TopCat.widePushoutPointRetraction D₃ (fun _ : Fin 3 ↦ a) 1).hom
+          (hLu.symm.trans (h.trans hRu))
+      _ = a := TopCat.widePushoutPointRetraction_ι_of_ne_apply D₃
+        (fun _ : Fin 3 ↦ a) 1 0 (by decide) zR
+
+end ThreeFactors
 
 end Metric.Sphere
