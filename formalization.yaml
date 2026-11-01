@@ -102,7 +102,7 @@ related_formalizations:
       providers; no chain, natural or normalized-chain isomorphism is asserted.
       Dependency authorship and notices remain upstream.
 
-  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/00d121de57ca231c33d39346285ddb3e7a1123db"
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/8c837e82648939ced56a8d7ee005d6f582204b1e"
     relationship: "builds-on"
     note: >-
       Canonical home of signed-period integer loops, normalized circle
@@ -119,9 +119,9 @@ related_formalizations:
       old covering module paths are public-import shims, deprecated since
       2026-10-17 and supported for at least three months from that date.
       Joint use requires a Sphere version providing these shims together with
-      the Fundamental Groupoids revision recorded here and the resolved graph
-      in lake-manifest.json, with Group Theory explicitly pinned at
-      729b89bd2e66269fa081d7a6ef238a10dd1d48d5. The circle and covering modules cannot be
+      the Fundamental Groupoids revision recorded here and the explicit Group
+      Theory requirement resolved by lakefile.toml and lake-manifest.json.
+      The circle and covering modules cannot be
       co-imported with legacy Sphere releases defining duplicate copies;
       arbitrary version pairs are not promised compatible.
       Dependency authorship and source and Mathlib credits remain intact.

@@ -29,7 +29,9 @@ expresses naturality of this equivalence under arbitrary relabelings of circles.
 The induced homomorphism is injective or surjective exactly when the label map
 has the corresponding property, as characterized by
 `CircleBouquet.mapOfEq_relabel_injective_iff` and
-`CircleBouquet.mapOfEq_relabel_surjective_iff`.
+`CircleBouquet.mapOfEq_relabel_surjective_iff`. Its kernel is the normal closure
+of the positive-generator differences with equal labels, by
+`CircleBouquet.ker_mapOfEq_relabel`, without any surjectivity assumption.
 
 `CircleBouquet.lift` gives the free-group universal property for group targets
 whose universe is independent of both bouquet universes. Distinct included
@@ -62,6 +64,8 @@ not an algorithm selecting geometric words from loops.
   induced fundamental-group maps and the generator-value universal property.
   The injectivity and surjectivity criteria use Group Theory's free-group map
   criteria and Mathlib's cancellation of bijective functions in compositions.
+  The kernel formula uses Group Theory's `FreeGroup.ker_map` and Mathlib's
+  normal-closure pullback along a multiplicative equivalence.
 * The project's point-relative sphere contractions, point-wide-pushout
   neighborhood, descent and original-inclusion fundamental-group APIs.
 -/
@@ -1252,6 +1256,33 @@ theorem lift_comp_relabel {I : Type v} {J : Type w} {G : Type z} [Group G]
   intro i
   simp only [MonoidHom.comp_apply, relabel_positiveGenerator, lift_positiveGenerator,
     Function.comp_apply]
+
+/-- The kernel of relabeling circles is the normal closure of positive-generator differences
+with equal labels. The source and target ambient and label universes are independent, and the
+label map need not be surjective. -/
+theorem ker_mapOfEq_relabel {I : Type v} {J : Type w} (σ : I → J) :
+    (FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+      (relabel_basepoint.{u, v, u', w} σ)).ker =
+      Subgroup.normalClosure
+        {g : FundamentalGroup (space.{u, v} I) (basepoint.{u, v} I) |
+          ∃ i k : I, σ i = σ k ∧
+            g = positiveGenerator.{u, v} i *
+              (positiveGenerator.{u, v} k)⁻¹} := by
+  -- Pull back along the prescribed generator equivalence and use its relabeling square.
+  apply Subgroup.comap_injective (generatorEquiv.{u, v} I).surjective
+  rw [MonoidHom.comap_ker, relabel_generatorMap,
+    MonoidHom.ker_comp_of_injective (FreeGroup.map σ) (generatorMap.{u', w} J)
+      (generatorMap_bijective.{u', w} J).injective,
+    FreeGroup.ker_map, ← generatorEquiv_toMonoidHom.{u, v} I,
+    ← Subgroup.comap_normalClosure]
+  congr 1
+  ext x
+  constructor
+  · rintro ⟨i, k, h, rfl⟩
+    exact ⟨i, k, h, by simp only [map_mul, map_inv, generatorEquiv_of]⟩
+  · rintro ⟨i, k, h, hx⟩
+    refine ⟨i, k, h, (generatorEquiv.{u, v} I).injective ?_⟩
+    simpa only [map_mul, map_inv, generatorEquiv_of] using hx
 
 end Relabel
 

@@ -399,9 +399,9 @@ matching dependency graph recorded by the Sphere version.
 **Breaking covering-import migration.** The five old `SphereTopology.Topology`
 paths in the table are public-import shims, deprecated since 2026-10-17 and
 supported for at least three months from that date. Their canonical home is
-Fundamental Groupoids, currently pinned to released revision
-[`be822d2fe115c4176eee16a7478f6535914efef4`](https://github.com/FormalFrontier/fundamental-groupoids/commit/be822d2fe115c4176eee16a7478f6535914efef4);
-declaration names and mathematical namespaces are unchanged. The covering API
+Fundamental Groupoids, at the released revision selected by this library's
+`lakefile.toml` and `lake-manifest.json`; declaration names and mathematical
+namespaces are unchanged. The covering API
 links above retain their earlier implementation revision, not a separate current
 dependency pin.
 
@@ -457,17 +457,14 @@ current interface; restricted simplifier clients sometimes need to disable
 
 ## Pinned build and use
 
-Use Git, elan, dependency-network access and the committed manifest: Lean
-`leanprover/lean4:v4.34.0-rc2`, mathlib
-`83abb3e776bdefcbc447a1e44d0debe4010039e5`,
-[Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects) at
-`143f667bdeb0aeccd02e6475781d5c456f00c95b`,
-[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids) at
-`be822d2fe115c4176eee16a7478f6535914efef4`.
-These are the three direct dependencies of this library. The resolved graph also
-includes inherited [Group Theory](https://github.com/FormalFrontier/group-theory)
-at `da81dc691eabf38306f427465ea8a4af350f0aef`, with no direct override; the
-committed manifest fixes all remaining transitive packages.
+Use Git, elan, dependency-network access and the committed `lean-toolchain`,
+`lakefile.toml` and `lake-manifest.json`. The four direct dependencies are
+[Mathlib](https://github.com/leanprover-community/mathlib4),
+[Simplicial Objects](https://github.com/FormalFrontier/simplicial-objects),
+[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids)
+and [Group Theory](https://github.com/FormalFrontier/group-theory).
+The Lake configuration fixes their revisions; the committed manifest resolves
+these together with Homological Algebra and the remaining transitive packages.
 Routine use does not require `lake update`.
 Fetch the matching precompiled mathlib cache **successfully before building**;
 repeat after changing pins or replacing `.lake`:

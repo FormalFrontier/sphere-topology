@@ -119,5 +119,5 @@ rev = "8c837e82648939ced56a8d7ee005d6f582204b1e"
 
 [[require]]
 name = "groupTheory"
-git = "https://github.com/FormalFrontier/group-theory.git"
-rev = "fede999e7a0b41086092b26a52281c53d938975e"
+git = "https://github.com/FormalFrontier/group-theory"
+rev = "9c060da75c15b9930292aec1d7655c2a44885842"

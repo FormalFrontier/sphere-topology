@@ -332,7 +332,10 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   [closed map exactly when every label fiber is finite](SphereTopology/Homotopy/CircleBouquet/ClosedMap.lean);
   the bouquet has the weak/final topology, not the Hawaiian-earring subspace topology.
   The induced fundamental-group homomorphism is injective or surjective exactly
-  when the label map has the corresponding property.
+  when the label map has the corresponding property. Its kernel is the normal
+  closure of the differences `positiveGenerator i * (positiveGenerator k)⁻¹`
+  for equal labels `σ i = σ k`, by `CircleBouquet.ker_mapOfEq_relabel`; no
+  surjectivity assumption is needed.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
   space, [`Metric.Sphere.diagonalHomotopyEquiv`](SphereTopology/Homotopy/Sphere.lean)
   has the diagonal as its forward map and first projection as its inverse.
@@ -444,7 +447,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
 `8c837e82648939ced56a8d7ee005d6f582204b1e`, and Group Theory
-`fede999e7a0b41086092b26a52281c53d938975e`. The manifest also includes
+`9c060da75c15b9930292aec1d7655c2a44885842`. The manifest also includes
 Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
@@ -477,7 +480,7 @@ verification module. Routine use does not need `lake update`.
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, finite-label-fiber closedness of relabeling, positive-generator homomorphism, circle retractions and generator nonidentity. The [closed-map criterion](SphereTopology/Homotopy/CircleBouquet/ClosedMap.lean) characterizes closed relabelings exactly by finite label fibers, using Mathlib's circle topology and the local point-wide-pushout criterion. |
 | [`Homotopy.CircleBouquet.Topology`](SphereTopology/Homotopy/CircleBouquet/Topology.lean) | Relabeling is a closed embedding exactly for injective label maps, and a quotient map exactly for surjective label maps, with independent source and target ambient and label universes. |
-| [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, and noncommuting distinct generators, including arbitrary or empty index families. |
+| [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, relabeling kernels as normal closures of equal-label generator differences, and noncommuting distinct generators, including arbitrary or empty index families. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
