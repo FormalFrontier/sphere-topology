@@ -31,10 +31,15 @@ uses exactly the core-preimage nullity assumption. The source and target groups
 remain in their respective universes; no same-universe natural transformation
 or small target colimit is needed for this family.
 
-This is a conditional kernel/defect formula. It does not assert that the chart
-kernels vanish, identify charts with factors by homotopy equivalences, or give a
-free-product computation merely from ordinary contractibility of chosen factor
-neighborhoods.
+Consequently, the inclusion-induced coproduct map is surjective exactly when
+each chart-collapse kernel is killed by its chart inclusion. Under this condition,
+it forms a multiplicative equivalence with the specified retraction, and extensions
+of original-factor homomorphisms to arbitrary monoid targets are unique. The target
+universe is independent.
+
+This does not assert that the chart kernels vanish, identify charts with factors
+by homotopy equivalences, or give a free-product computation merely from ordinary
+contractibility of chosen factor neighborhoods.
 
 ## References
 
@@ -461,5 +466,379 @@ theorem widePushoutPointFundamentalGroupCoproductRetraction_ker_eq_normalClosure
         exact Set.mem_iUnion.mpr
           ⟨some i, y, hy', DFunLike.congr_fun (hκsome i) y⟩
     exact hkerT.trans (congrArg Subgroup.normalClosure hT)
+
+/-- The original-factor coproduct map is surjective exactly when every kernel
+of a chart collapse to its original factor is killed by the chart inclusion
+into the ambient point attachment. The open core and whole original factors
+are path connected, and the original core-preimage inclusions are π₁-null.
+No path connectedness of those preimages or chart–factor equivalence is required.
+This is the vanishing-defect criterion for the kernel formula above, in the
+point-wedge setting of May, Chapter 2, §§6–8. The index type may be empty. -/
+theorem widePushoutPointFundamentalGroupCoproductMap_surjective_iff :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL),
+      IsPathConnected (C.1 : Set WL) →
+      (∀ i, IsPathConnected (univ : Set (X₀ i))) →
+      (∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥) →
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      Function.Surjective (widePushoutPointFundamentalGroupCoproductMap a₀) ↔
+        ∀ i, (p i).ker ≤ (γ i).ker := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ
+  let q := widePushoutPointFundamentalGroupCoproductMap a₀
+  let ρ := widePushoutPointFundamentalGroupCoproductRetraction a₀ C hpcC hpcX hnull
+  have hleft : Function.LeftInverse ρ q := by
+    intro g
+    exact DFunLike.congr_fun
+      (widePushoutPointFundamentalGroupCoproductRetraction_comp_coproductMap
+        a₀ C hpcC hpcX hnull) g
+  have hsurj : Function.Surjective q ↔ Function.Injective ρ := by
+    constructor
+    · intro hq
+      exact (hleft.rightInverse_of_surjective hq).injective
+    · intro hρ
+      exact (hleft.rightInverse_of_injective hρ).surjective
+  have hker : ρ.ker = Subgroup.normalClosure
+      (⋃ i, γ i '' ((p i).ker : Set (FundamentalGroup (U i).1 ⟨wL, (U i).2⟩))) :=
+    widePushoutPointFundamentalGroupCoproductRetraction_ker_eq_normalClosure
+      a₀ C hpcC hpcX hnull
+  change Function.Surjective q ↔ ∀ i, (p i).ker ≤ (γ i).ker
+  rw [hsurj, ← ρ.ker_eq_bot_iff, hker, Subgroup.normalClosure_eq_bot_iff]
+  constructor
+  · intro h i x hx
+    apply (γ i).mem_ker.mpr
+    exact Set.mem_singleton_iff.mp
+      (h (Set.mem_iUnion.mpr ⟨i, x, hx, rfl⟩))
+  · intro h x hx
+    rcases Set.mem_iUnion.mp hx with ⟨i, y, hy, rfl⟩
+    exact Set.mem_singleton_iff.mpr ((γ i).mem_ker.mp (h i hy))
+
+/-- The equivalence from the coproduct of the original factor fundamental groups
+to the ambient fundamental group when the chart-collapse defects vanish under
+the chart inclusions. Its forward homomorphism is the factor-induced coproduct
+map, and its inverse is the chart retraction to that coproduct. This is the
+conditional original-factor consequence of May's point-wedge setting,
+Chapter 2, §§6–8, not an unconditional free-product formula. -/
+def widePushoutPointFundamentalGroupCoproductEquiv :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL),
+      IsPathConnected (C.1 : Set WL) →
+      (∀ i, IsPathConnected (univ : Set (X₀ i))) →
+      (∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥) →
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      (∀ i, (p i).ker ≤ (γ i).ker) →
+        Monoid.CoprodI (fun i ↦ FundamentalGroup (X₀ i) (a₀ i)) ≃*
+          FundamentalGroup WL wL := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill
+  let q := widePushoutPointFundamentalGroupCoproductMap a₀
+  let ρ := widePushoutPointFundamentalGroupCoproductRetraction a₀ C hpcC hpcX hnull
+  exact q.toMulEquiv ρ
+    (widePushoutPointFundamentalGroupCoproductRetraction_comp_coproductMap
+      a₀ C hpcC hpcX hnull)
+    (by
+      have hq : Function.Surjective q :=
+        (widePushoutPointFundamentalGroupCoproductMap_surjective_iff
+          a₀ C hpcC hpcX hnull).2 hkill
+      have hρq : Function.LeftInverse ρ q :=
+        DFunLike.congr_fun
+          (widePushoutPointFundamentalGroupCoproductRetraction_comp_coproductMap
+            a₀ C hpcC hpcX hnull)
+      exact MonoidHom.ext (hρq.rightInverse_of_surjective hq))
+
+/-- The forward homomorphism of the original-factor equivalence is the
+homomorphism induced by the original factor inclusions. -/
+@[simp] theorem widePushoutPointFundamentalGroupCoproductEquiv_toMonoidHom :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL)
+      (hpcC : IsPathConnected (C.1 : Set WL))
+      (hpcX : ∀ i, IsPathConnected (univ : Set (X₀ i)))
+      (hnull : ∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥),
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      ∀ (hkill : ∀ i, (p i).ker ≤ (γ i).ker),
+        (widePushoutPointFundamentalGroupCoproductEquiv a₀ C hpcC hpcX hnull
+          hkill : Monoid.CoprodI (fun i ↦ FundamentalGroup (X₀ i) (a₀ i)) →*
+            FundamentalGroup WL wL) = widePushoutPointFundamentalGroupCoproductMap a₀ := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill
+  rfl
+
+/-- The inverse homomorphism of the original-factor equivalence is the
+homomorphism obtained from the chart retractions. -/
+@[simp] theorem widePushoutPointFundamentalGroupCoproductEquiv_symm_toMonoidHom :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL)
+      (hpcC : IsPathConnected (C.1 : Set WL))
+      (hpcX : ∀ i, IsPathConnected (univ : Set (X₀ i)))
+      (hnull : ∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥),
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      ∀ (hkill : ∀ i, (p i).ker ≤ (γ i).ker),
+        ((widePushoutPointFundamentalGroupCoproductEquiv a₀ C hpcC hpcX hnull
+          hkill).symm : FundamentalGroup WL wL →*
+            Monoid.CoprodI (fun i ↦ FundamentalGroup (X₀ i) (a₀ i))) =
+              widePushoutPointFundamentalGroupCoproductRetraction a₀ C hpcC hpcX hnull := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill
+  rfl
+
+/-- On each coproduct factor, the original-factor equivalence is the
+homomorphism induced by the original-domain inclusion into the point attachment. -/
+theorem widePushoutPointFundamentalGroupCoproductEquiv_comp_of :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL)
+      (hpcC : IsPathConnected (C.1 : Set WL))
+      (hpcX : ∀ i, IsPathConnected (univ : Set (X₀ i)))
+      (hnull : ∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥),
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      ∀ (hkill : ∀ i, (p i).ker ≤ (γ i).ker) (i : I),
+        (widePushoutPointFundamentalGroupCoproductEquiv a₀ C hpcC hpcX hnull
+          hkill).toMonoidHom.comp (Monoid.CoprodI.of (i := i)) =
+            FundamentalGroup.mapOfEq (ιL i) (widePushout_point_ι_point aL i) := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill i
+  rw [MulEquiv.toMonoidHom_eq_coe,
+    widePushoutPointFundamentalGroupCoproductEquiv_toMonoidHom]
+  exact widePushoutPointFundamentalGroupCoproductMap_comp_of a₀ i
+
+/-- The inverse original-factor equivalence takes the homomorphism induced by
+each original-domain factor inclusion to the corresponding coproduct insertion. -/
+theorem widePushoutPointFundamentalGroupCoproductEquiv_symm_comp_inclusion :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL)
+      (hpcC : IsPathConnected (C.1 : Set WL))
+      (hpcX : ∀ i, IsPathConnected (univ : Set (X₀ i)))
+      (hnull : ∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥),
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      ∀ (hkill : ∀ i, (p i).ker ≤ (γ i).ker) (i : I),
+        (widePushoutPointFundamentalGroupCoproductEquiv a₀ C hpcC hpcX hnull
+          hkill).symm.toMonoidHom.comp
+            (FundamentalGroup.mapOfEq (ιL i) (widePushout_point_ι_point aL i)) =
+              Monoid.CoprodI.of
+                (M := fun j ↦ FundamentalGroup (X₀ j) (a₀ j)) (i := i) := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill i
+  rw [MulEquiv.toMonoidHom_eq_coe,
+    widePushoutPointFundamentalGroupCoproductEquiv_symm_toMonoidHom]
+  exact widePushoutPointFundamentalGroupCoproductRetraction_comp_inclusion
+    a₀ C hpcC hpcX hnull i
+
+universe z
+
+/-- When the chart-collapse defects are killed by the chart inclusions, any
+homomorphism to an independently universed monoid with the prescribed
+original-factor restrictions equals the extension obtained from the chart
+retractions. Only original-domain inclusion restrictions are needed, including
+for an empty index type. This is the original-factor universal-property
+consequence of the conditional vanishing-defect criterion above, in May's
+point-wedge setting, Chapter 2, §§6–8. -/
+theorem eq_widePushoutPointFundamentalGroupExtend (H : Type z) [Monoid H]
+    (φ : ∀ i, FundamentalGroup (X₀ i) (a₀ i) →* H) :
+    let XL : I → TopCat.{max u v} := fun i ↦ uliftFunctor.{v, u}.obj (X₀ i)
+    let eL : ∀ i, X₀ i ≃ₜ XL i := fun i ↦ (X₀ i).uliftFunctorObjHomeo
+    let aL := fun i ↦ eL i (a₀ i)
+    let sL := fun i ↦ (TopCat.const (aL i) : TopCat.of PUnit ⟶ XL i)
+    let WL := (widePushout (TopCat.of PUnit) XL sL : TopCat)
+    let wL := WidePushout.head sL PUnit.unit
+    let ιL : ∀ i, C(X₀ i, WL) := fun i ↦
+      (WidePushout.ι sL i).hom.comp (eL i : C(X₀ i, XL i))
+    ∀ (C : OpenNhds (X := WL) wL)
+      (hpcC : IsPathConnected (C.1 : Set WL))
+      (hpcX : ∀ i, IsPathConnected (univ : Set (X₀ i)))
+      (hnull : ∀ i,
+        (FundamentalGroup.map
+          (ContinuousMap.subtypeVal (ιL i ⁻¹' (C.1 : Set WL)))
+          ⟨a₀ i, by
+            change WidePushout.ι sL i (aL i) ∈ C.1
+            rw [widePushout_point_ι_point aL i]
+            exact C.2⟩).range = ⊥),
+      let U : I → OpenNhds (X := WL) wL := widePushoutPointChartNhds aL C
+      let p : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup (X₀ i) (a₀ i) := fun i ↦
+        FundamentalGroup.mapOfEq
+          (x := (⟨wL, (U i).2⟩ : (U i).1)) (y := a₀ i)
+          ((((eL i).symm : C(XL i, X₀ i)).comp
+            (widePushoutPointRetraction XL aL i).hom).comp
+              (ContinuousMap.subtypeVal ((U i).1 : Set WL)))
+          (by
+            change (eL i).symm (widePushoutPointRetraction XL aL i wL) = a₀ i
+            rw [widePushoutPointRetraction_head_apply]
+            exact (eL i).symm_apply_apply (a₀ i))
+      let γ : ∀ i, FundamentalGroup (U i).1 ⟨wL, (U i).2⟩ →*
+          FundamentalGroup WL wL := fun i ↦
+        ((FundamentalGroup.openNhdsCocone wL).ι.app (U i)).hom
+      (∀ i, (p i).ker ≤ (γ i).ker) →
+      ∀ (g : FundamentalGroup WL wL →* H),
+        (∀ i, g.comp
+          (FundamentalGroup.mapOfEq (ιL i) (widePushout_point_ι_point aL i)) = φ i) →
+        g = widePushoutPointFundamentalGroupExtend a₀ H φ C hpcC hpcX hnull := by
+  intro XL eL aL sL WL wL ιL C hpcC hpcX hnull U p γ hkill g hg
+  have hq : Function.Surjective (widePushoutPointFundamentalGroupCoproductMap a₀) :=
+    (widePushoutPointFundamentalGroupCoproductMap_surjective_iff
+      a₀ C hpcC hpcX hnull).2 hkill
+  apply (MonoidHom.cancel_right hq).mp
+  rw [widePushoutPointFundamentalGroupExtend_comp_coproductMap
+    a₀ H φ C hpcC hpcX hnull]
+  apply Monoid.CoprodI.ext_hom
+  intro i
+  rw [MonoidHom.comp_assoc,
+    widePushoutPointFundamentalGroupCoproductMap_comp_of a₀ i,
+    Monoid.CoprodI.lift_comp_of]
+  exact hg i
 
 end TopCat

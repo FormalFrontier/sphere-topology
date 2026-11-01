@@ -25,6 +25,7 @@ public import SphereTopology.Topology.WidePushout.OpenNeighborhood
 public import SphereTopology.Topology.WidePushout.PointLift
 public import SphereTopology.Topology.WidePushout.Chart
 public import SphereTopology.Topology.WidePushout.FundamentalGroup
+public import SphereTopology.Topology.WidePushout.FundamentalGroupKernel
 public import SphereTopology.Topology.WidePushout.SubsetRetraction
 public import SphereTopology.Topology.WidePushout.Subfamily
 public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy
