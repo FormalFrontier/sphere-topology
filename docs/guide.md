@@ -97,8 +97,16 @@ and transfer constructions and the other results listed here.
   Inclusions, descent and extensionality express its universal property.
   `CircleBouquet.generatorMap` maps `FreeGroup I` to its fundamental group by
   the included counterclockwise loops. Retractions onto individual circles
-  detect their positive generators as nonidentity. Bijectivity of this map
-  and the free-group identification of the bouquet's fundamental group are not proved here.
+  detect their positive generators as nonidentity.
+  [`CircleBouquet.generatorEquiv`](../SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean)
+  is a multiplicative equivalence from `FreeGroup I` to this fundamental group,
+  with forward map `generatorMap`. It takes each free generator to the included
+  positive circle class, and its inverse takes that class back to the generator.
+  `CircleBouquet.lift` gives the unique homomorphism to any group with prescribed
+  generator values, independently of the target universe. Distinct positive
+  generators do not commute. The inverse uses `MulEquiv.ofBijective`; no
+  geometric word-extraction algorithm is asserted. This computes the circle
+  bouquet, not a general wedge from ordinary factor contractibility.
 
 - **Integer degree and free homotopy of circle maps.** Every continuous
   self-map `f : C(Circle, Circle)` has an integer degree in the fixed positive
@@ -353,7 +361,8 @@ and transfer constructions and the other results listed here.
 | `Geometry.Stereographic` | Inner-product-space charts for the unit sphere minus one or two poles, with the arbitrary second pole's stereographic image deleted; forward/inverse laws and inverse-zero antipode. |
 | `Homotopy.Sphere` | Generic real-normed sphere homotopies and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
-| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
+| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity. |
+| [`Homotopy.CircleBouquet.FundamentalGroup`](../SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Positive-generator-preserving free-group identification, universal property for independently universed group targets, and noncommutation of distinct positive generators. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
@@ -499,7 +508,7 @@ private noncomputable def sphere_homology :
 
 - J. Peter May, *A Concise Course in Algebraic Topology*, revised edition:
   Chapter 1, §5 and Problem 3 (circle and H-spaces), Chapter 2, §8
-  (circle-bouquet setting, without its fundamental-group calculation), Chapter 3 (coverings),
+  (circle-bouquet fundamental-group computation), Chapter 3 (coverings),
   Chapter 13, §5 (antipodal degree), Chapter 14, §§1, 3 and 5 (reduced homology,
   sphere homology and Mayer--Vietoris), Chapters 13 and 15 (components),
   and Chapter 16 (singular homology and Problem 3 on covering transfer).

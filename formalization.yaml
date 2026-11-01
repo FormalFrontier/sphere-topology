@@ -8,7 +8,8 @@ project:
     images lie in the ball, with no interior image bound; degree-zero boundary restrictions
     and non-retraction for the complex closed unit disk; arbitrary-index circle bouquets,
     inclusions, positive-generator homomorphisms, retractions and generator
-    nonidentity, without a free-group identification; jointly injective factor
+    nonidentity, and a positive-generator-preserving free-group identification
+    with the universal property for group targets in independent universes; jointly injective factor
     retractions and factorwise T0/T1/T2 classification for arbitrary chosen-point
     wide pushouts, including empty families; normalization of nowhere-zero
     continuous fields, identity-to-antipodal homotopies from orthogonal fields,
@@ -64,7 +65,9 @@ sources:
     note: >-
       Supplies circle fundamental-group and degree background, disk non-retraction
       and the unit-disk self-map fixed-point theorem, and motivates the circle-bouquet setting, covering
-      transfer and its sheet formula. The bouquet fundamental-group calculation is not established here. The coefficient
+      transfer and its sheet formula. The circle-bouquet fundamental group is
+      identified with the free group on its labels by the included positive classes.
+      The coefficient
       objects and all-simplex chain complex differ from the normalized
       tensor-coefficient convention of the book. The finite generalized-loop
       comparison relates to the based mapping spaces of Chapter 8, §§1–2 and
@@ -136,8 +139,12 @@ status:
     hence not the identity, with no basedness hypothesis. No arbitrary-dimensional
     disk theorem or converse extension criterion is asserted.
     Arbitrary-index circle bouquets with inclusions, descent, positive-generator
-    homomorphisms, circle retractions and generator nonidentity; bijectivity of
-    the generator map and its free-group identification are not established here.
+    homomorphisms, circle retractions and generator nonidentity. The generator map
+    is bijective and gives a multiplicative equivalence with the free group on
+    the circle labels, including an empty family. Arbitrary generator values
+    extend uniquely to homomorphisms into groups in independent universes;
+    distinct positive generators do not commute. No geometric word-extraction
+    algorithm or general wedge computation from ordinary contractibility is asserted.
     Retractions onto chosen-point factors jointly distinguish points without
     separation or finiteness assumptions, including an empty index family.
     The same wide pushout is T0, T1 or T2 exactly when each factor is, with
@@ -177,6 +184,18 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "CircleBouquet.generatorMap_bijective"
+      file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+      note: "The included counterclockwise circle classes freely generate the fundamental group of an arbitrary-index circle bouquet, including an empty family."
+    - declaration: "CircleBouquet.generatorEquiv"
+      file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+      note: "A multiplicative equivalence from FreeGroup I to the bouquet fundamental group whose forward homomorphism is the prescribed generator map."
+    - declaration: "CircleBouquet.lift"
+      file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+      note: "Arbitrary generator values extend uniquely to homomorphisms into a group in an independent universe; this is not arbitrary extension into monoids."
+    - declaration: "CircleBouquet.positiveGenerator_mul_ne_mul"
+      file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+      note: "Positive classes from distinct included circles do not commute."
     - declaration: "Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo"
       file: "SphereTopology/Homotopy/Disk.lean"
       note: "A complex-valued continuous map on a closed ball with arbitrary center and nonnegative radius has a fixed point if its sphere-boundary images lie in that ball; no interior image bound or extension to the plane is assumed."

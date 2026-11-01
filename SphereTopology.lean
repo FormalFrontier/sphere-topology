@@ -40,6 +40,7 @@ public import FundamentalGroupoids.Topology.Covering.Equivalence
 public import SphereTopology.Homology.Singular.Transfer
 public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Homotopy.CircleBouquet
+public import SphereTopology.Homotopy.CircleBouquet.FundamentalGroup
 public import SphereTopology.Homotopy.CircleDegree
 public import SphereTopology.Homotopy.Disk
 public import SphereTopology.Homology.Singular.SmallChains

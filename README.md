@@ -257,8 +257,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   pushout of based complex circles, with a common point even for the empty
   family and independent index/ambient universes. Inclusions, descent and
   extensionality give its universal property; retractions detect the positive
-  generators as nonidentity. Bijectivity of `generatorMap` and identification
-  of the fundamental group with `FreeGroup I` are not proved.
+  generators as nonidentity.
+  [`CircleBouquet.generatorEquiv`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean)
+  identifies its fundamental group with `FreeGroup I`, sending each free generator
+  to the included counterclockwise circle class. `CircleBouquet.lift` gives the
+  unique extension of arbitrary generator values to a homomorphism into any
+  group, in an independent target universe. Distinct included positive generators
+  do not commute. The inverse equivalence is noncomputable; no geometric
+  word-extraction algorithm is asserted.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
   space, [`Metric.Sphere.diagonalHomotopyEquiv`](SphereTopology/Homotopy/Sphere.lean)
   has the diagonal as its forward map and first projection as its inverse.
@@ -399,7 +405,8 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
 | [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
-| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
+| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity. |
+| [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, and noncommuting distinct generators, including arbitrary or empty index families. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |

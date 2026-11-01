@@ -72,7 +72,13 @@ formalization and affine transport to arbitrary centers and nonnegative radii,
 using Mathlib's real inner-product, continuity, affine and homeomorphism APIs.
 Only sphere-boundary images must lie in the ball; no interior image bound is
 imposed. The ordinary continuous self-map theorem is a specialization.
-The bouquet setting is Chapter 2, §8; no free-group identification is claimed.
+The circle-bouquet fundamental-group computation follows Chapter 2, §8, p. 19.
+It uses Fundamental Groupoids' positive circle coordinates, Mathlib's free groups,
+integer powers and monoid coproducts, and this library's point-relative punctured-
+sphere contractions and wide-pushout neighborhood and fundamental-group APIs.
+Formal Frontier Agents supplied the comparison with the original circle
+inclusions and the chart-kernel argument; no geometric word-extraction algorithm
+is asserted.
 The generic wide-pushout quotient presentation reuses Joël Riou's Mathlib
 `Types.Pushout` and the Mathlib topological-colimit interface. The finite-support
 theorem for compact subsets of arbitrary point-attached T₁ spaces is stronger
@@ -113,7 +119,9 @@ by Formal Frontier Agents. The moving-height family on the countable circle
 bouquet is a separate construction. Its common point is not fixed, in keeping
 with the based/unbased distinction in May, Chapter 2, §4. The pair-hypothesis
 criterion and its universe-general descent API are generalizations, not claims
-that May states these results or that a free-group calculation is complete.
+that May states these descent results or that they alone compute a fundamental
+group. The circle-bouquet computation additionally uses the punctured-circle
+geometry described above.
 
 The generic based covering-lift criterion, point stabilizers, orbits, maps of
 covers, monodromy centralizers and based equal-image equivalences are supplied
