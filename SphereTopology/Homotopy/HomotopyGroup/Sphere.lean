@@ -26,6 +26,10 @@ independent universes. The component relation corresponds to homotopy relative
 to the singleton north pole: the constrained-homotopy comparison uses local
 compactness of the finite sphere, not any condition on the target.
 
+In dimension one, `HomotopyGroup.pi1MulEquivFundamentalGroup_sphereHomeomorph`
+identifies the component associated with a based path with that path's class
+in the fundamental group.
+
 Both constructions include dimension zero. A generalized loop with arbitrary
 value `z` then gives a sphere map taking north to the chosen point and south
 to `z`. Only a topology and a chosen point are required of a target.
@@ -36,8 +40,7 @@ These are comparisons of spaces and sets of classes. Continuous-map spaces
 carry the ordinary compact-open topology, and the fixed-pole subtypes carry
 the induced topology. No compactly generated modification is made; these
 mapping spaces do not use May's compactly generated mapping-space convention.
-No sphere group operation, pinch map, orientation comparison or loop-space
-iteration is specified.
+No sphere group operation, pinch map or loop-space iteration is specified here.
 
 ## References
 
@@ -280,6 +283,20 @@ theorem equivSphereClasses_symm_mk {X : Type v} [TopologicalSpace X]
       (⟦(GenLoop.sphereHomeomorph n x).symm F⟧ : HomotopyGroup (Fin n) X x) := by
   apply (equivSphereClasses n x).symm_apply_eq.mpr
   rw [equivSphereClasses_class, Homeomorph.apply_symm_apply]
+
+/-- The sphere-map component associated with a based path represents that path's
+class under the comparison with the fundamental group. -/
+theorem pi1MulEquivFundamentalGroup_sphereHomeomorph {X : Type v} [TopologicalSpace X]
+    (x : X) (p : Path x x) :
+    pi1MulEquivFundamentalGroup (X := X) (x := x)
+      ((equivSphereClasses 1 x).symm
+        (ZerothHomotopy.mk
+          (GenLoop.sphereHomeomorph 1 x
+            ((genLoopEquivOfUnique (Fin 1)).symm p)))) =
+      FundamentalGroup.fromPath ⟦p⟧ := by
+  rw [equivSphereClasses_symm_mk, Homeomorph.symm_apply_apply]
+  exact congrArg (fun q : Path x x ↦ FundamentalGroup.fromPath ⟦q⟧)
+    ((genLoopEquivOfUnique (Fin 1)).apply_symm_apply p)
 
 /-- The chosen constant class maps to the component of the constant sphere map. -/
 theorem equivSphereClasses_const {X : Type v} [TopologicalSpace X]

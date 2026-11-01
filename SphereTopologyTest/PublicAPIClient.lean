@@ -200,4 +200,37 @@ private theorem realPlaneProjectivization_axisOpen :
       exact h
     simp [A] at hz
 
+-- The first positive map stays on the left of the geometric pinch. The reversed
+-- product in the fundamental group is detected by two noncommuting generators.
+private theorem spherePinch_positiveLoops_order :
+    let B₂ := CircleBouquet.space.{0, 0} (Fin 2)
+    let b₂ := CircleBouquet.basepoint.{0, 0} (Fin 2)
+    let γ := fun i : Fin 2 ↦
+      ((Circle.loop 1).map (CircleBouquet.inclusion.{0, 0} i).continuous).cast
+        (CircleBouquet.inclusion_basepoint.{0, 0} i).symm
+        (CircleBouquet.inclusion_basepoint.{0, 0} i).symm
+    let F := fun i : Fin 2 ↦ GenLoop.sphereHomeomorph 1 b₂
+      ((genLoopEquivOfUnique (Fin 1)).symm (γ i))
+    let R := fun H :
+      {H : C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 2)) 1, B₂) //
+        H (EuclideanSpace.northPoint 1) = b₂} ↦
+      HomotopyGroup.pi1MulEquivFundamentalGroup
+        ((HomotopyGroup.equivSphereClasses 1 b₂).symm (ZerothHomotopy.mk H))
+    let g := CircleBouquet.positiveGenerator.{0, 0} (I := Fin 2)
+    R (Metric.Sphere.pinchFold 0 b₂ (F 0, F 1)) = g 1 * g 0 ∧
+      R (Metric.Sphere.pinchFold 0 b₂ (F 0, F 1)) ≠ g 0 * g 1 := by
+  intro B₂ b₂ γ F R g
+  have hF (i : Fin 2) : R (F i) = g i :=
+    (HomotopyGroup.pi1MulEquivFundamentalGroup_sphereHomeomorph b₂ (γ i)).trans
+      (CircleBouquet.positiveGenerator_eq_loop i).symm
+  have hfold : R (Metric.Sphere.pinchFold 0 b₂ (F 0, F 1)) = g 1 * g 0 := by
+    calc
+      _ = R (F 1) * R (F 0) :=
+        (congrArg (HomotopyGroup.pi1MulEquivFundamentalGroup (X := B₂) (x := b₂))
+          (Metric.Sphere.pinch_fold_class 0 b₂ (F 0) (F 1))).trans
+          (map_mul _ _ _)
+      _ = g 1 * g 0 := by rw [hF, hF]
+  exact ⟨hfold, fun h ↦ CircleBouquet.positiveGenerator_mul_ne_mul
+    (by decide : (1 : Fin 2) ≠ 0) (hfold.symm.trans h)⟩
+
 end SphereTopologyPublicClient

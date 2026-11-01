@@ -88,9 +88,11 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   [`Cube.collapseToSphere`](SphereTopology/Geometry/CubeSphere.lean).
   Constants and based postcomposition are preserved, including between targets
   in independent universes. Equality of sphere-map components is exactly
-  homotopy relative to the singleton last-axis north pole. Targets require only
-  a topology and a chosen point, with no separation, local compactness or
-  well-pointedness hypothesis.
+  homotopy relative to the singleton last-axis north pole. In dimension one,
+  `HomotopyGroup.pi1MulEquivFundamentalGroup_sphereHomeomorph` sends the component
+  associated with a based path to that path's fundamental-group class. Targets
+  require only a topology and a chosen point, with no separation, local compactness
+  or well-pointedness hypothesis.
 - **Positive-dimensional sphere pinch and folding.** For `d = n + 1 > 0`,
   [`Metric.Sphere.pinch n`](SphereTopology/Geometry/SpherePinch.lean) maps the
   existing last-axis unit sphere `Sᵈ` to its two-factor point-wide-pushout.
@@ -484,7 +486,7 @@ verification module. Routine use does not need `lake update`.
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
-| [`Homotopy.HomotopyGroup.Sphere`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean) | Finite generalized-loop homeomorphism to fixed-north-pole sphere maps, natural set equivalence of homotopy classes with existing path components, representative and inverse formulas, constants, based postcomposition and singleton-relative homotopy. |
+| [`Homotopy.HomotopyGroup.Sphere`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean) | Finite generalized-loop homeomorphism to fixed-north-pole sphere maps, natural set equivalence of homotopy classes with existing path components, representative and inverse formulas, the based-path fundamental-group characteristic in dimension one, constants, based postcomposition and singleton-relative homotopy. |
 | [`Homotopy.HomotopyGroup.SpherePinch`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean) | Fold-class comparison with existing multiplication in the order `J(G) * J(F)`, both original retraction counits, associativity of folding and original three-factor coassociativity for positive-dimensional spheres; folded-map interchange and original-factor-swap cocommutativity in dimensions at least two, all relative to the last-axis north pole. |
 | [`Homotopy.HomotopyGroup.SpherePinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean) | Jointly continuous raw folding on the compact-open north-based sphere-map subtype, closed-half formulas, agreement with coordinate-zero concatenation, preservation of simultaneous paths, and identity/constant order separation for every positive sphere dimension. |
 | [`Homotopy.HomotopyGroup.SphereCoordinateReflection`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean) | Precomposition by every pre-last coordinate reflection represents the existing homotopy-group inverse for arbitrary based targets; both reflection/identity pinch folds are nullhomotopic relative to north in every positive dimension, including S¹. |
