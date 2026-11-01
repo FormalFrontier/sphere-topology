@@ -10,8 +10,8 @@ ownership of external expression or permission to redistribute it.
 
 The chosen-point wide-pushout equivalences and relative contractions are
 Formal Frontier contributions using Mathlib's homotopy equivalences and relative
-homotopies, together with the library's parametrized homotopy descent. May's
-Chapter 2, §8, p. 19 supplies the point-wedge setting; the supplied contractions
+homotopies, together with Fundamental Groupoids' parametrized homotopy descent.
+May's Chapter 2, §8, p. 19 supplies the point-wedge setting; the supplied contractions
 fixing attaching points are explicitly stronger data than ordinary
 contractibility. The countable interval client uses endpoint-zero linear
 contractions and the existing factor embeddings.
@@ -79,9 +79,12 @@ sphere contractions and wide-pushout neighborhood and fundamental-group APIs.
 Formal Frontier Agents supplied the comparison with the original circle
 inclusions and the chart-kernel argument; no geometric word-extraction algorithm
 is asserted.
-The generic wide-pushout quotient presentation reuses Joël Riou's Mathlib
-`Types.Pushout` and the Mathlib topological-colimit interface. The finite-support
-theorem for compact subsets of arbitrary point-attached T₁ spaces is stronger
+The generic wide-pushout quotient presentation, continuous descent and
+point-relative homotopy descent were originally developed in Sphere by Formal
+Frontier Agents and are supplied by
+[Fundamental Groupoids](https://github.com/FormalFrontier/fundamental-groupoids).
+They reuse Joël Riou's Mathlib `Types.Pushout` and the Mathlib
+topological-colimit interface. The finite-support theorem for compact subsets of arbitrary point-attached T₁ spaces is stronger
 than that source setting: Formal Frontier Agents supplied its quotient-fiber
 and closed-discrete-selection argument, using Mathlib's compactness and discrete-
 subset criteria. The stock complex-circle example reuses Heather Macbeth's
@@ -110,8 +113,8 @@ reparametrization homotopy. The nonidentity client retains the existing positive
 circle loop and its generator calculation. Original proof expression and prose
 are used; no dependency implementation or external expression is bundled.
 
-The parametrized final-topology and wide-pushout descent interface reuses
-Mathlib's topological colimits by Patrick Massot, Kim Morrison, Mario Carneiro
+The parametrized final-topology and wide-pushout descent interface, now supplied
+by Fundamental Groupoids, reuses Mathlib's topological colimits by Patrick Massot, Kim Morrison, Mario Carneiro
 and Andrew Yang, Reid Barton's compact-open currying, the evaluation and
 locally compact pair APIs, and Shing Tak Lam's homotopies. The shared
 free-path-space transposition approach and its gluing application were developed

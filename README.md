@@ -189,8 +189,8 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   This includes the radius-zero singleton and generalizes May's closed unit
   disk self-map theorem (Chapter 1, §6, p. 10); it is not a higher-dimensional
   fixed-point theorem.
-- **Quotient presentations of topological wide pushouts.**
-  [`TopCat.widePushoutHomeomorph`](SphereTopology/Topology/WidePushout.lean)
+- **Quotient presentations of topological wide pushouts (Fundamental Groupoids).**
+  [`TopCat.widePushoutHomeomorph`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/Topology/Category/TopCat/Limits/WidePushout.lean)
   identifies the quotient of `B ⊕ Σ i, X i` by `b ∼ (i, f i b)` with the
   categorical wide pushout of arbitrary continuous maps `f i : B ⟶ X i`,
   preserving the head and every factor. Continuity and descent have an
@@ -212,17 +212,19 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   closed embedding that is not open. For open neighborhoods of the attaching points,
   [`TopCat.widePushoutPointNeighborhoodHomeomorph`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean)
   identifies their wide pushout with its open range in the ordinary subtype topology.
-- **Parametrized continuity and homotopy gluing.**
-  [`TopCat.continuous_prod_iff_of_isColimit`](SphereTopology/Topology/WidePushoutHomotopy.lean)
+- **Parametrized continuity and homotopy gluing (Fundamental Groupoids).**
+  [`TopCat.continuous_prod_iff_of_isColimit`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/Topology/Category/TopCat/Limits/Products.lean)
   checks joint continuity on the legs of any supplied topological colimit under
   Mathlib's `LocallyCompactPair P Y` hypothesis; a locally compact parameter
   suffices, with no separation condition on the target. Parameter and target
   universes are independent. Compatible families on a wide pushout's head and
   every factor descend continuously, with computation, uniqueness, fixed-parameter
   and reparametrization laws. Compatible interval homotopies glue at all times,
-  without requiring the common point to stay fixed.
+  without requiring the common point to stay fixed. Point-relative descent is
+  supplied by
+  [`TopCat.widePushoutPointHomotopyRel`](https://github.com/FormalFrontier/fundamental-groupoids/blob/main/FundamentalGroupoids/Topology/Homotopy/WidePushout.lean).
 - **Point-relative equivalences and contractions.**
-  [`TopCat.widePushoutPointHomotopyEquiv`](SphereTopology/Topology/WidePushoutPointHomotopy.lean)
+  [`TopCat.widePushoutPointHomotopyEquiv`](SphereTopology/Topology/WidePushout/PointHomotopyEquiv.lean)
   descends point-preserving factor maps and supplied relative inverse homotopies.
   Inverse point preservation follows from the forward maps and left relative
   homotopies. The chosen relative witnesses compute on the head and every factor.
@@ -498,13 +500,14 @@ verification module. Routine use does not need `lake update`.
 | `Topology.StdSimplex`, `Topology.SingularLifts` | Finite-simplex domain instances, evaluation equivalences, restriction bijections and equifibered singular maps for covering spaces. |
 | `Topology.WidePushoutRetraction` | Selected-factor retractions, head and every-factor equations, and embeddings for arbitrary point-wide-pushouts. |
 | `Topology.WidePushout.Separation` | Joint injectivity of factor retractions, including empty families; canonical T₀/T₁/T₂ inheritance and factorwise iff/reflection via factor embeddings. |
-| `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
+| `Topology.WidePushout` | Deprecated compatibility import for Fundamental Groupoids' quotient presentation and descent, also reexporting local factor retractions. |
 | [`Topology.WidePushout.PointMap`](SphereTopology/Topology/WidePushout/PointMap.lean) | Point-preserving descent, characteristic equations, identity/composition, final topology and the head-retaining range union. |
 | [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity identities, componentwise embeddings, and open/closed map and embedding criteria at their natural hypotheses. The [finite-label-fiber closed-map engine](SphereTopology/Topology/WidePushout/ClosedMap.lean) gives the sharp omitted-singleton criterion for given functions with closed components, point reflection and head/leg equations, without continuity or separation assumptions; it uses Mathlib's colimit topology and local `PointMap` and `Compactness` APIs. |
 | [`Topology.WidePushout.OpenNeighborhood`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean) | Arbitrary-subset neighborhoods, local factor pullbacks and the ordinary open-subtype neighborhood homeomorphism. |
 | [`Topology.WidePushout.PointLift`](SphereTopology/Topology/WidePushout/PointLift.lean) | Original-domain conjugation and the independent factor/index universe ULift caller. |
-| `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
-| `Topology.WidePushoutPointHomotopy` | Point-preserving factor equivalences with singleton-relative inverse witnesses, head and factor equations, and contractions fixing the common point. |
+| `Topology.WidePushoutHomotopy` | Deprecated compatibility import for Fundamental Groupoids' product-parameter continuity and homotopy descent, also reexporting local factor retractions. |
+| `Topology.WidePushoutPointHomotopy` | Deprecated compatibility import for Fundamental Groupoids' point-relative descent and `Topology.WidePushout.PointHomotopyEquiv`. |
+| [`Topology.WidePushout.PointHomotopyEquiv`](SphereTopology/Topology/WidePushout/PointHomotopyEquiv.lean) | Point-preserving factor equivalences with singleton-relative inverse witnesses, head and factor equations, and contractions fixing the common point. |
 | `Topology.WidePushout.Compactness` | Support away from chosen points, common-point covering characterization, finite support of compact subsets for T₁ factors and compact-domain finite-factor coverings. |
 | `Topology.WidePushout.Chart` | Factor-plus-subset charts, exact inverse images and intersections, an empty-family-compatible cover, factorwise path connectedness, and openness for an open common subset containing the head. |
 | `Topology.WidePushout.FundamentalGroup` | Open-neighborhood charts, common-overlap fundamental-group descent and extensionality; inclusion-induced coproduct map, conditional split injection and monoid-target extensions. |

@@ -13,7 +13,7 @@ import SphereTopology.Homotopy.Sphere
 import SphereTopology.Topology.WidePushout.FundamentalGroupKernel
 import SphereTopology.Topology.WidePushout.OpenNeighborhood
 import SphereTopology.Topology.WidePushout.PointLift
-import SphereTopology.Topology.WidePushoutPointHomotopy
+import SphereTopology.Topology.WidePushout.PointHomotopyEquiv
 
 /-!
 # Free generators for circle-bouquet fundamental groups

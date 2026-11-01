@@ -4,7 +4,8 @@ Authors: Formal Frontier Agents
 -/
 module
 
-public import SphereTopology.Topology.WidePushout
+public import FundamentalGroupoids.Topology.Category.TopCat.Limits.WidePushout
+public import SphereTopology.Topology.WidePushoutRetraction
 public import Mathlib.Topology.DiscreteSubset
 public import Mathlib.Topology.Compactness.Compact
 

@@ -5,7 +5,8 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homotopy.HomotopyGroup.Sphere
-public import SphereTopology.Topology.WidePushout
+public import FundamentalGroupoids.Topology.Category.TopCat.Limits.WidePushout
+public import SphereTopology.Topology.WidePushoutRetraction
 import SphereTopology.Topology.WidePushout.Separation
 import SphereTopology.Topology.WidePushout.Compactness
 import Mathlib.Tactic.FinCases

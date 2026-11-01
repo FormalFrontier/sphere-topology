@@ -25,7 +25,8 @@ public import SphereTopology.Homotopy.Sphere
 public import SphereTopology.Homotopy.TangentField
 public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
-public import SphereTopology.Topology.WidePushout
+public import FundamentalGroupoids.Topology.Category.TopCat.Limits.WidePushout
+public import SphereTopology.Topology.WidePushoutRetraction
 public import SphereTopology.Topology.WidePushout.ClosedMap
 public import SphereTopology.Topology.WidePushout.Separation
 public import SphereTopology.Topology.WidePushout.Compactness
@@ -37,8 +38,8 @@ public import SphereTopology.Topology.WidePushout.FundamentalGroupKernel
 public import SphereTopology.Topology.WidePushout.SubsetRetraction
 public import SphereTopology.Topology.WidePushout.Subfamily
 public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy
-public import SphereTopology.Topology.WidePushoutHomotopy
-public import SphereTopology.Topology.WidePushoutPointHomotopy
+public import FundamentalGroupoids.Topology.Homotopy.WidePushout
+public import SphereTopology.Topology.WidePushout.PointHomotopyEquiv
 public import FundamentalGroupoids.Topology.Covering.DeckGroup
 public import FundamentalGroupoids.Topology.Covering.DeckMonodromy
 public import FundamentalGroupoids.Topology.Covering.Monodromy
