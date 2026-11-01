@@ -20,9 +20,11 @@ to `EuclideanSpace.northPoint n`, the last-axis north pole.
 
 `Cube.collapseToSphere` composes this homeomorphism with the collapse of the
 cube boundary. Its inverse image of the north pole is exactly the boundary.
-The construction includes `n = 0`: the cube point maps to the south pole,
-while the separate point at infinity maps to the north pole. No surjectivity
-of the collapse map is asserted in dimension zero.
+In positive dimensions the collapse is surjective and a quotient map, giving
+access to `Topology.IsQuotientMap.continuous_iff` for maps into any topological
+space. The construction includes `n = 0`: the cube point maps to the south
+pole, while the separate point at infinity maps to the north pole. The
+zero-dimensional collapse is not surjective.
 
 ## References
 
@@ -30,7 +32,8 @@ of the collapse map is asserted in dimension zero.
   p. 65, uses based maps from spheres to describe homotopy groups.
 * Fundamental Groupoids supplies the increasing cube coordinates and
   `OnePoint.collapse`, using Mathlib's cube and one-point compactification APIs.
-* Mathlib supplies `PiLp.homeomorph` and `Homeomorph.onePointCongr`.
+* Mathlib supplies `PiLp.homeomorph`, `Homeomorph.onePointCongr`, and the
+  quotient-map criterion for continuous surjections from compact to Hausdorff spaces.
 * The sphere coordinates and last-axis pole are those of this library's
   `EuclideanSpace.onePointHomeomorphSphere`.
 -/
@@ -114,6 +117,24 @@ theorem collapseToSphere_eq_northPoint_iff (n : ℕ) (t : I^(Fin n)) :
     (onePointBoundaryComplHomeomorphSphere n).injective.eq_iff,
     OnePoint.collapse_eq_infty_iff]
   simp only [TopologicalSpace.Opens.mem_mk, Set.mem_compl_iff, not_not]
+
+/-- The boundary collapse onto the sphere is surjective in positive dimensions. -/
+theorem surjective_collapseToSphere (n : ℕ) [NeZero n] :
+    Function.Surjective (collapseToSphere n) := by
+  intro y
+  obtain ⟨z, rfl⟩ := (onePointBoundaryComplHomeomorphSphere n).surjective y
+  refine OnePoint.rec ?_ (fun u ↦ ?_) z
+  · refine ⟨0, ?_⟩
+    rw [onePointBoundaryComplHomeomorphSphere_apply_infty,
+      collapseToSphere_eq_northPoint_iff]
+    exact zero_mem_boundary (Fin n)
+  · exact ⟨u.val, collapseToSphere_apply_coe n u⟩
+
+/-- The boundary collapse onto the sphere is a quotient map in positive dimensions. -/
+theorem isQuotientMap_collapseToSphere (n : ℕ) [NeZero n] :
+    Topology.IsQuotientMap (collapseToSphere n) :=
+  Topology.IsQuotientMap.of_surjective_continuous (surjective_collapseToSphere n)
+    (map_continuous (collapseToSphere n))
 
 /-- The unique point of the zero-dimensional cube maps to the south pole. -/
 @[simp]
