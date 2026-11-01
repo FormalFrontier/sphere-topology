@@ -211,8 +211,11 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   homeomorphism to the original factor. Consequently, `q` is surjective exactly
   when `ker pᵢ ≤ ker γᵢ` for every chart. Under this condition, `q` and the specified
   `ρ` form a multiplicative equivalence, and these extensions are unique
-  for arbitrary independently universed monoid targets. No simply connected core,
-  path-connected core preimages or chart–factor homotopy equivalences are required.
+  for arbitrary independently universed monoid targets. For the inclusion family
+  into the ambient fundamental group, this condition is also necessary for
+  uniqueness: when it fails, the identity and `q.comp ρ` agree on all original-factor
+  restrictions but differ. No simply connected core, path-connected core preimages
+  or chart–factor homotopy equivalences are required.
   Index and space universes are independent, and an empty family retains its point
   head. No vanishing of these chart defects or free-product computation from
   ordinary contractibility of chosen factor neighborhoods is asserted.
@@ -404,7 +407,7 @@ verification module. Routine use does not need `lake update`.
 | `Topology.WidePushout.Chart` | Factor-plus-subset charts, exact inverse images and intersections, an empty-family-compatible cover, factorwise path connectedness, and openness for an open common subset containing the head. |
 | `Topology.WidePushout.FundamentalGroup` | Open-neighborhood charts, common-overlap fundamental-group descent and extensionality; inclusion-induced coproduct map, conditional split injection and monoid-target extensions. |
 | `Topology.WidePushout.FundamentalGroupColimit` | Core-to-chart fundamental-group star, ambient inclusion cocone, its colimit universal property and raw-colimit multiplicative equivalence preserving every leg in both directions; path-connected core and whole factors suffice. |
-| [`Topology.WidePushout.FundamentalGroupKernel`](SphereTopology/Topology/WidePushout/FundamentalGroupKernel.lean) | Normal-closure kernel of the original-factor-coproduct retraction, exact original-factor generation criterion, specified multiplicative equivalence and monoid-target extension uniqueness when chart-collapse kernels vanish under chart inclusions; independent universes and empty families. |
+| [`Topology.WidePushout.FundamentalGroupKernel`](SphereTopology/Topology/WidePushout/FundamentalGroupKernel.lean) | Normal-closure kernel of the original-factor-coproduct retraction, exact original-factor generation criterion, specified multiplicative equivalence, monoid-target extension uniqueness and its sharp ambient self-target criterion; independent universes and empty families. |
 | `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.WidePushout.SubfamilyHomotopy` | Support criterion and object-level recovery for relative homotopies, strict compact-image finite-stage factorization with prescribed finite initial data, and fixed-stage reflection without separation assumptions. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
