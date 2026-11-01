@@ -98,7 +98,15 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   coordinate zero; the two closed-half formulas agree at the separating slice,
   and fixed quarter-point witnesses give distinct non-head values.
   `surjective_pinch` and `isQuotientMap_pinch` show that it is surjective and a
-  quotient map for the topology of that categorical target.
+  quotient map for the topology of that categorical target. `pinch_eq_head_iff`
+  identifies its head fiber with the equator where ambient coordinate zero
+  vanishes; `pinch_eq_pinch_iff` says that two points have the same image exactly
+  when they are equal or both lie on that equator.
+  [`Metric.Sphere.pinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean)
+  is jointly continuous on the ordinary compact-open based-map subtype and
+  preserves simultaneous paths of its factors, for arbitrary topological targets.
+  Its identity/constant folds in opposite orders differ at the left quarter-point,
+  including for the circle.
   [`pinch_fold_class`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean)
   compares folding based maps `F, G` with the existing homotopy-group
   multiplication: writing `J` for the inverse sphere-class comparison, the
@@ -119,6 +127,20 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   topology. No dimension-one cocommutativity, zero-sphere pinch, orientation,
   full cogroup structure or new group operation on sphere-map components is
   asserted.
+- **Based coordinate reflections and coinverses.** For every positive sphere
+  dimension `d = n + 1`, including S¹, and every pre-last axis `i : Fin (n + 1)`,
+  [`coordinateReflection`](SphereTopology/Geometry/SphereCoordinateReflection.lean)
+  negates exactly ambient coordinate `i.castSucc` and fixes the last-axis north
+  pole. It is involutive, differs from the identity, and is uniquely determined
+  by its cube pullback: reversing axis `i` of the original collapse. For an
+  arbitrary based map to a topological space,
+  [`coordinateReflection_precomp_class`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean)
+  identifies precomposition by this reflection with the existing homotopy-group
+  inverse. Folding the pinch with reflection and identity in either order is
+  homotopic to the north constant relative to the north pole, for every such
+  axis; neither folded map is equal to that constant. These results do not
+  require commutativity and do not assert S¹ cocommutativity or a full cogroup
+  structure.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -421,7 +443,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`00d121de57ca231c33d39346285ddb3e7a1123db`, and Group Theory
+`8c837e82648939ced56a8d7ee005d6f582204b1e`, and Group Theory
 `fede999e7a0b41086092b26a52281c53d938975e`. The manifest also includes
 Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a`.
 Fetch the matching precompiled Mathlib cache successfully before building:
@@ -449,8 +471,9 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.Projectivization`](SphereTopology/Geometry/Projectivization.lean) | Canonical real unit-sphere projection for the given norm, quotient-map and equal-or-antipodal fiber criteria, negation law, and quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`. |
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
-| [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
-| [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, surjectivity and quotient topology, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
+| [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero; a pre-last ambient coordinate vanishes exactly on the boundary or its corresponding midpoint slice. |
+| [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, surjectivity and quotient topology, equatorial head fiber and equal-or-equatorial fiber criterion, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
+| [`Geometry.SphereCoordinateReflection`](SphereTopology/Geometry/SphereCoordinateReflection.lean) | North-fixing involutive reflection in every pre-last coordinate of each positive-dimensional sphere, original cube-reversal characteristic and uniqueness, generalized-loop comparison, and nonconstant reflection/identity folds, including S¹. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, finite-label-fiber closedness of relabeling, positive-generator homomorphism, circle retractions and generator nonidentity. The [closed-map criterion](SphereTopology/Homotopy/CircleBouquet/ClosedMap.lean) characterizes closed relabelings exactly by finite label fibers, using Mathlib's circle topology and the local point-wide-pushout criterion. |
 | [`Homotopy.CircleBouquet.Topology`](SphereTopology/Homotopy/CircleBouquet/Topology.lean) | Relabeling is a closed embedding exactly for injective label maps, and a quotient map exactly for surjective label maps, with independent source and target ambient and label universes. |
@@ -460,6 +483,8 @@ verification module. Routine use does not need `lake update`.
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | [`Homotopy.HomotopyGroup.Sphere`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean) | Finite generalized-loop homeomorphism to fixed-north-pole sphere maps, natural set equivalence of homotopy classes with existing path components, representative and inverse formulas, constants, based postcomposition and singleton-relative homotopy. |
 | [`Homotopy.HomotopyGroup.SpherePinch`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean) | Fold-class comparison with existing multiplication in the order `J(G) * J(F)`, both original retraction counits, associativity of folding and original three-factor coassociativity for positive-dimensional spheres; folded-map interchange and original-factor-swap cocommutativity in dimensions at least two, all relative to the last-axis north pole. |
+| [`Homotopy.HomotopyGroup.SpherePinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean) | Jointly continuous raw folding on the compact-open north-based sphere-map subtype, closed-half formulas, agreement with coordinate-zero concatenation, preservation of simultaneous paths, and identity/constant order separation for every positive sphere dimension. |
+| [`Homotopy.HomotopyGroup.SphereCoordinateReflection`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean) | Precomposition by every pre-last coordinate reflection represents the existing homotopy-group inverse for arbitrary based targets; both reflection/identity pinch folds are nullhomotopic relative to north in every positive dimension, including S¹. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |

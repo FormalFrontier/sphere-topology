@@ -7,6 +7,7 @@ module
 public import SphereTopology.Homotopy.HomotopyGroup.Sphere
 public import SphereTopology.Topology.WidePushout
 import SphereTopology.Topology.WidePushout.Separation
+import SphereTopology.Topology.WidePushout.Compactness
 import Mathlib.Tactic.FinCases
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
@@ -303,6 +304,215 @@ theorem surjective_pinch : Function.Surjective (pinch n) := by
 point-wide-pushout. -/
 theorem isQuotientMap_pinch : Topology.IsQuotientMap (pinch n) :=
   Topology.IsQuotientMap.of_surjective_continuous (surjective_pinch n) (pinch n).continuous
+
+private theorem pinch_compression_boundary (t : I^(Fin (n + 1))) (c : ℝ)
+    (hc : c = 0 ∨ c = 1)
+    (htc : 0 ≤ 2 * (t 0 : ℝ) - c ∧ 2 * (t 0 : ℝ) - c ≤ 1)
+    (h : Function.update t 0
+      (Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c)) ∈
+        Cube.boundary (Fin (n + 1))) :
+    t ∈ Cube.boundary (Fin (n + 1)) ∨ (t 0 : ℝ) = 1 / 2 := by
+  obtain ⟨i, hi⟩ := h
+  by_cases hi0 : i = 0
+  · subst i
+    have hend : 2 * (t 0 : ℝ) - c = 0 ∨ 2 * (t 0 : ℝ) - c = 1 := by
+      rcases hi with hi | hi
+      · left
+        have hp : Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c) = 0 := by
+          simpa only [Function.update_self] using hi
+        exact le_antisymm (projIcc_eq_zero.mp hp) htc.1
+      · right
+        have hp : Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c) = 1 := by
+          simpa only [Function.update_self] using hi
+        exact le_antisymm htc.2 (projIcc_eq_one.mp hp)
+    rcases hc with rfl | rfl
+    · rcases hend with he | he
+      · left
+        refine ⟨0, Or.inl ?_⟩
+        apply Subtype.ext
+        change (t 0 : ℝ) = 0
+        linarith
+      · right
+        linarith
+    · rcases hend with he | he
+      · right
+        linarith
+      · left
+        refine ⟨0, Or.inr ?_⟩
+        apply Subtype.ext
+        change (t 0 : ℝ) = 1
+        linarith
+  · left
+    exact ⟨i, by simpa only [Function.update_of_ne hi0] using hi⟩
+
+/-- Exactly the points with zero first ambient coordinate map to the pushout head. -/
+theorem pinch_eq_head_iff (z : S) :
+    pinch n z = b ↔ (z : EuclideanSpace ℝ (Fin ((n + 1) + 1))) 0 = 0 := by
+  obtain ⟨t, rfl⟩ := Cube.surjective_collapseToSphere (n + 1) z
+  have hzero :
+      (Cube.collapseToSphere (n + 1) t :
+        EuclideanSpace ℝ (Fin ((n + 1) + 1))) 0 = 0 ↔
+      t ∈ Cube.boundary (Fin (n + 1)) ∨ (t 0 : ℝ) = 1 / 2 := by
+    simpa only [Fin.castSucc_zero] using
+      Cube.collapseToSphere_apply_castSucc_eq_zero_iff (n + 1) t (0 : Fin (n + 1))
+  rw [hzero]
+  constructor
+  · intro h
+    by_cases ht : (t 0 : ℝ) ≤ 1 / 2
+    · have hp : Cube.collapseToSphere (n + 1)
+          (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0))) = a :=
+        (TopCat.widePushout_point_ι_eq_head_iff (X := D)
+          (fun _ : Fin 2 ↦ a) 0 _).mp
+            ((pinch_apply_collapseToSphere_of_le n t ht).symm.trans h)
+      exact pinch_compression_boundary n t 0 (Or.inl rfl)
+        ⟨by linarith [(t 0).property.1], by linarith⟩
+        (by simpa only [sub_zero] using
+          (Cube.collapseToSphere_eq_northPoint_iff (n + 1) _).mp hp)
+    · have ht' : 1 / 2 ≤ (t 0 : ℝ) := (not_le.mp ht).le
+      have hp : Cube.collapseToSphere (n + 1)
+          (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * t 0 - 1))) = a :=
+        (TopCat.widePushout_point_ι_eq_head_iff (X := D)
+          (fun _ : Fin 2 ↦ a) 1 _).mp
+            ((pinch_apply_collapseToSphere_of_ge n t ht').symm.trans h)
+      exact pinch_compression_boundary n t 1 (Or.inr rfl)
+        ⟨by linarith, by linarith [(t 0).property.2]⟩
+        ((Cube.collapseToSphere_eq_northPoint_iff (n + 1) _).mp hp)
+  · rintro (ht | ht)
+    · rw [(Cube.collapseToSphere_eq_northPoint_iff (n + 1) t).mpr ht,
+        pinch_northPoint]
+    · exact pinch_apply_collapseToSphere_midpoint n t ht
+
+private theorem pinch_eq_of_same_compression (t u : I^(Fin (n + 1)))
+    (j : Fin 2) (c : ℝ)
+    (htc : 0 ≤ 2 * (t 0 : ℝ) - c ∧ 2 * (t 0 : ℝ) - c ≤ 1)
+    (huc : 0 ≤ 2 * (u 0 : ℝ) - c ∧ 2 * (u 0 : ℝ) - c ≤ 1)
+    (htn : pinch n (Cube.collapseToSphere (n + 1) t) ≠ b)
+    (hun : pinch n (Cube.collapseToSphere (n + 1) u) ≠ b)
+    (hpt : pinch n (Cube.collapseToSphere (n + 1) t) =
+      ι j (Cube.collapseToSphere (n + 1)
+        (Function.update t 0 (Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c)))))
+    (hpu : pinch n (Cube.collapseToSphere (n + 1) u) =
+      ι j (Cube.collapseToSphere (n + 1)
+        (Function.update u 0 (Set.projIcc 0 1 zero_le_one (2 * (u 0 : ℝ) - c)))))
+    (h : pinch n (Cube.collapseToSphere (n + 1) t) =
+      pinch n (Cube.collapseToSphere (n + 1) u)) :
+    Cube.collapseToSphere (n + 1) t = Cube.collapseToSphere (n + 1) u := by
+  let t' := Function.update t 0
+    (Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c))
+  let u' := Function.update u 0
+    (Set.projIcc 0 1 zero_le_one (2 * (u 0 : ℝ) - c))
+  have hct : Cube.collapseToSphere (n + 1) t' ≠ a := by
+    intro he
+    apply htn
+    calc
+      pinch n (Cube.collapseToSphere (n + 1) t) =
+          ι j (Cube.collapseToSphere (n + 1) t') := hpt
+      _ = b := by
+        rw [he]
+        exact TopCat.widePushout_point_ι_point (X := D) (fun _ : Fin 2 ↦ a) j
+  have hcu : Cube.collapseToSphere (n + 1) u' ≠ a := by
+    intro he
+    apply hun
+    calc
+      pinch n (Cube.collapseToSphere (n + 1) u) =
+          ι j (Cube.collapseToSphere (n + 1) u') := hpu
+      _ = b := by
+        rw [he]
+        exact TopCat.widePushout_point_ι_point (X := D) (fun _ : Fin 2 ↦ a) j
+  have ht' : t' ∈ (Cube.boundary (Fin (n + 1)))ᶜ :=
+    fun hm ↦ hct ((Cube.collapseToSphere_eq_northPoint_iff (n + 1) t').mpr hm)
+  have hu' : u' ∈ (Cube.boundary (Fin (n + 1)))ᶜ :=
+    fun hm ↦ hcu ((Cube.collapseToSphere_eq_northPoint_iff (n + 1) u').mpr hm)
+  have hq : Cube.collapseToSphere (n + 1) t' =
+      Cube.collapseToSphere (n + 1) u' :=
+    (TopCat.isEmbedding_widePushout_point_ι D (fun _ : Fin 2 ↦ a) j).injective
+      (hpt.symm.trans (h.trans hpu))
+  have hinterior :
+      (⟨t', ht'⟩ : ((Cube.boundary (Fin (n + 1)))ᶜ : Set (I^(Fin (n + 1))))) =
+        ⟨u', hu'⟩ := by
+    apply OnePoint.coe_injective
+    apply (Cube.onePointBoundaryComplHomeomorphSphere (n + 1)).injective
+    simpa only [← Cube.collapseToSphere_apply_coe] using hq
+  have he : t' = u' := congrArg Subtype.val hinterior
+  have htu : t = u := by
+    funext i
+    by_cases hi : i = 0
+    · subst i
+      apply Subtype.ext
+      have he0 :
+          (Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c) : ℝ) =
+            (Set.projIcc 0 1 zero_le_one (2 * (u 0 : ℝ) - c) : ℝ) := by
+        simpa only [t', u', Function.update_self] using
+          congrArg (fun v : I^(Fin (n + 1)) ↦ (v 0 : ℝ)) he
+      have hproj_t : (Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - c) : ℝ) =
+          2 * (t 0 : ℝ) - c :=
+        congrArg Subtype.val (Set.projIcc_of_mem zero_le_one htc)
+      have hproj_u : (Set.projIcc 0 1 zero_le_one (2 * (u 0 : ℝ) - c) : ℝ) =
+          2 * (u 0 : ℝ) - c :=
+        congrArg Subtype.val (Set.projIcc_of_mem zero_le_one huc)
+      rw [hproj_t, hproj_u] at he0
+      change (t 0 : ℝ) = (u 0 : ℝ)
+      linarith
+    · simpa only [t', u', Function.update_of_ne hi] using congrFun he i
+  exact congrArg (Cube.collapseToSphere (n + 1)) htu
+
+/-- Two points have the same pinch value exactly when they are equal or both
+have zero first ambient coordinate. -/
+theorem pinch_eq_pinch_iff (z w : S) :
+    pinch n z = pinch n w ↔
+      z = w ∨
+        ((z : EuclideanSpace ℝ (Fin ((n + 1) + 1))) 0 = 0 ∧
+          (w : EuclideanSpace ℝ (Fin ((n + 1) + 1))) 0 = 0) := by
+  constructor
+  · intro h
+    by_cases hz : (z : EuclideanSpace ℝ (Fin ((n + 1) + 1))) 0 = 0
+    · right
+      exact ⟨hz, (pinch_eq_head_iff n w).mp
+        (h.symm.trans ((pinch_eq_head_iff n z).mpr hz))⟩
+    · left
+      have hzn : pinch n z ≠ b := fun he ↦ hz ((pinch_eq_head_iff n z).mp he)
+      have hwn : pinch n w ≠ b := fun he ↦ hzn (h.trans he)
+      have index_eq (j k : Fin 2) (x y : S)
+          (hx : ι j x ≠ b) (he : ι j x = ι k y) : j = k := by
+        have hxa : x ≠ a := by
+          intro ha
+          apply hx
+          rw [ha]
+          exact TopCat.widePushout_point_ι_point (X := D) (fun _ : Fin 2 ↦ a) j
+        exact congrArg Sigma.fst
+          ((TopCat.widePushout_point_ι_eq_ι_iff_of_ne (X := D)
+            (fun _ : Fin 2 ↦ a) hxa).mp he)
+      obtain ⟨t, rfl⟩ := Cube.surjective_collapseToSphere (n + 1) z
+      obtain ⟨u, rfl⟩ := Cube.surjective_collapseToSphere (n + 1) w
+      by_cases ht : (t 0 : ℝ) ≤ 1 / 2
+      · have hL := pinch_apply_collapseToSphere_of_le n t ht
+        by_cases hu : (u 0 : ℝ) ≤ 1 / 2
+        · have huL := pinch_apply_collapseToSphere_of_le n u hu
+          exact pinch_eq_of_same_compression n t u 0 0
+            ⟨by linarith [(t 0).property.1], by linarith⟩
+            ⟨by linarith [(u 0).property.1], by linarith⟩ hzn hwn
+            (by simpa only [sub_zero] using hL)
+            (by simpa only [sub_zero] using huL) h
+        · have huR := pinch_apply_collapseToSphere_of_ge n u (not_le.mp hu).le
+          have h01 : (0 : Fin 2) = 1 := index_eq 0 1 _ _
+            (fun hb ↦ hzn (hL.trans hb)) (hL.symm.trans (h.trans huR))
+          exact ((by decide : (0 : Fin 2) ≠ 1) h01).elim
+      · have ht' : 1 / 2 ≤ (t 0 : ℝ) := (not_le.mp ht).le
+        have hR := pinch_apply_collapseToSphere_of_ge n t ht'
+        by_cases hu : (u 0 : ℝ) ≤ 1 / 2
+        · have huL := pinch_apply_collapseToSphere_of_le n u hu
+          have h10 : (1 : Fin 2) = 0 := index_eq 1 0 _ _
+            (fun hb ↦ hzn (hR.trans hb)) (hR.symm.trans (h.trans huL))
+          exact ((by decide : (1 : Fin 2) ≠ 0) h10).elim
+        · have hu' : 1 / 2 ≤ (u 0 : ℝ) := (not_le.mp hu).le
+          have huR := pinch_apply_collapseToSphere_of_ge n u hu'
+          exact pinch_eq_of_same_compression n t u 1 1
+            ⟨by linarith, by linarith [(t 0).property.2]⟩
+            ⟨by linarith, by linarith [(u 0).property.2]⟩ hzn hwn hR huR h
+  · rintro (rfl | ⟨hz, hw⟩)
+    · rfl
+    · exact ((pinch_eq_head_iff n z).mpr hz).trans
+        ((pinch_eq_head_iff n w).mpr hw).symm
 
 section Fold
 

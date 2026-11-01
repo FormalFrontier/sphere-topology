@@ -118,6 +118,37 @@ theorem collapseToSphere_eq_northPoint_iff (n : ℕ) (t : I^(Fin n)) :
     OnePoint.collapse_eq_infty_iff]
   simp only [TopologicalSpace.Opens.mem_mk, Set.mem_compl_iff, not_not]
 
+/-- A pre-last ambient coordinate of the collapsed cube vanishes exactly on the
+cube boundary or on the corresponding midpoint slice. -/
+theorem collapseToSphere_apply_castSucc_eq_zero_iff (n : ℕ) (t : I^(Fin n))
+    (i : Fin n) :
+    (collapseToSphere n t : EuclideanSpace ℝ (Fin (n + 1))) i.castSucc = 0 ↔
+      t ∈ boundary (Fin n) ∨ (t i : ℝ) = 1 / 2 := by
+  by_cases ht : t ∈ boundary (Fin n)
+  · rw [(collapseToSphere_eq_northPoint_iff n t).mpr ht,
+      EuclideanSpace.northPoint_apply_castSucc]
+    simp [ht]
+  · let u : ((boundary (Fin n))ᶜ : Set (I^(Fin n))) := ⟨t, ht⟩
+    let x : EuclideanSpace ℝ (Fin n) :=
+      WithLp.toLp 2 (boundaryComplHomeomorphPi (Fin n) u)
+    have hcoord :
+        (collapseToSphere n t : EuclideanSpace ℝ (Fin (n + 1))) i.castSucc =
+          4 * x i / (‖x‖ ^ 2 + 4) := by
+      rw [show collapseToSphere n t =
+        onePointBoundaryComplHomeomorphSphere n
+          (u : OnePoint ((boundary (Fin n))ᶜ : Set (I^(Fin n)))) from
+            collapseToSphere_apply_coe n u,
+        onePointBoundaryComplHomeomorphSphere_apply_coe,
+        EuclideanSpace.onePointHomeomorphSphere_apply_coe_castSucc]
+    have hden : ‖x‖ ^ 2 + 4 ≠ 0 := ne_of_gt (by positivity)
+    have hzero : 4 * x i / (‖x‖ ^ 2 + 4) = 0 ↔ x i = 0 := by
+      simp [div_eq_zero_iff, hden]
+    rw [hcoord, hzero]
+    have hmid : x i = 0 ↔ (t i : ℝ) = 1 / 2 := by
+      change boundaryComplHomeomorphPi (Fin n) u i = 0 ↔ _
+      rw [boundaryComplHomeomorphPi_apply, openIntervalOrderIsoReal_eq_zero_iff]
+    simpa only [ht, false_or] using hmid
+
 /-- The boundary collapse onto the sphere is surjective in positive dimensions. -/
 theorem surjective_collapseToSphere (n : ℕ) [NeZero n] :
     Function.Surjective (collapseToSphere n) := by
