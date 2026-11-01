@@ -290,6 +290,8 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   Source and target ambient and label universes are independent, including empty
   or infinite families and noninjective label maps. The universal property is
   natural under precomposition by this map through `CircleBouquet.lift_comp_relabel`.
+  The induced fundamental-group homomorphism is injective or surjective exactly
+  when the label map has the corresponding property.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
   space, [`Metric.Sphere.diagonalHomotopyEquiv`](SphereTopology/Homotopy/Sphere.lean)
   has the diagonal as its forward map and first projection as its inverse.
@@ -401,7 +403,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
 `00d121de57ca231c33d39346285ddb3e7a1123db`, and Group Theory
-`729b89bd2e66269fa081d7a6ef238a10dd1d48d5`. The manifest also includes
+`fede999e7a0b41086092b26a52281c53d938975e`. The manifest also includes
 Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 

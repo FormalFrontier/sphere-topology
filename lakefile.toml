@@ -20,6 +20,7 @@ roots = [
   "SphereTopologyTest.Axioms",
   "SphereTopologyTest.BoundaryFixedPoint",
   "SphereTopologyTest.Circle",
+  "SphereTopologyTest.CircleBouquetRelabel",
   "SphereTopologyTest.CircleHSpace",
   "SphereTopologyTest.CircleModuleAxioms",
   "SphereTopologyTest.Clients",
@@ -56,6 +57,7 @@ globs = [
   "SphereTopologyTest.BoundaryFixedPoint",
   "SphereTopologyTest.Circle",
   "SphereTopologyTest.CircleBouquet",
+  "SphereTopologyTest.CircleBouquetRelabel",
   "SphereTopologyTest.CircleDegree",
   "SphereTopologyTest.CircleFundamentalGroup",
   "SphereTopologyTest.CircleHSpace",
@@ -116,4 +118,4 @@ rev = "00d121de57ca231c33d39346285ddb3e7a1123db"
 [[require]]
 name = "groupTheory"
 git = "https://github.com/FormalFrontier/group-theory.git"
-rev = "729b89bd2e66269fa081d7a6ef238a10dd1d48d5"
+rev = "fede999e7a0b41086092b26a52281c53d938975e"

@@ -6,6 +6,7 @@ module
 
 public import SphereTopology.Homotopy.CircleBouquet
 public import Mathlib.Algebra.Group.Equiv.Basic
+import GroupTheory.FreeGroup.Map
 import Mathlib.Algebra.Group.End
 import Mathlib.Data.Int.Cast.Lemmas
 import SphereTopology.Homotopy.Sphere
@@ -25,6 +26,10 @@ that class as the corresponding free generator. No inversion is inserted.
 The bridge `CircleBouquet.generatorEquiv_toMonoidHom` identifies its forward
 homomorphism with `generatorMap`, so `CircleBouquet.relabel_generatorMap` also
 expresses naturality of this equivalence under arbitrary relabelings of circles.
+The induced homomorphism is injective or surjective exactly when the label map
+has the corresponding property, as characterized by
+`CircleBouquet.mapOfEq_relabel_injective_iff` and
+`CircleBouquet.mapOfEq_relabel_surjective_iff`.
 
 `CircleBouquet.lift` gives the free-group universal property for group targets
 whose universe is independent of both bouquet universes. Distinct included
@@ -55,6 +60,8 @@ not an algorithm selecting geometric words from loops.
   Groupoids, and Mathlib's free-group and multiplicative-equivalence APIs.
   Relabeling naturality follows from the original-circle computation of the
   induced fundamental-group maps and the generator-value universal property.
+  The injectivity and surjectivity criteria use Group Theory's free-group map
+  criteria and Mathlib's cancellation of bijective functions in compositions.
 * The project's point-relative sphere contractions, point-wide-pushout
   neighborhood, descent and original-inclusion fundamental-group APIs.
 -/
@@ -1195,6 +1202,42 @@ theorem lift_natural {I : Type v} {G : Type w} {H : Type w'}
 section Relabel
 
 universe u' z
+
+/-- Relabeling circles induces an injective fundamental-group homomorphism exactly
+when the label map is injective, with independent ambient and label universes. -/
+theorem mapOfEq_relabel_injective_iff {I : Type v} {J : Type w} (σ : I → J) :
+    Function.Injective
+        (FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+          (relabel_basepoint.{u, v, u', w} σ)) ↔
+      Function.Injective σ := by
+  calc
+    _ ↔ Function.Injective
+        ((FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+          (relabel_basepoint.{u, v, u', w} σ)).comp (generatorMap.{u, v} I)) :=
+      (Function.Injective.of_comp_iff' _ (generatorMap_bijective.{u, v} I)).symm
+    _ ↔ Function.Injective ((generatorMap.{u', w} J).comp (FreeGroup.map σ)) := by
+      rw [relabel_generatorMap.{u, v, u', w}]
+    _ ↔ Function.Injective (FreeGroup.map σ) :=
+      Function.Injective.of_comp_iff (generatorMap_bijective.{u', w} J).injective _
+    _ ↔ Function.Injective σ := FreeGroup.map_injective_iff σ
+
+/-- Relabeling circles induces a surjective fundamental-group homomorphism exactly
+when the label map is surjective, including empty and infinite label families. -/
+theorem mapOfEq_relabel_surjective_iff {I : Type v} {J : Type w} (σ : I → J) :
+    Function.Surjective
+        (FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+          (relabel_basepoint.{u, v, u', w} σ)) ↔
+      Function.Surjective σ := by
+  calc
+    _ ↔ Function.Surjective
+        ((FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+          (relabel_basepoint.{u, v, u', w} σ)).comp (generatorMap.{u, v} I)) :=
+      (Function.Surjective.of_comp_iff _ (generatorMap_bijective.{u, v} I).surjective).symm
+    _ ↔ Function.Surjective ((generatorMap.{u', w} J).comp (FreeGroup.map σ)) := by
+      rw [relabel_generatorMap.{u, v, u', w}]
+    _ ↔ Function.Surjective (FreeGroup.map σ) :=
+      Function.Surjective.of_comp_iff' (generatorMap_bijective.{u', w} J) _
+    _ ↔ Function.Surjective σ := FreeGroup.map_surjective_iff σ
 
 /-- Precomposing a lifted homomorphism by the map induced by relabeling circles
 is the lift of the relabeled generator values. All bouquet universes and the
