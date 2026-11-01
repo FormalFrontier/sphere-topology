@@ -23,6 +23,7 @@ public import SphereTopology.Homotopy.TangentField
 public import FundamentalGroupoids.Topology.Covering.Lifting
 public import SphereTopology.Topology.SingularLifts
 public import SphereTopology.Topology.WidePushout
+public import SphereTopology.Topology.WidePushout.ClosedMap
 public import SphereTopology.Topology.WidePushout.Separation
 public import SphereTopology.Topology.WidePushout.Compactness
 public import SphereTopology.Topology.WidePushout.OpenNeighborhood
@@ -42,6 +43,7 @@ public import FundamentalGroupoids.Topology.Covering.Equivalence
 public import SphereTopology.Homology.Singular.Transfer
 public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Homotopy.CircleBouquet
+public import SphereTopology.Homotopy.CircleBouquet.ClosedMap
 public import SphereTopology.Homotopy.CircleBouquet.FundamentalGroup
 public import SphereTopology.Homotopy.CircleBouquet.Topology
 public import SphereTopology.Homotopy.CircleDegree

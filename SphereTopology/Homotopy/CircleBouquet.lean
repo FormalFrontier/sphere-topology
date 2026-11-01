@@ -9,6 +9,7 @@ public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
 public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy
 import SphereTopology.Topology.WidePushout.PointMap
+import SphereTopology.Topology.WidePushout.ClosedMap
 import Mathlib.Tactic.Linarith
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
@@ -242,6 +243,27 @@ theorem isClosed_iff {I : Type v} (V : Set (space.{u, v} I)) :
     intro i
     simpa only [Set.preimage_compl] using (hV i).isOpen_compl
 
+section SelectedPoints
+
+universe z
+
+/-- Every subcollection of nonbasepoint points selected from distinct circles is closed. -/
+theorem isClosed_image_inclusion_of_injective {I : Type v} {K : Type z}
+    (e : K → I) (he : Function.Injective e) (x : K → Circle)
+    (hx : ∀ k, x k ≠ 1) (S : Set K) :
+    IsClosed ((fun k ↦ inclusion.{u, v} (e k) (x k)) '' S) := by
+  exact TopCat.isClosed_image_widePushout_point_ι_of_injective
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) e he
+    (fun k ↦ ULift.up (x k))
+    (by
+      intro k hk
+      exact hx k (congrArg ULift.down hk))
+    (fun k ↦ by
+      change IsClosed ({ULift.up (x k)} : Set (ULift.{max u v} Circle))
+      exact isClosed_singleton) S
+
+end SelectedPoints
+
 section Relabel
 
 universe u' w
@@ -288,6 +310,33 @@ The source and target ambient and label universes are independent. -/
     relabel.{u, v, u', w} σ (inclusion.{u, v} i z) = inclusion.{u', w} (σ i) z :=
   congrArg (fun k : C(Circle, space.{u', w} J) ↦ k z)
     (relabel_inclusion.{u, v, u', w} σ i)
+
+/-- Finite fibers of the label function make relabeling a closed map.
+The source and target ambient and label universes are independent. -/
+theorem isClosedMap_relabel_of_finite_fibers {I : Type v} {J : Type w}
+    (σ : I → J) (hσ : ∀ j, Set.Finite (σ ⁻¹' ({j} : Set J))) :
+    IsClosedMap (relabel.{u, v, u', w} σ) := by
+  let g : ∀ _i : I, circle.{max u v} → circle.{max u' w} :=
+    fun _ z ↦ ULift.up z.down
+  have hg : ∀ i, IsClosedMap (g i) := by
+    intro i
+    exact (Homeomorph.ulift.{max u' w, 0} (X := Circle)).symm.isClosedMap.comp
+      (Homeomorph.ulift.{max u v, 0} (X := Circle)).isClosedMap
+  apply (TopCat.isClosedMap_iff_of_widePushout_point_legs.{u, v, u', w}
+    (fun _ : I ↦ circle.{max u v}) (fun _ : J ↦ circle.{max u' w})
+    (fun _ ↦ ULift.up (1 : Circle)) (fun _ ↦ ULift.up (1 : Circle))
+    σ g (relabel.{u, v, u', w} σ) hσ hg
+    (by
+      intro i x hx
+      apply ULift.ext
+      exact congrArg (fun y : ULift.{max u' w} Circle ↦ y.down) hx)
+    (relabel_basepoint.{u, v, u', w} σ)
+    (by
+      intro i x
+      exact relabel_inclusion_apply.{u, v, u', w} σ i x.down)).2
+  intro j _
+  change IsClosed ({ULift.up (1 : Circle)} : Set (ULift.{max u' w} Circle))
+  exact isClosed_singleton
 
 /-- Identity relabeling in the same ambient universe is the identity map. -/
 @[simp] theorem relabel_id (I : Type v) :
@@ -535,6 +584,23 @@ theorem retraction_inclusion_of_ne {I : Type v} (i j : I) (hji : j ≠ i) :
     retraction.{u, v} i (basepoint.{u, v} I) = 1 := by
   rw [← inclusion_basepoint.{u, v} i]
   exact congrArg (fun k : C(Circle, Circle) ↦ k 1) (retraction_inclusion.{u, v} i)
+
+/-- Each original circle includes injectively into the bouquet. -/
+theorem inclusion_injective {I : Type v} (i : I) :
+    Function.Injective (inclusion.{u, v} i) := by
+  have hleft : Function.LeftInverse (retraction.{u, v} i) (inclusion.{u, v} i) := by
+    intro z
+    exact congrArg (fun k : C(Circle, Circle) ↦ k z) (retraction_inclusion.{u, v} i)
+  exact hleft.injective
+
+/-- An original-circle point is the common point exactly when it is one. -/
+@[simp] theorem inclusion_eq_basepoint_iff {I : Type v} (i : I) (z : Circle) :
+    inclusion.{u, v} i z = basepoint.{u, v} I ↔ z = 1 := by
+  constructor
+  · intro h
+    exact inclusion_injective.{u, v} i (h.trans (inclusion_basepoint.{u, v} i).symm)
+  · rintro rfl
+    exact inclusion_basepoint.{u, v} i
 
 /-- Retraction sends the included positive loop class back to the original
 positive circle class. This does not use any presentation of the bouquet group. -/

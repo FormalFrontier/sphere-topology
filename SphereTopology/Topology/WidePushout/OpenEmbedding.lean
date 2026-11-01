@@ -4,8 +4,7 @@ Authors: Formal Frontier Agents
 -/
 module
 
-public import SphereTopology.Topology.WidePushout.PointMap
-public import SphereTopology.Topology.WidePushout.Compactness
+public import SphereTopology.Topology.WidePushout.ClosedMap
 
 /-!
 # Embeddings of point-attached wide pushouts
@@ -249,15 +248,12 @@ theorem isEmbedding_widePushoutDesc_point
 theorem isClosedMap_widePushoutDesc_point
     (hreflect : ∀ i x, f i x = b i → x = a i)
     (hclosed : ∀ i, IsClosedMap (f i)) : IsClosedMap F := by
-  intro S hS
-  apply (isClosed_iff_of_isColimit
-    (colimit.cocone (WidePushoutShape.wideSpan PY Y β)) (colimit.isColimit _) _).2
-  rintro (_ | i)
-  · change IsClosed (WidePushout.head β ⁻¹' (F '' S))
-    exact isClosed_discrete _
-  · change IsClosed (WidePushout.ι β i ⁻¹' (F '' S))
-    rw [preimage_image_widePushoutDesc_point a b f hf hreflect S i]
-    exact hclosed i _ (hS.preimage (WidePushout.ι α i).hom.continuous)
+  apply (isClosedMap_iff_of_widePushout_point_legs X Y a b id
+    (fun i ↦ f i) F (fun i ↦ finite_singleton i) hclosed hreflect
+    (widePushoutDesc_point_head a b f hf PUnit.unit)
+    (widePushoutDesc_point_ι a b f hf)).2
+  intro i hi
+  exact (hi ⟨i, rfl⟩).elim
 
 /-- Point-preserving component closed embeddings induce a closed embedding of the
 canonical categorical point-wide-pushouts, without separation assumptions. -/

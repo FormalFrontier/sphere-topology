@@ -26,9 +26,11 @@ The index and space universes are independent. For smaller original factors,
 
 Nonpoint fibers are detected by descent of a singleton predicate on Mathlib's
 existing quotient, not by an injectivity assumption on the attaching leg.
-One nonpoint is chosen per supported index. Every subcollection of these points
-is closed by the final topology and the T₁ property of the factors. Their set is
-therefore a closed, discrete subset of the given compact set, hence finite.
+A selection of nonpoints with distinct factor labels has closed image whenever
+its selected singletons are closed, by the final topology. For compact support,
+one nonpoint is chosen per supported index. The T₁ property makes every
+subcollection closed. Their set is therefore a closed, discrete subset of the
+given compact set, hence finite.
 
 ## References
 
@@ -120,7 +122,9 @@ theorem widePushout_point_ι_eq_ι_iff_of_ne {i j : I} {x : X i} {y : X j}
     cases h
     rfl
 
-private theorem point_ι_injective (i : I) : Function.Injective (WidePushout.ι f i) := by
+/-- Every factor inclusion in a point-wide-pushout is injective, without
+separation assumptions. -/
+theorem widePushout_point_ι_injective (i : I) : Function.Injective (WidePushout.ι f i) := by
   intro x y h
   by_cases hx : x = a i
   · subst x
@@ -128,6 +132,60 @@ private theorem point_ι_injective (i : I) : Function.Injective (WidePushout.ι 
       (h.symm.trans (widePushout_point_ι_point a i))).symm
   · have hs := (widePushout_point_ι_eq_ι_iff_of_ne a hx).1 h
     simpa using hs
+
+/-- A subset of a point-wide-pushout is closed exactly when its preimage in
+every factor is closed. The point head imposes no condition, even for an empty
+family. No separation assumption is needed. -/
+theorem isClosed_widePushout_point_iff (S : Set W) :
+    IsClosed S ↔ ∀ i, IsClosed (WidePushout.ι f i ⁻¹' S) := by
+  constructor
+  · intro h i
+    exact h.preimage (WidePushout.ι f i).hom.continuous
+  · intro h
+    apply (isClosed_iff_of_isColimit
+      (colimit.cocone (WidePushoutShape.wideSpan P X f)) (colimit.isColimit _) S).2
+    rintro (_ | i)
+    · change IsClosed (WidePushout.head f ⁻¹' S)
+      exact isClosed_discrete _
+    · exact h i
+
+/-- A selection of nonpoints in distinct factors has closed image whenever
+each selected singleton is closed. Only the selected points need this
+closedness property, and the label and selection universes are independent. -/
+theorem isClosed_image_widePushout_point_ι_of_injective {K : Type z}
+    (e : K → I) (he : Function.Injective e) (x : ∀ k, X (e k))
+    (hx : ∀ k, x k ≠ a (e k)) (hclosed : ∀ k, IsClosed ({x k} : Set (X (e k))))
+    (S : Set K) : IsClosed ((fun k ↦ WidePushout.ι f (e k) (x k)) '' S) := by
+  classical
+  apply (isClosed_widePushout_point_iff a _).2
+  intro j
+  by_cases hj : ∃ k ∈ S, e k = j
+  · obtain ⟨k, hk, rfl⟩ := hj
+    have hpre : WidePushout.ι f (e k) ⁻¹'
+        ((fun l ↦ WidePushout.ι f (e l) (x l)) '' S) = {x k} := by
+      ext y
+      constructor
+      · rintro ⟨l, _, hly⟩
+        have helk : e l = e k := congrArg Sigma.fst
+          ((widePushout_point_ι_eq_ι_iff_of_ne a (hx l)).1 hly)
+        have hlk : l = k := he helk
+        subst l
+        exact mem_singleton_iff.2
+          (widePushout_point_ι_injective a (e k) hly).symm
+      · intro hy
+        obtain rfl := mem_singleton_iff.1 hy
+        exact ⟨k, hk, rfl⟩
+    rw [hpre]
+    exact hclosed k
+  · have hpre : WidePushout.ι f j ⁻¹'
+        ((fun k ↦ WidePushout.ι f (e k) (x k)) '' S) = ∅ := by
+      apply eq_empty_iff_forall_notMem.2
+      rintro y ⟨k, hk, hky⟩
+      have hkj : e k = j := congrArg Sigma.fst
+        ((widePushout_point_ι_eq_ι_iff_of_ne a (hx k)).1 hky)
+      exact hj ⟨k, hk, hkj⟩
+    rw [hpre]
+    exact isClosed_empty
 
 /-- Support is monotone with respect to inclusion of sets. -/
 theorem widePushoutPointSupport_mono {K L : Set W} (h : K ⊆ L) :
@@ -215,33 +273,16 @@ theorem finite_widePushoutPointSupport [∀ i, T1Space (X i)] {K : Set W}
   let J := widePushoutPointSupport a K
   choose x hx hmem using fun i : J ↦ i.property
   let c : J → W := fun i ↦ WidePushout.ι f i (x i)
-  have hc_ne (i : J) : c i ≠ WidePushout.head f PUnit.unit := by
-    exact fun h ↦ hx i ((widePushout_point_ι_eq_head_iff a i (x i)).1 h)
   have hc_index {i : J} {j : I} {y : X j}
       (h : c i = WidePushout.ι f j y) : (i : I) = j :=
     congrArg Sigma.fst ((widePushout_point_ι_eq_ι_iff_of_ne a (hx i)).1 h)
   have hc_inj : Function.Injective c := by
     intro i j h
     exact Subtype.ext (hc_index h)
-  have hclosed (S : Set J) : IsClosed (c '' S) := by
-    apply (isClosed_iff_of_isColimit
-      (colimit.cocone (WidePushoutShape.wideSpan P X f)) (colimit.isColimit _) _).2
-    rintro (_ | j)
-    · change IsClosed (WidePushout.head f ⁻¹' (c '' S))
-      have he : WidePushout.head f ⁻¹' (c '' S) = ∅ := by
-        apply eq_empty_iff_forall_notMem.2
-        rintro b ⟨i, _, hi⟩
-        exact hc_ne i (hi.trans (congrArg (WidePushout.head f)
-          (Subsingleton.elim b PUnit.unit)))
-      rw [he]
-      exact isClosed_empty
-    · change IsClosed (WidePushout.ι f j ⁻¹' (c '' S))
-      apply Set.Finite.isClosed
-      apply Set.Subsingleton.finite
-      rintro y ⟨i, _, hi⟩ y' ⟨i', _, hi'⟩
-      have hii' : i = i' := Subtype.ext ((hc_index hi).trans (hc_index hi').symm)
-      subst i'
-      exact point_ι_injective a j (hi.symm.trans hi')
+  have hclosed (S : Set J) : IsClosed (c '' S) :=
+    isClosed_image_widePushout_point_ι_of_injective a
+      (e := fun i : J ↦ (i : I)) Subtype.val_injective x hx
+      (fun _ ↦ isClosed_singleton) S
   have hDclosed : IsClosed (range c) := by simpa only [image_univ] using hclosed univ
   have hDcompact : IsCompact (range c) :=
     hK.of_isClosed_subset hDclosed (by rintro _ ⟨i, rfl⟩; exact hmem i)

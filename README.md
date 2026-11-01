@@ -172,7 +172,7 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   preserving the head and every factor. Continuity and descent have an
   independent target universe; empty and singleton families need no separation,
   compactness or homotopy assumptions.
-- **Embeddings and neighborhoods of point-wide-pushouts.**
+- **Embeddings, closed maps and neighborhoods of point-wide-pushouts.**
   [`TopCat.isEmbedding_widePushoutDesc_point`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean)
   promotes point-preserving component embeddings to an embedding of the
   canonical wide pushouts; open or closed component embeddings give an open or
@@ -180,7 +180,11 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   maps also suffice for the corresponding map property. The index may be
   arbitrary or empty, and source and target universes are independent, with no
   separation assumptions. The [ULift caller](SphereTopology/Topology/WidePushout/PointLift.lean)
-  accommodates smaller original factors. Closed rays based at zero give a proper
+  accommodates smaller original factors. For a given function relabeling factors
+  with finite label fibers, the [closed-map criterion](SphereTopology/Topology/WidePushout/ClosedMap.lean)
+  assumes closed component maps, point reflection, and the head and factor equations.
+  The function is closed exactly when each omitted target factor has a closed chosen-point
+  singleton, with no continuity or separation assumption. Closed rays based at zero give a proper
   closed embedding that is not open. For open neighborhoods of the attaching points,
   [`TopCat.widePushoutPointNeighborhoodHomeomorph`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean)
   identifies their wide pushout with its open range in the ordinary subtype topology.
@@ -302,7 +306,9 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   natural under precomposition by this map through `CircleBouquet.lift_comp_relabel`.
   Its [topological criteria](SphereTopology/Homotopy/CircleBouquet/Topology.lean)
   characterize closed embeddings exactly by injective label maps and quotient
-  maps exactly by surjective label maps.
+  maps exactly by surjective label maps. Relabeling is a
+  [closed map exactly when every label fiber is finite](SphereTopology/Homotopy/CircleBouquet/ClosedMap.lean);
+  the bouquet has the weak/final topology, not the Hawaiian-earring subspace topology.
   The induced fundamental-group homomorphism is injective or surjective exactly
   when the label map has the corresponding property.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
@@ -446,7 +452,7 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
 | [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, surjectivity and quotient topology, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
-| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, positive-generator homomorphism, circle retractions and generator nonidentity. |
+| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, finite-label-fiber closedness of relabeling, positive-generator homomorphism, circle retractions and generator nonidentity. The [closed-map criterion](SphereTopology/Homotopy/CircleBouquet/ClosedMap.lean) characterizes closed relabelings exactly by finite label fibers, using Mathlib's circle topology and the local point-wide-pushout criterion. |
 | [`Homotopy.CircleBouquet.Topology`](SphereTopology/Homotopy/CircleBouquet/Topology.lean) | Relabeling is a closed embedding exactly for injective label maps, and a quotient map exactly for surjective label maps, with independent source and target ambient and label universes. |
 | [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, and noncommuting distinct generators, including arbitrary or empty index families. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
@@ -464,7 +470,7 @@ verification module. Routine use does not need `lake update`.
 | `Topology.WidePushout.Separation` | Joint injectivity of factor retractions, including empty families; canonical T₀/T₁/T₂ inheritance and factorwise iff/reflection via factor embeddings. |
 | `Topology.WidePushout` | Head- and factor-preserving quotient homeomorphism for arbitrary wide pushouts, final-topology continuity, independent-target descent and empty/singleton/point boundary results. |
 | [`Topology.WidePushout.PointMap`](SphereTopology/Topology/WidePushout/PointMap.lean) | Point-preserving descent, characteristic equations, identity/composition, final topology and the head-retaining range union. |
-| [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity identities, componentwise embeddings, and open/closed map and embedding criteria at their natural hypotheses. |
+| [`Topology.WidePushout.OpenEmbedding`](SphereTopology/Topology/WidePushout/OpenEmbedding.lean) | Structural image/injectivity identities, componentwise embeddings, and open/closed map and embedding criteria at their natural hypotheses. The [finite-label-fiber closed-map engine](SphereTopology/Topology/WidePushout/ClosedMap.lean) gives the sharp omitted-singleton criterion for given functions with closed components, point reflection and head/leg equations, without continuity or separation assumptions; it uses Mathlib's colimit topology and local `PointMap` and `Compactness` APIs. |
 | [`Topology.WidePushout.OpenNeighborhood`](SphereTopology/Topology/WidePushout/OpenNeighborhood.lean) | Arbitrary-subset neighborhoods, local factor pullbacks and the ordinary open-subtype neighborhood homeomorphism. |
 | [`Topology.WidePushout.PointLift`](SphereTopology/Topology/WidePushout/PointLift.lean) | Original-domain conjugation and the independent factor/index universe ULift caller. |
 | `Topology.WidePushoutHomotopy` | Product-parameter continuity for supplied colimits, compatible wide-pushout family descent and interval-homotopy gluing, with independent parameter and target universes. |
