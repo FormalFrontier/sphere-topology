@@ -24,11 +24,20 @@ when `I` is empty. The index universe and the ambient universe are independent;
 the colimit lives in their maximum. `Homeomorph.ulift` supplies the universe
 transport, without changing the original circle or its topology.
 
+`CircleBouquet.relabel σ` sends each original circle with label `i` to the circle
+with label `σ i`, and preserves the common point. Relabeling respects identity
+and composition. The source and target ambient and label universes are all
+independent; the label function may identify circles, and either family may be
+empty or infinite.
+
 `CircleBouquet.generatorMap` is the homomorphism from `FreeGroup I` to the
 fundamental group of this space. It sends each free generator to the included
 counterclockwise loop `Circle.loop 1`. The fundamental group uses Mathlib's
 endomorphism multiplication: `p * q = q.trans p`, so the right loop is traversed
-first. No inversion is inserted in the positive generators.
+first. No inversion is inserted in the positive generators. Relabeling sends
+each positive generator to its relabeled positive generator. The diagram with
+`FreeGroup.map σ` commutes by `CircleBouquet.relabel_generatorMap`, without
+requiring a free-group calculation of the bouquet's fundamental group.
 
 The descent and extensionality API is the universal property of the categorical wide
 pushout. Retraction onto any one circle independently detects its positive loop
@@ -50,6 +59,9 @@ The other public constructions are used through
 by unfolding the chosen colimit or its universe transport. Likewise, `prodDesc`
 and `homotopy` keep this diagram hidden; their common-point and original-circle
 computation and uniqueness lemmas characterize the descended families.
+Relabeling is used through `relabel_basepoint`, `relabel_inclusion` and
+`relabel_inclusion_apply`; its identity and composition laws use the same
+common-point and original-circle extensionality, including for an empty family.
 
 Bijectivity of `generatorMap` and the resulting identification of the bouquet's
 fundamental group with `FreeGroup I` are not proved here.
@@ -61,7 +73,9 @@ fundamental group with `FreeGroup I` are not proved here.
   not established in this module.
 * Mathlib's wide pushouts, topological colimits, path homotopy quotients and
   free groups supply the constructions used here. Shing Tak Lam's path-homotopy
-  and reparametrization APIs supply the homotopy operations.
+  and reparametrization APIs supply the homotopy operations. The relabeling
+  and generator naturality laws are derived from these universal properties
+  and the induced fundamental-group maps.
 * The project's point-wide-pushout support, compactness and subfamily APIs supply
   strict finite-stage homotopy factorization. The arbitrary-T₁ and relative
   generalizations are not literal statements from May.
@@ -186,6 +200,84 @@ theorem funext {I : Type v} {Y : Sort*} {f g : space.{u, v} I → Y}
     exact hb
   · intro i z
     exact hi i z.down
+
+section Relabel
+
+universe u' w
+
+/-- Relabel the circles by an arbitrary function, preserving the common point.
+The source and target ambient and label universes are independent. -/
+@[expose] def relabel {I : Type v} {J : Type w} (σ : I → J) :
+    C(space.{u, v} I, space.{u', w} J) :=
+  TopCat.widePushoutDesc
+    (fun _ : I ↦ (TopCat.const (ULift.up (1 : Circle)) :
+      TopCat.of PUnit.{max u v + 1} ⟶ TopCat.of (ULift.{max u v} Circle)))
+    (ContinuousMap.const PUnit.{max u v + 1} (basepoint.{u', w} J))
+    (fun i ↦ (inclusion.{u', w} (σ i)).comp
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) :
+        C(ULift.{max u v} Circle, Circle)))
+    (fun i _ ↦ inclusion_basepoint.{u', w} (σ i))
+
+/-- Relabeling preserves the common point, including for an empty source family. -/
+@[simp] theorem relabel_basepoint {I : Type v} {J : Type w} (σ : I → J) :
+    relabel.{u, v, u', w} σ (basepoint.{u, v} I) = basepoint.{u', w} J :=
+  TopCat.widePushoutDesc_head (Y := space.{u', w} J) (attach.{u, v} I)
+    (ContinuousMap.const PUnit.{max u v + 1} (basepoint.{u', w} J))
+    (fun i ↦ (inclusion.{u', w} (σ i)).comp
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) :
+        C(ULift.{max u v} Circle, Circle)))
+    (fun i _ ↦ inclusion_basepoint.{u', w} (σ i)) PUnit.unit
+
+/-- Relabeling restricts on each original circle to its relabeled inclusion. -/
+@[simp] theorem relabel_inclusion {I : Type v} {J : Type w} (σ : I → J) (i : I) :
+    (relabel.{u, v, u', w} σ).comp (inclusion.{u, v} i) =
+      inclusion.{u', w} (σ i) := by
+  apply ContinuousMap.ext
+  intro z
+  exact TopCat.widePushoutDesc_ι (Y := space.{u', w} J) (attach.{u, v} I)
+    (ContinuousMap.const PUnit.{max u v + 1} (basepoint.{u', w} J))
+    (fun i ↦ (inclusion.{u', w} (σ i)).comp
+      (Homeomorph.ulift.{max u v, 0} (X := Circle) :
+        C(ULift.{max u v} Circle, Circle)))
+    (fun i _ ↦ inclusion_basepoint.{u', w} (σ i)) i (ULift.up z)
+
+/-- Relabeling preserves the point on each original circle and changes only its label. -/
+@[simp] theorem relabel_inclusion_apply {I : Type v} {J : Type w}
+    (σ : I → J) (i : I) (z : Circle) :
+    relabel.{u, v, u', w} σ (inclusion.{u, v} i z) = inclusion.{u', w} (σ i) z :=
+  congrArg (fun k : C(Circle, space.{u', w} J) ↦ k z)
+    (relabel_inclusion.{u, v, u', w} σ i)
+
+/-- Identity relabeling in the same ambient universe is the identity map. -/
+@[simp] theorem relabel_id (I : Type v) :
+    relabel.{u, v, u, v} (id : I → I) = ContinuousMap.id (space.{u, v} I) := by
+  apply ContinuousMap.ext
+  intro x
+  exact congrFun (CircleBouquet.funext
+    (f := relabel.{u, v, u, v} (id : I → I))
+    (g := ContinuousMap.id (space.{u, v} I))
+    (fun i z ↦ relabel_inclusion_apply.{u, v, u, v} id i z)
+    (relabel_basepoint.{u, v, u, v} id)) x
+
+universe u'' w'
+
+/-- Composing label functions composes the relabeling maps, with independently
+sized source, intermediate and target bouquets. -/
+theorem relabel_comp {I : Type v} {J : Type w} {K : Type w'}
+    (σ : I → J) (τ : J → K) :
+    relabel.{u, v, u'', w'} (τ ∘ σ) =
+      (relabel.{u', w, u'', w'} τ).comp (relabel.{u, v, u', w} σ) := by
+  apply ContinuousMap.ext
+  intro x
+  exact congrFun (CircleBouquet.funext
+    (f := relabel.{u, v, u'', w'} (τ ∘ σ))
+    (g := (relabel.{u', w, u'', w'} τ).comp (relabel.{u, v, u', w} σ))
+    (by
+      intro i z
+      simp only [ContinuousMap.comp_apply, relabel_inclusion_apply, Function.comp_apply])
+    (by simp only [ContinuousMap.comp_apply, relabel_basepoint])) x
+
+end Relabel
 
 /-- Descend jointly continuous families on the original circles with a moving
 common-point value. The parameter and target universes are independent. -/
@@ -326,6 +418,37 @@ def generatorMap (I : Type v) :
 @[simp] theorem generatorMap_of {I : Type v} (i : I) :
     generatorMap.{u, v} I (FreeGroup.of i) = positiveGenerator.{u, v} i :=
   FreeGroup.lift_apply_of
+
+section RelabelGenerators
+
+universe u' w
+
+/-- The induced homomorphism of a relabeling sends each included positive loop
+to the positive loop with its relabeled index. -/
+@[simp] theorem relabel_positiveGenerator {I : Type v} {J : Type w}
+    (σ : I → J) (i : I) :
+    FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+        (relabel_basepoint.{u, v, u', w} σ) (positiveGenerator.{u, v} i) =
+      positiveGenerator.{u', w} (σ i) := by
+  rw [positiveGenerator_eq_loop, FundamentalGroup.mapOfEq_apply, positiveGenerator_eq_loop]
+  change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk _
+  apply congrArg Path.Homotopic.Quotient.mk
+  apply Path.ext
+  funext t
+  exact relabel_inclusion_apply.{u, v, u', w} σ i (Circle.loop 1 t)
+
+/-- The positive-generator homomorphism intertwines relabeling on the bouquet
+fundamental group with the free-group map on labels. -/
+theorem relabel_generatorMap {I : Type v} {J : Type w} (σ : I → J) :
+    (FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+      (relabel_basepoint.{u, v, u', w} σ)).comp (generatorMap.{u, v} I) =
+      (generatorMap.{u', w} J).comp (FreeGroup.map σ) := by
+  apply FreeGroup.ext_hom
+  intro i
+  simp only [MonoidHom.comp_apply, generatorMap_of, FreeGroup.map.of,
+    relabel_positiveGenerator]
+
+end RelabelGenerators
 
 /-- Retraction to the original circle, using the point-wide-pushout retraction
 and `Homeomorph.ulift`. -/

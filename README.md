@@ -265,6 +265,11 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   group, in an independent target universe. Distinct included positive generators
   do not commute. The inverse equivalence is noncomputable; no geometric
   word-extraction algorithm is asserted.
+  The continuous map `CircleBouquet.relabel σ` realizes arbitrary relabelings,
+  preserving the original positive generators and commuting with `FreeGroup.map σ`.
+  Source and target ambient and label universes are independent, including empty
+  or infinite families and noninjective label maps. The universal property is
+  natural under precomposition by this map through `CircleBouquet.lift_comp_relabel`.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
   space, [`Metric.Sphere.diagonalHomotopyEquiv`](SphereTopology/Homotopy/Sphere.lean)
   has the diagonal as its forward map and first projection as its inverse.

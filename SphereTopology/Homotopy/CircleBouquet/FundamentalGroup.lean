@@ -22,11 +22,18 @@ import SphereTopology.Topology.WidePushoutPointHomotopy
 `CircleBouquet.generatorEquiv` retains this homomorphism, sending each free
 generator to the included counterclockwise circle class. Its inverse records
 that class as the corresponding free generator. No inversion is inserted.
+The bridge `CircleBouquet.generatorEquiv_toMonoidHom` identifies its forward
+homomorphism with `generatorMap`, so `CircleBouquet.relabel_generatorMap` also
+expresses naturality of this equivalence under arbitrary relabelings of circles.
 
 `CircleBouquet.lift` gives the free-group universal property for group targets
 whose universe is independent of both bouquet universes. Distinct included
 positive generators do not commute. The index family may be arbitrary or empty;
-the common point in the empty bouquet is retained.
+the common point in the empty bouquet is retained. The theorem
+`CircleBouquet.lift_comp_relabel` expresses precomposition naturality in the
+circle labels, with a group target in an independent universe. This complements
+`CircleBouquet.lift_natural`, which expresses postcomposition naturality in the
+target group.
 
 The fundamental group uses endomorphism multiplication: `p * q = q.trans p`.
 Thus the right loop is traversed first in a product. These concrete circle-bouquet
@@ -46,6 +53,8 @@ not an algorithm selecting geometric words from loops.
   for the circle-bouquet fundamental-group computation.
 * The existing circle coordinates and positive-loop normalization in Fundamental
   Groupoids, and Mathlib's free-group and multiplicative-equivalence APIs.
+  Relabeling naturality follows from the original-circle computation of the
+  induced fundamental-group maps and the generator-value universal property.
 * The project's point-relative sphere contractions, point-wide-pushout
   neighborhood, descent and original-inclusion fundamental-group APIs.
 -/
@@ -1182,6 +1191,26 @@ theorem lift_natural {I : Type v} {G : Type w} {H : Type w'}
   intro i
   change k (lift.{u, v, w} f (positiveGenerator.{u, v} i)) = k (f i)
   rw [lift_positiveGenerator]
+
+section Relabel
+
+universe u' z
+
+/-- Precomposing a lifted homomorphism by the map induced by relabeling circles
+is the lift of the relabeled generator values. All bouquet universes and the
+group target universe are independent. -/
+theorem lift_comp_relabel {I : Type v} {J : Type w} {G : Type z} [Group G]
+    (σ : I → J) (f : J → G) :
+    (lift.{u', w, z} f).comp
+        (FundamentalGroup.mapOfEq (relabel.{u, v, u', w} σ)
+          (relabel_basepoint.{u, v, u', w} σ)) =
+      lift.{u, v, z} (f ∘ σ) := by
+  apply lift_unique
+  intro i
+  simp only [MonoidHom.comp_apply, relabel_positiveGenerator, lift_positiveGenerator,
+    Function.comp_apply]
+
+end Relabel
 
 /-- Positive loops on distinct included circles do not commute. -/
 theorem positiveGenerator_mul_ne_mul {I : Type v} {i j : I} (hij : i ≠ j) :
