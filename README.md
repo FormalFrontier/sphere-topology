@@ -77,6 +77,20 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   have denominator `‖x‖²+4`, and the off-pole inverse has coordinates
   `2*p_i/(1-p_last)`. The underlying append-zero-last linear isometry also
   applies over `RCLike` scalars; only the sphere homeomorphism is real.
+- **Finite generalized loops and based sphere-map classes.** For every `n : ℕ`,
+  [`GenLoop.sphereHomeomorph`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean)
+  gives a homeomorphism from `GenLoop (Fin n) X x` to
+  `{F : C(Sⁿ, X) // F (EuclideanSpace.northPoint n) = x}`, where `Sⁿ` is the
+  unit sphere in `EuclideanSpace ℝ (Fin (n+1))`.
+  `HomotopyGroup.equivSphereClasses` gives a natural set equivalence from
+  `HomotopyGroup (Fin n) X x` to the existing `ZerothHomotopy` of this subtype.
+  Inverse representatives precompose with
+  [`Cube.collapseToSphere`](SphereTopology/Geometry/CubeSphere.lean).
+  Constants and based postcomposition are preserved, including between targets
+  in independent universes. Equality of sphere-map components is exactly
+  homotopy relative to the singleton last-axis north pole. Targets require only
+  a topology and a chosen point, with no separation, local compactness or
+  well-pointedness hypothesis.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -355,9 +369,9 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`b6c19c0eb3b4f95a3526592d65cdb86e400672d9`, and Group Theory
-`729b89bd2e66269fa081d7a6ef238a10dd1d48d5`. The resolved graph also includes
-Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a` through Group Theory.
+`00d121de57ca231c33d39346285ddb3e7a1123db`, and Group Theory
+`729b89bd2e66269fa081d7a6ef238a10dd1d48d5`. The manifest also includes
+Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a`.
 Fetch the matching precompiled Mathlib cache successfully before building:
 
 ```sh
@@ -383,11 +397,13 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.Projectivization`](SphereTopology/Geometry/Projectivization.lean) | Canonical real unit-sphere projection for the given norm, quotient-map and equal-or-antipodal fiber criteria, negation law, and quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`. |
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
+| [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
+| [`Homotopy.HomotopyGroup.Sphere`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean) | Finite generalized-loop homeomorphism to fixed-north-pole sphere maps, natural set equivalence of homotopy classes with existing path components, representative and inverse formulas, constants, based postcomposition and singleton-relative homotopy. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
@@ -424,6 +440,15 @@ verification module. Routine use does not need `lake update`.
 
 ## Conventions and limitations
 
+The cube–sphere comparisons use ordinary compact-open mapping spaces and the
+induced topology on the fixed-pole subtypes, not May's compactly generated
+mapping-space convention. The finite sphere is locally compact Hausdorff,
+supplying the source hypotheses for the relative-homotopy comparison; targets
+need no separation or local compactness. In dimension zero, north has value `x`
+and south may have any value `z : X`.
+The separate compactification point at infinity remains present: the unique
+cube point collapses to south, so the zero-dimensional cube collapse misses north.
+
 Integral coordinates are supplied by released
 [`SimplicialObjects.ChainCoordinates`](https://github.com/FormalFrontier/simplicial-objects/blob/143f667bdeb0aeccd02e6475781d5c456f00c95b/SimplicialObjects/ChainCoordinates.lean).
 The four `AlgebraicTopology` names are re-exported by `SmallChains` without
@@ -438,8 +463,10 @@ scope and compatibility qualifications.
 
 ## References
 
-- J. Peter May, *A Concise Course in Algebraic Topology*: Chapters 1–3 and
-  13–16; exact sections and conventions are in the guide and module references.
+- J. Peter May, *A Concise Course in Algebraic Topology*: Chapters 1–3, 8–9
+  and 13–16. The cube–sphere comparisons use Chapter 8, §§1–2, pp. 57–58,
+  and Chapter 9, §1, p. 65; other exact sections and conventions are in the
+  guide and module references.
 - Charles A. Weibel, *The K-book*, Example I.1.2.2: sphere-field motivation.
   Its two-independent-field obstruction is distinct from the stronger one-field
   zero theorem here; no algebraic kernel, row-completion or whole-book claim is made.
@@ -456,5 +483,7 @@ The generic stereographic API reuses Heather Macbeth's Mathlib sphere charts
 and follows the library's earlier sphere/circle chart constructions. The normed
 sphere topology APIs build on the existing generic sphere homotopies, Mathlib's
 topology and linear algebra, and Fundamental Groupoids' two-open criterion.
+The cube–sphere comparisons reuse Mathlib's generalized-loop APIs and
+Fundamental Groupoids' one-point loop and path-component comparisons.
 Licensed under [Apache-2.0](LICENSE); dependency and book authors retain their
 own rights and notices. No book assets or excerpts are bundled.

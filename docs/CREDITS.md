@@ -124,6 +124,19 @@ quotient-cover kernel theorem and Kim Morrison's deck-group formalization.
 Formal Frontier Agents supplied the factorization proofs, characteristic laws
 and circle/disconnected-domain examples originally developed with Sphere.
 
+The finite generalized-loop and based sphere-map comparisons follow May,
+Chapter 8, §§1–2, pp. 57–58 and Chapter 9, §1, p. 65. Formal Frontier Agents
+assembled the increasing cube coordinates and one-point collapse from
+Fundamental Groupoids, this library's last-axis sphere coordinates, and
+Mathlib's arrow and subtype homeomorphisms and path-component quotient.
+Roberto Alvarez's generalized loops and homotopy groups, Shing Tak Lam's
+relative homotopies and Reid Barton's compact-open mapping-space APIs retain
+credit. These comparisons use ordinary compact-open and induced subtype
+topologies, not a comparison with May's compactly generated mapping spaces.
+They include dimension zero and independently universed topological targets;
+the class comparison is set-level and does not identify sphere group
+operations, pinch maps or loop-space iteration.
+
 The finite-fiber covering transfer follows May, Chapter 16, Problem 3, using
 Mathlib's singular chains, homology, standard simplices, covering maps and
 trivial bundles. Formal Frontier Agents' Simplicial Objects supplies the

@@ -58,7 +58,7 @@ sources:
       - "J. Peter May"
     id: "https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf"
     type: "book"
-    location: "Revised edition, Chapter 1, §§5–7; Chapter 2, §8; Chapter 16, Problem 3."
+    location: "Revised edition, Chapter 1, §§5–7; Chapter 2, §8; Chapter 8, §§1–2, pp. 57–58; Chapter 9, §1, p. 65; Chapter 16, Problem 3."
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
@@ -66,8 +66,10 @@ sources:
       and the unit-disk self-map fixed-point theorem, and motivates the circle-bouquet setting, covering
       transfer and its sheet formula. The bouquet fundamental-group calculation is not established here. The coefficient
       objects and all-simplex chain complex differ from the normalized
-      tensor-coefficient convention of the book. No book expression or asset
-      is redistributed.
+      tensor-coefficient convention of the book. The finite generalized-loop
+      comparison relates to the based mapping spaces of Chapter 8, §§1–2 and
+      the sphere description of homotopy classes in Chapter 9, §1. No book
+      expression or asset is redistributed.
 
 related_formalizations:
   - id: "https://github.com/leanprover-community/mathlib4/tree/83abb3e776bdefcbc447a1e44d0debe4010039e5"
@@ -97,7 +99,7 @@ related_formalizations:
       providers; no chain, natural or normalized-chain isomorphism is asserted.
       Dependency authorship and notices remain upstream.
 
-  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/be822d2fe115c4176eee16a7478f6535914efef4"
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/00d121de57ca231c33d39346285ddb3e7a1123db"
     relationship: "builds-on"
     note: >-
       Canonical home of signed-period integer loops, normalized circle
@@ -115,9 +117,8 @@ related_formalizations:
       2026-10-17 and supported for at least three months from that date.
       Joint use requires a Sphere version providing these shims together with
       the Fundamental Groupoids revision recorded here and the resolved graph
-      in lake-manifest.json, including inherited Group Theory at
-      da81dc691eabf38306f427465ea8a4af350f0aef. There is no direct Group Theory
-      override. The circle and covering modules cannot be
+      in lake-manifest.json, with Group Theory explicitly pinned at
+      729b89bd2e66269fa081d7a6ef238a10dd1d48d5. The circle and covering modules cannot be
       co-imported with legacy Sphere releases defining duplicate copies;
       arbitrary version pairs are not promised compatible.
       Dependency authorship and source and Mathlib credits remain intact.
@@ -159,9 +160,22 @@ status:
     not required. Circle fundamental-group coordinates and generic covering
     foundations are supplied by Fundamental Groupoids rather than implemented
     twice; the based equal-image comparison
-    is not a general covering-space classification. No complete coverage of
-    Weibel or any other source is claimed. See README.md
-    for exact interfaces and docs/CREDITS.md for attribution.
+    is not a general covering-space classification.
+    For every n >= 0, finite generalized-loop spaces are homeomorphic to the
+    subtype of continuous unit n-sphere maps taking the specified last-axis
+    north pole to the chosen target point. Mapping spaces use the ordinary
+    compact-open topology and the subtypes use the induced topology, not May's
+    compactly generated mapping-space convention. Inverse representatives
+    precompose with the cube collapse. The natural set equivalence with the
+    existing path-component set preserves constants and based postcomposition in
+    independent target universes; equality of components is exactly homotopy
+    relative to the singleton north pole. No comparison of operations is
+    asserted. Targets need only a topology and a chosen point; the finite
+    source sphere is locally compact Hausdorff. In dimension zero, the separate
+    compactification point at infinity maps to north, the cube point collapses
+    to south, and the south-pole value of a based sphere map is arbitrary. No
+    complete coverage of Weibel or any other source is claimed.
+    See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
     - declaration: "Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo"
       file: "SphereTopology/Homotopy/Disk.lean"

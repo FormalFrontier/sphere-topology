@@ -7,11 +7,13 @@ Authors: Formal Frontier Agents
 -- See docs/CREDITS.md for mathematical and interface credit.
 module
 
+public import SphereTopology.Geometry.CubeSphere
 public import SphereTopology.Geometry.ForwardRay
 public import SphereTopology.Geometry.ForwardRayMap
 public import SphereTopology.Geometry.OnePointSphere
 public import SphereTopology.Geometry.Projectivization
 public import SphereTopology.Geometry.Stereographic
+public import SphereTopology.Homotopy.HomotopyGroup.Sphere
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.Projectivization
 public import SphereTopology.Homotopy.Sphere
