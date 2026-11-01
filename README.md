@@ -262,7 +262,9 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
 - **Subfamily retractions and continuous factorization.**
   [`TopCat.widePushoutPointSubfamilyRetraction`](SphereTopology/Topology/WidePushout/Subfamily.lean)
   retracts onto any subfamily, with an embedding inclusion whose range includes
-  the common point. A continuous map factors through that inclusion exactly
+  the common point. This inclusion is closed exactly when the chosen-point
+  singleton in every omitted factor is closed; retained factors need no separation
+  hypothesis. A continuous map factors through that inclusion exactly
   when its support lies in the subfamily, without separation or compactness
   assumptions. For T₁ factors, every compact-domain map factors through a finite
   subfamily. The circle-bouquet application retains the endpoints of based loops,
@@ -296,6 +298,9 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   Source and target ambient and label universes are independent, including empty
   or infinite families and noninjective label maps. The universal property is
   natural under precomposition by this map through `CircleBouquet.lift_comp_relabel`.
+  Its [topological criteria](SphereTopology/Homotopy/CircleBouquet/Topology.lean)
+  characterize closed embeddings exactly by injective label maps and quotient
+  maps exactly by surjective label maps.
   The induced fundamental-group homomorphism is injective or surjective exactly
   when the label map has the corresponding property.
 - **Diagonal equivalence for non-antipodal pairs.** In any real normed vector
@@ -439,7 +444,8 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
 | [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
-| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity. |
+| `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, positive-generator homomorphism, circle retractions and generator nonidentity. |
+| [`Homotopy.CircleBouquet.Topology`](SphereTopology/Homotopy/CircleBouquet/Topology.lean) | Relabeling is a closed embedding exactly for injective label maps, and a quotient map exactly for surjective label maps, with independent source and target ambient and label universes. |
 | [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, and noncommuting distinct generators, including arbitrary or empty index families. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
@@ -466,7 +472,7 @@ verification module. Routine use does not need `lake update`.
 | `Topology.WidePushout.FundamentalGroup` | Open-neighborhood charts, common-overlap fundamental-group descent and extensionality; inclusion-induced coproduct map, conditional split injection and monoid-target extensions. |
 | `Topology.WidePushout.FundamentalGroupColimit` | Core-to-chart fundamental-group star, ambient inclusion cocone, its colimit universal property and raw-colimit multiplicative equivalence preserving every leg in both directions; path-connected core and whole factors suffice. |
 | [`Topology.WidePushout.FundamentalGroupKernel`](SphereTopology/Topology/WidePushout/FundamentalGroupKernel.lean) | Normal-closure kernel of the original-factor-coproduct retraction, exact original-factor generation criterion, specified multiplicative equivalence, monoid-target extension uniqueness and its sharp ambient self-target criterion; independent universes and empty families. |
-| `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
+| `Topology.WidePushout.Subfamily` | Arbitrary-subfamily inclusions and retractions, embeddings and exact ranges, closed-embedding criterion on omitted chosen points, supported-map factorization and uniqueness, nested-subfamily compatibility, and finite-subfamily factorization for compact domains and T₁ factors. |
 | `Topology.WidePushout.SubfamilyHomotopy` | Support criterion and object-level recovery for relative homotopies, strict compact-image finite-stage factorization with prescribed finite initial data, and fixed-stage reflection without separation assumptions. |
 | `Topology.CoveringMonodromy` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Monodromy`. Point stabilizers, path-component orbits, monodromy naturality and canonical equivariant fiber restriction with identity/composition laws; whole-fiber uniqueness over a path-connected base; quotient-action and permutation-kernel bridges. |
 | `Topology.CoveringEquivalence` | Deprecated public re-export of `FundamentalGroupoids.Topology.Covering.Equivalence`. Surjectivity for nonempty source and path-connected target; based homeomorphism over a fixed base from equal images, with both totals path connected and only source locally path connected. |

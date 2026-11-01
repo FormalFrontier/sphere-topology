@@ -14,6 +14,9 @@ wide pushout. The inclusion has a continuous retraction which collapses omitted
 factors to the common point. Its range is precisely the common point together
 with the ranges of the retained factors. No separation or finiteness hypothesis
 is needed for these maps or their characteristic factorization property.
+The inclusion is a closed embedding exactly when the chosen-point singleton
+in each omitted factor is closed. No closedness assumption is imposed on the
+retained factors or their chosen points.
 
 If the factors are T₁, a map from a compact space factors through a finite
 subfamily, using the finite support of its image. The domain universe is
@@ -188,6 +191,80 @@ theorem range_widePushoutPointSubfamilyInclusion :
       rcases hrange with ⟨x, rfl⟩
       exact ⟨WidePushout.ι fS ⟨i, hmem⟩ x,
         widePushoutPointSubfamilyInclusion_ι a S ⟨i, hmem⟩ x⟩
+
+/-- The head lies entirely in the subfamily inclusion's range, even when the
+subfamily is empty. -/
+@[simp] theorem preimage_range_widePushoutPointSubfamilyInclusion_head :
+    WidePushout.head f ⁻¹' range (widePushoutPointSubfamilyInclusion a S) = univ := by
+  apply eq_univ_of_forall
+  intro b
+  exact ⟨WidePushout.head fS b, widePushoutPointSubfamilyInclusion_head a S b⟩
+
+/-- A retained factor lies entirely in the subfamily inclusion's range. -/
+@[simp] theorem preimage_range_widePushoutPointSubfamilyInclusion_ι_of_mem
+    (i : I) (hi : i ∈ S) :
+    WidePushout.ι f i ⁻¹' range (widePushoutPointSubfamilyInclusion a S) = univ := by
+  apply eq_univ_of_forall
+  intro x
+  exact ⟨WidePushout.ι fS ⟨i, hi⟩ x,
+    widePushoutPointSubfamilyInclusion_ι a S ⟨i, hi⟩ x⟩
+
+/-- In an omitted factor, only the chosen point lies in the subfamily
+inclusion's range. No separation assumption is needed. -/
+@[simp] theorem preimage_range_widePushoutPointSubfamilyInclusion_ι_of_not_mem
+    (i : I) (hi : i ∉ S) :
+    WidePushout.ι f i ⁻¹' range (widePushoutPointSubfamilyInclusion a S) = {a i} := by
+  ext x
+  change WidePushout.ι f i x ∈ range (widePushoutPointSubfamilyInclusion a S) ↔ x = a i
+  constructor
+  · intro hx
+    by_contra hxa
+    have hs : widePushoutPointSupport a
+        (range (widePushoutPointSubfamilyInclusion a S)) ⊆ S :=
+      (widePushoutPointSupport_subset_iff a _ S).2
+        (range_widePushoutPointSubfamilyInclusion a S).le
+    exact hi (hs ⟨x, hxa, hx⟩)
+  · rintro rfl
+    refine ⟨WidePushout.head fS PUnit.unit, ?_⟩
+    rw [widePushoutPointSubfamilyInclusion_head, widePushout_point_ι_point]
+
+/-- The subfamily inclusion has closed range exactly when each omitted
+factor's chosen-point singleton is closed. Retained factors are unrestricted. -/
+theorem isClosed_range_widePushoutPointSubfamilyInclusion_iff :
+    IsClosed (range (widePushoutPointSubfamilyInclusion a S)) ↔
+      ∀ i, i ∉ S → IsClosed ({a i} : Set (X i)) := by
+  constructor
+  · intro h i hi
+    have hp := h.preimage (WidePushout.ι f i).hom.continuous
+    rwa [preimage_range_widePushoutPointSubfamilyInclusion_ι_of_not_mem a S i hi] at hp
+  · intro h
+    apply (isClosed_iff_of_isColimit
+      (colimit.cocone (WidePushoutShape.wideSpan P X f)) (colimit.isColimit _) _).2
+    rintro (_ | i)
+    · change IsClosed (WidePushout.head f ⁻¹'
+        range (widePushoutPointSubfamilyInclusion a S))
+      rw [preimage_range_widePushoutPointSubfamilyInclusion_head]
+      exact isClosed_univ
+    · change IsClosed (WidePushout.ι f i ⁻¹'
+        range (widePushoutPointSubfamilyInclusion a S))
+      by_cases hi : i ∈ S
+      · rw [preimage_range_widePushoutPointSubfamilyInclusion_ι_of_mem a S i hi]
+        exact isClosed_univ
+      · rw [preimage_range_widePushoutPointSubfamilyInclusion_ι_of_not_mem a S i hi]
+        exact h i hi
+
+/-- A subfamily inclusion is a closed embedding exactly when every omitted
+factor's chosen-point singleton is closed. There are no separation, finiteness,
+or nonemptiness assumptions on the family or subfamily. -/
+theorem isClosedEmbedding_widePushoutPointSubfamilyInclusion_iff :
+    Topology.IsClosedEmbedding (widePushoutPointSubfamilyInclusion a S) ↔
+      ∀ i, i ∉ S → IsClosed ({a i} : Set (X i)) := by
+  constructor
+  · intro h
+    exact (isClosed_range_widePushoutPointSubfamilyInclusion_iff a S).1 h.isClosed_range
+  · intro h
+    exact ⟨isEmbedding_widePushoutPointSubfamilyInclusion a S,
+      (isClosed_range_widePushoutPointSubfamilyInclusion_iff a S).2 h⟩
 
 /-- A map is recovered by subfamily retraction and inclusion exactly when its
 support lies in that subfamily. No separation or compactness is assumed. -/

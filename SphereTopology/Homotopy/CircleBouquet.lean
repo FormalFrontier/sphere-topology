@@ -8,6 +8,7 @@ public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Topology.WidePushoutHomotopy
 public import SphereTopology.Topology.WidePushoutRetraction
 public import SphereTopology.Topology.WidePushout.SubfamilyHomotopy
+import SphereTopology.Topology.WidePushout.PointMap
 import Mathlib.Tactic.Linarith
 public import Mathlib.CategoryTheory.Limits.Shapes.WidePullbacks
 public import Mathlib.GroupTheory.FreeGroup.Basic
@@ -200,6 +201,46 @@ theorem funext {I : Type v} {Y : Sort*} {f g : space.{u, v} I → Y}
     exact hb
   · intro i z
     exact hi i z.down
+
+/-- Every bouquet point belongs to the common head or to an original circle.
+The head alternative is retained when there are no labels. -/
+theorem eq_basepoint_or_exists_inclusion {I : Type v} (x : space.{u, v} I) :
+    x = basepoint.{u, v} I ∨ ∃ i z, x = inclusion.{u, v} i z := by
+  obtain ⟨_ | i, z, rfl⟩ :=
+    Concrete.colimit_exists_rep (WidePushoutShape.wideSpan
+      (point.{max u v}) (fun _ : I ↦ circle.{max u v}) (attach.{u, v} I)) x
+  · left
+    cases z
+    rfl
+  · exact Or.inr ⟨i, z.down, rfl⟩
+
+/-- The bouquet has the final topology for its original-circle inclusions.
+The one-point head contributes an automatically open inverse image. -/
+theorem isOpen_iff {I : Type v} (V : Set (space.{u, v} I)) :
+    IsOpen V ↔ ∀ i, IsOpen (inclusion.{u, v} i ⁻¹' V) := by
+  constructor
+  · intro hV i
+    exact hV.preimage (inclusion.{u, v} i).continuous
+  · intro hV
+    let : DiscreteTopology (point.{max u v}) := by
+      change DiscreteTopology PUnit.{max u v + 1}
+      infer_instance
+    apply (TopCat.isOpen_widePushout_iff (attach.{u, v} I) V).2
+    refine ⟨isOpen_discrete _, fun i ↦ ?_⟩
+    exact (hV i).preimage (Homeomorph.ulift.{max u v, 0} (X := Circle)).continuous
+
+/-- Closedness in the bouquet is tested on every original circle, including
+for an empty label family. -/
+theorem isClosed_iff {I : Type v} (V : Set (space.{u, v} I)) :
+    IsClosed V ↔ ∀ i, IsClosed (inclusion.{u, v} i ⁻¹' V) := by
+  constructor
+  · intro hV i
+    exact hV.preimage (inclusion.{u, v} i).continuous
+  · intro hV
+    apply isOpen_compl_iff.1
+    apply (isOpen_iff.{u, v} Vᶜ).2
+    intro i
+    simpa only [Set.preimage_compl] using (hV i).isOpen_compl
 
 section Relabel
 
@@ -524,6 +565,17 @@ def subfamilyInclusion {I : Type v} (S : Set I) :
     C(space.{u, v} S, space.{u, v} I) :=
   TopCat.widePushoutPointSubfamilyInclusion.{u, v}
     (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S
+
+/-- A subbouquet includes as a closed subspace, including empty and infinite
+subfamilies. -/
+theorem isClosedEmbedding_subfamilyInclusion {I : Type v} (S : Set I) :
+    Topology.IsClosedEmbedding (subfamilyInclusion.{u, v} S) := by
+  exact (TopCat.isClosedEmbedding_widePushoutPointSubfamilyInclusion_iff.{u, v}
+    (X := fun _ : I ↦ circle.{max u v}) (fun _ ↦ ULift.up (1 : Circle)) S).2
+      (by
+        intro _ _
+        change IsClosed ({ULift.up (1 : Circle)} : Set (ULift.{max u v} Circle))
+        exact isClosed_singleton)
 
 /-- Retraction onto a subfamily of circles, collapsing omitted circles to the
 common point. -/
