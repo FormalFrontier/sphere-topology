@@ -6,6 +6,9 @@ module
 
 public import SphereTopology.Homotopy.HomotopyGroup.Sphere
 public import SphereTopology.Topology.WidePushout
+import SphereTopology.Topology.WidePushout.Separation
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 
 /-!
@@ -24,6 +27,7 @@ targets by `TopCat.widePushoutDesc`. The closed-half formulas also compute raw
 folds. The two iterated folds of the original three-factor inclusions are distinct
 maps: the left nesting visits three pairwise distinct nonhead values at cube
 times `1/8`, `3/8` and `3/4`, and the two nestings differ at time `3/8`.
+The pinch is surjective and is a quotient map onto its given categorical target.
 
 ## Limitations
 
@@ -253,6 +257,52 @@ theorem pinch_nondegenerate :
           (hL.symm.trans (h.trans hR))
       _ = a := TopCat.widePushoutPointRetraction_ι_of_ne_apply D
         (fun _ : Fin 2 ↦ a) 0 1 (by decide) z
+
+/-- The pinch reaches every point of its given two-factor point-wide-pushout. -/
+theorem surjective_pinch : Function.Surjective (pinch n) := by
+  intro y
+  obtain ⟨j, z, rfl⟩ := Concrete.widePushout_exists_rep' α y
+  obtain ⟨u, rfl⟩ := Cube.surjective_collapseToSphere (n + 1) z
+  have h0 : 0 ≤ (u 0 : ℝ) := (u 0).property.1
+  have h1 : (u 0 : ℝ) ≤ 1 := (u 0).property.2
+  fin_cases j
+  · let s : I := ⟨(u 0 : ℝ) / 2, by constructor <;> linarith⟩
+    let t : I^(Fin (n + 1)) := Function.update u 0 s
+    have ht : (t 0 : ℝ) ≤ 1 / 2 := by
+      simp only [t, Function.update_self]
+      change (u 0 : ℝ) / 2 ≤ 1 / 2
+      linarith
+    have hp : Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ)) = u 0 := by
+      have heq : 2 * (t 0 : ℝ) = (u 0 : ℝ) := by
+        simp only [t, Function.update_self]
+        change 2 * ((u 0 : ℝ) / 2) = (u 0 : ℝ)
+        linarith
+      rw [heq, Set.projIcc_val]
+    refine ⟨Cube.collapseToSphere (n + 1) t, ?_⟩
+    rw [pinch_apply_collapseToSphere_of_le n t ht, hp]
+    simp only [t, Function.update_idem, Function.update_eq_self]
+    rfl
+  · let s : I := ⟨((u 0 : ℝ) + 1) / 2, by constructor <;> linarith⟩
+    let t : I^(Fin (n + 1)) := Function.update u 0 s
+    have ht : 1 / 2 ≤ (t 0 : ℝ) := by
+      simp only [t, Function.update_self]
+      change 1 / 2 ≤ ((u 0 : ℝ) + 1) / 2
+      linarith
+    have hp : Set.projIcc 0 1 zero_le_one (2 * (t 0 : ℝ) - 1) = u 0 := by
+      have heq : 2 * (t 0 : ℝ) - 1 = (u 0 : ℝ) := by
+        simp only [t, Function.update_self]
+        change 2 * (((u 0 : ℝ) + 1) / 2) - 1 = (u 0 : ℝ)
+        linarith
+      rw [heq, Set.projIcc_val]
+    refine ⟨Cube.collapseToSphere (n + 1) t, ?_⟩
+    rw [pinch_apply_collapseToSphere_of_ge n t ht, hp]
+    simp only [t, Function.update_idem, Function.update_eq_self]
+    rfl
+
+/-- The pinch is a quotient map for the topology of its given categorical
+point-wide-pushout. -/
+theorem isQuotientMap_pinch : Topology.IsQuotientMap (pinch n) :=
+  Topology.IsQuotientMap.of_surjective_continuous (surjective_pinch n) (pinch n).continuous
 
 section Fold
 

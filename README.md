@@ -97,6 +97,8 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   Its cube pullback traverses the left factor before the right factor in
   coordinate zero; the two closed-half formulas agree at the separating slice,
   and fixed quarter-point witnesses give distinct non-head values.
+  `surjective_pinch` and `isQuotientMap_pinch` show that it is surjective and a
+  quotient map for the topology of that categorical target.
   [`pinch_fold_class`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean)
   compares folding based maps `F, G` with the existing homotopy-group
   multiplication: writing `J` for the inverse sphere-class comparison, the
@@ -442,7 +444,7 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
 | [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
-| [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
+| [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, surjectivity and quotient topology, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition; three distinct non-head values and unequal iterated three-factor folds. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, final-topology open and closed tests, closed subfamily inclusions, positive-generator homomorphism, circle retractions and generator nonidentity. |
 | [`Homotopy.CircleBouquet.Topology`](SphereTopology/Homotopy/CircleBouquet/Topology.lean) | Relabeling is a closed embedding exactly for injective label maps, and a quotient map exactly for surjective label maps, with independent source and target ambient and label universes. |
