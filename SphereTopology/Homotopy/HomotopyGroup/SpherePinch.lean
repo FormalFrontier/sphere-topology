@@ -15,18 +15,24 @@ The left-then-right convention of `Metric.Sphere.pinch` corresponds to the
 `HomotopyGroup.mul_spec`. No multiplication on sphere-map components is defined
 by transport. Each of the two existing factor retractions composed with the
 pinch is homotopic to the identity relative to the specified north pole.
+In sphere dimension at least two, exchanging two based factor maps after the
+pinch preserves relative homotopy. In particular, the original factor swap
+after the pinch is homotopic to the pinch relative to the north pole.
 
 ## Limitations
 
-The counits assert relative homotopy, without choosing homotopy data. A full
-cogroup structure, a pinch on the zero-dimensional sphere, and source coverage
-are not asserted. Targets of the class comparison have independent universe and
+The counits and cocommutativity assert relative homotopy, without choosing
+homotopy data. Cocommutativity is restricted to sphere dimensions at least two;
+the fold-class order in dimension one remains unchanged. A full cogroup
+structure, a pinch on the zero-dimensional sphere, and source coverage are not
+asserted. Targets of the folded-map results have independent universe and
 require only a topology.
 
 ## References
 
 * Mathlib's homotopy groups, due to Roberto Alvarez, supply their existing
-  multiplication, including its reversed concatenation convention.
+  multiplication, including its reversed concatenation convention, and
+  commutativity in dimensions at least two.
 * The sphere-class comparison and the boundary-relative to pole-relative
   homotopy comparison are those of `SphereTopology.Homotopy.HomotopyGroup.Sphere`.
 -/
@@ -155,5 +161,121 @@ theorem pinch_retraction_homotopicRel (j : Fin 2) :
   by_cases hj : j = 0
   · simp only [F, G, ite_eq_left hj, hconst, one_mul]
   · simp only [F, G, ite_eq_right hj, hconst, mul_one]
+
+section Cocommutativity
+
+local notation "S₂" =>
+  Metric.sphere (0 : EuclideanSpace ℝ (Fin (((n + 1) + 1) + 1))) 1
+local notation "a₂" => EuclideanSpace.northPoint ((n + 1) + 1)
+local notation "D₂" => (fun _ : Fin 2 ↦ TopCat.of S₂)
+local notation "α₂" =>
+  (fun j : Fin 2 ↦ (TopCat.const a₂ : TopCat.of (PUnit : Type) ⟶ D₂ j))
+
+/-- In sphere dimension `n + 2`, folding two based maps after the pinch is
+homotopic, relative to the specified north pole, to folding them in the opposite
+order. This follows from Mathlib's higher homotopy-group commutativity and
+`pinch_fold_class`. -/
+theorem pinch_fold_homotopicRel_swap
+    {X : Type v} [TopologicalSpace X] (x : X)
+    (F G : {F : C(S₂, X) // F a₂ = x}) :
+    (ContinuousMap.comp
+      (TopCat.widePushoutDesc α₂
+        (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+        (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+        (fun j _ ↦ Subtype.property (ite (j = 0) F G)))
+      (pinch (n + 1))).HomotopicRel
+      (ContinuousMap.comp
+        (TopCat.widePushoutDesc α₂
+          (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+          (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) G F))
+          (fun j _ ↦ Subtype.property (ite (j = 0) G F)))
+        (pinch (n + 1)))
+      ({a₂} : Set S₂) := by
+  let H : {H : C(S₂, X) // H a₂ = x} :=
+    ⟨(TopCat.widePushoutDesc α₂
+      (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+      (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+      (fun j _ ↦ Subtype.property (ite (j = 0) F G))).comp (pinch (n + 1)),
+      pinch_fold_northPoint (n + 1) x F G⟩
+  let K : {H : C(S₂, X) // H a₂ = x} :=
+    ⟨(TopCat.widePushoutDesc α₂
+      (ContinuousMap.const (TopCat.of (PUnit : Type)) x)
+      (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) G F))
+      (fun j _ ↦ Subtype.property (ite (j = 0) G F))).comp (pinch (n + 1)),
+      pinch_fold_northPoint (n + 1) x G F⟩
+  apply (ZerothHomotopy.sphere_mk_eq_mk_iff_homotopicRel ((n + 1) + 1) x H K).mp
+  apply (HomotopyGroup.equivSphereClasses ((n + 1) + 1) x).symm.injective
+  have hcomm := mul_comm
+    ((HomotopyGroup.equivSphereClasses ((n + 1) + 1) x).symm (ZerothHomotopy.mk G))
+    ((HomotopyGroup.equivSphereClasses ((n + 1) + 1) x).symm (ZerothHomotopy.mk F))
+  exact (pinch_fold_class (n + 1) x F G).trans
+    (hcomm.trans (pinch_fold_class (n + 1) x G F).symm)
+
+local notation "W₂" => (widePushout (TopCat.of (PUnit : Type)) D₂ α₂ : TopCat)
+local notation "b₂" => WidePushout.head α₂ PUnit.unit
+
+/-- In sphere dimension `n + 2`, exchanging the two original pushout factors
+after the pinch is homotopic to the pinch relative to the specified north pole.
+The factor exchange is the categorical descent fixing the head and swapping
+the inclusions. -/
+theorem pinch_homotopicRel_swap :
+    (((WidePushout.desc (arrows := α₂)
+      (WidePushout.head α₂)
+      (fun j : Fin 2 ↦
+        WidePushout.ι α₂ ((Equiv.swap (0 : Fin 2) 1) j))
+      (fun j ↦
+        WidePushout.arrow_ι α₂ ((Equiv.swap (0 : Fin 2) 1) j))).hom).comp
+      (pinch (n + 1))).HomotopicRel
+      (pinch (n + 1)) ({a₂} : Set S₂) := by
+  let F : {F : C(S₂, W₂) // F a₂ = b₂} :=
+    ⟨(WidePushout.ι α₂ 0).hom,
+      TopCat.widePushout_point_ι_point (X := D₂) (fun _ : Fin 2 ↦ a₂) 0⟩
+  let G : {F : C(S₂, W₂) // F a₂ = b₂} :=
+    ⟨(WidePushout.ι α₂ 1).hom,
+      TopCat.widePushout_point_ι_point (X := D₂) (fun _ : Fin 2 ↦ a₂) 1⟩
+  have hid : ContinuousMap.id W₂ =
+      TopCat.widePushoutDesc α₂
+        (ContinuousMap.const (TopCat.of (PUnit : Type)) b₂)
+        (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) F G))
+        (fun j _ ↦ Subtype.property (ite (j = 0) F G)) := by
+    apply TopCat.widePushoutDesc_unique
+    · intro p
+      cases p
+      rfl
+    · intro j z
+      fin_cases j <;> rfl
+  have hswap :
+      (WidePushout.desc (arrows := α₂)
+        (WidePushout.head α₂)
+        (fun j : Fin 2 ↦
+          WidePushout.ι α₂ ((Equiv.swap (0 : Fin 2) 1) j))
+        (fun j ↦
+          WidePushout.arrow_ι α₂ ((Equiv.swap (0 : Fin 2) 1) j))).hom =
+      TopCat.widePushoutDesc α₂
+        (ContinuousMap.const (TopCat.of (PUnit : Type)) b₂)
+        (fun j : Fin 2 ↦ Subtype.val (ite (j = 0) G F))
+        (fun j _ ↦ Subtype.property (ite (j = 0) G F)) := by
+    apply TopCat.widePushoutDesc_unique
+    · intro p
+      cases p
+      exact congrArg (fun k : TopCat.of (PUnit : Type) ⟶ W₂ ↦ k PUnit.unit)
+        (WidePushout.head_desc α₂ _ _ _)
+    · intro j z
+      have hj := congrArg (fun k : D₂ j ⟶ W₂ ↦ k.hom z)
+        (WidePushout.ι_desc α₂
+          (WidePushout.head α₂)
+          (fun i : Fin 2 ↦
+            WidePushout.ι α₂ ((Equiv.swap (0 : Fin 2) 1) i))
+          (fun i ↦
+            WidePushout.arrow_ι α₂ ((Equiv.swap (0 : Fin 2) 1) i)) j)
+      simp only [TopCat.hom_comp, ContinuousMap.comp_apply] at hj
+      fin_cases j
+      · simpa [G] using hj
+      · simpa [F] using hj
+  have h := pinch_fold_homotopicRel_swap n b₂ G F
+  rw [← hswap, ← hid, ContinuousMap.id_comp] at h
+  exact h
+
+end Cocommutativity
 
 end Metric.Sphere

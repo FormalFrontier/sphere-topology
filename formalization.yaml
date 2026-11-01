@@ -181,10 +181,15 @@ status:
     left-then-right cube pullback, compatible closed-half formulas and distinct
     non-head quarter-point values. Folding based maps F and G corresponds to
     J(G) * J(F) in the existing homotopy group, where J is the inverse
-    sphere-class comparison. Both factor retractions composed with the pinch
-    are homotopic to the identity relative to the north pole. This does not
-    introduce a group operation on sphere-map components or a full cogroup
-    structure, and asserts no zero-sphere pinch or choice of sphere orientations.
+    sphere-class comparison, including in dimension one. Both factor retractions
+    composed with the pinch are homotopic to the identity relative to the north
+    pole. In sphere dimensions d = n + 2 >= 2, interchanging two arbitrary based
+    factor maps after the pinch gives a homotopy relative to that north pole.
+    In particular, the original categorical factor swap after the pinch is
+    homotopic to the pinch relative to the north pole. This does not assert
+    dimension-one cocommutativity, introduce a group operation on sphere-map
+    components or a full cogroup structure, or assert a zero-sphere pinch or
+    choice of sphere orientations.
     Targets need only a topology and a chosen point; the finite source sphere
     is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
@@ -204,6 +209,12 @@ status:
     - declaration: "Metric.Sphere.pinch_retraction_homotopicRel"
       file: "SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean"
       note: "Both original factor retractions composed with the positive-dimensional sphere pinch are homotopic to the identity relative to the last-axis north pole."
+    - declaration: "Metric.Sphere.pinch_fold_homotopicRel_swap"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean"
+      note: "In sphere dimensions n + 2, folding arbitrary based maps in either order after the original pinch gives maps homotopic relative to the specified north pole; targets need only a topology in an independent universe."
+    - declaration: "Metric.Sphere.pinch_homotopicRel_swap"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean"
+      note: "In sphere dimensions n + 2, the original categorical factor swap after the pinch is homotopic to the pinch relative to the last-axis north pole."
     - declaration: "CircleBouquet.generatorMap_bijective"
       file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
       note: "The included counterclockwise circle classes freely generate the fundamental group of an arbitrary-index circle bouquet, including an empty family."
