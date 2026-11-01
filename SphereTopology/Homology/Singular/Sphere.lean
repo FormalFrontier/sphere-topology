@@ -7,6 +7,7 @@ Authors: Formal Frontier Agents
 module
 
 public import SphereTopology.Homology.Singular.Circle
+public import SphereTopology.Geometry.OnePointSphere
 public import Mathlib.Analysis.Convex.Contractible
 public import Mathlib.Geometry.Manifold.Instances.Sphere
 public import Mathlib.Topology.Constructions
@@ -59,6 +60,11 @@ def sphere2NorthVector : E3 := PiLp.single 2 2 1
 def sphere2NorthPoint : Metric.sphere (0 : E3) 1 := ⟨sphere2NorthVector, by
   rw [mem_sphere_zero_iff_norm]
   exact sphere2NorthVector_norm⟩
+
+/-- The last-axis north pole on the two-sphere agrees with `(0, 0, 1)`. -/
+@[simp] theorem northPoint_two : EuclideanSpace.northPoint 2 = sphere2NorthPoint := by
+  apply Subtype.ext
+  rfl
 
 /-- The south pole `(0, 0, -1)`, defined as the antipode of the north pole. -/
 def sphere2SouthPoint : Metric.sphere (0 : E3) 1 := -sphere2NorthPoint

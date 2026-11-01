@@ -69,6 +69,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   These retain Mathlib's factor-2 stereographic map: the excluded pole is
   `+p`, and the one-pole inverse sends `0` to `-p`. The overlap target deletes
   zero exactly when `q = -p`.
+- **Last-axis one-point compactification coordinates.**
+  [`EuclideanSpace.onePointHomeomorphSphere`](SphereTopology/Geometry/OnePointSphere.lean)
+  identifies `OnePoint (EuclideanSpace ℝ (Fin n))` with the unit sphere in
+  `EuclideanSpace ℝ (Fin (n+1))`, for every `n`, including zero. Infinity maps
+  to the last unit vector and finite zero to its antipode. Finite coordinates
+  have denominator `‖x‖²+4`, and the off-pole inverse has coordinates
+  `2*p_i/(1-p_last)`. The underlying append-zero-last linear isometry also
+  applies over `RCLike` scalars; only the sphere homeomorphism is real.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -341,7 +349,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`be822d2fe115c4176eee16a7478f6535914efef4`, and Group Theory
+`b6c19c0eb3b4f95a3526592d65cdb86e400672d9`, and Group Theory
 `729b89bd2e66269fa081d7a6ef238a10dd1d48d5`. The resolved graph also includes
 Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a` through Group Theory.
 Fetch the matching precompiled Mathlib cache successfully before building:
@@ -368,6 +376,7 @@ verification module. Routine use does not need `lake update`.
 | `Geometry.ForwardRayMap` | Sphere-valued continuous ray maps for inclusion-avoiding ambient-valued maps on closed balls in real inner-product affine torsors; boundary-only closed-ball images give a strict boundary retraction, with the closed-ball selfmap specialization, independent vector/point universes and arbitrary real radii. |
 | [`Geometry.Projectivization`](SphereTopology/Geometry/Projectivization.lean) | Canonical real unit-sphere projection for the given norm, quotient-map and equal-or-antipodal fiber criteria, negation law, and quotient covering for the scalar action of `Metric.sphere (0 : ℝ) 1`. |
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
+| [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity; no free-group identification. |
 | `Homotopy.CircleDegree` | Integer degree of unbased circle self-maps, composition and signed powers, free homotopy classification and a sufficient fixed-point condition. |
