@@ -176,14 +176,34 @@ status:
     precompose with the cube collapse. The natural set equivalence with the
     existing path-component set preserves constants and based postcomposition in
     independent target universes; equality of components is exactly homotopy
-    relative to the singleton north pole. No comparison of operations is
-    asserted. Targets need only a topology and a chosen point; the finite
-    source sphere is locally compact Hausdorff. In dimension zero, the separate
+    relative to the singleton north pole. For positive d = n + 1, the sphere
+    pinch to the existing two-factor point-wide-pushout has the prescribed
+    left-then-right cube pullback, compatible closed-half formulas and distinct
+    non-head quarter-point values. Folding based maps F and G corresponds to
+    J(G) * J(F) in the existing homotopy group, where J is the inverse
+    sphere-class comparison. Both factor retractions composed with the pinch
+    are homotopic to the identity relative to the north pole. This does not
+    introduce a group operation on sphere-map components or a full cogroup
+    structure, and asserts no zero-sphere pinch or choice of sphere orientations.
+    Targets need only a topology and a chosen point; the finite source sphere
+    is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
     to south, and the south-pole value of a based sphere map is arbitrary. No
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Metric.Sphere.pinch_comp_collapseToSphere"
+      file: "SphereTopology/Geometry/SpherePinch.lean"
+      note: "The positive-dimensional sphere pinch pulls back to coordinate-zero concatenation of the two original collapse-inclusion loops."
+    - declaration: "Metric.Sphere.pinch_nondegenerate"
+      file: "SphereTopology/Geometry/SpherePinch.lean"
+      note: "Fixed quarter and three-quarter cube witnesses map to distinct non-head values in the two original sphere factors."
+    - declaration: "Metric.Sphere.pinch_fold_class"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean"
+      note: "Folding based maps F then G corresponds to J(G) * J(F) under the inverse sphere-class comparison and the existing multiplication, including dimension one."
+    - declaration: "Metric.Sphere.pinch_retraction_homotopicRel"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean"
+      note: "Both original factor retractions composed with the positive-dimensional sphere pinch are homotopic to the identity relative to the last-axis north pole."
     - declaration: "CircleBouquet.generatorMap_bijective"
       file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
       note: "The included counterclockwise circle classes freely generate the fundamental group of an arbitrary-index circle bouquet, including an empty family."

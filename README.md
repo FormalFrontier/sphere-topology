@@ -91,6 +91,21 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   homotopy relative to the singleton last-axis north pole. Targets require only
   a topology and a chosen point, with no separation, local compactness or
   well-pointedness hypothesis.
+- **Positive-dimensional sphere pinch and folding.** For `d = n + 1 > 0`,
+  [`Metric.Sphere.pinch n`](SphereTopology/Geometry/SpherePinch.lean) maps the
+  existing last-axis unit sphere `Sᵈ` to its two-factor point-wide-pushout.
+  Its cube pullback traverses the left factor before the right factor in
+  coordinate zero; the two closed-half formulas agree at the separating slice,
+  and fixed quarter-point witnesses give distinct non-head values.
+  [`pinch_fold_class`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean)
+  compares folding based maps `F, G` with the existing homotopy-group
+  multiplication: writing `J` for the inverse sphere-class comparison, the
+  result is `J(G) * J(F)`, including in dimension one. Each original factor
+  retraction composed with the pinch is homotopic to the identity relative to
+  the north pole. Raw folding and based postcomposition allow independently
+  universed targets with only a topology. No zero-sphere pinch, orientation,
+  full cogroup structure or new group operation on sphere-map components is
+  asserted.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -409,6 +424,7 @@ verification module. Routine use does not need `lake update`.
 | [`Geometry.Stereographic`](SphereTopology/Geometry/Stereographic.lean) | Inner-product-space stereographic homeomorphisms to an orthogonal complement and its arbitrary-point puncture, with forward/inverse coercion laws and inverse-zero antipode. |
 | [`Geometry.OnePointSphere`](SphereTopology/Geometry/OnePointSphere.lean) | Append-zero-last hyperplane isometry over real or complex scalars, and real one-point compactification coordinates with the last-axis north pole, finite-point formulas, off-pole inverse and zero/infinity laws, including zero dimension. |
 | [`Geometry.CubeSphere`](SphereTopology/Geometry/CubeSphere.lean) | `Cube.onePointBoundaryComplHomeomorphSphere` uses increasing coordinates in their original order to identify the one-point compactification of the finite cube boundary complement with the last-axis unit sphere; `Cube.collapseToSphere` sends exactly the cube boundary to north, including the empty boundary in dimension zero. |
+| [`Geometry.SpherePinch`](SphereTopology/Geometry/SpherePinch.lean) | Positive-dimensional pinch to the existing two-factor point-wide-pushout, cube pullback and uniqueness, closed-half and midpoint formulas, non-head quarter witnesses, raw folding and independently universed postcomposition. |
 | `Homotopy.Circle` | Deprecated public re-export of `FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle`: signed-period integer loops, normalized fundamental-group coordinates, lifted endpoints and complex-circle agreement. |
 | `Homotopy.CircleBouquet` | Arbitrary-index circle bouquet, inclusions and descent, positive-generator homomorphism, circle retractions and generator nonidentity. |
 | [`Homotopy.CircleBouquet.FundamentalGroup`](SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean) | Free-group identification preserving the included positive classes, universal property for group targets in independent universes, and noncommuting distinct generators, including arbitrary or empty index families. |
@@ -416,6 +432,7 @@ verification module. Routine use does not need `lake update`.
 | `Homotopy.Disk` | Degree-zero boundary restrictions and non-retraction for the complex closed unit disk; boundary-only fixed points for complex-valued maps on closed balls of nonnegative radius, with the continuous self-map specialization. |
 | `Homotopy.HSpaceFundamentalGroup` | Pointwise H-space loop multiplication, based comparison with concatenation, quotient comparison and commutativity at the unit. |
 | [`Homotopy.HomotopyGroup.Sphere`](SphereTopology/Homotopy/HomotopyGroup/Sphere.lean) | Finite generalized-loop homeomorphism to fixed-north-pole sphere maps, natural set equivalence of homotopy classes with existing path components, representative and inverse formulas, constants, based postcomposition and singleton-relative homotopy. |
+| [`Homotopy.HomotopyGroup.SpherePinch`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean) | Fold-class comparison with existing multiplication in the order `J(G) * J(F)`, and both original retraction counits relative to the last-axis north pole, for positive-dimensional spheres. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |
