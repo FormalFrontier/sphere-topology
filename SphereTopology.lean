@@ -16,6 +16,7 @@ public import SphereTopology.Geometry.Stereographic
 public import SphereTopology.Geometry.SpherePinch
 public import SphereTopology.Geometry.SphereCoordinateReflection
 public import SphereTopology.Homotopy.HomotopyGroup.Sphere
+public import SphereTopology.Homotopy.HomotopyGroup.SphereHom
 public import SphereTopology.Homotopy.HomotopyGroup.SpherePinch
 public import SphereTopology.Homotopy.HomotopyGroup.SpherePinchFold
 public import SphereTopology.Homotopy.HomotopyGroup.SphereCoordinateReflection

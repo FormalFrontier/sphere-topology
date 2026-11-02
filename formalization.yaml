@@ -114,7 +114,8 @@ related_formalizations:
       is a deprecated public-import shim, retained for at least three months
       after its deprecation date; H-space loop multiplication remains in Sphere.
       Also supplies the two-open simple-connectivity criterion used by the
-      real-normed unit-sphere topology APIs.
+      real-normed unit-sphere topology APIs, and the based-homotopy category
+      and quotient-map equality criterion used by the sphere-class comparison.
       Declaration names and mathematical namespaces are unchanged. The five
       old covering module paths are public-import shims, deprecated since
       2026-10-17 and supported for at least three months from that date.
@@ -176,7 +177,19 @@ status:
     precompose with the cube collapse. The natural set equivalence with the
     existing path-component set preserves constants and based postcomposition in
     independent target universes; equality of components is exactly homotopy
-    relative to the singleton north pole. For positive d = n + 1, the sphere
+    relative to the singleton north pole. For every n >= 0 and arbitrary
+    X : BasedTopCat in any universe u, HomotopyGroup.equivSphereHom is an
+    ordinary set equivalence from HomotopyGroup (Fin n) X.right (BasedTopCat.point X)
+    to morphisms in the based-homotopy category from the north-based ULift of
+    the unit n-sphere in EuclideanSpace real (Fin (n + 1)) to X. The lift places
+    the sphere in the target universe; X can be any under-category object, not
+    only an object presented by BasedTopCat.of. Forward representatives
+    precompose GenLoop.sphereHomeomorph n with ULift.down, and inverse
+    representatives pull back a based map along ULift.up after Cube.collapseToSphere n.
+    Here n = 0 means S0 and n = 1 means S1. No group structure in dimension zero,
+    multiplication compatibility on the categorical hom-set or compactly generated
+    mapping-space comparison is asserted.
+    For positive d = n + 1, the sphere
     pinch to the existing two-factor point-wide-pushout has the prescribed
     left-then-right cube pullback, compatible closed-half formulas and distinct
     non-head quarter-point values. Folding based maps F and G corresponds to
@@ -212,6 +225,19 @@ status:
     - declaration: "Metric.Sphere.pinchToWedge_comp_apply"
       file: "SphereTopology/Homotopy/SphereCogroup.lean"
       note: "Postcomposing the pointed pinch with an arbitrary map from the binary wedge evaluates by the original ordered fold of its two inclusion restrictions."
+    - declaration: "HomotopyGroup.equivSphereHom"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereHom.lean"
+      note: "For every n >= 0 and arbitrary X : BasedTopCat in universe u, finite-cube homotopy classes on Fin n are equivalent as sets to based-homotopy-category morphisms from the north-based ULift of the unit n-sphere to X."
+    - declaration: "HomotopyGroup.equivSphereHom_class"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereHom.lean"
+      note: "The forward image of a Fin n cube representative is the class of GenLoop.sphereHomeomorph n precomposed with ULift.down, including n = 0."
+    - declaration: "HomotopyGroup.equivSphereHom_symm_map"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereHom.lean"
+      note: "The inverse image of a based unit n-sphere map class is its sphere representative precomposed with ULift.up and then pulled back along Cube.collapseToSphere n, including dimension zero."
+    - declaration: "HomotopyGroup.equivSphereHom_symm_map_eq_class"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereHom.lean"
+      note: "Any Fin n generalized loop with values t ↦ f.right.hom (ULift.up (Cube.collapseToSphere n t)) represents the inverse image of the class of the based sphere map f."
+
     - declaration: "Metric.Sphere.pinch_comp_collapseToSphere"
       file: "SphereTopology/Geometry/SpherePinch.lean"
       note: "The positive-dimensional sphere pinch pulls back to coordinate-zero concatenation of the two original collapse-inclusion loops."

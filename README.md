@@ -93,6 +93,18 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   associated with a based path to that path's fundamental-group class. Targets
   require only a topology and a chosen point, with no separation, local compactness
   or well-pointedness hypothesis.
+
+  For every `n : ℕ` and arbitrary `X : BasedTopCat.{u}`,
+  [`HomotopyGroup.equivSphereHom`](SphereTopology/Homotopy/HomotopyGroup/SphereHom.lean)
+  is an ordinary set equivalence from `HomotopyGroup (Fin n) X.right (BasedTopCat.point X)`
+  to morphisms from the north-based `ULift.{u} Sⁿ` to `X` in the based-homotopy
+  category. Targets may be any objects of the under category, not only ones
+  presented by `BasedTopCat.of`, and the construction applies in every universe `u`.
+  Forward representatives precompose `GenLoop.sphereHomeomorph n` with `ULift.down`;
+  inverse representatives have values
+  `t ↦ f.right.hom (ULift.up (Cube.collapseToSphere n t))`.
+  Here `n = 0` means `S⁰` and `n = 1` means `S¹`; no group structure in dimension
+  zero or compatibility with multiplication on a categorical hom-set is asserted.
 - **Positive-dimensional sphere pinch and folding.** For `d = n + 1 > 0`,
   [`Metric.Sphere.pinch n`](SphereTopology/Geometry/SpherePinch.lean) maps the
   existing last-axis unit sphere `Sᵈ` to its two-factor point-wide-pushout.
