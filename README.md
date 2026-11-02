@@ -103,8 +103,9 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   Forward representatives precompose `GenLoop.sphereHomeomorph n` with `ULift.down`;
   inverse representatives have values
   `t ↦ f.right.hom (ULift.up (Cube.collapseToSphere n t))`.
-  Here `n = 0` means `S⁰` and `n = 1` means `S¹`; no group structure in dimension
-  zero or compatibility with multiplication on a categorical hom-set is asserted.
+  Here `n = 0` means `S⁰` and `n = 1` means `S¹`. This set comparison alone
+  specifies no multiplication on the hom-set or group in dimension zero; the
+  positive-dimensional group comparison below uses a multiplicative opposite.
 - **Positive-dimensional sphere pinch and folding.** For `d = n + 1 > 0`,
   [`Metric.Sphere.pinch n`](SphereTopology/Geometry/SpherePinch.lean) maps the
   existing last-axis unit sphere `Sᵈ` to its two-factor point-wide-pushout.
@@ -164,9 +165,30 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   associator. `cogroupGrpObj` and the cartesian structure are named data, not
   global instances. Installing them locally gives the stock group on outgoing
   based homotopy classes into any based target; its multiplication is pinch
-  followed by the paired classes. No identification of this group with an
-  existing homotopy group, dimension-one cocommutativity, zero-sphere cogroup or
-  orientation choice is asserted.
+  followed by the paired classes. The cogroup construction alone makes no
+  identification with an existing homotopy group; the separate comparison below
+  uses a multiplicative opposite. No dimension-one cocommutativity, zero-sphere
+  cogroup or orientation choice is asserted.
+- **Homotopy groups and the sphere-map group.** For `n : ℕ` and any
+  `X : BasedTopCat.{u}`,
+  [`HomotopyGroup.mulOppositeEquivSphereHom`](SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean)
+  gives a multiplicative equivalence from
+  `(HomotopyGroup (Fin (n + 1)) X.right (BasedTopCat.point X))ᵐᵒᵖ`
+  to the canonical `CategoryTheory.yonedaGrp` evaluation of `Metric.Sphere.cogroup n`
+  at `op (op (Q.obj X))`, where `Q := BasedTopCat.homotopyQuotient`.
+  Its elements are incoming morphisms to the cogroup carrier in the ordinary
+  opposite based-homotopy category; their unops are outgoing classes from the
+  lifted, north-based `Sⁿ⁺¹` to `X`. These categorical opposites differ from the source's
+  multiplicative opposite. Writing `E := HomotopyGroup.equivSphereHom (n + 1) X`,
+  `mulOppositeEquivSphereHom_apply_op` sends `MulOpposite.op a` to `(E a).op`;
+  `mulOppositeEquivSphereHom_symm_apply` sends `f` to
+  `MulOpposite.op (E.symm f.unop)`, without inversion or a change of representative.
+  `mulOppositeEquivSphereHom_naturality` identifies based postcomposition by
+  `h : X ⟶ Y` with the Yoneda action on `(Q.map h).op.op`.
+  Since folding `F, G` represents `J(G) * J(F)`, the source opposite matters
+  even for `n = 0`, which is `S¹`. No direct group comparison by the same class
+  map without that opposite, S¹ commutativity or group on S⁰ is asserted.
+  Targets require only their topology and chosen point.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -516,6 +538,7 @@ verification module. Routine use does not need `lake update`.
 | [`Homotopy.HomotopyGroup.SpherePinch`](SphereTopology/Homotopy/HomotopyGroup/SpherePinch.lean) | Fold-class comparison with existing multiplication in the order `J(G) * J(F)`, both original retraction counits, associativity of folding and original three-factor coassociativity for positive-dimensional spheres; folded-map interchange and original-factor-swap cocommutativity in dimensions at least two, all relative to the last-axis north pole. |
 | [`Homotopy.HomotopyGroup.SpherePinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean) | Jointly continuous raw folding on the compact-open north-based sphere-map subtype, closed-half formulas, agreement with coordinate-zero concatenation, preservation of simultaneous paths, and identity/constant order separation for every positive sphere dimension. |
 | [`Homotopy.HomotopyGroup.SphereCoordinateReflection`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean) | Precomposition by every pre-last coordinate reflection represents the existing homotopy-group inverse for arbitrary based targets; both reflection/identity pinch folds are nullhomotopic relative to north in every positive dimension, including S¹. |
+| [`Homotopy.HomotopyGroup.SphereCogroup`](SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean) | `HomotopyGroup.mulOppositeEquivSphereHom` identifies the multiplicative opposite of the existing positive-dimensional homotopy group with the canonical group-valued Yoneda evaluation of the bundled metric sphere cogroup, with forward/inverse class characteristics and target naturality. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |

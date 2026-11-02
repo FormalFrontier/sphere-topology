@@ -186,9 +186,10 @@ status:
     only an object presented by BasedTopCat.of. Forward representatives
     precompose GenLoop.sphereHomeomorph n with ULift.down, and inverse
     representatives pull back a based map along ULift.up after Cube.collapseToSphere n.
-    Here n = 0 means S0 and n = 1 means S1. No group structure in dimension zero,
-    multiplication compatibility on the categorical hom-set or compactly generated
-    mapping-space comparison is asserted.
+    Here n = 0 means S0 and n = 1 means S1. This set comparison alone specifies
+    no multiplication on the hom-set or group in dimension zero; the separate
+    positive-dimensional group comparison below uses a multiplicative opposite.
+    No compactly generated mapping-space comparison is asserted.
     For positive d = n + 1, the sphere
     pinch to the existing two-factor point-wide-pushout has the prescribed
     left-then-right cube pullback, compatible closed-half formulas and distinct
@@ -206,9 +207,27 @@ status:
     with ordered wedge comparisons, collapse followed by the empty-wedge head,
     and first-coordinate reflection. The named
     group-object data gives the stock group on outgoing based homotopy classes
-    into an arbitrary based target. No identification with an existing
-    homotopy group, dimension-one cocommutativity, zero-sphere pinch or cogroup,
-    or choice of sphere orientations is asserted.
+    into an arbitrary based target. The cogroup construction alone makes no
+    identification with an existing homotopy group; the separate comparison
+    below uses a multiplicative opposite. No dimension-one cocommutativity,
+    zero-sphere pinch or cogroup, or choice of sphere orientations is asserted.
+    For every n >= 0 and arbitrary X : BasedTopCat in any universe u,
+    HomotopyGroup.mulOppositeEquivSphereHom is a multiplicative equivalence from
+    the multiplicative opposite of HomotopyGroup (Fin (n + 1)) X.right
+    (BasedTopCat.point X) to the canonical group-valued Yoneda evaluation of
+    Metric.Sphere.cogroup n at op (op (Q.obj X)), where Q is
+    BasedTopCat.homotopyQuotient. Its elements are incoming morphisms to the
+    cogroup carrier in the ordinary opposite based-homotopy category; their
+    unops are outgoing classes from the lifted north-based (n + 1)-sphere to X.
+    These categorical opposites differ from the source multiplicative opposite.
+    Writing E for HomotopyGroup.equivSphereHom (n + 1) X, the forward
+    characteristic sends MulOpposite.op a to (E a).op, and the inverse sends f
+    to MulOpposite.op (E.symm f.unop), without inversion or a change of representative.
+    Target naturality identifies based postcomposition by h : X to Y with the
+    Yoneda action on (Q.map h).op.op. The fold order J(G) * J(F) makes the
+    source opposite essential even for n = 0, which is S1. No direct group
+    comparison by the same class map without that opposite, S1 commutativity or
+    group on S0 is asserted.
     Targets need only a topology and a chosen point; the finite source sphere
     is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
@@ -216,6 +235,18 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "HomotopyGroup.mulOppositeEquivSphereHom"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean"
+      note: "For every n >= 0 and arbitrary X : BasedTopCat in universe u, the multiplicative opposite of the homotopy group on Fin (n + 1) is multiplicatively equivalent to the canonical group-valued Yoneda evaluation of Metric.Sphere.cogroup n; its elements unop to outgoing sphere-map classes."
+    - declaration: "HomotopyGroup.mulOppositeEquivSphereHom_apply_op"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean"
+      note: "The forward characteristic sends MulOpposite.op a to (HomotopyGroup.equivSphereHom (n + 1) X a).op, without inversion or a change of representative."
+    - declaration: "HomotopyGroup.mulOppositeEquivSphereHom_symm_apply"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean"
+      note: "The inverse characteristic sends every incoming morphism f to MulOpposite.op ((HomotopyGroup.equivSphereHom (n + 1) X).symm f.unop)."
+    - declaration: "HomotopyGroup.mulOppositeEquivSphereHom_naturality"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean"
+      note: "Based postcomposition by h : X to Y agrees with the group-valued Yoneda action on (Q.map h).op.op, where Q is BasedTopCat.homotopyQuotient."
     - declaration: "Metric.Sphere.cogroup"
       file: "SphereTopology/Homotopy/SphereCogroup.lean"
       note: "The lifted original positive-dimensional sphere, based at its last-axis north pole, is a stock group object in the ordinary opposite based-homotopy category; its fields are opposite to the classes of pinch, collapse and first-coordinate reflection."
