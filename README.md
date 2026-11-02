@@ -189,6 +189,14 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   even for `n = 0`, which is `S¹`. No direct group comparison by the same class
   map without that opposite, S¹ commutativity or group on S⁰ is asserted.
   Targets require only their topology and chosen point.
+- **Higher sphere cogroups are cocommutative.** For every `n : ℕ`,
+  [`Metric.Sphere.cogroup_isCommMonObj`](SphereTopology/Homotopy/SphereCocommutativity.lean)
+  proves `IsCommMonObj (Metric.Sphere.cogroupCarrier (n + 1))` for the specified
+  monoid-object data, in sphere dimension `n + 2 ≥ 2`. Its multiplication remains
+  the class of the original ordered pinch. The proof uses the sphere-map group
+  comparison above and Mathlib's Eckmann–Hilton theorem for every based target.
+  This is a named property, not a global commutativity instance; no S¹
+  commutativity or group on S⁰ is asserted.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -539,6 +547,7 @@ verification module. Routine use does not need `lake update`.
 | [`Homotopy.HomotopyGroup.SpherePinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean) | Jointly continuous raw folding on the compact-open north-based sphere-map subtype, closed-half formulas, agreement with coordinate-zero concatenation, preservation of simultaneous paths, and identity/constant order separation for every positive sphere dimension. |
 | [`Homotopy.HomotopyGroup.SphereCoordinateReflection`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean) | Precomposition by every pre-last coordinate reflection represents the existing homotopy-group inverse for arbitrary based targets; both reflection/identity pinch folds are nullhomotopic relative to north in every positive dimension, including S¹. |
 | [`Homotopy.HomotopyGroup.SphereCogroup`](SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean) | `HomotopyGroup.mulOppositeEquivSphereHom` identifies the multiplicative opposite of the existing positive-dimensional homotopy group with the canonical group-valued Yoneda evaluation of the bundled metric sphere cogroup, with forward/inverse class characteristics and target naturality. |
+| [`Homotopy.SphereCocommutativity`](SphereTopology/Homotopy/SphereCocommutativity.lean) | `Metric.Sphere.cogroup_isCommMonObj` proves the stock commutativity property of the specified sphere cogroup in dimensions `n + 2 ≥ 2`, using the sphere-map group comparison and Mathlib's Eckmann–Hilton theorem. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |
 | `Homotopy.TangentField`, `Homotopy.HairyBallSphere2` | Orthogonal-field homotopies and the standard S² continuous-field zero theorem; normalization is re-exported from `Homotopy.Sphere`. |

@@ -228,6 +228,12 @@ status:
     source opposite essential even for n = 0, which is S1. No direct group
     comparison by the same class map without that opposite, S1 commutativity or
     group on S0 is asserted.
+    In sphere dimension n + 2 >= 2, Metric.Sphere.cogroup_isCommMonObj proves
+    the stock IsCommMonObj property of cogroupCarrier (n + 1) with its specified
+    monoid-object data and original ordered-pinch multiplication. It uses the
+    sphere-map group comparison and Mathlib's Eckmann-Hilton theorem for all
+    based targets. The property is named, not a global commutativity instance;
+    no S1 commutativity or group on S0 is asserted.
     Targets need only a topology and a chosen point; the finite source sphere
     is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
@@ -235,6 +241,9 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Metric.Sphere.cogroup_isCommMonObj"
+      file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
+      note: "In sphere dimensions n + 2 >= 2, the specified monoid object underlying the metric sphere cogroup satisfies Mathlib's IsCommMonObj; its multiplication remains the original ordered-pinch class. This is a named property, not a global instance."
     - declaration: "HomotopyGroup.mulOppositeEquivSphereHom"
       file: "SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean"
       note: "For every n >= 0 and arbitrary X : BasedTopCat in universe u, the multiplicative opposite of the homotopy group on Fin (n + 1) is multiplicatively equivalent to the canonical group-valued Yoneda evaluation of Metric.Sphere.cogroup n; its elements unop to outgoing sphere-map classes."
