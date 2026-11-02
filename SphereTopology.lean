@@ -19,6 +19,7 @@ public import SphereTopology.Homotopy.HomotopyGroup.Sphere
 public import SphereTopology.Homotopy.HomotopyGroup.SpherePinch
 public import SphereTopology.Homotopy.HomotopyGroup.SpherePinchFold
 public import SphereTopology.Homotopy.HomotopyGroup.SphereCoordinateReflection
+public import SphereTopology.Homotopy.SphereCogroup
 public import SphereTopology.Homotopy.HSpaceFundamentalGroup
 public import SphereTopology.Homotopy.Projectivization
 public import SphereTopology.Homotopy.Sphere

@@ -126,9 +126,8 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   `pinch_homotopicRel_swap`, identifies the pinch up to that relative homotopy
   with the original categorical factor swap after the pinch. Raw folding and
   based postcomposition allow independently universed targets with only a
-  topology. No dimension-one cocommutativity, zero-sphere pinch, orientation,
-  full cogroup structure or new group operation on sphere-map components is
-  asserted.
+  topology. No dimension-one cocommutativity, zero-sphere pinch or choice of
+  sphere orientation is asserted by these geometric comparisons.
 - **Based coordinate reflections and coinverses.** For every positive sphere
   dimension `d = n + 1`, including S¹, and every pre-last axis `i : Fin (n + 1)`,
   [`coordinateReflection`](SphereTopology/Geometry/SphereCoordinateReflection.lean)
@@ -141,8 +140,21 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   inverse. Folding the pinch with reflection and identity in either order is
   homotopic to the north constant relative to the north pole, for every such
   axis; neither folded map is equal to that constant. These results do not
-  require commutativity and do not assert S¹ cocommutativity or a full cogroup
-  structure.
+  require commutativity and do not assert S¹ cocommutativity.
+- **Positive-dimensional spheres as cogroups.**
+  [`Metric.Sphere.cogroup`](SphereTopology/Homotopy/SphereCogroup.lean) bundles
+  the lifted original sphere of dimension `n + 1`, based at the last-axis north
+  pole, as a stock group object in the ordinary opposite based-homotopy category.
+  Multiplication, unit and inversion are opposite to the quotient classes of,
+  respectively, the original pinch with its ordered wedge comparisons, collapse
+  followed by the head of the empty wedge, and first-coordinate reflection. The five group-object
+  laws use the original north-relative homotopies and the chosen cartesian
+  associator. `cogroupGrpObj` and the cartesian structure are named data, not
+  global instances. Installing them locally gives the stock group on outgoing
+  based homotopy classes into any based target; its multiplication is pinch
+  followed by the paired classes. No identification of this group with an
+  existing homotopy group, dimension-one cocommutativity, zero-sphere cogroup or
+  orientation choice is asserted.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -450,7 +462,7 @@ The toolchain and dependency graph are pinned in `lean-toolchain` and
 `lake-manifest.json`: Lean `v4.34.0-rc2`, Mathlib
 `83abb3e776bdefcbc447a1e44d0debe4010039e5`, Simplicial Objects
 `143f667bdeb0aeccd02e6475781d5c456f00c95b` and Fundamental Groupoids
-`8c837e82648939ced56a8d7ee005d6f582204b1e`, and Group Theory
+`9009b079991bbc2add6cff6699c9ce2830396748`, and Group Theory
 `9c060da75c15b9930292aec1d7655c2a44885842`. The manifest also includes
 Homological Algebra `1ecd25213926138278dbd661bd516de9135d944a`.
 Fetch the matching precompiled Mathlib cache successfully before building:

@@ -233,4 +233,22 @@ private theorem spherePinch_positiveLoops_order :
   exact ⟨hfold, fun h ↦ CircleBouquet.positiveGenerator_mul_ne_mul
     (by decide : (1 : Fin 2) ≠ 0) (hfold.symm.trans h)⟩
 
+section
+
+attribute [local instance] BasedTopCat.homotopyOppositeCartesianMonoidalCategory
+  Metric.Sphere.cogroupGrpObj CategoryTheory.Hom.group
+
+-- The stock Group on outgoing based homotopy classes multiplies by the original sphere pinch.
+private example (n : ℕ) (X : BasedTopCat.{u})
+    (f g : Opposite.op ((BasedTopCat.homotopyQuotient.{u}).obj X) ⟶
+      Metric.Sphere.cogroupCarrier.{u} n) :
+    (f * g).unop =
+      (BasedTopCat.homotopyQuotient.{u}).map (Metric.Sphere.pinchToWedge.{u} n) ≫
+        (CartesianMonoidalCategory.lift f g).unop := by
+  rw [Hom.mul_def, Metric.Sphere.cogroupGrpObj_mul, unop_comp,
+    Metric.Sphere.cogroupMul_unop_eq_map]
+  rfl
+
+end
+
 end SphereTopologyPublicClient

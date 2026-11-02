@@ -102,7 +102,7 @@ related_formalizations:
       providers; no chain, natural or normalized-chain isomorphism is asserted.
       Dependency authorship and notices remain upstream.
 
-  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/8c837e82648939ced56a8d7ee005d6f582204b1e"
+  - id: "https://github.com/FormalFrontier/fundamental-groupoids/tree/9009b079991bbc2add6cff6699c9ce2830396748"
     relationship: "builds-on"
     note: >-
       Canonical home of signed-period integer loops, normalized circle
@@ -186,10 +186,16 @@ status:
     pole. In sphere dimensions d = n + 2 >= 2, interchanging two arbitrary based
     factor maps after the pinch gives a homotopy relative to that north pole.
     In particular, the original categorical factor swap after the pinch is
-    homotopic to the pinch relative to the north pole. This does not assert
-    dimension-one cocommutativity, introduce a group operation on sphere-map
-    components or a full cogroup structure, or assert a zero-sphere pinch or
-    choice of sphere orientations.
+    homotopic to the pinch relative to the north pole. The lifted original
+    sphere of every positive dimension n + 1 is also a stock group object in
+    the ordinary opposite based-homotopy category. Multiplication, unit and
+    inversion are opposite to the quotient classes of, respectively, pinch
+    with ordered wedge comparisons, collapse followed by the empty-wedge head,
+    and first-coordinate reflection. The named
+    group-object data gives the stock group on outgoing based homotopy classes
+    into an arbitrary based target. No identification with an existing
+    homotopy group, dimension-one cocommutativity, zero-sphere pinch or cogroup,
+    or choice of sphere orientations is asserted.
     Targets need only a topology and a chosen point; the finite source sphere
     is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
@@ -197,6 +203,15 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Metric.Sphere.cogroup"
+      file: "SphereTopology/Homotopy/SphereCogroup.lean"
+      note: "The lifted original positive-dimensional sphere, based at its last-axis north pole, is a stock group object in the ordinary opposite based-homotopy category; its fields are opposite to the classes of pinch, collapse and first-coordinate reflection."
+    - declaration: "Metric.Sphere.cogroupGrpObj"
+      file: "SphereTopology/Homotopy/SphereCogroup.lean"
+      note: "Named group-object data, with no global instance; local installation gives the stock group on outgoing based homotopy classes into any based target."
+    - declaration: "Metric.Sphere.pinchToWedge_comp_apply"
+      file: "SphereTopology/Homotopy/SphereCogroup.lean"
+      note: "Postcomposing the pointed pinch with an arbitrary map from the binary wedge evaluates by the original ordered fold of its two inclusion restrictions."
     - declaration: "Metric.Sphere.pinch_comp_collapseToSphere"
       file: "SphereTopology/Geometry/SpherePinch.lean"
       note: "The positive-dimensional sphere pinch pulls back to coordinate-zero concatenation of the two original collapse-inclusion loops."
