@@ -115,7 +115,7 @@ rev = "143f667bdeb0aeccd02e6475781d5c456f00c95b"
 [[require]]
 name = "fundamental-groupoids"
 git = "https://github.com/FormalFrontier/fundamental-groupoids"
-rev = "9009b079991bbc2add6cff6699c9ce2830396748"
+rev = "24d8b2f4c2b87babb81c4a7f2ce02ebe0267faef"
 
 [[require]]
 name = "groupTheory"

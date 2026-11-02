@@ -54,6 +54,7 @@ public import FundamentalGroupoids.AlgebraicTopology.FundamentalGroup.Circle
 public import SphereTopology.Homotopy.CircleBouquet
 public import SphereTopology.Homotopy.CircleBouquet.ClosedMap
 public import SphereTopology.Homotopy.CircleBouquet.FundamentalGroup
+public import SphereTopology.Homotopy.CircleBouquet.Presentation
 public import SphereTopology.Homotopy.CircleBouquet.Topology
 public import SphereTopology.Homotopy.CircleDegree
 public import SphereTopology.Homotopy.Disk
