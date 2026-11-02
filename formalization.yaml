@@ -83,7 +83,10 @@ related_formalizations:
       and embeddings, real inner-product spaces, standard simplices, simplicial sets, integral
       singular chains, chain complexes, homology, short exact sequences,
       category-theoretic kernels, stereographic projection, convex-set contractibility
-      and free-nullhomotopy composition.
+      and free-nullhomotopy composition. Also supplies the first-homotopy-group
+      multiplicative equivalence, Eckmann-Hilton commutativity and stock
+      surjective-map and multiplicative-opposite commutativity lemmas used by
+      the sphere cogroup criterion.
       Dependency implementation is not vendored; upstream authorship and notices
       remain upstream. The generated Lake manifest records the resolved graph,
       not original dependency implementation. Project expression origins and
@@ -114,8 +117,9 @@ related_formalizations:
       is a deprecated public-import shim, retained for at least three months
       after its deprecation date; H-space loop multiplication remains in Sphere.
       Also supplies the two-open simple-connectivity criterion used by the
-      real-normed unit-sphere topology APIs, and the based-homotopy category
-      and quotient-map equality criterion used by the sphere-class comparison.
+      real-normed unit-sphere topology APIs, and the based-homotopy category,
+      quotient-map equality criterion and named opposite-homotopy cartesian
+      structure used by the sphere-class comparison and sphere cogroups.
       Declaration names and mathematical namespaces are unchanged. The five
       old covering module paths are public-import shims, deprecated since
       2026-10-17 and supported for at least three months from that date.
@@ -228,12 +232,19 @@ status:
     source opposite essential even for n = 0, which is S1. No direct group
     comparison by the same class map without that opposite, S1 commutativity or
     group on S0 is asserted.
-    In sphere dimension n + 2 >= 2, Metric.Sphere.cogroup_isCommMonObj proves
-    the stock IsCommMonObj property of cogroupCarrier (n + 1) with its specified
-    monoid-object data and original ordered-pinch multiplication. It uses the
-    sphere-map group comparison and Mathlib's Eckmann-Hilton theorem for all
-    based targets. The property is named, not a global commutativity instance;
-    no S1 commutativity or group on S0 is asserted.
+    For every n >= 0 in any universe, Metric.Sphere.cogroup_isCommMonObj_iff
+    characterizes the stock IsCommMonObj property of cogroupCarrier n by 0 < n,
+    exactly sphere dimension n + 1 >= 2. Its specified monoid-object data and
+    original ordered-pinch multiplication are unchanged.
+    Metric.Sphere.cogroup_isCommMonObj gives the positive case in sphere
+    dimension n + 2 >= 2 using the sphere-map group comparison and Mathlib's
+    Eckmann-Hilton theorem for all based targets.
+    Metric.Sphere.cogroup_not_isCommMonObj_zero excludes the original circle S1
+    using Sphere's noncommuting positive generators of the two-circle bouquet
+    and sphere-map group comparison, Mathlib's first-homotopy-group equivalence
+    and its stock surjective-map and multiplicative-opposite commutativity lemmas.
+    These are named properties, not global commutativity instances; no group on
+    S0 is asserted.
     Targets need only a topology and a chosen point; the finite source sphere
     is locally compact Hausdorff. In dimension zero, the separate
     compactification point at infinity maps to north, the cube point collapses
@@ -241,6 +252,12 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Metric.Sphere.cogroup_isCommMonObj_iff"
+      file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
+      note: "For every n >= 0 in any universe, the specified sphere cogroup of dimension n + 1 satisfies IsCommMonObj exactly when 0 < n. Its multiplication is the original ordered-pinch class; this is a named property, not a global instance."
+    - declaration: "Metric.Sphere.cogroup_not_isCommMonObj_zero"
+      file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
+      note: "The specified cogroup of the original circle S1 is not commutative, in every universe, as detected by the positive generators of Sphere's original two-circle bouquet through the sphere-map and first-homotopy-group comparisons."
     - declaration: "Metric.Sphere.cogroup_isCommMonObj"
       file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
       note: "In sphere dimensions n + 2 >= 2, the specified monoid object underlying the metric sphere cogroup satisfies Mathlib's IsCommMonObj; its multiplication remains the original ordered-pinch class. This is a named property, not a global instance."
