@@ -201,6 +201,15 @@ selection, and [credits](docs/CREDITS.md) for mathematical and formalization ori
   commutativity lemmas. Multiplication remains the original ordered-pinch class.
   These are named properties, not global commutativity instances; no group on
   S⁰ is asserted.
+- **Nontrivial second homotopy group of S².**
+  [`Metric.Sphere.id_not_nullhomotopic_two`](SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean)
+  shows that the identity of the unit two-sphere in `EuclideanSpace ℝ (Fin 3)`,
+  lifted to any universe, is not homotopic to any constant map.
+  `Metric.Sphere.homotopyQuotient_id_ne_const_two` distinguishes its identity
+  class from the constant class at the last-axis north pole in the based-homotopy
+  category. `HomotopyGroup.nontrivial_sphere_two` proves that the corresponding
+  `π₂` is nontrivial. The sphere is `Metric.Sphere.basedSpace 1`; no computation
+  of the second homotopy group is asserted.
 - **Topology of real normed unit spheres.** The topology-only APIs in
   [`Homotopy.Sphere`](SphereTopology/Homotopy/Sphere.lean) are stated for
   `E : Type u` with `[NormedAddCommGroup E] [NormedSpace ℝ E]`, using its
@@ -551,6 +560,7 @@ verification module. Routine use does not need `lake update`.
 | [`Homotopy.HomotopyGroup.SpherePinchFold`](SphereTopology/Homotopy/HomotopyGroup/SpherePinchFold.lean) | Jointly continuous raw folding on the compact-open north-based sphere-map subtype, closed-half formulas, agreement with coordinate-zero concatenation, preservation of simultaneous paths, and identity/constant order separation for every positive sphere dimension. |
 | [`Homotopy.HomotopyGroup.SphereCoordinateReflection`](SphereTopology/Homotopy/HomotopyGroup/SphereCoordinateReflection.lean) | Precomposition by every pre-last coordinate reflection represents the existing homotopy-group inverse for arbitrary based targets; both reflection/identity pinch folds are nullhomotopic relative to north in every positive dimension, including S¹. |
 | [`Homotopy.HomotopyGroup.SphereCogroup`](SphereTopology/Homotopy/HomotopyGroup/SphereCogroup.lean) | `HomotopyGroup.mulOppositeEquivSphereHom` identifies the multiplicative opposite of the existing positive-dimensional homotopy group with the canonical group-valued Yoneda evaluation of the bundled metric sphere cogroup, with forward/inverse class characteristics and target naturality. |
+| [`Homotopy.HomotopyGroup.SphereNontrivial`](SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean) | The identity of the metric two-sphere lifted to any universe is not nullhomotopic; its identity and north-constant based homotopy classes differ, and its second homotopy group is nontrivial. |
 | [`Homotopy.SphereCocommutativity`](SphereTopology/Homotopy/SphereCocommutativity.lean) | `Metric.Sphere.cogroup_isCommMonObj_iff` characterizes commutativity of the specified sphere cogroup of dimension `n + 1` by `0 < n`; `cogroup_not_isCommMonObj_zero` excludes S¹ using the positive bouquet generators, while `cogroup_isCommMonObj` gives the higher-dimensional case. These are named properties of the original ordered-pinch multiplication, not global instances. |
 | [`Homotopy.Projectivization`](SphereTopology/Homotopy/Projectivization.lean) | Real projective fundamental-group coordinates in `Multiplicative (ZMod 2)` under `2 < Module.rank ℝ E`, independent of the chosen unit lift, with covering-lift endpoint and projected antipodal-path laws. |
 | `Homotopy.Sphere` | Real-normed-space normalization, non-antipodal interpolation and diagonal equivalence; one-pole contractibility, two-pole path connectedness and whole-sphere simple connectivity, the last two under `2 < Module.rank ℝ E`. |

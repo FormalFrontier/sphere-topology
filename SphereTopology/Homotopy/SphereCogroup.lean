@@ -70,6 +70,10 @@ local notation "b₂" => WidePushout.head α PUnit.unit
 def basedSpace : BasedTopCat.{u} :=
   BasedTopCat.of (ULift.{u} S) (ULift.up a)
 
+/-- The based sphere is the lifted metric sphere with its lifted last-axis north pole. -/
+theorem basedSpace_eq_of :
+    basedSpace.{u} n = BasedTopCat.of (ULift.{u} S) (ULift.up a) := rfl
+
 /-- The underlying space is the universe lift of the specified metric sphere. -/
 theorem basedSpace_right :
     (basedSpace.{u} n).right = TopCat.of (ULift.{u} S) := rfl

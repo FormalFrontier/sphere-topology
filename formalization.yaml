@@ -25,7 +25,9 @@ project:
     coordinate and circle H-space checks are in SphereTopologyTest.CircleHSpace.
     Explicit circle and two-sphere calculations give
     the antipodal action on H2 of the standard two-sphere and its
-    continuous orthogonal-field hairy-ball theorem.
+    continuous orthogonal-field hairy-ball theorem. The metric two-sphere lifted
+    to any universe has a non-nullhomotopic identity, distinct identity and
+    north-constant based homotopy classes, and a nontrivial second homotopy group.
   authors:
     - "Formal Frontier Agents"
   responsible_maintainers:
@@ -157,8 +159,14 @@ status:
     Continuous-field topology, integral subdivision and cover-small chains,
     ordinary two-open Mayer-Vietoris, nonnegative reduced integral homology,
     explicit circle and two-sphere calculations, and the unit two-sphere
-    continuous orthogonal-field zero theorem. The reduced degree-zero Mayer-Vietoris
-    sequence is exact at the biproduct for every two-open cover; its final map
+    continuous orthogonal-field zero theorem. For the unit two-sphere in
+    EuclideanSpace real (Fin 3), lifted to any universe as Metric.Sphere.basedSpace 1,
+    the identity is not homotopic to any constant map. Its identity and last-axis
+    north-constant classes differ in the based-homotopy category, and its second
+    homotopy group at that north pole is nontrivial. No computation of the second
+    homotopy group is asserted.
+    The reduced degree-zero Mayer-Vietoris sequence is exact at the biproduct for
+    every two-open cover; its final map
     is epic when the intersection is nonempty. Total degree-zero augmentation
     is invertible exactly when the space is path connected, for a nonzero
     coefficient object in a preadditive category with the requisite small
@@ -252,6 +260,15 @@ status:
     complete coverage of Weibel or any other source is claimed.
     See README.md for exact interfaces and docs/CREDITS.md for attribution.
   main_results:
+    - declaration: "Metric.Sphere.id_not_nullhomotopic_two"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean"
+      note: "The identity of Metric.Sphere.basedSpace 1, the unit two-sphere in EuclideanSpace real (Fin 3) lifted to any universe, is not homotopic to any constant map, without a basedness restriction on the homotopy."
+    - declaration: "Metric.Sphere.homotopyQuotient_id_ne_const_two"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean"
+      note: "The quotient classes of the identity and the constant endomorphism at the last-axis north pole of Metric.Sphere.basedSpace 1 are distinct in the based-homotopy category."
+    - declaration: "HomotopyGroup.nontrivial_sphere_two"
+      file: "SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean"
+      note: "The existing homotopy group on Fin 2 of Metric.Sphere.basedSpace 1 at its last-axis north pole is nontrivial in every universe. This is a named theorem, not a global instance or a computation of the group."
     - declaration: "Metric.Sphere.cogroup_isCommMonObj_iff"
       file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
       note: "For every n >= 0 in any universe, the specified sphere cogroup of dimension n + 1 satisfies IsCommMonObj exactly when 0 < n. Its multiplication is the original ordered-pinch class; this is a named property, not a global instance."
