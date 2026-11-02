@@ -34,6 +34,62 @@ project:
     - "Formal Frontier Agents"
   license: "Apache-2.0"
 
+highlights:
+  - title: "Brouwer fixed points on complex disks"
+    statement: >-
+      For c : ℂ and r ≥ 0, every continuous complex-valued map on
+      Metric.closedBall c r has a fixed point if it maps the sphere boundary
+      into that ball, without any interior image bound.
+    declarations:
+      - declaration: "Complex.exists_fixedPoint_closedBall_of_boundary_mapsTo"
+        file: "SphereTopology/Homotopy/Disk.lean"
+      - declaration: "Complex.exists_fixedPoint_closedBall"
+        file: "SphereTopology/Homotopy/Disk.lean"
+
+  - title: "Hairy-ball theorem for the metric two-sphere"
+    statement: >-
+      Every continuous map V from the unit sphere in EuclideanSpace ℝ (Fin 3)
+      to EuclideanSpace ℝ (Fin 3) satisfying ⟨p, V(p)⟩ = 0 at every sphere
+      point p vanishes somewhere.
+    declarations:
+      - declaration: "SphereTopology.sphere2_exists_zero_of_orthogonal_field"
+        file: "SphereTopology/Homotopy/HairyBallSphere2.lean"
+
+  - title: "Free fundamental groups of circle bouquets"
+    statement: >-
+      For any label type I and independent ambient and label universes,
+      FreeGroup I is multiplicatively equivalent to the fundamental group of
+      the point-wide-pushout CircleBouquet.space I at its common point, sending
+      each free generator to its included counterclockwise complex-unit-circle
+      loop, including for empty I.
+    declarations:
+      - declaration: "CircleBouquet.generatorEquiv"
+        file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+      - declaration: "CircleBouquet.generatorEquiv_of"
+        file: "SphereTopology/Homotopy/CircleBouquet/FundamentalGroup.lean"
+
+  - title: "Sphere cogroups and sharp cocommutativity"
+    statement: >-
+      For every n : ℕ and universe u, Metric.Sphere.cogroup n gives the
+      last-axis-north-based ULift.{u} of the unit sphere in EuclideanSpace ℝ
+      (Fin (n + 2)) a group-object structure in the ordinary opposite
+      based-homotopy category, whose specified ordered-pinch monoid structure
+      is commutative exactly when 0 < n.
+    declarations:
+      - declaration: "Metric.Sphere.cogroup"
+        file: "SphereTopology/Homotopy/SphereCogroup.lean"
+      - declaration: "Metric.Sphere.cogroup_isCommMonObj_iff"
+        file: "SphereTopology/Homotopy/SphereCocommutativity.lean"
+
+  - title: "Nontrivial second homotopy group of the metric two-sphere"
+    statement: >-
+      In every universe u, the second homotopy group of
+      Metric.Sphere.basedSpace.{u} 1, the last-axis-north-based ULift.{u} of the
+      unit sphere in EuclideanSpace ℝ (Fin 3), is nontrivial.
+    declarations:
+      - declaration: "HomotopyGroup.nontrivial_sphere_two"
+        file: "SphereTopology/Homotopy/HomotopyGroup/SphereNontrivial.lean"
+
 sources:
   - title: "The K-book: An Introduction to Algebraic K-theory"
     authors:
